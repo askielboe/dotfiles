@@ -4,6 +4,7 @@
 
 local map = vim.keymap.set
 
+map("n", "-", "/", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 
