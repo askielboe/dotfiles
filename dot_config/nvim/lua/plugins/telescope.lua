@@ -15,13 +15,8 @@ table.insert(vimgrep_arguments, "!**/node_modules/*")
 return {
   "nvim-telescope/telescope.nvim",
   keys = {
-    {
-      "<leader>,",
-      "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr><esc>",
-      desc = "Switch Buffer",
-    },
     { "<leader>-", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
-    { "<leader>fr", "<cmd>Telescope oldfiles<cr><esc>", desc = "Recent" },
+    { "<leader><", LazyVim.pick("resume"), desc = "Resume" },
   },
   opts = {
     defaults = {
