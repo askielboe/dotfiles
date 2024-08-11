@@ -4,10 +4,14 @@
 
 local map = vim.keymap.set
 
+-- Key remaps
 map({ "n" }, "-", "/", { noremap = true, silent = true })
-
 map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
+
+-- Uppercase navigation
+map("n", "∑", "/\\u\\C<CR>", { noremap = true, silent = true })
+map("n", "∫", "?\\u\\C<CR>", { noremap = true, silent = true })
 
 -- Duplicate line
 map("n", "<C-y>", ":t.<CR>", { noremap = true, silent = true })
@@ -23,5 +27,3 @@ map("n", "<C-S-j>", ":m .+1<CR>==", { noremap = true, silent = true })
 map("v", "<C-S-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 -- Move visual selection down
 map("v", "<C-S-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-
-map("n", "<leader>o", ":AerialToggle<CR>", { noremap = true, silent = true })
