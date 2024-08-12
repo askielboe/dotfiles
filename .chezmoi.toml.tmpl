@@ -1,0 +1,13 @@
+[git]
+    autoCommit = false
+    autoPush = false
+
+[edit]
+    command = "nvim"
+
+encryption = "age"
+[age]
+command = "rage"
+    identity = "~/.config/chezmoi/age.key"
+    recipient = "{{ onepasswordRead "op://Private/jghgejdfvvychct7vh6i56ofty/Public key" }}"
+
