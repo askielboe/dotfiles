@@ -2969,6 +2969,8 @@ The script should do this: \(ai.prompt)</string>
 			</array>
 		</dict>
 	</array>
+	<key>ShowFullScreenTabBar</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
