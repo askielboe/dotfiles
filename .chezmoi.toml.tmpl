@@ -5,6 +5,10 @@
 [edit]
     command = "nvim"
 
+[merge]
+    command = "meld"
+    args = ["{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
+
 encryption = "age"
 [age]
 command = "rage"
