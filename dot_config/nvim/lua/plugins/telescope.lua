@@ -3,14 +3,9 @@ local telescopeConfig = require("telescope.config")
 -- Clone the default Telescope configuration
 local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 
--- I want to search in hidden/dot files.
+-- Search hidden files but respect .gitignore.
 table.insert(vimgrep_arguments, "--hidden")
--- I don't want to search in the `.git` directory.
-table.insert(vimgrep_arguments, "--glob")
-table.insert(vimgrep_arguments, "!**/.git/*")
--- Don't search in the `node_modules` directory
-table.insert(vimgrep_arguments, "--glob")
-table.insert(vimgrep_arguments, "!**/node_modules/*")
+table.insert(vimgrep_arguments, "--no-ignore-vcs")
 
 return {
   "nvim-telescope/telescope.nvim",
