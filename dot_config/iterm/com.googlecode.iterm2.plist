@@ -1353,6 +1353,12 @@ The script should do this: \(ai.prompt)</string>
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>777E1C47-68DF-47F7-A09F-3B771881F8B9</string>
+	<key>DimBackgroundWindows</key>
+	<false/>
+	<key>DimInactiveSplitPanes</key>
+	<false/>
+	<key>DimOnlyText</key>
+	<false/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
 	<key>EnableDivisionView</key>
@@ -2274,6 +2280,8 @@ The script should do this: \(ai.prompt)</string>
 			<true/>
 			<key>Draw Powerline Glyphs</key>
 			<false/>
+			<key>Enable Triggers in Interactive Apps</key>
+			<true/>
 			<key>Flashing Bell</key>
 			<false/>
 			<key>Foreground Color</key>
@@ -2674,11 +2682,11 @@ The script should do this: \(ai.prompt)</string>
 			<key>Normal Font</key>
 			<string>HackNFM-Regular 14</string>
 			<key>Open Password Manager Automatically</key>
-			<true/>
+			<false/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
-			<integer>1</integer>
+			<integer>2</integer>
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
@@ -2944,6 +2952,8 @@ The script should do this: \(ai.prompt)</string>
 	</dict>
 	<key>Print In Black And White</key>
 	<true/>
+	<key>ProbeForPassword</key>
+	<true/>
 	<key>SGTRecentFileSearches</key>
 	<array>
 		<dict>
@@ -2974,7 +2984,7 @@ The script should do this: \(ai.prompt)</string>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.051320919296116485</real>
+	<real>0.01</real>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>StretchTabsToFillBar</key>
