@@ -8,6 +8,7 @@ return {
   keys = {
     { "<leader>-", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
     { "<leader><", LazyVim.pick("resume"), desc = "Resume" },
+    { "<leader>fc", LazyVim.pick("files", { cwd = "~/.local/share/chezmoi" }), desc = "Search chezmoi" },
   },
   opts = {
     defaults = {
