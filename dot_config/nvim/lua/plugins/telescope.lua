@@ -3,10 +3,6 @@ local telescopeConfig = require("telescope.config")
 -- Clone the default Telescope configuration
 local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
 
--- Search hidden files but respect .gitignore.
-table.insert(vimgrep_arguments, "--hidden")
-table.insert(vimgrep_arguments, "--no-ignore-vcs")
-
 return {
   "nvim-telescope/telescope.nvim",
   keys = {
@@ -29,7 +25,6 @@ return {
           "!**/.git/*",
           "--glob",
           "!**/node_modules/*",
-          "--no-ignore",
         },
       },
     },
