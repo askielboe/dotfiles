@@ -1,0 +1,10 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+brew "direnv"
+brew "zsh"
+brew "git"
+brew "starship"
+EOF
+{{ end -}}
