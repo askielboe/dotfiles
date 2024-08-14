@@ -1,0 +1,31 @@
+[user]
+	name = Andreas Skielboe
+	email = skielboe@gmail.com
+	signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ GitHub Signing Key
+[core]
+  editor = nvim
+  autocrlf = input
+[init]
+  defaultBranch = main
+[pull]
+  rebase = true
+[rebase]
+  autostash = true
+[push]
+  default = current
+[commit]
+  gpgsign = false
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[gpg]
+  format = ssh
+  program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[diff]
+	tool = difft
+[difftool "difft"]
+	cmd = difft \"$LOCAL\" \"$REMOTE\"
+[difftool]
+	prompt = false
+
+
+
