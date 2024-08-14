@@ -27,3 +27,5 @@ map("n", "<C-S-j>", ":m .+1<CR>==", { noremap = true, silent = true })
 map("v", "<C-S-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 -- Move visual selection down
 map("v", "<C-S-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+-- Replace word under cursor (case preserving)
+map("n", "<leader>r", ":%S/<C-r><C-w>//g<Left><Left>", { noremap = true, desc = "Replace word under cursor globally" })
