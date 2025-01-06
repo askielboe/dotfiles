@@ -1,0 +1,22 @@
+# Theme
+# theme = "catppuccin-mocha"
+theme = "Kanagawa Wave"
+macos-titlebar-style = tabs
+font-size = 15
+
+# Session management
+window-save-state = never
+window-inherit-working-directory = false
+
+# Keybinds
+keybind = alt+cmd+j=goto_split:bottom
+keybind = alt+cmd+h=goto_split:left
+keybind = alt+cmd+k=goto_split:top
+keybind = alt+cmd+l=goto_split:right
+
+keybind = ctrl+cmd+j=resize_split:down,10
+keybind = ctrl+cmd+h=resize_split:left,10
+keybind = ctrl+cmd+k=resize_split:up,10
+keybind = ctrl+cmd+l=resize_split:right,10
+
+keybind = global:cmd+$=toggle_quick_terminal
