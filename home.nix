@@ -113,6 +113,7 @@ in
     # ".screenrc".source = dotfiles/screenrc;
 
     ".config/ghostty/config".source = dotfiles/ghostty/config;
+    ".config/nvim/lua".source = dotfiles/nvim/lua;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
