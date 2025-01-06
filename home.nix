@@ -177,6 +177,7 @@ in
         }
 
         alias o='open .'
+        alias he='cd ~/.config/home-manager/ && nvim && echo "running home manager switch.." && hs'
       '';
       initExtra = ''
       '';
