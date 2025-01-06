@@ -115,6 +115,7 @@ in
 
     ".config/ghostty/config".source = dotfiles/ghostty/config;
     ".config/nvim/lua".source = dotfiles/nvim/lua;
+    "rustic.toml".source = dotfiles/rustic/rustic.toml;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
