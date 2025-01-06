@@ -97,7 +97,7 @@ in
     # Media Processing
     ffmpeg
 
-    # MacOS Specific Tools
+    # MacOS Tools and SDKs
     mas
 
     # Python packages
@@ -180,8 +180,9 @@ in
           exec $SHELL
         }
 
-        alias o='open .'
-        alias he='cd ~/.config/home-manager/ && nvim && echo "running home manager switch.." && hs'
+        alias o='open $(pwd)'
+        alias lg=lazygit
+        alias he='cd ~/.config/home-manager/ && nvim && hs'
       '';
       initExtra = ''
       '';
