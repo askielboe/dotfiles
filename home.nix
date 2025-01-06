@@ -1,8 +1,10 @@
 { config, pkgs, lib, ... }:
 
-let name = "Andreas Skielboe";
-    user = "askielboe";
-    email = "skielboe@gmail.com"; in
+let
+  name = "Andreas Skielboe";
+  user = "askielboe";
+  email = "skielboe@gmail.com";
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -42,70 +44,60 @@ let name = "Andreas Skielboe";
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    # General packages for development and system management
-    aspell
-    aspellDicts.en
-    bash-completion
-    bat
-    borgbackup
-    borgmatic
-    btop
+    # System and Core Utilities
     coreutils
-    d2
-    difftastic
-    git-annex
+    gnused
     killall
-    mas
-    neofetch
-    ngrok
-    openssh
-    rclone
-    silver-searcher
-    sqlite
-    tor
+    htop
+    btop
+    tree
     wget
     zip
+    bzip2
+    sqlite
 
-    # Encryption and security tools
-    age
-    age-plugin-yubikey
-    gnupg
-    libfido2
+    # Terminal and Text Tools
+    ripgrep
+    tmux
+    neovim
+    difftastic
+    jq
 
-    # Cloud-related tools and SDKs
+    # Version Control and Git Tools
+    git
+    git-annex
+
+    # Development Tools and SDKs
+    aider-chat
+    cargo
+    d2
+    devenv
+    nodePackages.npm
+    nodePackages.prettier
+    nodejs
+
+    # Cloud and Container Tools
     docker
     docker-compose
+    ssm-session-manager-plugin
+    ngrok
 
-    # Media-related packages
-    #emacs-all-the-icons-fonts
-    dejavu_fonts
-    ffmpeg
-    fd
-    font-awesome
-    hack-font
-    noto-fonts
-    noto-fonts-emoji
-    meslo-lgs-nf
-
-    # Node.js development tools
-    #nodePackages.npm # globally install npm
-    #nodePackages.prettier
-    #nodejs
-
-    # Text and terminal utilities
-    htop
+    # Backup and Sync Tools
+    rclone
     restic
-    devbox
-    #hunspell
-    #iftop
-    #jetbrains-mono
-    jq
-    ripgrep
-    tree
-    tmux
-    unrar
-    unzip
-    zsh-powerlevel10k
+    rustic
+
+    # Security and Encryption
+    age
+    gnupg
+    openssh
+    tor
+
+    # Media Processing
+    ffmpeg
+
+    # MacOS Specific Tools
+    mas
 
     # Python packages
     #python39
@@ -144,7 +136,11 @@ let name = "Andreas Skielboe";
   #  /etc/profiles/per-user/askielboe/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "vim";
+    VISUAL = "nvim";
+    EDITOR = "nvim";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
+    ANTHROPIC_API_KEY = "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";
   };
 
   programs = {
@@ -152,18 +148,6 @@ let name = "Andreas Skielboe";
       enable = true;
       autocd = false;
       cdpath = [ "~/.local/share/src" ];
-      plugins = [
-        {
-            name = "powerlevel10k";
-            src = pkgs.zsh-powerlevel10k;
-            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-        }
-        {
-            name = "powerlevel10k-config";
-            src = lib.cleanSource ./config;
-            file = "p10k.zsh";
-        }
-      ];
       prezto = {
         enable = true;
         pmodules = [
@@ -181,44 +165,29 @@ let name = "Andreas Skielboe";
           "autosuggestions"
           "syntax-highlighting"
         ];
+        prompt = {
+          theme = "sorin";
+        };
       };
       initExtraFirst = ''
-        # Remove history data we don't want to see
-        export HISTIGNORE="pwd:ls:cd"
-
-        # Ripgrep alias
-        alias search=rg -p --glob '!node_modules/*'  $@
-
         hs() {
             home-manager switch
         }
 
         alias o='open .'
-
-        c() {
-            code .
-        }
-
-        w() {
-            cd ~/work
-        }
-
-        # Use difftastic, syntax-aware diffing
-        alias diff=difft
-
-        # Always color ls and group directories
-        alias ls='ls --color=auto'
       '';
       initExtra = ''
-        # Suppress printing direnv env
-        # see https://ianthehenry.com/posts/how-to-learn-nix/nix-direnv/
-        export DIRENV_LOG_FORMAT="$(printf "\033[2mdirenv: %%s\033[0m")"
-        eval "$(direnv hook zsh)"
-        _direnv_hook() {
-          eval "$(direnv export zsh 2> >(egrep -v -e '^....direnv: export' >&2))"
-        };
-        # eval "$(devbox global shellenv)"
       '';
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
     };
 
     direnv = {
@@ -236,20 +205,46 @@ let name = "Andreas Skielboe";
       ignores = [ "*.swp" ];
       userName = name;
       userEmail = email;
+      delta = {
+        enable = true;
+      };
       lfs = {
         enable = true;
       };
       extraConfig = {
         init.defaultBranch = "main";
         core = {
-        editor = "vim";
+          editor = "nvim";
           autocrlf = "input";
         };
-        #commit.gpgsign = true;
         pull.rebase = true;
         rebase.autoStash = true;
         push.autoSetupRemote = true;
+        commit.gpgSign = true;
+        gpg = {
+          format = "ssh";
+          "ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        };
       };
+      signing = {
+        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ";
+      };
+    };
+
+    lazygit = {
+      enable = true;
+      settings =
+        {
+          gui = {
+            showFileTree = true;
+          };
+          git = {
+            paging = {
+              colorArg = "always";
+              pager = "delta --dark --paging=never";
+            };
+          };
+        };
     };
 
     ssh = {
@@ -262,13 +257,35 @@ let name = "Andreas Skielboe";
           };
         };
         "github.com" = {
+          hostname = "github.com";
+          user = "git";
           identitiesOnly = true;
-          identityFile = "/Users/${user}/.ssh/id_github";
+          identityFile = "/Users/${user}/.ssh/id_ed25519-github.pub";
         };
         "flextribe" = {
           hostname = "github.com";
           user = "git";
+          identitiesOnly = true;
           identityFile = "/Users/${user}/.ssh/id_ed25519_flextribe.pub";
+        };
+        "storagebox-restic" = {
+          hostname = "your-storagebox.de";
+          user = "u407515-sub6";
+          identitiesOnly = true;
+          identityFile = "/Users/${user}/.ssh/id_ed25519-storagebox.pub";
+        };
+        "paperless" = {
+          hostname = "135.181.80.183";
+          port = 54056;
+          user = "paperless";
+        };
+        "dobby" = {
+          hostname = "192.168.1.12";
+        };
+        "garage-hetzner" = {
+          hostname = "49.13.75.42";
+          identitiesOnly = true;
+          identityFile = "/Users/${user}/.ssh/id_ed25519-hetzner-garage.pub";
         };
       };
     };
@@ -282,53 +299,12 @@ let name = "Andreas Skielboe";
       };
       credentials = {
         "default" = {
-          "credential_process" = "/opt/homebrew/bin/op read 'op://Private/AWS Credentials Motosumo/password'";
+          "region" = "eu-west-1";
+          "credential_process" = "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
         };
-      };
-    };
-
-    vscode = {
-      enable = true;
-      userSettings = {
-        "editor.fontSize" = 11;
-        "editor.minimap.enabled" = false;
-        "editor.tabSize" = 2;
-        "editor.wordWrap" = "off";
-        "files.autoSave" = "onFocusChange";
-        "files.autoSaveDelay" = 1000;
-        "files.trimTrailingWhitespace" = true;
-        "github.copilot.editor.enableAutoCompletions" = true;
-        "workbench.colorTheme" = "Gruvbox Minor Dark Hard";
-        "workbench.iconTheme" = "vscode-icons";
-        "workbench.startupEditor" = "newUntitledFile";
-        "editor.formatOnSave" = true;
-        "window.zoomLevel" = 1.2;
-        "[javascript]" = {
-          "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        };
-        "[typescript]" = {
-          "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        };
-        "[typescriptreact]" = {
-          "editor.defaultFormatter" = "esbenp.prettier-vscode";
-        };
-        "ruff.nativeServer" = true;
-        "notebook.codeActionsOnSave" = {
-          "notebook.source.fixAll" = "explicit";
-          "notebook.source.organizeImports" = "explicit";
-        };
-        "[python]" = {
-          "editor.codeActionsOnSave" = {
-            "source.fixAll" = "explicit";
-            "source.organizeImports" = "explicit";
-          };
-          "editor.defaultFormatter" = "charliermarsh.ruff";
-        };
-        "magit.quick-switch-enabled" = true;
       };
     };
   };
 
-  # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
