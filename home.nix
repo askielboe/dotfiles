@@ -83,6 +83,7 @@ in
     ngrok
 
     # Backup and Sync Tools
+    magic-wormhole
     rclone
     restic
     rustic
@@ -174,7 +175,9 @@ in
       };
       initExtraFirst = ''
         hs() {
-            home-manager switch
+          echo "running home-manager switch.."
+          home-manager switch
+          exec $SHELL
         }
 
         alias o='open .'

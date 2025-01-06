@@ -1,6 +1,5 @@
 # Theme
-# theme = "catppuccin-mocha"
-theme = "Kanagawa Wave"
+theme = "catppuccin-mocha"
 macos-titlebar-style = tabs
 font-size = 15
 
