@@ -144,6 +144,7 @@ in
     VISUAL = "nvim";
     EDITOR = "nvim";
     XDG_CONFIG_HOME = "$HOME/.config";
+    DIRENV_LOG_FORMAT = "";
     OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
     ANTHROPIC_API_KEY = "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";
   };
