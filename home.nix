@@ -149,6 +149,12 @@ in
     ANTHROPIC_API_KEY = "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";
   };
 
+  home.shellAliases = {
+    o = "open .";
+    lg = "lazygit";
+    he = "cd ~/.config/home-manager/ && nvim && hs";
+  };
+
   programs = {
     zsh = {
       enable = true;
@@ -176,17 +182,12 @@ in
         };
       };
       initExtraFirst = ''
-        hs() {
-          echo "running home-manager switch.."
-          home-manager switch
-          exec $SHELL
-        }
-
-        alias o='open $(pwd)'
-        alias lg=lazygit
-        alias he='cd ~/.config/home-manager/ && nvim && hs'
       '';
       initExtra = ''
+        hs() {
+          echo "home-manager: switch"
+          home-manager switch
+        }
       '';
     };
 
