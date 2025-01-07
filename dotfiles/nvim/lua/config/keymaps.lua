@@ -39,22 +39,26 @@ map("v", "<C-S-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 -- Replace word under cursor (case preserving)
 map("n", "<leader>r", ":%S/<C-r><C-w>//g<Left><Left>", { noremap = true, desc = "Replace word under cursor globally" })
 
+-- Fzf
+map("n", "<leader><", LazyVim.pick("resume"), { desc = "Resume" })
+map("n", "<leader>-", "<cmd>FzfLua live_grep<cr><C-g>", { desc = "Fzf Live Grep Fuzzy" })
+
 -- Toggle between start of line and first non-blank character
 vim.keymap.set("n", "0", function()
-  local col = vim.fn.col(".")
-  local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
-  return (col == first_non_blank and "0" or "^")
+	local col = vim.fn.col(".")
+	local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
+	return (col == first_non_blank and "0" or "^")
 end, { expr = true, desc = "Toggle between start of line and first non-blank character" })
 
 -- Search replace word under cursor in current file
 vim.keymap.set({ "n", "v" }, "<leader>rw", function()
-  require("grug-far").open({
-    transient = true,
-    startCursorRow = 3,
-    prefills = {
-      search = vim.fn.expand("<cword>"),
-      replacement = vim.fn.expand("<cword>"),
-      paths = vim.fn.expand("%"),
-    },
-  })
+	require("grug-far").open({
+		transient = true,
+		startCursorRow = 3,
+		prefills = {
+			search = vim.fn.expand("<cword>"),
+			replacement = vim.fn.expand("<cword>"),
+			paths = vim.fn.expand("%"),
+		},
+	})
 end, { noremap = true, desc = "Search replace word under cursor in current file" })
