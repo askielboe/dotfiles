@@ -144,6 +144,7 @@ in
     VISUAL = "nvim";
     EDITOR = "nvim";
     XDG_CONFIG_HOME = "$HOME/.config";
+    DIRENV_LOG_FORMAT = "";
     OP_ACCOUNT = "***REMOVED-SECRET***";
     ANTHROPIC_API_KEY = "***REMOVED-SECRET***";
   };
