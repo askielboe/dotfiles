@@ -188,6 +188,7 @@ in
         hs() {
           echo "home-manager: switch"
           home-manager switch
+          exec $SHELL
         }
       '';
     };
