@@ -153,7 +153,7 @@ in
   home.shellAliases = {
     o = "open .";
     lg = "lazygit";
-    he = "cd ~/.config/home-manager/ && nvim && hs";
+    he = "cd ~/.config/home-manager/ && nvim && cd -";
   };
 
   programs = {
