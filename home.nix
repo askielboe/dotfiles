@@ -1,14 +1,13 @@
 { ... }:
 
 let
-  name = "Andreas Skielboe";
   user = "askielboe";
-  email = "skielboe@gmail.com";
 in
 {
   imports = [
     ./modules/packages.nix
     ./modules/file.nix
+    ./modules/git.nix
     ./modules/programs/starship.nix
   ];
 
@@ -27,7 +26,6 @@ in
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
-
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -120,52 +118,6 @@ in
       enable = true;
     };
 
-    git = {
-      enable = true;
-      ignores = [ "*.swp" ];
-      userName = name;
-      userEmail = email;
-      delta = {
-        enable = true;
-      };
-      lfs = {
-        enable = true;
-      };
-      extraConfig = {
-        init.defaultBranch = "main";
-        core = {
-          editor = "nvim";
-          autocrlf = "input";
-        };
-        pull.rebase = true;
-        rebase.autoStash = true;
-        push.autoSetupRemote = true;
-        commit.gpgSign = true;
-        gpg = {
-          format = "ssh";
-          "ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-        };
-      };
-      signing = {
-        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ";
-      };
-    };
-
-    lazygit = {
-      enable = true;
-      settings =
-        {
-          gui = {
-            showFileTree = true;
-          };
-          git = {
-            paging = {
-              colorArg = "always";
-              pager = "delta --dark --paging=never";
-            };
-          };
-        };
-    };
 
     ssh = {
       enable = true;
