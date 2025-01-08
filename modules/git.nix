@@ -25,7 +25,12 @@ in
         };
         pull.rebase = true;
         rebase.autoStash = true;
-        push.autoSetupRemote = true;
+
+        push = {
+          autoSetupRemote = true;
+          useForceIfIncludes = true;
+        };
+
         commit.gpgSign = true;
         gpg = {
           format = "ssh";
