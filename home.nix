@@ -1,13 +1,14 @@
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
-    ./modules/packages.nix
+    ./modules/age.nix
     ./modules/file.nix
-    ./modules/shell.nix
     ./modules/git.nix
-    ./modules/ssh.nix
+    ./modules/packages.nix
     ./modules/programs.nix
+    ./modules/shell.nix
+    ./modules/ssh.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -48,7 +49,7 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     DIRENV_LOG_FORMAT = "";
     OP_ACCOUNT = "***REMOVED-SECRET***";
-    ANTHROPIC_API_KEY = "***REMOVED-SECRET***";
+    ANTHROPIC_API_KEY = "$(cat ${config.age.secrets.anthropic.path})";
   };
 
   home.shellAliases = {
@@ -60,7 +61,7 @@
   catppuccin = {
     enable = true;
   };
-  
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
