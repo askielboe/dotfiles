@@ -8,7 +8,17 @@ in
   programs = {
     git = {
       enable = true;
-      ignores = [ "*.swp" ];
+      ignores = [
+        "*.swp"
+        "*~"
+        ".DS_Store"
+        ".aider*"
+        ".direnv"
+        ".envrc"
+        ".devenv"
+        ".devenv.*"
+        "devenv.*"
+      ];
       userName = name;
       userEmail = email;
       delta = {
