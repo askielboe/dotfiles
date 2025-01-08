@@ -3,7 +3,6 @@
 # to use for encryption.
 # https://github.com/ryantm/agenix?tab=readme-ov-file#tutorial
 let
-  # user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAaKU21SMHSEW8TiKQNmNROJOiV3yH4CZDisS+muPrde";
   user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFnR+/By643WRc+CguO23Xj8JHkxiGycAkgs5pVLa4K6";
 in
 {
