@@ -156,6 +156,10 @@ in
     he = "cd ~/.config/home-manager/ && nvim && cd -";
   };
 
+  catppuccin = {
+    enable = true;
+  };
+
   programs = {
     zsh = {
       enable = true;
