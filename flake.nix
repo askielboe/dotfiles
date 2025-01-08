@@ -32,8 +32,10 @@
           catppuccin.homeManagerModules.catppuccin
         ];
 
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+        # Pass through arguments to home.nix
+        extraSpecialArgs = {
+          inherit agenix;
+        };
       };
     };
 }
