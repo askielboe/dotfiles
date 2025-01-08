@@ -1,6 +1,9 @@
 {
+  description = "Home Manager configuration of askielboe";
+
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    # Specify the source of Home Manager and Nixpkgs.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -8,13 +11,24 @@
     catppuccin.url = "github:catppuccin/nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin }: {
-    homeConfigurations."askielboe" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-      modules = [
-        ./home.nix
-        catppuccin.homeManagerModules.catppuccin
-      ];
+  outputs = { nixpkgs, home-manager, catppuccin, ... }:
+    let
+      system = "aarch64-darwin";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      homeConfigurations."askielboe" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [
+          ./home.nix
+          catppuccin.homeManagerModules.catppuccin
+        ];
+
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+      };
     };
-  };
 }
