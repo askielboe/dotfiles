@@ -8,10 +8,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     catppuccin.url = "github:catppuccin/nix";
   };
 
-  outputs = { nixpkgs, home-manager, catppuccin, ... }:
+  outputs = { nixpkgs, home-manager, agenix, catppuccin, ... }:
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -24,6 +28,7 @@
         # the path to your home.nix.
         modules = [
           ./home.nix
+          agenix.homeManagerModules.default
           catppuccin.homeManagerModules.catppuccin
         ];
 
