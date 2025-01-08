@@ -45,16 +45,17 @@ in
     # '')
 
     # System and Core Utilities
+    btop
+    bzip2
     coreutils
     gnused
-    killall
     htop
-    btop
+    killall
+    sqlite
     tree
     wget
+    yazi
     zip
-    bzip2
-    sqlite
 
     # Terminal and Text Tools
     ripgrep
