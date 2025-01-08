@@ -1,14 +1,13 @@
 { ... }:
 
-let
-  user = "askielboe";
-in
 {
   imports = [
     ./modules/packages.nix
     ./modules/file.nix
+    ./modules/shell.nix
     ./modules/git.nix
-    ./modules/programs/starship.nix
+    ./modules/ssh.nix
+    ./modules/programs.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -61,123 +60,7 @@ in
   catppuccin = {
     enable = true;
   };
-
-  programs = {
-    zsh = {
-      enable = true;
-      autocd = false;
-      cdpath = [ "~" ];
-      prezto = {
-        enable = true;
-        pmodules = [
-          "environment"
-          "terminal"
-          "editor"
-          "history"
-          "directory"
-          "spectrum"
-          "utility"
-          "completion"
-          "history-substring-search"
-          "prompt"
-          "git"
-          "autosuggestions"
-          "syntax-highlighting"
-        ];
-        prompt = {
-          theme = "sorin";
-        };
-      };
-      initExtraFirst = ''
-      '';
-      initExtra = ''
-        hs() {
-          echo "home-manager: switch"
-          home-manager switch
-          exec $SHELL
-        }
-      '';
-    };
-
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    bat = {
-      enable = true;
-    };
-
-
-    ssh = {
-      enable = true;
-      # includes = [ "/Users/${user}/.ssh/config_external" ];
-      matchBlocks = {
-        "*" = {
-          extraOptions = {
-            IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
-          };
-        };
-        "github.com" = {
-          hostname = "github.com";
-          user = "git";
-          identitiesOnly = true;
-          identityFile = "/Users/${user}/.ssh/id_ed25519-github.pub";
-        };
-        "flextribe" = {
-          hostname = "github.com";
-          user = "git";
-          identitiesOnly = true;
-          identityFile = "/Users/${user}/.ssh/id_ed25519_flextribe.pub";
-        };
-        "storagebox-restic" = {
-          hostname = "your-storagebox.de";
-          user = "u407515-sub6";
-          identitiesOnly = true;
-          identityFile = "/Users/${user}/.ssh/id_ed25519-storagebox.pub";
-        };
-        "paperless" = {
-          hostname = "135.181.80.183";
-          port = 54056;
-          user = "paperless";
-        };
-        "dobby" = {
-          hostname = "192.168.1.12";
-        };
-        "garage-hetzner" = {
-          hostname = "49.13.75.42";
-          identitiesOnly = true;
-          identityFile = "/Users/${user}/.ssh/id_ed25519-hetzner-garage.pub";
-        };
-      };
-    };
-
-    awscli = {
-      enable = true;
-      settings = {
-        "default" = {
-          region = "eu-west-1";
-        };
-      };
-      credentials = {
-        "default" = {
-          "region" = "eu-west-1";
-          "credential_process" = "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
-        };
-      };
-    };
-  };
-
+  
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
