@@ -217,6 +217,10 @@ in
       enableZshIntegration = true;
     };
 
+    bat = {
+      enable = true;
+    };
+
     git = {
       enable = true;
       ignores = [ "*.swp" ];
