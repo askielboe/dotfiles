@@ -35,13 +35,11 @@ in
         };
         pull.rebase = true;
         rebase.autoStash = true;
-
         push = {
           autoSetupRemote = true;
           useForceIfIncludes = true;
         };
-
-        commit.gpgSign = true;
+        commit.gpgSign = false;
         gpg = {
           format = "ssh";
           "ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
