@@ -160,7 +160,7 @@ in
     zsh = {
       enable = true;
       autocd = false;
-      cdpath = [ "~/.local/share/src" ];
+      cdpath = [ "~" ];
       prezto = {
         enable = true;
         pmodules = [
