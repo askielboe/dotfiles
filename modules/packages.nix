@@ -1,8 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, agenix, ... }:
 
 {
   home.packages = with pkgs; [
     age
+    agenix.packages.${pkgs.system}.default
     aider-chat
     btop
     bzip2
