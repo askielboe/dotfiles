@@ -200,6 +200,31 @@ in
     starship = {
       enable = true;
       enableZshIntegration = true;
+      format = lib.concatStrings [
+        "[](surface0)"
+        "$os"
+        "$username"
+        "[](bg:peach fg:surface0)"
+        "$directory"
+        "[](fg:peach bg:green)"
+        "$git_branch"
+        "$git_status"
+        "[](fg:green bg:teal)"
+        "$c"
+        "$rust"
+        "$golang"
+        "$nodejs"
+        "$php"
+        "$java"
+        "$kotlin"
+        "$haskell"
+        "$python"
+        "[](fg:blue bg:purple)"
+        "$time"
+        "[ ](fg:purple)"
+        "$line_break"
+        "$character"
+      ];
     };
 
     fzf = {
