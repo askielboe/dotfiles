@@ -20,6 +20,32 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
     { import = "plugins" },
+    -- Dart support
+    {
+      "neovim/nvim-lspconfig",
+      opts = {
+        servers = {
+          dartls = {},
+        },
+      },
+    },
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = { ensure_installed = { "dart" } },
+    },
+    {
+      "stevearc/conform.nvim",
+      opts = {
+        formatters = {
+          dart_format = {
+            args = { "format", "--line-length", "120" },
+          },
+        },
+        formatters_by_ft = {
+          dart = { "dart_format" },
+        },
+      },
+    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
