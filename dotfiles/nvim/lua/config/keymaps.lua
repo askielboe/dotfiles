@@ -9,6 +9,10 @@ map({ "n" }, "-", "/", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 
+-- Quickfix
+map("n", "‹", vim.cmd.cnext, { desc = "Next Quickfix" })
+map("n", "∆", vim.cmd.cprev, { desc = "Previous Quickfix" })
+
 -- Toggle whitespace characters
 map("n", "<leader>tw", ":set list!<CR>", { desc = "Toggle whitespace characters" })
 
