@@ -16,4 +16,3 @@ vim.opt.listchars = { eol = "↲", space = "·", tab = "▸ " }
 
 -- Disable scroll animation
 vim.g.snacks_animate_scroll = false
-
