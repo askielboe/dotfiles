@@ -13,3 +13,7 @@ vim.opt.swapfile = false
 -- List chars
 vim.opt.list = false
 vim.opt.listchars = { eol = "↲", space = "·", tab = "▸ " }
+
+-- Disable scroll animation
+vim.g.snacks_animate_scroll = false
+
