@@ -41,20 +41,20 @@ map("n", "<leader>-", LazyVim.pick("live_grep", { root = false }), { desc = "Gre
 
 -- Toggle between start of line and first non-blank character
 vim.keymap.set("n", "0", function()
-	local col = vim.fn.col(".")
-	local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
-	return (col == first_non_blank and "0" or "^")
+  local col = vim.fn.col(".")
+  local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
+  return (col == first_non_blank and "0" or "^")
 end, { expr = true, desc = "Toggle between start of line and first non-blank character" })
 
 -- Search replace word under cursor in current file
 vim.keymap.set({ "n", "v" }, "<leader>rw", function()
-	require("grug-far").open({
-		transient = true,
-		startCursorRow = 3,
-		prefills = {
-			search = vim.fn.expand("<cword>"),
-			replacement = vim.fn.expand("<cword>"),
-			paths = vim.fn.expand("%"),
-		},
-	})
+  require("grug-far").open({
+    transient = true,
+    startCursorRow = 3,
+    prefills = {
+      search = vim.fn.expand("<cword>"),
+      replacement = vim.fn.expand("<cword>"),
+      paths = vim.fn.expand("%"),
+    },
+  })
 end, { noremap = true, desc = "Search replace word under cursor in current file" })
