@@ -45,7 +45,7 @@ map("n", "<leader>r", ":%S/<C-r><C-w>//g<Left><Left>", { noremap = true, desc = 
 
 -- Fzf
 map("n", "<leader><", LazyVim.pick("resume"), { desc = "Resume" })
-map("n", "<leader>-", "<cmd>FzfLua live_grep<cr><C-g>", { desc = "Fzf Live Grep Fuzzy" })
+map("n", "<leader>-", LazyVim.pick("live_grep", { root = false }), { desc = "Grep (cwd)" })
 
 -- Toggle between start of line and first non-blank character
 vim.keymap.set("n", "0", function()
