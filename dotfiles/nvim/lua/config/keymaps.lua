@@ -10,8 +10,8 @@ map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 
 -- Quickfix
-map("n", "‹", vim.cmd.cnext, { desc = "Next Quickfix" })
-map("n", "∆", vim.cmd.cprev, { desc = "Previous Quickfix" })
+map("n", "<S-C-k>", vim.cmd.cprev, { noremap = true, silent = true, desc = "Next Quickfix" })
+map("n", "<S-C-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Previous Quickfix" })
 
 -- Toggle whitespace characters
 map("n", "<leader>tw", ":set list!<CR>", { desc = "Toggle whitespace characters" })
@@ -27,19 +27,11 @@ map("n", "<C-<Up>>", ":vertical res +1<CR>", { noremap = true, silent = true })
 map("n", "<C-<Down>>", ":vertical res -1<CR>", { noremap = true, silent = true })
 
 -- Duplicate line
-map("n", "<C-y>", ":t.<CR>", { noremap = true, silent = true })
+map("n", "<C-y>", ":t.<CR>", { noremap = true, silent = true, desc = "Duplicate line" })
 -- Duplicate visual selection
-map("x", "<C-y>", "y'>o<Esc>p", { noremap = true, silent = true })
+map("x", "<C-y>", "y'>o<Esc>p", { noremap = true, silent = true, desc = "Duplicate visual selection" })
 -- Delete line
 map("n", "<c-x>", "dd", { noremap = true, silent = true })
--- Move line up
-map("n", "<C-S-k>", ":m .-2<CR>==", { noremap = true, silent = true })
--- Move line down
-map("n", "<C-S-j>", ":m .+1<CR>==", { noremap = true, silent = true })
--- Move visual selection up
-map("v", "<C-S-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
--- Move visual selection down
-map("v", "<C-S-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 -- Replace word under cursor (case preserving)
 map("n", "<leader>r", ":%S/<C-r><C-w>//g<Left><Left>", { noremap = true, desc = "Replace word under cursor globally" })
 
