@@ -7,6 +7,15 @@ font-size = 15
 # window-save-state = never
 # window-inherit-working-directory = false
 
+# Option as alt
+macos-option-as-alt = true
+keybind = alt+8=text:[
+keybind = alt+9=text:]
+keybind = shift+alt+8=text:{
+keybind = shift+alt+9=text:}
+keybind = alt+¨=text:~
+keybind = alt+'=text:@
+
 # Keybinds
 keybind = ctrl+cmd+j=goto_split:bottom
 keybind = ctrl+cmd+h=goto_split:left
