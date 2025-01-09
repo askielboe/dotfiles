@@ -10,6 +10,7 @@
     cargo
     coreutils
     d2
+    dart
     devenv
     difftastic
     docker
