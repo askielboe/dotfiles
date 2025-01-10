@@ -7,8 +7,13 @@ return {
     return {
       {
         "<leader>ao",
-        ":AiderOpen --no-git<CR>",
+        ":AiderOpen<CR>",
         desc = "Aider Open",
+      },
+      {
+        "<leader>aO",
+        ":AiderOpen --no-git<CR>",
+        desc = "Aider Open No Git",
       },
     }
   end,
