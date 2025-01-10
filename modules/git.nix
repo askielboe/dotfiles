@@ -9,14 +9,18 @@ in
     git = {
       enable = true;
       ignores = [
+        "**/*.pyc"
+        "**/__pycache__"
         "*.swp"
         "*~"
         ".DS_Store"
         ".aider*"
-        ".direnv"
-        ".envrc"
         ".devenv"
         ".devenv.*"
+        ".direnv"
+        ".envrc"
+        ".pytest_cache/"
+        "devbox.*"
         "devenv.*"
       ];
       userName = name;
