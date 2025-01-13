@@ -41,6 +41,7 @@
     ssm-session-manager-plugin
     tmux
     tor
+    transmission_4
     tree
     wget
     yazi
