@@ -7,6 +7,9 @@ font-size = 15
 # window-save-state = never
 # window-inherit-working-directory = false
 
+# Keybinds
+# https://ghostty.org/docs/config/keybind
+
 # Option as alt
 macos-option-as-alt = true
 keybind = alt+8=text:[
@@ -15,8 +18,9 @@ keybind = shift+alt+8=text:{
 keybind = shift+alt+9=text:}
 keybind = alt+¨=text:~
 keybind = alt+'=text:@
+keybind = alt+i=text:|
 
-# Keybinds
+# Split navigation
 keybind = ctrl+cmd+j=goto_split:bottom
 keybind = ctrl+cmd+h=goto_split:left
 keybind = ctrl+cmd+k=goto_split:top
@@ -27,4 +31,5 @@ keybind = ctrl+alt+cmd+h=resize_split:left,10
 keybind = ctrl+alt+cmd+k=resize_split:up,10
 keybind = ctrl+alt+cmd+l=resize_split:right,10
 
+# Quick terminal
 keybind = global:cmd+$=toggle_quick_terminal
