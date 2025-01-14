@@ -13,12 +13,15 @@ map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 map("n", "<S-C-k>", vim.cmd.cprev, { noremap = true, silent = true, desc = "Next Quickfix" })
 map("n", "<S-C-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Previous Quickfix" })
 
+map("n", "<S-M-k>", vim.cmd.cprev, { noremap = true, silent = true, desc = "Next Quickfix" })
+map("n", "<S-M-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Previous Quickfix" })
+
 -- Toggle whitespace characters
 map("n", "<leader>tw", ":set list!<CR>", { desc = "Toggle whitespace characters" })
 
 -- Uppercase navigation
-map("n", "∑", "/\\u\\C<CR>", { noremap = true, silent = true })
-map("n", "∫", "?\\u\\C<CR>", { noremap = true, silent = true })
+map("n", "<M-w>", "/\\u\\C<CR>", { noremap = true, silent = true, desc = "Camel case forward" })
+map("n", "<M-b>", "?\\u\\C<CR>", { noremap = true, silent = true, desc = "Camel case backward" })
 
 -- Window resize
 map("n", "<C-<Right>>", ":res +1<CR>", { noremap = true, silent = true })
