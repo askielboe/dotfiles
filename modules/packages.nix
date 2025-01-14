@@ -21,6 +21,7 @@
     git-annex
     gnupg
     gnused
+    go
     htop
     jq
     killall
