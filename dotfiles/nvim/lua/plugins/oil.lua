@@ -2,7 +2,9 @@ return {
   "stevearc/oil.nvim",
   config = function()
     require("oil").setup({
-      show_hidden = true,
+      view_options = {
+        show_hidden = true,
+      },
     })
   end,
   keys = {
