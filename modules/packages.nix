@@ -17,8 +17,10 @@
     docker
     docker-compose
     ffmpeg
+    gh
     git
     git-annex
+    git-filter-repo
     gnupg
     gnused
     go
@@ -29,6 +31,7 @@
     mas
     neovim
     ngrok
+    nixpkgs-review
     nodePackages.npm
     nodePackages.prettier
     nodejs
