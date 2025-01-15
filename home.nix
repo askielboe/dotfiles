@@ -36,6 +36,7 @@
       o = "open .";
       lg = "lazygit";
       he = "cd ~/.config/home-manager/ && nvim && cd -";
+      hu = "cd ~/.config/home-manager/ && nix flake update && cd -";
     };
   };
 
