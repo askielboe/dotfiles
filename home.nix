@@ -26,6 +26,7 @@
     sessionVariables = {
       VISUAL = "nvim";
       EDITOR = "nvim";
+      PAGER = "bat";
       XDG_CONFIG_HOME = "$HOME/.config";
       DIRENV_LOG_FORMAT = "";
       OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
