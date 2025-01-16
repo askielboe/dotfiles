@@ -9,6 +9,9 @@ map({ "n" }, "-", "/", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 
+-- Quit
+map({ "n" }, "qq", ":wqa<CR>", { noremap = true, silent = true })
+
 -- Quickfix
 map("n", "<S-C-k>", vim.cmd.cprev, { noremap = true, silent = true, desc = "Next Quickfix" })
 map("n", "<S-C-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Previous Quickfix" })
