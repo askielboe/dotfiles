@@ -41,6 +41,9 @@ map("n", "<c-x>", "dd", { noremap = true, silent = true })
 -- Replace word under cursor (case preserving)
 map("n", "<leader>r", ":%S/<C-r><C-w>//g<Left><Left>", { noremap = true, desc = "Replace word under cursor globally" })
 
+-- Git
+map("n", "gp", ":Git pull<CR>", { noremap = true, silent = true, desc = "Git pull" })
+
 -- Fzf
 map("n", "<leader><", LazyVim.pick("resume"), { desc = "Resume" })
 map("n", "<leader>-", LazyVim.pick("live_grep", { root = false }), { desc = "Grep (cwd)" })
