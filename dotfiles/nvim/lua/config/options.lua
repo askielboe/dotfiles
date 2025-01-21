@@ -14,5 +14,8 @@ vim.opt.swapfile = false
 vim.opt.list = false
 vim.opt.listchars = { eol = "↲", space = "·", tab = "▸ " }
 
+-- Cursorline
+vim.opt.cursorline = true
+
 -- Disable scroll animation
 vim.g.snacks_animate_scroll = false
