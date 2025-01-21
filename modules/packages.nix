@@ -25,6 +25,7 @@
     gnused
     go
     htop
+    ipfs
     jq
     killall
     magic-wormhole
@@ -43,6 +44,7 @@
     rustic
     sqlite
     ssm-session-manager-plugin
+    terraform
     tmux
     tor
     transmission_4
