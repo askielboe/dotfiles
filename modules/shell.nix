@@ -42,148 +42,58 @@
       enableZshIntegration = true;
       settings = {
         format = lib.concatStrings [
-          "[](surface0)"
-          "$os"
           "$username"
-          "[](bg:peach fg:surface0)"
+          "$hostname"
           "$directory"
-          "[](fg:peach bg:green)"
           "$git_branch"
+          "$git_state"
           "$git_status"
-          "[](fg:green bg:teal)"
-          "$c"
-          "$rust"
-          "$golang"
-          "$nodejs"
-          "$php"
-          "$java"
-          "$kotlin"
-          "$haskell"
+          "$cmd_duration"
+          "$line_break"
           "$python"
-          "[](fg:blue bg:purple)"
-          "$time"
-          "[ ](fg:purple)"
-          "$line_break$character"
+          "$character"
         ];
-        add_newline = false;
-        scan_timeout = 10;
-
-        os = {
-          disabled = false;
-          style = "bg:surface0 fg:text";
-          symbols = {
-            Windows = "󰍲";
-            Ubuntu = "󰕈";
-            SUSE = "";
-            Raspbian = "󰐿";
-            Mint = "󰣭";
-            Macos = "";
-            Manjaro = "";
-            Linux = "󰌽";
-            Gentoo = "󰣨";
-            Fedora = "󰣛";
-            Alpine = "";
-            Amazon = "";
-            Android = "";
-            Arch = "󰣇";
-            Artix = "󰣇";
-            CentOS = "";
-            Debian = "󰣚";
-            Redhat = "󱄛";
-            RedHatEnterprise = "󱄛";
-          };
-        };
-
-        username = {
-          show_always = true;
-          style_user = "bg:surface0 fg:text";
-          style_root = "bg:surface0 fg:text";
-          format = "[ $user ]($style)";
-        };
 
         directory = {
-          style = "fg:mantle bg:peach";
-          format = "[ $path ]($style)";
-          truncation_length = 3;
-          truncation_symbol = "…/";
+          style = "fg:blue";
+        };
+
+        character = {
+          success_symbol = "[❯](purple)";
+          error_symbol = "[❯](red)";
+          vimcmd_symbol = "[❮](green)";
         };
 
         git_branch = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol $branch ](fg:base bg:green)]($style)";
+          style = "fg:bright-black";
+          format = "[$branch]($style)";
         };
 
         git_status = {
-          style = "bg:teal";
-          format = "[[($all_status$ahead_behind )](fg:base bg:green)]($style)";
+          style = "fg:cyan";
+          format = " ($ahead_behind$stashed)]($style)";
+          conflicted = "​";
+          untracked = "​";
+          modified = "​";
+          staged = "​";
+          renamed = "​";
+          deleted = "​";
+          stashed = "≡";
         };
 
-        nodejs = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
+        git_state = {
+          style = "fg:bright-black";
+          format = "\([ $state ($progress_current/$progress_total) ] ($style)\) ";
         };
 
-        c = {
-          symbol = " ";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        rust = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        golang = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        php = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        java = {
-          symbol = " ";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        kotlin = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        haskell = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
+        cmd_duration = {
+          style = "fg:yellow";
+          format = "[$duration]($style) ";
         };
 
         python = {
-          symbol = "";
-          style = "bg:teal";
-          format = "[[ $symbol( $version) ](fg:base bg:teal)]($style)";
-        };
-
-        docker_context = {
-          symbol = "";
-          style = "bg:mantle";
-          format = "[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)";
-        };
-
-        time = {
-          disabled = false;
-          time_format = "%R";
-          style = "bg:peach";
-          format = "[[  $time ](fg:mantle bg:purple)]($style)";
+          style = "fg:bright-black";
+          format = "[$virtualenv]($style) ";
         };
       };
     };
