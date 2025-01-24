@@ -11,8 +11,6 @@
     coreutils
     d2
     dart
-    devbox
-    devenv
     difftastic
     docker
     docker-compose
