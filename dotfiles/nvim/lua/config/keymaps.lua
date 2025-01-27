@@ -22,6 +22,11 @@ map("n", "<S-M-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Prev
 -- Toggle whitespace characters
 map("n", "<leader>tw", ":set list!<CR>", { desc = "Toggle whitespace characters" })
 
+-- Timewarrior tracking
+map("n", "<leader>tws", ":!timew start<CR>", { desc = "Start timewarrior tracking" })
+map("n", "<leader>twx", ":!timew stop<CR>", { desc = "Stop timewarrior tracking" })
+map("n", "<leader>twc", ":!timew continue<CR>", { desc = "Continue timewarrior tracking" })
+
 -- Uppercase navigation
 map("n", "<M-w>", "/\\u\\C<CR>", { noremap = true, silent = true, desc = "Camel case forward" })
 map("n", "<M-b>", "?\\u\\C<CR>", { noremap = true, silent = true, desc = "Camel case backward" })
