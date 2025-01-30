@@ -9,12 +9,16 @@
     bzip2
     cargo
     coreutils
+    curl
     d2
     dart
     devbox
     difftastic
     docker
     docker-compose
+    duf # Disk usage
+    dust # Disk usage by folder
+    eza
     ffmpeg
     findutils
     gawk
@@ -25,6 +29,7 @@
     gnugrep
     gnupg
     gnused
+    gnutar
     go
     htop
     ipfs
@@ -36,9 +41,12 @@
     ngrok
     nixpkgs-review
     openssh
+    pueue # Shell command runner
+    qsv # CSV wrangler
     rclone
     restic
     ripgrep
+    ripsecrets # Find secrets
     rustic
     sqlite
     ssm-session-manager-plugin
@@ -50,8 +58,8 @@
     tree
     wget
     which
+    xh # Send HTTP requests
     yazi
     zip
-    gnutar
   ];
 }
