@@ -26,6 +26,9 @@
         prompt = {
           theme = "pure";
         };
+        extraConfig = ''
+          zstyle ':prompt:pure:prompt:success' color green
+        '';
       };
       initExtraFirst = '''';
       initExtra = ''
