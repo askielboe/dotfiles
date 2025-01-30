@@ -7,6 +7,7 @@
     ./modules/git.nix
     ./modules/packages.nix
     ./modules/programs.nix
+    ./modules/python.nix
     ./modules/shell.nix
     ./modules/ssh.nix
   ];
