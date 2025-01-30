@@ -39,6 +39,8 @@
     shellAliases = {
       o = "open .";
       lg = "lazygit";
+
+      # ls
       ls = "eza";
       l = "eza -l --all --group-directories-first --git";
       ll = "eza -l --all --all --group-directories-first --git";
@@ -47,6 +49,11 @@
       lT = "eza -T --git-ignore --level=4 --group-directories-first";
       he = "cd ~/.config/home-manager/ && nvim && cd -";
       hu = "cd ~/.config/home-manager/ && nix flake update && cd -";
+
+      # pueue
+      pa = "pueue add";
+      pk = "pueue kill";
+      pl = "pueue log";
     };
   };
 
