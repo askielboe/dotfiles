@@ -1,0 +1,2 @@
+daemon:
+  default_parallel_tasks: 10
