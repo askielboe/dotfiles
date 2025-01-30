@@ -36,7 +36,6 @@
     nodePackages.prettier
     nodejs
     openssh
-    python312Packages.ipython
     rclone
     restic
     ripgrep
