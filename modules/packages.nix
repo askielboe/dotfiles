@@ -16,10 +16,13 @@
     docker
     docker-compose
     ffmpeg
+    findutils
+    gawk
     gh
     git
     git-annex
     git-filter-repo
+    gnugrep
     gnupg
     gnused
     go
@@ -46,7 +49,9 @@
     transmission_4
     tree
     wget
+    which
     yazi
     zip
+    gnutar
   ];
 }
