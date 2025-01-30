@@ -9,6 +9,7 @@
     ./modules/packages.nix
     ./modules/programs.nix
     ./modules/python.nix
+    ./modules/services.nix
     ./modules/shell.nix
     ./modules/ssh.nix
   ];
