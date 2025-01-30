@@ -11,6 +11,7 @@
     coreutils
     d2
     dart
+    devbox
     difftastic
     docker
     docker-compose
@@ -43,6 +44,7 @@
     sqlite
     ssm-session-manager-plugin
     terraform
+    timewarrior
     tmux
     tor
     transmission_4
