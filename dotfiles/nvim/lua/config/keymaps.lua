@@ -9,6 +9,9 @@ map({ "n" }, "-", "/", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "æ", "0", { noremap = true, silent = true })
 map({ "n", "v", "s" }, "ø", "$", { noremap = true, silent = true })
 
+-- Sorting
+map({ "n" }, "<leader>bs", ":normal! viB<CR>:sort<CR>", { noremap = true, silent = true })
+
 -- Quit
 map({ "n" }, "qq", ":wqa<CR>", { noremap = true, silent = true })
 
