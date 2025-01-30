@@ -32,9 +32,6 @@
     neovim
     ngrok
     nixpkgs-review
-    nodePackages.npm
-    nodePackages.prettier
-    nodejs
     openssh
     rclone
     restic
