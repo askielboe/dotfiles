@@ -5,6 +5,7 @@
     ./modules/age.nix
     ./modules/file.nix
     ./modules/git.nix
+    ./modules/nodejs.nix
     ./modules/packages.nix
     ./modules/programs.nix
     ./modules/python.nix
