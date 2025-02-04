@@ -8,4 +8,5 @@ in
 {
   "anthropic.age".publicKeys = [ user ];
   "rclone.age".publicKeys = [ user ];
+  "resticprofile.age".publicKeys = [ user ];
 }
