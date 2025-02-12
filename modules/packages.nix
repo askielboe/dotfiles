@@ -12,6 +12,7 @@
     curl
     d2
     dart
+    deploy-rs
     devbox
     difftastic
     docker
