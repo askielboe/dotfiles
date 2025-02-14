@@ -32,6 +32,7 @@
     gnused
     gnutar
     go
+    hcloud
     htop
     ipfs
     jq

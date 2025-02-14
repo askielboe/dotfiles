@@ -7,6 +7,7 @@ let
 in
 {
   "anthropic.age".publicKeys = [ user ];
+  "hcloud.age".publicKeys = [ user ];
   "rclone.age".publicKeys = [ user ];
   "resticprofile.age".publicKeys = [ user ];
 }
