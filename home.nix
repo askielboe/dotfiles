@@ -34,6 +34,7 @@
       DIRENV_LOG_FORMAT = "";
       OP_ACCOUNT = "***REMOVED-SECRET***";
       ANTHROPIC_API_KEY = "$(cat ${config.age.secrets.anthropic.path})";
+      HCLOUD_TOKEN = "$(cat ${config.age.secrets.hcloud.path})";
     };
 
     shellAliases = {
