@@ -5,6 +5,7 @@
     ./modules/age.nix
     ./modules/file.nix
     ./modules/git.nix
+    ./modules/git-annex.nix
     ./modules/nodejs.nix
     ./modules/packages.nix
     ./modules/programs.nix
