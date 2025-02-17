@@ -14,6 +14,7 @@
     dart
     deploy-rs
     devbox
+    devenv
     difftastic
     docker
     docker-compose
