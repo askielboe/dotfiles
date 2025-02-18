@@ -19,8 +19,13 @@ return {
       inlay_hints = { enabled = false },
       servers = {
         pyright = {},
-        marksman = {
-          enabled = false,
+        marksman = {},
+        markdownlint = {
+          settings = {
+            MD024 = {
+              siblings_only = true
+            }
+          }
         },
       },
     },
