@@ -41,6 +41,7 @@
     shellAliases = {
       o = "open .";
       lg = "lazygit";
+      cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
 
       # ls
       ls = "eza";
