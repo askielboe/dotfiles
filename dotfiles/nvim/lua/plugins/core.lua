@@ -20,12 +20,16 @@ return {
       servers = {
         pyright = {},
         marksman = {},
+        harper_ls = {},
+      },
+    },
+  },
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters = {
         markdownlint = {
-          settings = {
-            MD024 = {
-              siblings_only = true
-            }
-          }
+          args = { "--config", "~/.markdownlint.jsonc", "--" },
         },
       },
     },
