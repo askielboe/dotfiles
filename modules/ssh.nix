@@ -47,6 +47,10 @@ in
         identitiesOnly = true;
         identityFile = "/Users/${user}/.ssh/id_ed25519-hetzner-garage.pub";
       };
+      "nix" = {
+        hostname = "135.181.34.240";
+        user = "root";
+      };
     };
   };
 }
