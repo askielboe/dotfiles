@@ -33,6 +33,7 @@
     gnused
     gnutar
     go
+    harper # Local LLM spelling language server for developers
     hcloud
     htop
     ipfs
