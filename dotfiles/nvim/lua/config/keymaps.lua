@@ -15,6 +15,20 @@ map({ "n" }, "<leader>bs", ":normal! viB<CR>:sort<CR>", { noremap = true, silent
 -- Quit
 map({ "n" }, "qq", ":wqa<CR>", { noremap = true, silent = true })
 
+-- Git browse permalink
+map({ "n", "x" }, "<leader>gP", function()
+  Snacks.gitbrowse({
+    open = function(url)
+      vim.fn.setreg(
+        "+",
+        url:match("github%.com/%w+/(.+)") -- Rmove the github.com/username/ part
+      )
+    end,
+    what = "permalink",
+    notify = false,
+  })
+end, { desc = "Git Browse (copy)" })
+
 -- Quickfix
 map("n", "<S-C-k>", vim.cmd.cprev, { noremap = true, silent = true, desc = "Next Quickfix" })
 map("n", "<S-C-j>", vim.cmd.cnext, { noremap = true, silent = true, desc = "Previous Quickfix" })
