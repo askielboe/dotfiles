@@ -50,8 +50,8 @@
       lt = "eza -T --git-ignore --level=2 --group-directories-first";
       llt = "eza -lT --git-ignore --level=2 --group-directories-first";
       lT = "eza -T --git-ignore --level=4 --group-directories-first";
-      he = "cd ~/.config/home-manager/ && nvim && cd -";
-      hu = "cd ~/.config/home-manager/ && nix flake update && cd -";
+      he = "cd ~/.config/nix/ && nvim && cd -";
+      hu = "cd ~/.config/nix/ && nix flake update && cd -";
 
       # pueue
       pa = "pueue add";

@@ -34,7 +34,7 @@
       initExtra = ''
         hs() {
           echo "home-manager switch --flake"
-          home-manager switch --flake "$HOME/.config/home-manager#askielboe"
+          home-manager switch --flake "$HOME/.config/nix#askielboe"
           exec $SHELL
         }
       '';
