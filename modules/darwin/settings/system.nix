@@ -10,13 +10,33 @@
 
         # Show all file extensions
         AppleShowAllExtensions = true;
+
+        # Enable moving window by holding anywhere on it like on Linux
+        NSWindowShouldDragOnGesture = true;
+
+        "com.apple.trackpad.forceClick" = false;
+      };
+
+      alf = {
+        # Enable firewall
+        globalstate = 1;
+
+        # Drop incoming requests via ICMP such as ping requests.
+        stealthenabled = 1;
+      };
+
+      controlcenter = {
+        BatteryShowPercentage = true;
+        Bluetooth = true;
+        Display = true;
+        FocusModes = false;
+        NowPlaying = false;
+        Sound = true;
       };
 
       dock = {
-        # Automatically hide and show the Dock
         autohide = true;
 
-        # Style options
         show-recents = false;
 
         persistent-apps = [
@@ -34,12 +54,28 @@
           { app = "/Applications/DEVONthink 3.app"; }
           { app = "/Applications/Zed.app"; }
         ];
+
+        persistent-others = [
+          "/Users/askielboe/Downloads"
+          "/Applications"
+        ];
       };
 
       finder = {
         AppleShowAllExtensions = true;
         _FXShowPosixPathInTitle = true;
+        FXRemoveOldTrashItems = true;
+        ShowExternalHardDrivesOnDesktop = false;
+        ShowRemovableMediaOnDesktop = false;
+        ShowStatusBar = true;
       };
+
+      loginwindow = {
+        GuestEnabled = false;
+        autoLoginUser = "askielboe";
+      };
+
+      menuExtraClock.ShowDate = 1;
     };
   };
 
