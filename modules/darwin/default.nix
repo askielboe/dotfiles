@@ -10,6 +10,7 @@
   imports = [
     ./settings/autostart.nix
     ./settings/homebrew.nix
+    ./settings/power.nix
     ./settings/security.nix
     ./settings/system.nix
   ];
