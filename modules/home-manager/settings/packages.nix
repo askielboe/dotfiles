@@ -45,7 +45,6 @@
     ngrok
     nixpkgs-review
     openssh
-    pueue # Shell command runner
     qsv # CSV wrangler
     rclone
     restic

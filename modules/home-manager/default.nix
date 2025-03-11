@@ -10,7 +10,6 @@
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix
-    ./settings/services.nix
     ./settings/shell.nix
     ./settings/ssh.nix
   ];
@@ -45,11 +44,6 @@
       lT = "eza -T --git-ignore --level=4 --group-directories-first";
       he = "cd ~/.config/nix/ && nvim && cd -";
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
-
-      # pueue
-      pa = "pueue add";
-      pk = "pueue kill";
-      pl = "pueue log";
     };
   };
 
