@@ -8,6 +8,7 @@
 
   imports = [
     ./settings/system.nix
+    ./settings/security.nix
     ./settings/homebrew.nix
   ];
 
