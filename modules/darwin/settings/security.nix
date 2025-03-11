@@ -1,6 +1,6 @@
 { ... }: {
   security = {
-    # Enable Touch ID for sudo
     pam.services.sudo_local.touchIdAuth = true;
+    pam.services.sudo_local.watchIdAuth = true;
   };
 }
