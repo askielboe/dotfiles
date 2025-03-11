@@ -33,8 +33,8 @@
       initExtraFirst = '''';
       initExtra = ''
         hs() {
-          echo "home-manager switch --flake"
-          home-manager switch --flake "$HOME/.config/nix#askielboe"
+          echo "darwin-rebuild switch --flake"
+          darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
           exec $SHELL
         }
       '';

@@ -2,25 +2,18 @@
 
 {
   imports = [
-    ./modules/age.nix
-    ./modules/file.nix
-    ./modules/git.nix
-    ./modules/git-annex.nix
-    ./modules/nodejs.nix
-    ./modules/packages.nix
-    ./modules/programs.nix
-    ./modules/python.nix
-    ./modules/services.nix
-    ./modules/shell.nix
-    ./modules/ssh.nix
+    ./settings/age.nix
+    ./settings/file.nix
+    ./settings/git.nix
+    ./settings/git-annex.nix
+    ./settings/nodejs.nix
+    ./settings/packages.nix
+    ./settings/programs.nix
+    ./settings/python.nix
+    ./settings/services.nix
+    ./settings/shell.nix
+    ./settings/ssh.nix
   ];
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-    };
-  };
 
   home = {
     username = "askielboe";
@@ -61,7 +54,4 @@
   };
 
   catppuccin.enable = true;
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }
