@@ -1,7 +1,8 @@
 { pkgs, ... }: {
-  # programs.zsh.enable = true;
   users.users.askielboe.home = "/Users/askielboe";
 
+  nix.gc.automatic = true;
+  nix.optimise.automatic = true;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
