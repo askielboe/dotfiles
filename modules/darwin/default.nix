@@ -10,6 +10,7 @@
     ./settings/system.nix
     ./settings/security.nix
     ./settings/homebrew.nix
+    ./settings/autostart.nix
   ];
 
   # Fix the nixbld group ID due to changes in MacOS 15
