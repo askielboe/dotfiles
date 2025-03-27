@@ -12,6 +12,7 @@
     ./settings/python.nix
     ./settings/shell.nix
     ./settings/ssh.nix
+    ./nixvim
   ];
 
   home = {

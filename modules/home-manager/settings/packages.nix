@@ -41,7 +41,6 @@
     killall
     magic-wormhole
     mas
-    neovim
     ngrok
     nixpkgs-review
     openssh
