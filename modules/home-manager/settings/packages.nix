@@ -42,6 +42,7 @@
     magic-wormhole
     mas
     ngrok
+    nixfmt-rfc-style
     nixpkgs-review
     openssh
     qsv # CSV wrangler
@@ -63,6 +64,7 @@
     which
     xh # Send HTTP requests
     yazi
+    yt-dlp
     zip
   ];
 }
