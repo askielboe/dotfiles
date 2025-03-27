@@ -33,6 +33,7 @@
       "spotify"
       "stats"
       "steam"
+      "sunsama"
       "tor-browser"
       "transmission"
       "vlc"
