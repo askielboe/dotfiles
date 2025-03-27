@@ -1,4 +1,4 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
@@ -26,14 +26,14 @@
       XDG_CONFIG_HOME = "$HOME/.config";
       DIRENV_LOG_FORMAT = "";
       OP_ACCOUNT = "***REMOVED-SECRET***";
-      ANTHROPIC_API_KEY = "$(cat ${config.age.secrets.anthropic.path})";
-      HCLOUD_TOKEN = "$(cat ${config.age.secrets.hcloud.path})";
+      ANTHROPIC_API_KEY = "op://Private/uthlrb6g3fxdc64cgu4scq4zza/API Keys/gwougl7qnnn2tnhhru2r7h6uqm";
     };
 
     shellAliases = {
       o = "open .";
       lg = "lazygit";
       cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
+      aider = "op run --no-masking aider";
 
       # ls
       ls = "eza";
