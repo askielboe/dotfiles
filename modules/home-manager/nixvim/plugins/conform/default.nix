@@ -1,8 +1,13 @@
 { pkgs, ... }:
 {
   programs.nixvim.extraPackages = with pkgs; [
-    shfmt
+    black
+    fixjson
+    nixfmt-rfc-style
     prettierd
+    shfmt
+    stylua
+    yamlfmt
   ];
   programs.nixvim.plugins.conform-nvim = {
     enable = true;
