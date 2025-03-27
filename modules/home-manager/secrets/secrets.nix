@@ -6,8 +6,6 @@ let
   user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFnR+/By643WRc+CguO23Xj8JHkxiGycAkgs5pVLa4K6";
 in
 {
-  "anthropic.age".publicKeys = [ user ];
-  "hcloud.age".publicKeys = [ user ];
   "rclone.age".publicKeys = [ user ];
   "resticprofile.age".publicKeys = [ user ];
 }
