@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 {
   programs.nixvim.extraPlugins = with pkgs.vimPlugins; [
     blink-cmp-copilot
