@@ -32,5 +32,13 @@
         desc = "Open Resume";
       };
     }
+    {
+      mode = "n";
+      key = "<leader>r";
+      action = "<CMD>lua Snacks.picker.recent()<CR>";
+      options = {
+        desc = "Open Recent";
+      };
+    }
   ];
 }
