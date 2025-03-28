@@ -2,11 +2,10 @@
   programs.nixvim.plugins.auto-save = {
     enable = true;
     settings = {
-      immediate_save = [
-        "BufLeave"
-        "FocusLost"
-      ];
-      debounce_delay = 135;
+      trigger_events = {
+        defer_save = [ ];
+      };
+      write_all_buffers = true;
     };
   };
 }
