@@ -161,20 +161,14 @@
         };
       }
 
-      # Toggle between absolute start of line and first non-blank character with 0 key
+      # Grug far
       {
         mode = "n";
-        key = "0";
-        action = ''
-          function()
-            local col = vim.fn.col(".")
-            local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
-            return (col == first_non_blank and "0" or "^")
-          end
-        '';
+        key = "<leader>sr";
+        action = "<CMD>GrugFar<CR>";
         options = {
-          expr = true;
-          desc = "Toggle between start of line and first non-blank character";
+          noremap = true;
+          silent = true;
         };
       }
     ];
