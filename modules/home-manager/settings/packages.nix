@@ -39,6 +39,7 @@
     ipfs
     jq
     killall
+    llm
     magic-wormhole
     mas
     ngrok
@@ -54,7 +55,6 @@
     rustic
     sqlite
     ssm-session-manager-plugin
-    terraform
     timewarrior
     tmux
     tor
