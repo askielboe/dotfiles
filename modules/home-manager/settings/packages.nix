@@ -1,9 +1,8 @@
-{ pkgs, agenix, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
     age
-    agenix.packages.${pkgs.system}.default
     aider-chat
     btop
     bzip2
@@ -48,12 +47,11 @@
     nixpkgs-review
     openssh
     qsv # CSV wrangler
-    rclone
     restic
-    resticprofile
     ripgrep
     ripsecrets # Find secrets
     rustic
+    sops
     sqlite
     ssm-session-manager-plugin
     timewarrior

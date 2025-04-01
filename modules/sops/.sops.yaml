@@ -1,0 +1,7 @@
+keys:
+  - &swaggermis age1uh5m84ztpajryls3yd7r7rvs5rjn2ylnwktdvrm9lkpndf2ck9zs44rhhp
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *swaggermis

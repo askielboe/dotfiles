@@ -1,8 +1,7 @@
 { pkgs, config, ... }:
-
 {
   imports = [
-    ./settings/age.nix
+    ../sops
     ./settings/file.nix
     ./settings/git.nix
     ./settings/git-annex.nix
@@ -10,6 +9,7 @@
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix
+    ./settings/rclone.nix
     ./settings/shell.nix
     ./settings/ssh.nix
     ./nixvim
