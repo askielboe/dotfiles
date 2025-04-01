@@ -8,3 +8,12 @@
    `./result/sw/bin/darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'`
 
 Based on https://github.com/lanjoni/snowflake.
+
+## Secrets
+
+Create or edit secrets using sops
+
+```bash
+cd modules/sops
+sops secrets/rclone.yaml
+```
