@@ -12,6 +12,7 @@ in
   ) [ ] (readDir by-name);
 
   programs.nixvim.plugins = {
+    grug-far.enable = true;
     lualine.enable = true;
     lz-n.enable = true;
     noice.enable = true;
