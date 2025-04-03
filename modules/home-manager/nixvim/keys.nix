@@ -66,39 +66,39 @@
         };
       }
 
-      # Navigate to previous item in quickfix list with Shift+Ctrl+k
-      {
-        mode = "n";
-        key = "<S-C-k>";
-        action = "vim.cmd.cprev";
-        options = {
-          noremap = true;
-          silent = true;
-          desc = "Next Quickfix";
-        };
-      }
-
-      # Navigate to next item in quickfix list with Shift+Ctrl+j
-      {
-        mode = "n";
-        key = "<S-C-j>";
-        action = "vim.cmd.cnext";
-        options = {
-          noremap = true;
-          silent = true;
-          desc = "Previous Quickfix";
-        };
-      }
+      # # Navigate to previous item in quickfix list with Shift+Ctrl+k
+      # {
+      #   mode = "n";
+      #   key = "<S-C-k>";
+      #   action = "vim.cmd.cprev";
+      #   options = {
+      #     noremap = true;
+      #     silent = true;
+      #     desc = "Next Quickfix";
+      #   };
+      # }
+      #
+      # # Navigate to next item in quickfix list with Shift+Ctrl+j
+      # {
+      #   mode = "n";
+      #   key = "<S-C-j>";
+      #   action = "vim.cmd.cnext";
+      #   options = {
+      #     noremap = true;
+      #     silent = true;
+      #     desc = "Previous Quickfix";
+      #   };
+      # }
 
       # Alternative mapping: Navigate to previous item in quickfix list with Shift+Alt+k
       {
         mode = "n";
         key = "<S-M-k>";
-        action = "vim.cmd.cprev";
+        action = "<CMD>cprev<CR>";
         options = {
           noremap = true;
           silent = true;
-          desc = "Next Quickfix";
+          desc = "Previous Quickfix";
         };
       }
 
@@ -106,11 +106,11 @@
       {
         mode = "n";
         key = "<S-M-j>";
-        action = "vim.cmd.cnext";
+        action = "<CMD>cnext<CR>";
         options = {
           noremap = true;
           silent = true;
-          desc = "Previous Quickfix";
+          desc = "Next Quickfix";
         };
       }
 
@@ -155,6 +155,28 @@
         mode = "n";
         key = "<c-x>";
         action = "dd";
+        options = {
+          noremap = true;
+          silent = true;
+        };
+      }
+
+      # Normal mode - move line down
+      {
+        mode = "n";
+        key = "<M-j>";
+        action = ":m .+1<CR>==";
+        options = {
+          noremap = true;
+          silent = true;
+        };
+      }
+
+      # Normal mode - move line up
+      {
+        mode = "n";
+        key = "<M-k>";
+        action = ":m .-2<CR>==";
         options = {
           noremap = true;
           silent = true;
