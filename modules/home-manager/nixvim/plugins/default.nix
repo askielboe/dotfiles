@@ -17,5 +17,6 @@ in
     lz-n.enable = true;
     noice.enable = true;
     which-key.enable = true;
+    quicker.enable = true;
   };
 }
