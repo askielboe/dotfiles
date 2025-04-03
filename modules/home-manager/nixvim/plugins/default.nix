@@ -11,12 +11,26 @@ in
     prev ++ optional (type == "directory") (by-name + "/${name}")
   ) [ ] (readDir by-name);
 
-  programs.nixvim.plugins = {
-    grug-far.enable = true;
-    lualine.enable = true;
-    lz-n.enable = true;
-    noice.enable = true;
-    which-key.enable = true;
-    quicker.enable = true;
+  programs.nixvim = {
+    plugins = {
+      grug-far.enable = true;
+      lualine.enable = true;
+      lz-n.enable = true;
+      noice.enable = true;
+      which-key.enable = true;
+      quicker.enable = true;
+    };
+    extraConfigLua = ''
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "󰅚",
+            [vim.diagnostic.severity.WARN] = "󰀦",
+            [vim.diagnostic.severity.INFO] = "󰋼",
+            [vim.diagnostic.severity.HINT] = "󰌵",
+          }
+        }
+      })
+    '';
   };
 }
