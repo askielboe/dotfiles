@@ -12,6 +12,10 @@ in
   ) [ ] (readDir by-name);
 
   programs.nixvim.plugins = {
+    alpha = {
+      enable = true;
+      theme = "dashboard";
+    };
     grug-far.enable = true;
     lualine.enable = true;
     lz-n.enable = true;
