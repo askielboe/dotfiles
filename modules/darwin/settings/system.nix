@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   system = {
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToEscape = true;
@@ -28,7 +29,6 @@
       controlcenter = {
         BatteryShowPercentage = true;
         Bluetooth = true;
-        Display = true;
         FocusModes = false;
         NowPlaying = false;
         Sound = true;
@@ -41,9 +41,10 @@
 
         persistent-apps = [
           # { app = "/System/Library/CoreServices/Finder.app"; }
+          { app = "/System/Applications/Mail.app"; }
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Brave Browser.app"; }
-          { app = "/Applications/Todoist.app"; }
+          { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
@@ -53,11 +54,6 @@
           { app = "/Applications/Spotify.app"; }
           { app = "/Applications/DEVONthink 3.app"; }
           { app = "/Applications/Zed.app"; }
-        ];
-
-        persistent-others = [
-          "/Users/askielboe/Downloads"
-          "/Applications"
         ];
       };
 
@@ -76,6 +72,40 @@
       };
 
       menuExtraClock.ShowDate = 1;
+
+      # persistent-others
+      # https://github.com/nix-darwin/nix-darwin/pull/1004#issuecomment-2440899127
+      CustomUserPreferences = {
+        # Sets Downloads folder with fan view in Dock
+        "com.apple.dock" = {
+          persistent-others = [
+            {
+              "tile-data" = {
+                "file-data" = {
+                  "_CFURLString" = "/Users/askielboe/Downloads";
+                  "_CFURLStringType" = 0;
+                };
+                "arrangement" = 2; # sorting order
+                "displayas" = 1; # 1 for fan display
+                "showas" = 1; # 1 for stack view
+              };
+              "tile-type" = "directory-tile";
+            }
+            {
+              "tile-data" = {
+                "file-data" = {
+                  "_CFURLString" = "/Applications";
+                  "_CFURLStringType" = 0;
+                };
+                "arrangement" = 2; # sorting order
+                "displayas" = 1; # 1 for fan display
+                "showas" = 1; # 1 for stack view
+              };
+              "tile-type" = "directory-tile";
+            }
+          ];
+        };
+      };
     };
   };
 
