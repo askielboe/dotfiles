@@ -36,6 +36,7 @@
     harper # Local LLM spelling language server for developers
     hcloud
     htop
+    httpie
     ipfs
     jq
     killall
