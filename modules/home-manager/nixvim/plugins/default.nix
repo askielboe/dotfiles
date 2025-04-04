@@ -17,8 +17,9 @@ in
       lualine.enable = true;
       lz-n.enable = true;
       noice.enable = true;
-      which-key.enable = true;
       quicker.enable = true;
+      trouble.enable = true;
+      which-key.enable = true;
     };
     extraConfigLua = ''
       vim.diagnostic.config({
