@@ -9,19 +9,19 @@
       prezto = {
         enable = true;
         pmodules = [
-          "environment"
-          "terminal"
-          "editor"
-          "history"
-          "directory"
-          "spectrum"
-          "utility"
+          "autosuggestions"
           "completion"
+          "directory"
+          "editor"
+          "environment"
+          "git"
+          "history"
           "history-substring-search"
           "prompt"
-          "git"
-          "autosuggestions"
+          "spectrum"
           "syntax-highlighting"
+          "terminal"
+          "utility"
         ];
         prompt = {
           theme = "pure";
