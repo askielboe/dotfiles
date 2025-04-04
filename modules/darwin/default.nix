@@ -1,11 +1,16 @@
-{ pkgs, ... }: {
-  users.users.askielboe.home = "/Users/askielboe";
+{ pkgs, ... }:
+{
+  users.users.askielboe = {
+    home = "/Users/askielboe";
+  };
 
-  nix.gc.automatic = true;
-  nix.optimise.automatic = true;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  nix = {
+    gc.automatic = true;
+    optimise.automatic = true;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   imports = [
     ./settings/autostart.nix
