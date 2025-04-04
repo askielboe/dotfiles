@@ -32,6 +32,8 @@
 
     shellAliases = {
       o = "open .";
+      ef = "e $(fzf)";
+      cf = "cd $(fzf)";
       lg = "lazygit";
       cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
       aider = "op run --no-masking aider";
