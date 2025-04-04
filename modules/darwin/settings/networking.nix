@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }: 
+{
   networking = {
     computerName = "swaggermis";
     hostName = "swaggermis";

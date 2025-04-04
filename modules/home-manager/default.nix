@@ -21,13 +21,13 @@
     stateVersion = "24.11"; # Keep this unchanged
 
     sessionVariables = {
-      VISUAL = "nvim";
-      EDITOR = "nvim";
-      PAGER = "bat";
-      XDG_CONFIG_HOME = "$HOME/.config";
-      DIRENV_LOG_FORMAT = "";
-      OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
       ANTHROPIC_API_KEY = "op://Private/uthlrb6g3fxdc64cgu4scq4zza/API Keys/gwougl7qnnn2tnhhru2r7h6uqm";
+      DIRENV_LOG_FORMAT = "";
+      EDITOR = "nvim";
+      OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
+      PAGER = "bat";
+      VISUAL = "nvim";
+      XDG_CONFIG_HOME = "$HOME/.config";
     };
 
     shellAliases = {
