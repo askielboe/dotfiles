@@ -11,6 +11,7 @@
       "appcleaner"
       "arq"
       "bitwarden"
+      "zwift"
       "brave-browser"
       "cyberduck"
       "devonthink"
