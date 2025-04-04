@@ -15,7 +15,7 @@
         lua_ls.enable = true;
         nginx_language_server.enable = true;
         postgres_lsp.enable = true;
-        pyright.enable = true;
+        flake8.enable = true;
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
         tflint.enable = true;
