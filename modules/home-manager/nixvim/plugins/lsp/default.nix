@@ -17,7 +17,10 @@
         postgres_lsp.enable = true;
         pylsp = {
           enable = true;
-          settings.pylsp.plugins.flake8.enabled = true;
+          settings = {
+            plugins.flake8.enabled = true;
+            configurationSources = "flake8";
+          };
         };
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
@@ -51,6 +54,10 @@
           "<leader>cr" = {
             action = "rename";
             desc = "Rename";
+          };
+          "<leader>ca" = {
+            action = "code_action";
+            desc = "Code action";
           };
         };
       };
