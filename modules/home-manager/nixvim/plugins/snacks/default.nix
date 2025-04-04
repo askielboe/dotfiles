@@ -1,6 +1,12 @@
 {
   programs.nixvim.plugins.snacks = {
     enable = true;
+    settings = {
+      picker = {
+        hidden = true; # Show dotfiles in explorer
+        sources.files.hidden = true; # Show dotfiles in picker
+      };
+    };
   };
   programs.nixvim.keymaps = [
     {
