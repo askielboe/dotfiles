@@ -8,11 +8,17 @@
         plugins = true;
       };
     };
+
     # Share clipboard with system
     clipboard = {
       register = "unnamedplus";
       providers.wl-copy.enable = true;
     };
+
+    diagnostics = {
+      virtual_text = true;
+    };
+
     opts = {
       number = true;
 
