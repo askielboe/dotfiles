@@ -42,6 +42,7 @@
     llm
     magic-wormhole
     mas
+    npm-check-updates
     ngrok
     nixfmt-rfc-style
     nixpkgs-review
