@@ -14,6 +14,28 @@
         };
       }
 
+      # Toggle diagnostics float with C-S-k
+      {
+        mode = "n";
+        key = "<C-S-k>";
+        action = "<CMD>lua vim.diagnostic.open_float()<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+        };
+      }
+
+      # Clear search highlighting with Esc
+      {
+        mode = "n";
+        key = "<Esc>";
+        action = "<Esc>:noh<CR>";
+        options = {
+          silent = true;
+          desc = "Clear search highlighting";
+        };
+      }
+
       # Split navigation
       {
         mode = "n";
