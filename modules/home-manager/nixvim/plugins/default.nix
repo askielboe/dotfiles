@@ -21,6 +21,7 @@ in
       trouble.enable = true;
       which-key.enable = true;
     };
+    editorconfig.enable = true;
     extraConfigLua = ''
       vim.diagnostic.config({
         signs = {
@@ -32,6 +33,23 @@ in
           }
         }
       })
+    '';
+  };
+  home.file.".editorconfig" = {
+    text = ''
+      root = true
+
+      [*]
+      charset = utf-8
+      trim_trailing_whitespace = true
+
+      [*.{sh,bash,zsh}]
+      indent_style = space
+      indent_size = 4
+
+      [Dockerfile*]
+      indent_style = space
+      indent_size = 4
     '';
   };
 }
