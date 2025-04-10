@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     age
-    aider-chat
+    aider-chat-full
     btop
     bzip2
     cargo
@@ -42,10 +42,10 @@
     llm
     magic-wormhole
     mas
-    npm-check-updates
     ngrok
     nixfmt-rfc-style
     nixpkgs-review
+    npm-check-updates
     openssh
     qsv # CSV wrangler
     restic
