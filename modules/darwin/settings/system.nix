@@ -43,7 +43,7 @@
           # { app = "/System/Library/CoreServices/Finder.app"; }
           { app = "/System/Applications/Mail.app"; }
           { app = "/System/Applications/Calendar.app"; }
-          { app = "/Applications/Brave Browser.app"; }
+          { app = "/Applications/Safari.app"; }
           { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
