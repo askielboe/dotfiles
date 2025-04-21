@@ -47,6 +47,7 @@
     nixpkgs-review
     npm-check-updates
     openssh
+    parallel
     qsv # CSV wrangler
     restic
     ripgrep
