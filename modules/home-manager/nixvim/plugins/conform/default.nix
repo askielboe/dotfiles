@@ -7,6 +7,7 @@
     prettierd
     shfmt
     stylua
+    swiftformat
     yamlfmt
   ];
   programs.nixvim.plugins.conform-nvim = {
@@ -40,6 +41,7 @@
         vue = [ "prettierd" ];
         css = [ "prettierd" ];
         scss = [ "prettierd" ];
+        swift = [ "swiftformat" ];
         html = [ "prettierd" ];
         less = [ "prettierd" ];
         jsonc = [ "prettierd" ];
