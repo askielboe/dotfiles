@@ -15,7 +15,6 @@
       "cyberduck"
       "devonthink"
       "discord"
-      "docker"
       "domzilla-caffeine"
       "ghostty"
       "jordanbaird-ice" # Hide menu bar icons

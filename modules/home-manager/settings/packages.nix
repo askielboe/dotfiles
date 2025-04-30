@@ -7,6 +7,7 @@
     btop
     bzip2
     cargo
+    colima # Container runtimes on macOS (and Linux) with minimal setup
     coreutils
     curl
     d2
