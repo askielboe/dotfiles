@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     age
-    aider-chat-full
+    # aider-chat-full # Broken: https://github.com/NixOS/nixpkgs/issues/402089
     btop
     bzip2
     cargo
