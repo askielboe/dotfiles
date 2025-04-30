@@ -15,8 +15,10 @@
       providers.wl-copy.enable = true;
     };
 
-    diagnostics = {
-      virtual_text = true;
+    diagnostic = {
+      config = {
+        virtual_text = true;
+      };
     };
 
     opts = {

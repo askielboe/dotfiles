@@ -30,8 +30,7 @@
           zstyle ':prompt:pure:prompt:success' color green
         '';
       };
-      initExtraFirst = '''';
-      initExtra = ''
+      initContent = ''
         hs() {
           echo "darwin-rebuild switch --flake"
           darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
