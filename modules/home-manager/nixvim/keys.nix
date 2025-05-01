@@ -99,31 +99,7 @@
         };
       }
 
-      # # Navigate to previous item in quickfix list with Shift+Ctrl+k
-      # {
-      #   mode = "n";
-      #   key = "<S-C-k>";
-      #   action = "vim.cmd.cprev";
-      #   options = {
-      #     noremap = true;
-      #     silent = true;
-      #     desc = "Next Quickfix";
-      #   };
-      # }
-      #
-      # # Navigate to next item in quickfix list with Shift+Ctrl+j
-      # {
-      #   mode = "n";
-      #   key = "<S-C-j>";
-      #   action = "vim.cmd.cnext";
-      #   options = {
-      #     noremap = true;
-      #     silent = true;
-      #     desc = "Previous Quickfix";
-      #   };
-      # }
-
-      # Alternative mapping: Navigate to previous item in quickfix list with Shift+Alt+k
+      # Navigate to previous item in quickfix list with Shift+Alt+k
       {
         mode = "n";
         key = "<S-M-k>";
@@ -135,7 +111,7 @@
         };
       }
 
-      # Alternative mapping: Navigate to next item in quickfix list with Shift+Alt+j
+      # Navigate to next item in quickfix list with Shift+Alt+j
       {
         mode = "n";
         key = "<S-M-j>";
@@ -175,7 +151,7 @@
       {
         mode = "x";
         key = "<C-y>";
-        action = "y'>o<Esc>p";
+        action = "y'>p";
         options = {
           noremap = true;
           silent = true;
