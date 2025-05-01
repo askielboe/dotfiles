@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     age
-    # aider-chat-full # Broken: https://github.com/NixOS/nixpkgs/issues/402089
+    aider-chat
     btop
     bzip2
     cargo
@@ -44,6 +44,8 @@
     magic-wormhole
     mas
     ngrok
+    nil
+    nixd
     nixfmt-rfc-style
     nixpkgs-review
     npm-check-updates
