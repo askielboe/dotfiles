@@ -14,6 +14,17 @@
         };
       }
 
+      # Sort in block
+      {
+        mode = "n";
+        key = "<leader>sib";
+        action = "Vi[:sort<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+        };
+      }
+
       # Toggle diagnostics float with C-S-k
       {
         mode = "n";
