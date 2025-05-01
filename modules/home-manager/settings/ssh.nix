@@ -36,11 +36,15 @@ in
         port = 54056;
         user = "paperless";
       };
+      "synology" = {
+        hostname = "192.168.1.10";
+        identitiesOnly = true;
+        user = "askielboe";
+      };
       "dobby" = {
         hostname = "192.168.1.12";
         identitiesOnly = true;
         user = "andreas";
-        identityFile = "/Users/${user}/.ssh/id_ed25519.pub";
       };
       "garage-hetzner" = {
         hostname = "49.13.75.42";
