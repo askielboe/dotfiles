@@ -52,6 +52,7 @@
     openssh
     parallel
     qsv # CSV wrangler
+    rclone
     restic
     ripgrep
     ripsecrets # Find secrets

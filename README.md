@@ -15,5 +15,5 @@ Create or edit secrets using sops
 
 ```bash
 cd modules/sops
-sops secrets/rclone.yaml
+sops secrets/restic.yaml
 ```

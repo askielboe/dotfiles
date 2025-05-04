@@ -9,7 +9,6 @@
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix
-    ./settings/rclone.nix
     ./settings/shell.nix
     ./settings/ssh.nix
     ./nixvim
