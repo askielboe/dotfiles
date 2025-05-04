@@ -46,6 +46,11 @@ in
         identitiesOnly = true;
         user = "andreas";
       };
+      "macmini" = {
+        hostname = "192.168.1.11";
+        identitiesOnly = true;
+        user = "askielboe";
+      };
       "garage-hetzner" = {
         hostname = "49.13.75.42";
         identitiesOnly = true;
