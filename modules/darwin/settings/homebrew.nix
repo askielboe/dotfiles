@@ -17,9 +17,11 @@
       "discord"
       "domzilla-caffeine"
       "ghostty"
+      "httpie"
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
       "macfuse"
+      "mimestream"
       "pocket-casts"
       "postico"
       "proxyman"
