@@ -16,6 +16,7 @@
       "devonthink"
       "discord"
       "domzilla-caffeine"
+      "firefox"
       "ghostty"
       "httpie"
       "jordanbaird-ice" # Hide menu bar icons
