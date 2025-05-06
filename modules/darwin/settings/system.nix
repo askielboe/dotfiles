@@ -40,8 +40,7 @@
         show-recents = false;
 
         persistent-apps = [
-          # { app = "/System/Library/CoreServices/Finder.app"; }
-          { app = "/System/Applications/Mail.app"; }
+          { app = "/Applications/Mimestream.app"; }
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Safari.app"; }
           { app = "/Applications/Things3.app"; }
