@@ -40,8 +40,8 @@
         show-recents = false;
 
         persistent-apps = [
-          { app = "/Applications/Mimestream.app"; }
           { app = "/System/Applications/Calendar.app"; }
+          { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Vivaldi.app"; }
           { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Messages.app"; }
