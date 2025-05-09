@@ -18,6 +18,7 @@
       "domzilla-caffeine"
       "firefox"
       "ghostty"
+      "gpxsee"
       "httpie"
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
