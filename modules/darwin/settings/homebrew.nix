@@ -22,7 +22,6 @@
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
       "macfuse"
-      "mimestream"
       "pocket-casts"
       "postico"
       "proxyman"
