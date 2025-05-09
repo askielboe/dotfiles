@@ -36,6 +36,7 @@
       "steam"
       "tor-browser"
       "transmission"
+      "vivaldi"
       "vlc"
       "zed"
       "zwift"

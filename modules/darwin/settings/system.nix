@@ -42,7 +42,7 @@
         persistent-apps = [
           { app = "/Applications/Mimestream.app"; }
           { app = "/System/Applications/Calendar.app"; }
-          { app = "/Applications/Firefox.app"; }
+          { app = "/Applications/Vivaldi.app"; }
           { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
