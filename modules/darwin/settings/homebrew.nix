@@ -33,6 +33,7 @@
       "spotify"
       "stats"
       "steam"
+      "timing"
       "tor-browser"
       "transmission"
       "vivaldi"
