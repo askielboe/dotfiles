@@ -13,6 +13,7 @@
       "arq"
       "bitwarden"
       "cyberduck"
+      "db-browser-for-sqlite"
       "devonthink"
       "discord"
       "domzilla-caffeine"
