@@ -3,9 +3,10 @@
     enable = true;
   };
   imports = [
-    ./plugins
     ./autocmd.nix
+    ./filetypes.nix
     ./keys.nix
+    ./plugins
     ./sets.nix
   ];
 }

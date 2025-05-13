@@ -3,6 +3,10 @@
     lsp-format = {
       enable = true;
     };
+    none-ls = {
+      enable = true;
+      sources.formatting.d2_fmt.enable = true;
+    };
     lsp = {
       enable = true;
       inlayHints = true;
