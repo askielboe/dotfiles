@@ -13,13 +13,13 @@ in
 
   programs.nixvim = {
     plugins = {
-      grug-far.enable = true;
-      lualine.enable = true;
-      lz-n.enable = true;
-      noice.enable = true;
-      quicker.enable = true;
-      trouble.enable = true;
-      which-key.enable = true;
+      grug-far.enable = true; # Search replace
+      lualine.enable = true; # Status line
+      lz-n.enable = true; # Lazy loading
+      noice.enable = true; # Notifications
+      quicker.enable = true; # Quick select
+      trouble.enable = true; # Diagnostics
+      which-key.enable = true; # Keymaps pop-over
     };
     editorconfig.enable = true;
     extraConfigLua = ''
