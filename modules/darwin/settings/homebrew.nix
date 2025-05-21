@@ -14,6 +14,7 @@
       "bitwarden"
       "cyberduck"
       "db-browser-for-sqlite"
+      "dbeaver-community"
       "devonthink"
       "discord"
       "domzilla-caffeine"
