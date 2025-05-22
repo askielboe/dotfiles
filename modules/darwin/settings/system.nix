@@ -1,6 +1,8 @@
 { ... }:
 {
   system = {
+    primaryUser = "askielboe";
+
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToEscape = true;
 
