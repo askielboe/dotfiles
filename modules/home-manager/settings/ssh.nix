@@ -60,6 +60,10 @@ in
         hostname = "135.181.34.240";
         user = "root";
       };
+      "simply-tm" = {
+        hostname = "linux215.unoeuro.com";
+        user = "toustrupmark.dk";
+      };
     };
   };
 }
