@@ -42,6 +42,7 @@
       "vivaldi"
       "vlc"
       "zed"
+      "zen"
       "zwift"
     ];
   };
