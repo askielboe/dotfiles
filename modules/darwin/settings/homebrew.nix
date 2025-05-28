@@ -30,7 +30,6 @@
       "proxyman"
       "raycast"
       "reactotron"
-      "readdle-spark"
       "signal"
       "slack"
       "sonos"
