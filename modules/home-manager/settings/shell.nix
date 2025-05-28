@@ -33,7 +33,7 @@
       initContent = ''
         hs() {
           echo "darwin-rebuild switch --flake"
-          darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
+          sudo darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
           exec $SHELL
         }
       '';
