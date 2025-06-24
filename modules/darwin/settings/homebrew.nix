@@ -26,6 +26,7 @@
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
       "macfuse"
+      "microsoft-teams"
       "pocket-casts"
       "postico"
       "proxyman"
