@@ -1,3 +1,8 @@
+{ pkgs, ... }:
+
+let
+  apex-jorje-lsp = import ./apex-jorje.nix { inherit pkgs; };
+in
 {
   programs.nixvim.plugins = {
     lsp-format = {
@@ -11,6 +16,15 @@
       enable = true;
       inlayHints = true;
       servers = {
+        apex_ls = {
+          enable = true;
+          package = null;
+          settings = {
+            apex_jar_path = "${apex-jorje-lsp}";
+            apex_enable_semantic_errors = false;
+            apex_enable_completion_statistics = false;
+          };
+        };
         bashls.enable = true;
         docker_compose_language_service.enable = true;
         dockerls.enable = true;
