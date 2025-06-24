@@ -2,30 +2,28 @@
 
 {
   programs = {
+    java = {
+      enable = true;
+    };
     less = {
       enable = true;
     };
-
     fzf = {
       enable = true;
       enableZshIntegration = true;
     };
-
     direnv = {
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
-
     zoxide = {
       enable = true;
       enableZshIntegration = true;
     };
-
     bat = {
       enable = true;
     };
-
     awscli = {
       enable = true;
       settings = {
@@ -36,7 +34,8 @@
       credentials = {
         "default" = {
           "region" = "eu-west-1";
-          "credential_process" = "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
+          "credential_process" =
+            "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
         };
       };
     };
