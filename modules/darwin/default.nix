@@ -18,9 +18,11 @@
   nix = {
     gc.automatic = true;
     optimise.automatic = true;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+    settings = {
+      experimental-features = "nix-command flakes";
+      extra-substituters = [ "https://devenv.cachix.org" ];
+      extra-trusted-public-keys = [ "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
+    };
   };
 
   # Fix the nixbld group ID due to changes in MacOS 15
