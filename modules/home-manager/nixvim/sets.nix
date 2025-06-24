@@ -16,7 +16,7 @@
     };
 
     diagnostic = {
-      config = {
+      settings = {
         virtual_text = true;
       };
     };
