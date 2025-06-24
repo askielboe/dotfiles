@@ -27,6 +27,8 @@
       "little-snitch"
       "macfuse"
       "microsoft-teams"
+      "notion"
+      "notion-mail"
       "pocket-casts"
       "postico"
       "proxyman"
