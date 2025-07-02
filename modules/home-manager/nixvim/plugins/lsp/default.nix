@@ -32,6 +32,7 @@ in
         eslint.enable = true;
         lua_ls.enable = true;
         nginx_language_server.enable = true;
+        phpactor.enable = true;
         postgres_lsp.enable = true;
         pylsp = {
           enable = true;
