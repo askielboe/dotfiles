@@ -47,6 +47,14 @@ in
             };
           };
         };
+        pyright = {
+          enable = true;
+          settings = {
+            python = {
+              pythonPath = "./.venv/bin/python";
+            };
+          };
+        };
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
         swift_mesonls.enable = true;
