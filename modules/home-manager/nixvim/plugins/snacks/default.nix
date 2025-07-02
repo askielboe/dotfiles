@@ -43,6 +43,14 @@
     }
     {
       mode = "n";
+      key = "<leader>sw";
+      action = "<CMD>lua Snacks.picker.grep_word()<CR>";
+      options = {
+        desc = "Open Grep Word";
+      };
+    }
+    {
+      mode = "n";
       key = "<leader><";
       action = "<CMD>lua Snacks.picker.resume()<CR>";
       options = {
