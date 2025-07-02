@@ -37,7 +37,14 @@ in
         pylsp = {
           enable = true;
           settings = {
-            plugins.ruff.enabled = true;
+            plugins = {
+              ruff = {
+                enabled = true;
+                format = [
+                  "I" # Fix imports
+                ];
+              };
+            };
           };
         };
         ruby_lsp.enable = true;
