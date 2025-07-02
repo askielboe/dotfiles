@@ -37,8 +37,7 @@ in
         pylsp = {
           enable = true;
           settings = {
-            plugins.flake8.enabled = true;
-            configurationSources = "flake8";
+            plugins.ruff.enabled = true;
           };
         };
         ruby_lsp.enable = true;
