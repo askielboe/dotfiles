@@ -38,6 +38,7 @@
     htop
     httpie
     ipfs
+    isync # IMAP sync tool
     jq
     killall
     llm
