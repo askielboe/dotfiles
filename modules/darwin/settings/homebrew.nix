@@ -13,6 +13,7 @@
       "arq"
       "asana"
       "bitwarden"
+      "claude"
       "cyberduck"
       "db-browser-for-sqlite"
       "dbeaver-community"
