@@ -21,7 +21,7 @@ in
         ".envrc"
         ".pytest_cache/"
         "devbox.*"
-        "devenv.*"
+        "cancel-release.sh"
       ];
       userName = name;
       userEmail = email;
