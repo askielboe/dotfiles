@@ -34,6 +34,7 @@
       ef = "e $(fzf)";
       cf = "cd $(fzf)";
       lg = "lazygit";
+      rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
       aider = "op run --no-masking aider";
 
