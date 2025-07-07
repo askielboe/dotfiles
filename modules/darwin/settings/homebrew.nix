@@ -25,6 +25,8 @@
       "handbrake-app"
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
+      "lobehub"
+      "macai"
       "macfuse"
       "microsoft-teams"
       "mimestream"
