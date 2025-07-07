@@ -28,6 +28,7 @@
       "little-snitch"
       "macfuse"
       "microsoft-teams"
+      "mimestream"
       "notion"
       "notion-mail"
       "pocket-casts"
