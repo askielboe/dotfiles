@@ -54,6 +54,7 @@
     qsv # CSV wrangler
     rclone
     restic
+    resticprofile
     ripgrep
     ripsecrets # Find secrets
     rustic
