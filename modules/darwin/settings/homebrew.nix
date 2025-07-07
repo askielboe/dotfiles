@@ -47,6 +47,7 @@
       "transmission"
       "vivaldi"
       "vlc"
+      "warp"
       "zed"
       "zen"
       "zwift"
