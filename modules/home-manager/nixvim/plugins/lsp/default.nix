@@ -30,6 +30,10 @@ in
         dockerls.enable = true;
         erlangls.enable = true;
         eslint.enable = true;
+        jinja_lsp = {
+          enable = true;
+          package = pkgs.jinja-lsp;
+        };
         lua_ls.enable = true;
         nginx_language_server.enable = true;
         phpactor.enable = true;
