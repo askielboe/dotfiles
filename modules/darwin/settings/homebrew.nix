@@ -22,8 +22,7 @@
       "firefox"
       "ghostty"
       "gpxsee"
-      "handbrake"
-      "httpie"
+      "handbrake-app"
       "jordanbaird-ice" # Hide menu bar icons
       "little-snitch"
       "macfuse"
