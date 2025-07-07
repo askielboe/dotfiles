@@ -2,16 +2,16 @@
 {
   imports = [
     ../sops
+    ./nixvim
     ./settings/file.nix
-    ./settings/git.nix
     ./settings/git-annex.nix
+    ./settings/git.nix
     ./settings/nodejs.nix
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix
     ./settings/ssh.nix
-    ./nixvim
   ];
 
   home = {
