@@ -2,6 +2,6 @@
 {
   power = {
     sleep.display = 15;
-    sleep.computer = 60;
+    sleep.computer = "never";
   };
 }
