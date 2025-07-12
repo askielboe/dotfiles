@@ -11,7 +11,6 @@
     coreutils
     curl
     d2
-    dart
     deploy-rs
     devbox
     devenv

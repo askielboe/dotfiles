@@ -20,14 +20,6 @@
         "com.apple.trackpad.forceClick" = false;
       };
 
-      alf = {
-        # Enable firewall
-        globalstate = 1;
-
-        # Drop incoming requests via ICMP such as ping requests.
-        stealthenabled = 1;
-      };
-
       controlcenter = {
         BatteryShowPercentage = true;
         Bluetooth = true;
