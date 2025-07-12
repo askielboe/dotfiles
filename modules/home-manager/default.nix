@@ -20,7 +20,7 @@
     stateVersion = "24.11"; # Keep this unchanged
 
     sessionVariables = {
-      ANTHROPIC_API_KEY = "${config.sops.secrets.anthropic_api_key.path}";
+      ANTHROPIC_API_KEY = "$(cat ${config.sops.secrets.anthropic_api_key.path})";
       DIRENV_LOG_FORMAT = "";
       EDITOR = "nvim";
       OP_ACCOUNT = "***REMOVED-SECRET***";
