@@ -33,7 +33,7 @@
       initContent = ''
         hs() {
           echo "darwin-rebuild switch --flake"
-          sudo darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
+          sudo -E env NIXPKGS_ALLOW_UNFREE=1 darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis' --impure
           exec $SHELL
         }
       '';
