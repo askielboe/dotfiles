@@ -7,6 +7,7 @@
     btop
     bzip2
     cargo
+    claude-code
     colima # Container runtimes on macOS (and Linux) with minimal setup
     coreutils
     curl

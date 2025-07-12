@@ -13,6 +13,7 @@ in
 
   programs.nixvim = {
     plugins = {
+      claude-code.enable = true; # AI code completion
       grug-far.enable = true; # Search replace
       lualine.enable = true; # Status line
       lz-n.enable = true; # Lazy loading
