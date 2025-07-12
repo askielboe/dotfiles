@@ -1,4 +1,4 @@
-{ ... }: 
+{ ... }:
 {
   networking = {
     computerName = "swaggermis";
@@ -11,5 +11,9 @@
       "1.1.1.1"
       "8.8.8.8"
     ];
+    applicationFirewall = {
+      enable = true;
+      enableStealthMode = true;
+    };
   };
 }
