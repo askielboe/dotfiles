@@ -36,14 +36,14 @@
         };
       }
 
-      # Clear search highlighting with Esc
+      # Clear search highlighting with Esc and close quickfix
       {
         mode = "n";
         key = "<Esc>";
-        action = "<Esc>:noh<CR>";
+        action = "<Esc>:noh<CR>:cclose<CR>";
         options = {
           silent = true;
-          desc = "Clear search highlighting";
+          desc = "Clear search highlighting and close quickfix";
         };
       }
 
