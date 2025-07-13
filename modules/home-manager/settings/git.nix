@@ -15,13 +15,14 @@ in
         "*~"
         ".DS_Store"
         ".aider*"
+        ".claude/"
         ".devenv"
         ".devenv.*"
         ".direnv"
         ".envrc"
         ".pytest_cache/"
-        "devbox.*"
         "cancel-release.sh"
+        "devbox.*"
       ];
       userName = name;
       userEmail = email;
