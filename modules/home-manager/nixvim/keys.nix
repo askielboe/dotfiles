@@ -226,6 +226,18 @@
           desc = "Toggle diagnostics";
         };
       }
+
+      # Mini picker visits
+      {
+        mode = "n";
+        key = "<leader>v";
+        action = "<CMD>lua require('mini.visits').select_path()<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Select visited path";
+        };
+      }
     ];
   };
 }
