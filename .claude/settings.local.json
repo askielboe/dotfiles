@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix flake check:*)",
+      "Bash(darwin-rebuild:*)",
+      "Bash(sudo darwin-rebuild switch:*)",
+      "Bash(NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis' --impure)",
+      "Bash(sudo:*)",
+      "Bash(hs)",
+      "WebFetch(domain:github.com)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
+}
