@@ -135,15 +135,27 @@
         };
       }
 
-      # Save and quit using qq
+      # Global write and quit with Ctrl+Q (normal mode)
       {
         mode = "n";
-        key = "<leader>qq";
+        key = "<C-q>";
         action = "<CMD>wqa<CR>";
         options = {
           noremap = true;
           silent = true;
-          desc = "Write and quit";
+          desc = "Write all and quit";
+        };
+      }
+
+      # Global write and quit with Ctrl+Q (insert mode)
+      {
+        mode = "i";
+        key = "<C-q>";
+        action = "<Esc><CMD>wqa<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Write all and quit";
         };
       }
 
