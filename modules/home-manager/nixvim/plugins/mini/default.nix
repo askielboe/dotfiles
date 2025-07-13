@@ -23,7 +23,9 @@
       jump = { };
       move = { };
       pairs = { };
+      pick = { };
       trailspace = { };
+      visits = { };
     };
   };
 }
