@@ -50,6 +50,10 @@
       # Enable cursor line highlight
       cursorline = true; # Highlight the line where the cursor is located
 
+      # Scrolling behavior - maintain context when navigating
+      scrolloff = 8; # Keep 8 lines above/below cursor for context
+      sidescrolloff = 8; # Keep 8 columns left/right of cursor for context
+
       # Set encoding type
       encoding = "utf-8";
       fileencoding = "utf-8";
