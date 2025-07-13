@@ -36,6 +36,7 @@
       "pocket-casts"
       "postico"
       "proxyman"
+      "qobuz"
       "raycast"
       "reactotron"
       "readdle-spark"
