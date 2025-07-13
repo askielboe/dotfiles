@@ -214,6 +214,18 @@
           silent = true;
         };
       }
+
+      # Trouble diagnostics
+      {
+        mode = "n";
+        key = "<leader>xx";
+        action = "<CMD>Trouble diagnostics toggle<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Toggle diagnostics";
+        };
+      }
     ];
   };
 }
