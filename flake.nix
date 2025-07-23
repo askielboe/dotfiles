@@ -84,7 +84,6 @@
           ./nixos/configuration.nix
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
-          cachix.nixosModules.cachix
           {
             home-manager = {
               useGlobalPkgs = true;
