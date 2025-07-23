@@ -21,6 +21,9 @@
 
     catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+
+    cachix.url = "github:cachix/cachix";
+    cachix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -32,6 +35,7 @@
       nix-index-database,
       nixvim,
       catppuccin,
+      cachix,
       ...
     }:
     let
@@ -80,6 +84,7 @@
           ./nixos/configuration.nix
           home-manager.nixosModules.home-manager
           sops-nix.nixosModules.sops
+          cachix.nixosModules.cachix
           {
             home-manager = {
               useGlobalPkgs = true;
