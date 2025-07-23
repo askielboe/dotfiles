@@ -19,10 +19,28 @@
     }
   '';
 
-  # Darwin-specific packages
+  # Darwin-specific packages only
   home.packages = with pkgs; [
+    # macOS-specific
     colima # Container runtimes on macOS (and Linux) with minimal setup
     mas    # Mac App Store CLI
+    
+    # Darwin-only development tools
+    cargo
+    d2
+    deploy-rs
+    gh
+    git-annex
+    git-filter-repo
+    gnupg
+    hcloud
+    ipfs
+    isync # IMAP sync tool
+    nixpkgs-review
+    ripsecrets # Find secrets
+    tor
+    transmission_4
+    yt-dlp
   ];
 
   # Import platform-agnostic modules that were previously in home-manager/default.nix
