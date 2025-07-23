@@ -35,14 +35,25 @@
       ...
     }:
     let
-      system = "aarch64-darwin";
+      darwinSystem = "aarch64-darwin";
+      linuxSystem = "x86_64-linux";
       user = "askielboe";
+      
+      homeManagerModules = [
+        sops-nix.homeManagerModules.sops
+        nix-index-database.hmModules.nix-index
+        { programs.nix-index-database.comma.enable = true; }
+        nixvim.homeManagerModules.nixvim
+        catppuccin.homeModules.catppuccin
+        ./modules/shared
+      ];
     in
     {
+      # Darwin configuration (macOS)
       darwinConfigurations.swaggermis = darwin.lib.darwinSystem {
-        inherit system;
+        system = darwinSystem;
         pkgs = import nixpkgs {
-          inherit system;
+          system = darwinSystem;
           config.allowUnfree = true;
         };
         modules = [
@@ -54,13 +65,28 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = { inherit sops-nix nixvim; };
-              users.${user}.imports = [
-                sops-nix.homeManagerModules.sops
-                nix-index-database.hmModules.nix-index
-                { programs.nix-index-database.comma.enable = true; }
-                nixvim.homeManagerModules.nixvim
-                catppuccin.homeModules.catppuccin
-                ./modules/home-manager
+              users.${user}.imports = homeManagerModules ++ [
+                ./modules/home-manager/darwin-specific.nix
+              ];
+            };
+          }
+        ];
+      };
+
+      # NixOS configuration (Linux)
+      nixosConfigurations.nixos-server = nixpkgs.lib.nixosSystem {
+        system = linuxSystem;
+        modules = [
+          ./nixos/configuration.nix
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = { inherit sops-nix nixvim; };
+              users.${user}.imports = homeManagerModules ++ [
+                ./modules/home-manager/nixos-specific.nix
               ];
             };
           }
