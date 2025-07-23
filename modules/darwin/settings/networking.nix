@@ -11,9 +11,10 @@
       "1.1.1.1"
       "8.8.8.8"
     ];
-    applicationFirewall = {
-      enable = true;
-      enableStealthMode = true;
-    };
+  };
+
+  system.defaults.alf = {
+    globalstate = 1;
+    stealthenabled = 1;
   };
 }

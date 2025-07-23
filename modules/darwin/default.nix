@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ../sops
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/homebrew.nix

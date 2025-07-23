@@ -7,7 +7,10 @@
       "Bash(NIXPKGS_ALLOW_UNFREE=1 sudo darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis' --impure)",
       "Bash(sudo:*)",
       "Bash(hs)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(./build-and-switch-linux.sh)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)"
     ]
   },
   "enableAllProjectMcpServers": false
