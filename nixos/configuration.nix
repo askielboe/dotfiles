@@ -47,6 +47,13 @@
     startWhenNeeded = false;
   };
 
+  # Networking configuration
+  networking.useDHCP = false;
+  # Enable DHCP on the primary network interface (eth0 for DigitalOcean VPS)
+  # If eth0 doesn't exist, check 'ip link' on the system and update accordingly (e.g., ens3, ens4)
+  networking.interfaces.eth0.useDHCP = true;
+  networking.hostName = "nixos-vps";
+
   # Firewall
   networking.firewall = {
     enable = true;
