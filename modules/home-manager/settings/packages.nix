@@ -14,12 +14,11 @@ in
     git
     curl
     openssh
-    tmux
     ripgrep
     eza
     btop
     unstable.claude-code
-    
+
     # Development and system tools (shared between platforms)
     age
     bzip2
@@ -63,3 +62,4 @@ in
     zip
   ];
 }
+
