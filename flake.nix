@@ -2,7 +2,8 @@
   description = "nix configuration of askielboe";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +27,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       darwin,
       nix-index-database,
@@ -60,7 +62,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit nixvim; };
+              extraSpecialArgs = { inherit nixvim nixpkgs-unstable; };
               users.${user}.imports = homeManagerModules ++ [
                 ./modules/home-manager/darwin-specific.nix
               ];
@@ -75,7 +77,7 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        extraSpecialArgs = { inherit nixvim; };
+        extraSpecialArgs = { inherit nixvim nixpkgs-unstable; };
         modules = homeManagerModules ++ [
           ./modules/home-manager
           ./modules/home-manager/linux-specific.nix

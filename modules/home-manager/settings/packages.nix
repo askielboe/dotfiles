@@ -1,4 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-unstable, ... }:
+
+let
+  unstable = import nixpkgs-unstable {
+    system = pkgs.system;
+    config.allowUnfree = true;
+  };
+in
 
 {
   # Shared packages for both Darwin and NixOS
@@ -11,7 +18,7 @@
     ripgrep
     eza
     btop
-    claude-code
+    unstable.claude-code
     
     # Development and system tools (shared between platforms)
     age
