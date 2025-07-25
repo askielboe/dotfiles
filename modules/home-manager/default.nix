@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 {
+  # Import shared home-manager settings
   imports = [
-    ../sops
     ./nixvim
     ./settings/file.nix
     ./settings/git-annex.nix
@@ -16,11 +16,9 @@
 
   home = {
     username = "askielboe";
-    homeDirectory = "/Users/askielboe";
     stateVersion = "24.11"; # Keep this unchanged
 
     sessionVariables = {
-      ANTHROPIC_API_KEY = "$(cat ${config.sops.secrets.anthropic_api_key.path})";
       DIRENV_LOG_FORMAT = "";
       EDITOR = "nvim";
       OP_ACCOUNT = "YRRGXLUXVBDZLFNOJZ6GP5ZRFA";
@@ -30,12 +28,10 @@
     };
 
     shellAliases = {
-      o = "open .";
       ef = "e $(fzf)";
       cf = "cd $(fzf)";
       lg = "lazygit";
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
-      cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
       aider = "op run --no-masking aider";
 
       # ls

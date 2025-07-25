@@ -4,6 +4,11 @@
   # Darwin-specific home directory
   home.homeDirectory = "/Users/askielboe";
 
+  # Darwin-specific config files
+  home.file = {
+    ".config/ghostty/config".source = ./dotfiles/ghostty/config;
+  };
+
   # Darwin-specific shell aliases
   home.shellAliases = {
     o = "open .";
@@ -43,14 +48,4 @@
     yt-dlp
   ];
 
-  # Import platform-agnostic modules that were previously in home-manager/default.nix
-  imports = [
-    ./settings/file.nix
-    ./settings/git-annex.nix
-    ./settings/git.nix
-    ./settings/nodejs.nix
-    ./settings/programs.nix
-    ./settings/python.nix
-    ./settings/ssh.nix
-  ];
 }

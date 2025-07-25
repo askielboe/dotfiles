@@ -30,13 +30,7 @@
           zstyle ':prompt:pure:prompt:success' color green
         '';
       };
-      initContent = ''
-        hs() {
-          echo "darwin-rebuild switch --flake"
-          sudo -E env NIXPKGS_ALLOW_UNFREE=1 darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis' --impure
-          exec $SHELL
-        }
-      '';
+      # Platform-specific shell functions will be added by platform modules
     };
   };
 }
