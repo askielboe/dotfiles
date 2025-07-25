@@ -77,23 +77,15 @@
         ];
       };
 
-      # NixOS configuration (Linux)
-      nixosConfigurations.nixos-server = nixpkgs.lib.nixosSystem {
-        system = linuxSystem;
-        modules = [
-          ./nixos/configuration.nix
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { inherit sops-nix nixvim; };
-              users.${user}.imports = homeManagerModules ++ [
-                ./modules/home-manager/nixos-specific.nix
-              ];
-            };
-          }
+      # Home-manager standalone configuration for Ubuntu/Linux
+      homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = linuxSystem;
+          config.allowUnfree = true;
+        };
+        extraSpecialArgs = { inherit sops-nix nixvim; };
+        modules = homeManagerModules ++ [
+          ./modules/home-manager/linux-specific.nix
         ];
       };
     };
