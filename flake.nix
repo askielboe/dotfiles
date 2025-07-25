@@ -54,7 +54,7 @@
     in
     {
       # Darwin configuration (macOS)
-      darwinConfigurations.swaggermis = darwin.lib.darwinSystem {
+      darwinConfigurations.${user} = darwin.lib.darwinSystem {
         system = darwinSystem;
         pkgs = import nixpkgs {
           system = darwinSystem;

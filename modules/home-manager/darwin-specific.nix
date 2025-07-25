@@ -14,7 +14,7 @@
   programs.zsh.initContent = ''
     hs() {
       echo "darwin-rebuild switch --flake"
-      sudo darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'
+      sudo darwin-rebuild switch --flake ~/.config/nix/'.#askielboe'
       exec $SHELL
     }
   '';

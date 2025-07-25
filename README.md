@@ -4,10 +4,14 @@
 
 0. Clone this repo to `/Users/askielboe/.config/nix`
 1. Install `nix`
+2. Build and switch using the provided script:
+   `./build-and-switch-darwin.sh`
+
+Alternative manual steps:
 2. Build derivation
-   `nix --extra-experimental-features "nix-command flakes" build '.#darwinConfigurations.swaggermis.system'`
+   `nix --extra-experimental-features "nix-command flakes" build '.#darwinConfigurations.askielboe.system'`
 3. Switch
-   `./result/sw/bin/darwin-rebuild switch --flake ~/.config/nix/'.#swaggermis'`
+   `./result/sw/bin/darwin-rebuild switch --flake ~/.config/nix/'.#askielboe'`
 
 ## Ubuntu/Linux Setup
 
@@ -15,7 +19,7 @@
 1. Install `nix` 
 2. Install `home-manager`
 3. Build and switch using the provided script:
-   `./build-and-switch-home.sh`
+   `./build-and-switch-linux.sh`
 
 Alternative manual steps:
 2. Build derivation
