@@ -15,6 +15,17 @@
     cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
   };
 
+  # Darwin-specific SSH configuration
+  programs.ssh.matchBlocks = {
+    "*".extraOptions = {
+      IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+    };
+    "github.com".identityFile = "~/.ssh/id_ed25519-github.pub";
+    "flextribe".identityFile = "~/.ssh/id_ed25519_flextribe.pub";
+    "storagebox-restic".identityFile = "~/.ssh/id_ed25519-storagebox.pub";
+    "garage-hetzner".identityFile = "~/.ssh/id_ed25519-hetzner-garage.pub";
+  };
+
   # Darwin-specific shell configuration
   programs.zsh.initContent = ''
     hs() {
@@ -28,8 +39,8 @@
   home.packages = with pkgs; [
     # macOS-specific
     colima # Container runtimes on macOS (and Linux) with minimal setup
-    mas    # Mac App Store CLI
-    
+    mas # Mac App Store CLI
+
     # Darwin-only development tools
     cargo
     d2
@@ -49,3 +60,4 @@
   ];
 
 }
+
