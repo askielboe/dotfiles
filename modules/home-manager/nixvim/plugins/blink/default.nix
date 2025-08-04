@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   programs.nixvim.extraPlugins = with pkgs.vimPlugins; [
-    blink-cmp-copilot
     blink-ripgrep-nvim
   ];
 
@@ -10,12 +9,7 @@
   ];
 
   programs.nixvim.plugins = {
-    blink-cmp-copilot.enable = true;
-    blink-cmp-dictionary.enable = true;
-    blink-cmp-spell.enable = true;
-    blink-copilot.enable = true;
     blink-cmp-git.enable = true;
-    blink-emoji.enable = true;
     blink-ripgrep.enable = true;
     blink-cmp = {
       enable = true;
@@ -36,11 +30,7 @@
             "path"
             "snippets"
             # Community
-            "copilot"
-            "dictionary"
-            "emoji"
             "git"
-            "spell"
             "ripgrep"
           ];
           providers = {
@@ -49,28 +39,7 @@
               module = "blink-ripgrep";
               score_offset = 1;
             };
-            dictionary = {
-              name = "Dict";
-              module = "blink-cmp-dictionary";
-              min_keyword_length = 3;
-            };
-            emoji = {
-              name = "Emoji";
-              module = "blink-emoji";
-              score_offset = 1;
-            };
-            copilot = {
-              name = "copilot";
-              module = "blink-copilot";
-              async = true;
-              score_offset = 100;
-            };
             lsp.score_offset = 4;
-            spell = {
-              name = "Spell";
-              module = "blink-cmp-spell";
-              score_offset = 1;
-            };
             git = {
               module = "blink-cmp-git";
               name = "git";
@@ -149,14 +118,14 @@
             show_in_snippet = false;
           };
           documentation = {
-            auto_show = true;
+            auto_show = false;
             window = {
               border = "single";
             };
           };
           accept = {
             auto_brackets = {
-              enabled = false;
+              enabled = true;
             };
           };
         };
