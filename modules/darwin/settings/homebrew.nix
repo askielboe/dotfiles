@@ -48,6 +48,7 @@
       "steam"
       "timing"
       "tor-browser"
+      "trainerroad"
       "transmission"
       "vivaldi"
       "vlc"
