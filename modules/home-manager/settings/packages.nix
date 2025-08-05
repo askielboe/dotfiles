@@ -8,21 +8,12 @@ let
 in
 
 {
-  # Shared packages for both Darwin and NixOS
   home.packages = with pkgs; [
-    # Essential tools
-    git
-    curl
-    openssh
-    ripgrep
-    eza
-    btop
-    unstable.claude-code
-
-    # Development and system tools (shared between platforms)
     age
+    btop
     bzip2
     coreutils
+    curl
     devbox
     devenv
     difftastic
@@ -30,9 +21,11 @@ in
     docker-compose
     duf # Disk usage
     dust # Disk usage by folder
+    eza # ls replacement
     ffmpeg
     findutils
     gawk
+    git
     gnugrep
     gnused
     gnutar
@@ -47,19 +40,21 @@ in
     nixd
     nixfmt-rfc-style
     npm-check-updates
+    openssh
     parallel
     qsv # CSV wrangler
     rclone
     restic
     resticprofile
+    ripgrep
     sqlite
     ssm-session-manager-plugin
     timewarrior
     tree
+    unstable.claude-code
     wget
     which
     yazi
     zip
   ];
 }
-
