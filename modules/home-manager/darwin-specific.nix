@@ -38,12 +38,8 @@
 
   # Darwin-specific packages only
   home.packages = with pkgs; [
-    # macOS-specific
-    colima # Container runtimes on macOS (and Linux) with minimal setup
-    mas # Mac App Store CLI
-
-    # Darwin-only development tools
     cargo
+    colima # Container runtimes (docker) on macOS (and Linux) with minimal setup
     d2
     deploy-rs
     gh
@@ -53,12 +49,12 @@
     hcloud
     ipfs
     isync # IMAP sync tool
+    mas # Mac App Store CLI
     nixpkgs-review
+    openai-whisper
     ripsecrets # Find secrets
-    tor
     transmission_4
     yt-dlp
   ];
 
 }
-
