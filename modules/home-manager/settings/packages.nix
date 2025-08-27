@@ -32,6 +32,7 @@ in
     go
     htop
     httpie
+    hugo
     jq
     killall
     magic-wormhole
