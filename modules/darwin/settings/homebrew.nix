@@ -45,6 +45,7 @@
       "spotify"
       "stats"
       "steam"
+      "sunsama"
       "timing"
       "tor-browser"
       "trainerroad"
