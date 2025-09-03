@@ -22,6 +22,7 @@ in
     duf # Disk usage
     dust # Disk usage by folder
     eza # ls replacement
+    fasttext # Language detection for Language Tool
     ffmpeg
     findutils
     gawk
@@ -35,6 +36,7 @@ in
     hugo
     jq
     killall
+    languagetool
     magic-wormhole
     ngrok
     nil
