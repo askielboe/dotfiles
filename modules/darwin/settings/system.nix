@@ -45,7 +45,7 @@
           { app = "/Applications/Ghostty.app"; }
           { app = "/Applications/1Password.app"; }
           { app = "/Applications/Bear.app"; }
-          { app = "/Applications/Spotify.app"; }
+          { app = "/Applications/Qobuz.app"; }
           { app = "/Applications/DEVONthink 3.app"; }
           { app = "/Applications/Zed.app"; }
         ];
