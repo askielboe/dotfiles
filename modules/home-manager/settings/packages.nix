@@ -35,7 +35,9 @@ in
     httpie
     hugo
     jq
+    k9s
     killall
+    kubectl
     languagetool
     magic-wormhole
     ngrok

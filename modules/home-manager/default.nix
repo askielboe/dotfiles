@@ -27,6 +27,7 @@
       PAGER = "bat";
       VISUAL = "nvim";
       XDG_CONFIG_HOME = "$HOME/.config";
+      KUBECONFIG = "$HOME/.kube/k3s.yaml";
     };
 
     shellAliases = {
@@ -50,3 +51,4 @@
 
   catppuccin.enable = true;
 }
+
