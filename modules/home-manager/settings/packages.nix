@@ -38,8 +38,10 @@ in
     k9s
     killall
     kubectl
+    kubernetes-helm
     languagetool
     magic-wormhole
+    mariadb
     ngrok
     nil
     nixd
@@ -59,6 +61,7 @@ in
     unstable.claude-code
     wget
     which
+    xh # Rust re-write of httpie
     yazi
     zip
   ];
