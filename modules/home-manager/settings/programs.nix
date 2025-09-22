@@ -30,12 +30,18 @@
         "default" = {
           region = "eu-west-1";
         };
+        "motosumo-ms" = {
+          region = "eu-central-1";
+        };
       };
       credentials = {
         "default" = {
-          "region" = "eu-west-1";
-          "credential_process" =
-            "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
+          region = "eu-west-1";
+          credential_process = "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
+        };
+        "motosumo-ms" = {
+          region = "eu-central-1";
+          credential_process = "/opt/homebrew/bin/op read 'op://Private/qwm6obmd4fb4ijz3mr2qfvcajm/password'";
         };
       };
     };
