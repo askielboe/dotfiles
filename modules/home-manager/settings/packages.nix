@@ -14,6 +14,7 @@ in
     bzip2
     coreutils
     curl
+    dbt
     devbox
     devenv
     difftastic
@@ -49,16 +50,20 @@ in
     npm-check-updates
     openssh
     parallel
+    postgresql
     qsv # CSV wrangler
     rclone
     restic
     resticprofile
     ripgrep
+    ruff
     sqlite
     ssm-session-manager-plugin
+    terraform
     timewarrior
     tree
     unstable.claude-code
+    uv
     wget
     which
     xh # Rust re-write of httpie
