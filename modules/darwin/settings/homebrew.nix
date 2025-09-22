@@ -23,6 +23,7 @@
       "domzilla-caffeine"
       "firefox"
       "ghostty"
+      "gitbutler"
       "gpxsee"
       "handbrake-app"
       "jordanbaird-ice" # Hide menu bar icons
