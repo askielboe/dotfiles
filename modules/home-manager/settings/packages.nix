@@ -57,6 +57,7 @@ in
     resticprofile
     ripgrep
     ruff
+    sqlfluff # SQL linter and formatter
     sqlite
     ssm-session-manager-plugin
     terraform
