@@ -263,14 +263,16 @@
           desc = "Multicursors: Select pattern";
         };
       }
+
+      # Oil
       {
-        mode = "v";
-        key = "<c-a>";
-        action = "<CMD>MCvisual<CR>";
+        mode = "n";
+        key = "<leader>o";
+        action = "<CMD>Oil<CR>";
         options = {
           noremap = true;
           silent = true;
-          desc = "Multicursors: Select visual selection";
+          desc = "Oil: Open parent directory";
         };
       }
     ];
