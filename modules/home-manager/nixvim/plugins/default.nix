@@ -19,6 +19,7 @@ in
       lz-n.enable = true; # Lazy loading
       multicursors.enable = true;
       noice.enable = true; # Notifications
+      oil.enable = true;
       quicker.enable = true; # Quick select
       trouble.enable = true; # Diagnostics
       which-key.enable = true; # Keymaps pop-over
