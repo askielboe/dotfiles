@@ -10,7 +10,31 @@ in
     };
     none-ls = {
       enable = true;
-      sources.formatting.d2_fmt.enable = true;
+      sources = {
+        diagnostics = {
+          sqlfluff = {
+            enable = true;
+            settings = {
+              extra_args = [
+                "--dialect"
+                "postgres"
+              ];
+            };
+          };
+        };
+        formatting = {
+          d2_fmt.enable = true;
+          sqlfluff = {
+            enable = true;
+            settings = {
+              extra_args = [
+                "--dialect"
+                "postgres"
+              ];
+            };
+          };
+        };
+      };
     };
     lsp = {
       enable = true;
