@@ -17,6 +17,7 @@ in
       grug-far.enable = true; # Search replace
       lualine.enable = true; # Status line
       lz-n.enable = true; # Lazy loading
+      multicursors.enable = true;
       noice.enable = true; # Notifications
       quicker.enable = true; # Quick select
       trouble.enable = true; # Diagnostics

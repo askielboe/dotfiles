@@ -238,6 +238,41 @@
           desc = "Select visited path";
         };
       }
+
+      # Multicursors
+      {
+        mode = [
+          "n"
+          "v"
+        ];
+        key = "<c-a>";
+        action = "<CMD>MCstart<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Multicursors: Select word under cursor";
+        };
+      }
+      {
+        mode = "n";
+        key = "<c-M-a>";
+        action = "<CMD>MCpattern<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Multicursors: Select pattern";
+        };
+      }
+      {
+        mode = "v";
+        key = "<c-a>";
+        action = "<CMD>MCvisual<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Multicursors: Select visual selection";
+        };
+      }
     ];
   };
 }
