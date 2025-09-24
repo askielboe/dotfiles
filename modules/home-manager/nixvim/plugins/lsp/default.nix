@@ -88,7 +88,6 @@ in
         swift_mesonls.enable = true;
         tflint.enable = true;
         ts_ls.enable = true;
-        yamlls.enable = true;
       };
       keymaps = {
         silent = true;
