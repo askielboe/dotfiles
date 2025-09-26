@@ -3,7 +3,13 @@
     enable = true;
     settings = {
       trigger_events = {
-        defer_save = [ ];
+        immediate_save = [
+          "BufLeave"
+          "FocusLost"
+        ];
+        cancel_deferred_save = [
+          "InsertLeave"
+        ];
       };
       write_all_buffers = true;
     };
