@@ -15,7 +15,7 @@
 
     lazyLoad.settings = {
       cmd = [ "ConformInfo" ];
-      event = [ "BufWrite" ];
+      event = [ "BufWrite" "User AutoSaveWritePre" ];
     };
 
     settings = {

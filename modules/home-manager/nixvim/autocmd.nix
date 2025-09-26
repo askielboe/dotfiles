@@ -47,5 +47,12 @@
       ];
       command = "startinsert | 1";
     }
+
+    # Format before auto-save
+    {
+      event = "User";
+      pattern = "AutoSaveWritePre";
+      command = "lua require('conform').format({ async = false })";
+    }
   ];
 }
