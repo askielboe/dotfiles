@@ -67,6 +67,7 @@ in
     timewarrior
     tree
     unstable.claude-code
+    unstable.cursor-cli
     uv
     wget
     which
