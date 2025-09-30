@@ -19,9 +19,6 @@
 
     catppuccin.url = "github:catppuccin/nix/release-25.05";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
-
-    cachix.url = "github:cachix/cachix";
-    cachix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
