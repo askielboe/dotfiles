@@ -31,7 +31,17 @@ in
         nginx_language_server.enable = true;
         phpactor.enable = true;
         postgres_lsp.enable = true;
-        pyright.enable = true;
+        pyright = {
+          enable = true;
+          settings = {
+            python = {
+              analysis = {
+                diagnosticMode = "workspace";
+              };
+              pythonPath = ".venv/bin/python";
+            };
+          };
+        };
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
         swift_mesonls.enable = true;
