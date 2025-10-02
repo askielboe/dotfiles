@@ -6,6 +6,7 @@
     ./settings/homebrew.nix
     ./settings/networking.nix
     ./settings/power.nix
+    ./settings/resticprofile.nix
     ./settings/security.nix
     ./settings/system.nix
   ];
