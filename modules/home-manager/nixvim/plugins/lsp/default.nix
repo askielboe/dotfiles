@@ -5,37 +5,6 @@ let
 in
 {
   programs.nixvim.plugins = {
-    lsp-format = {
-      enable = true;
-    };
-    none-ls = {
-      enable = true;
-      sources = {
-        diagnostics = {
-          sqlfluff = {
-            enable = true;
-            settings = {
-              extra_args = [
-                "--dialect"
-                "postgres"
-              ];
-            };
-          };
-        };
-        formatting = {
-          d2_fmt.enable = true;
-          sqlfluff = {
-            enable = true;
-            settings = {
-              extra_args = [
-                "--dialect"
-                "postgres"
-              ];
-            };
-          };
-        };
-      };
-    };
     lsp = {
       enable = true;
       inlayHints = true;
@@ -62,27 +31,7 @@ in
         nginx_language_server.enable = true;
         phpactor.enable = true;
         postgres_lsp.enable = true;
-        pylsp = {
-          enable = true;
-          settings = {
-            plugins = {
-              ruff = {
-                enabled = true;
-                format = [
-                  "I" # Fix imports
-                ];
-              };
-            };
-          };
-        };
-        pyright = {
-          enable = true;
-          settings = {
-            python = {
-              pythonPath = "./.venv/bin/python";
-            };
-          };
-        };
+        pyright.enable = true;
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
         swift_mesonls.enable = true;

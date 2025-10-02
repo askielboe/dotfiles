@@ -1,6 +1,37 @@
+{ pkgs, ... }:
 {
   programs.nixvim = {
     enable = true;
+
+    extraPackages = with pkgs; [
+      # Formatting
+      ruff
+      fixjson
+      nixfmt-rfc-style
+      prettierd
+      shfmt
+      stylua
+      swiftformat
+      yamlfmt
+
+      # Linting
+      checkmake
+      deadnix
+      eslint_d
+      hadolint
+      luaPackages.luacheck
+      markdownlint-cli
+      nodePackages.htmlhint
+      nodePackages.jsonlint
+      shellcheck
+      sqlfluff
+      statix
+      stylelint
+      yamllint
+
+      # Other
+      gh # blink
+    ];
   };
   imports = [
     ./autocmd.nix

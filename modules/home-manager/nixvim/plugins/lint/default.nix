@@ -1,4 +1,3 @@
-{ lib, pkgs, ... }:
 {
   programs.nixvim.plugins = {
     lint = {
@@ -8,57 +7,24 @@
 
       lintersByFt = {
         bash = [ "shellcheck" ];
+        css = [ "stylelint" ];
+        dockerfile = [ "hadolint" ];
         fish = [ "fish" ];
         go = [ "golangcilint" ];
+        html = [ "htmlhint" ];
+        javascript = [ "eslint_d" ];
+        javascriptreact = [ "eslint_d" ];
         json = [ "jsonlint" ];
         lua = [ "luacheck" ];
+        makefile = [ "checkmake" ];
         markdown = [ "markdownlint" ];
-        nix = [
-          "deadnix"
-          "nix"
-          "statix"
-        ];
+        nix = [ "deadnix" "nix" "statix" ];
+        python = [ "ruff" ];
         sh = [ "shellcheck" ];
+        sql = [ "sqlfluff" ];
+        typescript = [ "eslint_d" ];
+        typescriptreact = [ "eslint_d" ];
         yaml = [ "yamllint" ];
-      };
-
-      linters = {
-        checkmake = {
-          cmd = lib.getExe pkgs.checkmake;
-        };
-        deadnix = {
-          cmd = lib.getExe pkgs.deadnix;
-        };
-        fish = {
-          cmd = lib.getExe pkgs.fish;
-        };
-        golangcilint = {
-          cmd = lib.getExe pkgs.golangci-lint;
-        };
-        jsonlint = {
-          cmd = lib.getExe pkgs.nodePackages.jsonlint;
-        };
-        luacheck = {
-          cmd = lib.getExe pkgs.luaPackages.luacheck;
-        };
-        markdownlint = {
-          cmd = lib.getExe pkgs.markdownlint-cli;
-        };
-        pylint = {
-          cmd = lib.getExe pkgs.pylint;
-        };
-        shellcheck = {
-          cmd = lib.getExe pkgs.shellcheck;
-        };
-        sqlfluff = {
-          cmd = lib.getExe pkgs.sqlfluff;
-        };
-        statix = {
-          cmd = lib.getExe pkgs.statix;
-        };
-        yamllint = {
-          cmd = lib.getExe pkgs.yamllint;
-        };
       };
     };
   };

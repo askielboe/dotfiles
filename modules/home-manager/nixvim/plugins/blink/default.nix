@@ -4,10 +4,6 @@
     blink-ripgrep-nvim
   ];
 
-  programs.nixvim.extraPackages = with pkgs; [
-    gh
-  ];
-
   programs.nixvim.plugins = {
     blink-cmp-git.enable = true;
     blink-ripgrep.enable = true;
