@@ -1,15 +1,4 @@
-{ pkgs, ... }:
 {
-  programs.nixvim.extraPackages = with pkgs; [
-    black
-    fixjson
-    nixfmt-rfc-style
-    prettierd
-    shfmt
-    stylua
-    swiftformat
-    yamlfmt
-  ];
   programs.nixvim.plugins.conform-nvim = {
     enable = true;
 
@@ -28,7 +17,7 @@
       };
 
       formatters_by_ft = {
-        python = [ "black" ];
+        python = [ "ruff_format" "ruff_organize_imports" ];
         lua = [ "stylua" ];
         nix = [ "nixfmt" ];
         markdown = [ "prettierd" ];
