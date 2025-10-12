@@ -36,6 +36,7 @@
         vue = [ "prettierd" ];
         css = [ "prettierd" ];
         scss = [ "prettierd" ];
+        sql = [ "sqlfmt" ];
         swift = [ "swiftformat" ];
         html = [ "prettierd" ];
         less = [ "prettierd" ];

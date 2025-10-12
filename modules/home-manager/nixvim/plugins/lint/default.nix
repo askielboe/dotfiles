@@ -21,7 +21,6 @@
         nix = [ "deadnix" "nix" "statix" ];
         python = [ "ruff" ];
         sh = [ "shellcheck" ];
-        sql = [ "sqlfluff" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
         yaml = [ "yamllint" ];
