@@ -9,6 +9,7 @@
       fixjson
       nixfmt-rfc-style
       prettierd
+      python313Packages.sqlfmt
       shfmt
       stylua
       swiftformat
@@ -24,7 +25,6 @@
       nodePackages.htmlhint
       nodePackages.jsonlint
       shellcheck
-      sqlfluff
       statix
       stylelint
       yamllint
