@@ -4,7 +4,10 @@
 
     lazyLoad.settings = {
       cmd = [ "ConformInfo" ];
-      event = [ "BufWrite" "User AutoSaveWritePre" ];
+      event = [
+        "BufWrite"
+        "User AutoSaveWritePre"
+      ];
     };
 
     settings = {
@@ -12,12 +15,15 @@
         lsp_format = "fallback";
       };
 
-      format_on_save = {
-        timeout_ms = 500;
+      format_after_save = {
+        async = true;
       };
 
       formatters_by_ft = {
-        python = [ "ruff_format" "ruff_organize_imports" ];
+        python = [
+          "ruff_format"
+          "ruff_organize_imports"
+        ];
         lua = [ "stylua" ];
         nix = [ "nixfmt" ];
         markdown = [ "prettierd" ];
