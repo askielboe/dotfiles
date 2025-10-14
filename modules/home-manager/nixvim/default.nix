@@ -5,11 +5,11 @@
 
     extraPackages = with pkgs; [
       # Formatting
-      ruff
       fixjson
       nixfmt-rfc-style
       prettierd
       python313Packages.sqlfmt
+      ruff
       shfmt
       stylua
       swiftformat

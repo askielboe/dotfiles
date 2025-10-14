@@ -6,7 +6,6 @@
       lazyLoad.settings.event = "DeferredUIEnter";
 
       lintersByFt = {
-        bash = [ "shellcheck" ];
         css = [ "stylelint" ];
         dockerfile = [ "hadolint" ];
         fish = [ "fish" ];
@@ -17,13 +16,14 @@
         json = [ "jsonlint" ];
         lua = [ "luacheck" ];
         makefile = [ "checkmake" ];
-        markdown = [ "markdownlint" ];
-        nix = [ "deadnix" "nix" "statix" ];
+        nix = [
+          "deadnix"
+          "nix"
+          "statix"
+        ];
         python = [ "ruff" ];
-        sh = [ "shellcheck" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
-        yaml = [ "yamllint" ];
       };
     };
   };
