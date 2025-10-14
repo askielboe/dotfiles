@@ -48,6 +48,10 @@ in
         StandardOutPath = "/Users/askielboe/.config/restic/home-storagebox.log";
         StandardErrorPath = "/Users/askielboe/.config/restic/home-storagebox.log";
         ProcessType = "Background";
+        TimeOut = 1200;
+        EnvironmentVariables = {
+          SSH_AUTH_SOCK = "/Users/askielboe/Library/Group Containers/2BUA8C4S2C.com.1passwordb3/t/agent.sock";
+        };
       };
     };
 
@@ -65,6 +69,7 @@ in
         StandardOutPath = "/Users/askielboe/.config/restic/home-motosumo-gdrive.log";
         StandardErrorPath = "/Users/askielboe/.config/restic/home-motosumo-gdrive.log";
         ProcessType = "Background";
+        TimeOut = 1200;
       };
     };
 
@@ -82,6 +87,7 @@ in
         StandardOutPath = "/Users/askielboe/.config/restic/home-onedrive.log";
         StandardErrorPath = "/Users/askielboe/.config/restic/home-onedrive.log";
         ProcessType = "Background";
+        TimeOut = 1200;
       };
     };
   };
