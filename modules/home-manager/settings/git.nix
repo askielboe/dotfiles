@@ -21,8 +21,10 @@ in
         ".direnv"
         ".envrc"
         ".pytest_cache/"
+        "cache.sh"
         "cancel-release.sh"
         "devbox.*"
+        "upgrade-dependency.sh"
       ];
       userName = name;
       userEmail = email;
