@@ -10,6 +10,7 @@ in
 {
   home.packages = with pkgs; [
     age
+    aichat
     btop
     bzip2
     coreutils
