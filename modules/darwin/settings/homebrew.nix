@@ -15,6 +15,7 @@
       "bruno"
       "chatgpt"
       "claude"
+      "creative"
       "cyberduck"
       "db-browser-for-sqlite"
       "dbeaver-community"
