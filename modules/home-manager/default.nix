@@ -36,6 +36,7 @@
       lg = "lazygit";
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       aider = "op run --no-masking aider";
+      ai = "aichat -e";
 
       # ls
       ls = "eza";
