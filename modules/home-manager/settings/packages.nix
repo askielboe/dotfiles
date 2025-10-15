@@ -5,8 +5,6 @@ let
     system = pkgs.system;
     config.allowUnfree = true;
   };
-
-  pay-respects-with-ai = pkgs.callPackage ../../../pkgs/pay-respects.nix { };
 in
 
 {
@@ -52,7 +50,6 @@ in
     npm-check-updates
     openssh
     parallel
-    pay-respects-with-ai
     postgresql
     qsv # CSV wrangler
     rclone
