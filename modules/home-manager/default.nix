@@ -28,6 +28,7 @@
       VISUAL = "nvim";
       XDG_CONFIG_HOME = "$HOME/.config";
       KUBECONFIG = "$HOME/.kube/k3s.yaml";
+      YARN_CACHE_FOLDER = "$HOME/.cache/yarn-global";
     };
 
     shellAliases = {

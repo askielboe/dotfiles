@@ -24,6 +24,14 @@
     bat = {
       enable = true;
     };
+    yarn = {
+      enable = true;
+      settings = {
+        enableGlobalCache = false;
+        compressionLevel = 0;
+        nmMode = "hardlinks-local";
+      };
+    };
     awscli = {
       enable = true;
       settings = {
