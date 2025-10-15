@@ -23,7 +23,6 @@ in
     duf # Disk usage
     dust # Disk usage by folder
     eza # ls replacement
-    fasttext # Language detection for Language Tool
     ffmpeg
     findutils
     gawk
@@ -40,7 +39,6 @@ in
     killall
     kubectl
     kubernetes-helm
-    languagetool
     magic-wormhole
     mariadb
     ngrok

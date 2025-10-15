@@ -6,7 +6,6 @@
     ./settings/file.nix
     ./settings/git-annex.nix
     ./settings/git.nix
-    ./settings/languagetool.nix
     ./settings/nodejs.nix
     ./settings/packages.nix
     ./settings/programs.nix
@@ -52,4 +51,3 @@
 
   catppuccin.enable = true;
 }
-

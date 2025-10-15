@@ -28,7 +28,6 @@
       "gpxsee"
       "handbrake-app"
       "jordanbaird-ice" # Hide menu bar icons
-      "languagetool-desktop"
       "little-snitch"
       "macfuse"
       "microsoft-teams"
