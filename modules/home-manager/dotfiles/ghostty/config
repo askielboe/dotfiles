@@ -44,6 +44,5 @@ shell-integration-features = cursor,sudo,title
 clipboard-paste-protection = false
 clipboard-paste-bracketed-safe = false
 
-# Optimized for Claude Code workflows
-scrollback-limit = 100000
+scrollback-limit = 10000000
 mouse-hide-while-typing = true
