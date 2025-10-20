@@ -47,7 +47,16 @@ in
         swift_mesonls.enable = true;
         tflint.enable = true;
         ts_ls.enable = true;
-        yamlls.enable = true;
+        yamlls = {
+          enable = true;
+          settings = {
+            yaml = {
+              schemas = {
+                "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json" = "models/**/schema.yml";
+              };
+            };
+          };
+        };
       };
       keymaps = {
         silent = true;
