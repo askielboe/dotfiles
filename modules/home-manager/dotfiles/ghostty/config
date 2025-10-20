@@ -14,7 +14,7 @@ font-size = 15
 macos-option-as-alt = true
 keybind = alt+8=text:[
 keybind = alt+9=text:]
-keybind = shift+alt+slash=text:\\
+keybind = shift+alt+7=text:\\
 keybind = shift+alt+8=text:{
 keybind = shift+alt+9=text:}
 keybind = alt+¨=text:~
