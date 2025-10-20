@@ -17,6 +17,7 @@
 
       format_after_save = {
         async = true;
+        on_enter = false;
       };
 
       formatters_by_ft = {
