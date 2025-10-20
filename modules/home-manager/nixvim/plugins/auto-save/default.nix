@@ -4,13 +4,13 @@
     settings = {
       trigger_events = {
         immediate_save = [
-          "BufLeave"
           "FocusLost"
         ];
-        cancel_deferred_save = [
+        defer_save = [
           "InsertLeave"
         ];
       };
+      debounce_delay = 1000;
       write_all_buffers = true;
     };
   };
