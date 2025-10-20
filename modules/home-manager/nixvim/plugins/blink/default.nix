@@ -12,9 +12,6 @@
       setupLspCapabilities = true;
 
       settings = {
-        keymap = {
-          preset = "super-tab";
-        };
         signature = {
           enabled = true;
         };
