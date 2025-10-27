@@ -275,6 +275,28 @@
           desc = "Oil: Open parent directory";
         };
       }
+
+      # Buffer navigation
+      {
+        mode = "n";
+        key = "<D-S-o>";
+        action = "<CMD>bprevious<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Previous buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<D-S-i>";
+        action = "<CMD>bnext<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Next buffer";
+        };
+      }
     ];
   };
 }
