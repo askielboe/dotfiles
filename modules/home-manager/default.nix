@@ -3,6 +3,7 @@
   # Import shared home-manager settings
   imports = [
     ./nixvim
+    ./settings/claude.nix
     ./settings/file.nix
     ./settings/git-annex.nix
     ./settings/git.nix
