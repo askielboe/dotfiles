@@ -13,9 +13,9 @@ in
     aichat
     btop
     bzip2
+    ccache
     coreutils
     curl
-    dbt
     devbox
     devenv
     difftastic
@@ -56,6 +56,7 @@ in
     resticprofile
     ripgrep
     ruff
+    shellcheck
     sqlite
     ssm-session-manager-plugin
     terraform
@@ -63,9 +64,11 @@ in
     tree
     unstable.claude-code
     unstable.cursor-cli
+    unstable.rustic
     uv
     wget
     which
+    xcbeautify
     xh # Rust re-write of httpie
     yazi
     zip
