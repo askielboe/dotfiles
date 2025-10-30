@@ -8,6 +8,7 @@
     ./settings/git-annex.nix
     ./settings/git.nix
     ./settings/nodejs.nix
+    ./settings/ollama.nix
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix
