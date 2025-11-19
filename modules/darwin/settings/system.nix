@@ -36,8 +36,7 @@
         persistent-apps = [
           { app = "/Applications/Zen.app"; }
           { app = "/System/Applications/Calendar.app"; }
-          # { app = "/System/Applications/Mail.app"; }
-          { app = "/Applications/Mimestream.app"; }
+          { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
