@@ -17,13 +17,10 @@
 
   # Darwin-specific SSH configuration
   programs.ssh.matchBlocks = {
-    "*".extraOptions = {
-      IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
-    };
-    "github.com".identityFile = "~/.ssh/id_ed25519-github.pub";
-    "flextribe".identityFile = "~/.ssh/id_ed25519_flextribe.pub";
-    "storagebox-restic".identityFile = "~/.ssh/id_ed25519-storagebox.pub";
-    "garage-hetzner".identityFile = "~/.ssh/id_ed25519-hetzner-garage.pub";
+    "github.com".identityFile = "~/.ssh/id_ed25519-github";
+    "flextribe".identityFile = "~/.ssh/id_ed25519-github";
+    "storagebox-restic".identityFile = "~/.ssh/id_ed25519-storagebox";
+    "garage-hetzner".identityFile = "~/.ssh/id_ed25519-hetzner-garage";
   };
 
   # Darwin-specific shell configuration
