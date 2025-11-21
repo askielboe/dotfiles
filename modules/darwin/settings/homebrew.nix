@@ -47,6 +47,7 @@
       "vlc"
       "zed"
       "zen"
+      "zoom"
       "zwift"
     ];
   };
