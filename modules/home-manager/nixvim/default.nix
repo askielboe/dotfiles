@@ -4,8 +4,13 @@
     enable = true;
 
     extraPackages = with pkgs; [
+      # Language servers
+      nil
+      nixd
+
       # Formatting
       fixjson
+      nixfmt-rfc-style
       nixfmt-rfc-style
       prettierd
       python313Packages.sqlfmt
@@ -28,9 +33,6 @@
       statix
       stylelint
       yamllint
-
-      # Other
-      gh # blink
     ];
   };
   imports = [

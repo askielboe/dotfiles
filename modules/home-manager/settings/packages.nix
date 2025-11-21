@@ -13,9 +13,13 @@ in
     aichat
     btop
     bzip2
+    cargo
     ccache
     coreutils
     curl
+    d2
+    dbt
+    deploy-rs
     devbox
     devenv
     difftastic
@@ -23,18 +27,21 @@ in
     docker-compose
     duf # Disk usage
     dust # Disk usage by folder
-    eza # ls replacement
     ffmpeg
     findutils
     gawk
+    gh
     git
+    git-annex
+    git-filter-repo
     gnugrep
+    gnupg
     gnused
     gnutar
     go
+    hcloud
     htop
     httpie
-    hugo
     jq
     k9s
     killall
@@ -43,9 +50,7 @@ in
     magic-wormhole
     mariadb
     ngrok
-    nil
-    nixd
-    nixfmt-rfc-style
+    nixpkgs-review
     npm-check-updates
     openssh
     parallel
@@ -55,7 +60,6 @@ in
     restic
     resticprofile
     ripgrep
-    ruff
     shellcheck
     sqlite
     ssm-session-manager-plugin
@@ -63,7 +67,6 @@ in
     timewarrior
     tree
     unstable.claude-code
-    unstable.cursor-cli
     unstable.rustic
     uv
     wget
