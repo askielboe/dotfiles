@@ -39,14 +39,6 @@
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       aider = "op run --no-masking aider";
       ai = "aichat -e";
-
-      # ls
-      ls = "eza";
-      l = "eza -l --all --group-directories-first --git";
-      ll = "eza -l --all --all --group-directories-first --git";
-      lt = "eza -T --git-ignore --level=2 --group-directories-first";
-      llt = "eza -lT --git-ignore --level=2 --group-directories-first";
-      lT = "eza -T --git-ignore --level=4 --group-directories-first";
       he = "cd ~/.config/nix/ && nvim && cd -";
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
     };
