@@ -34,19 +34,19 @@
         show-recents = false;
 
         persistent-apps = [
-          { app = "/Applications/Zen.app"; }
           { app = "/System/Applications/Calendar.app"; }
-          { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Things3.app"; }
+          { app = "/System/Applications/Mail.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
-          { app = "/Applications/Ghostty.app"; }
-          { app = "/Applications/1Password.app"; }
-          { app = "/Applications/Bear.app"; }
-          { app = "/System/Applications/Music.app"; }
-          { app = "/Applications/DEVONthink 3.app"; }
+          { app = "/Applications/Zen.app"; }
           { app = "/Applications/Zed.app"; }
+          { app = "/Applications/Bear.app"; }
+          { app = "/Applications/DEVONthink 3.app"; }
+          { app = "/Applications/1Password.app"; }
+          { app = "/System/Applications/Music.app"; }
+          { app = "/Applications/Ghostty.app"; }
         ];
       };
 
