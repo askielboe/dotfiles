@@ -4,6 +4,7 @@
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/homebrew.nix
+    ./settings/mas.nix
     ./settings/networking.nix
     ./settings/power.nix
     ./settings/resticprofile.nix
