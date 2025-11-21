@@ -8,15 +8,9 @@
 
     defaults = {
       NSGlobalDomain = {
-        # Dark mode
         AppleInterfaceStyle = "Dark";
-
-        # Show all file extensions
         AppleShowAllExtensions = true;
-
-        # Enable moving window by holding anywhere on it like on Linux
         NSWindowShouldDragOnGesture = true;
-
         "com.apple.trackpad.forceClick" = false;
       };
 
@@ -30,9 +24,7 @@
 
       dock = {
         autohide = true;
-
         show-recents = false;
-
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Things3.app"; }
