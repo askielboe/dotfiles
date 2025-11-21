@@ -26,6 +26,15 @@ in
     mas
   ];
 
+  launchd.user.agents.thingsmacsandboxhelper = {
+    command = "/Applications/ThingsMacSandboxHelper.app/Contents/MacOS/ThingsMacSandboxHelper";
+    serviceConfig = {
+      RunAtLoad = true;
+      StandardOutPath = "/tmp/thingsmacsandboxhelper.log";
+      StandardErrorPath = "/tmp/thingsmacsandboxhelper.log";
+    };
+  };
+
   system.activationScripts.masCleanup = {
     text = ''
       echo "Checking for unmanaged Mac App Store apps..."
