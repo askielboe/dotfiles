@@ -1,6 +1,14 @@
 { pkgs, ... }:
+let
+  ccplugins = builtins.fetchGit {
+    url = "https://github.com/brennercruvinel/CCPlugins";
+    ref = "main";
+    rev = "b02d67e33091abff7cef3c98465fc1fa5f96ba46";
+  };
+in
 {
   home.file.".claude/settings.json".text = builtins.toJSON {
+    model = "claude-sonnet-4-5-20250929";
     statusLine = {
       type = "command";
       command = ''
@@ -24,6 +32,29 @@
           "--transport"
           "stdio"
         ];
+      };
+    };
+  };
+
+  home.file.".claude/commands".source = "${ccplugins}/commands";
+
+  home.file."Library/Application Support/Claude/claude_desktop_config.json".text = builtins.toJSON {
+    globalShortcut = "Alt+Space";
+    mcpServers = {
+      bear = {
+        command = "/etc/profiles/per-user/askielboe/bin/node";
+        args = [ "/Users/askielboe/repos/bear-notes-mcp/dist/index.js" ];
+        env = {};
+      };
+      trainerroad-transcripts = {
+        command = "${pkgs.uv}/bin/uv";
+        args = [ "run" "--directory" "/Users/askielboe/work/trainerroad-transcribe" "mcp_server.py" ];
+      };
+    };
+    preferences = {
+      menuBarEnabled = true;
+      quickEntryShortcut = {
+        accelerator = "Alt+Space";
       };
     };
   };
