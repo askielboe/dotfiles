@@ -15,6 +15,7 @@
     ./settings/shell.nix
     ./settings/ssh.nix
     ./settings/tmux.nix
+    ./settings/whisper.nix
   ];
 
   home = {
