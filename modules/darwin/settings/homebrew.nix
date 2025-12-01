@@ -28,9 +28,11 @@
       "devonthink"
       "discord"
       "ghostty"
+      "google-chrome"
       "handbrake-app"
       "jordanbaird-ice" # Hide menu bar icons
       "microsoft-teams"
+      "pocket-casts"
       "postico"
       "proxyman"
       "raycast"
