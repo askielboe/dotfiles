@@ -6,6 +6,10 @@ let
 in
 {
   programs = {
+    delta = {
+      enable = true;
+    };
+
     git = {
       enable = true;
       ignores = [
@@ -26,15 +30,15 @@ in
         "devbox.*"
         "upgrade-dependency.sh"
       ];
-      userName = name;
-      userEmail = email;
-      delta = {
-        enable = true;
-      };
       lfs = {
         enable = true;
       };
-      extraConfig = {
+      settings = {
+        user = {
+          name = name;
+          email = email;
+          signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ";
+        };
         init.defaultBranch = "main";
         core = {
           editor = "nvim";
@@ -52,9 +56,6 @@ in
           "ssh".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
         };
       };
-      signing = {
-        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ";
-      };
     };
 
     lazygit = {
@@ -64,10 +65,12 @@ in
           showFileTree = true;
         };
         git = {
-          paging = {
-            colorArg = "always";
-            pager = "delta --dark --paging=never";
-          };
+          pagers = [
+            {
+              colorArg = "always";
+              pager = "delta --dark --paging=never";
+            }
+          ];
         };
       };
     };

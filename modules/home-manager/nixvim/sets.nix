@@ -12,7 +12,6 @@
     # Share clipboard with system
     clipboard = {
       register = "unnamedplus";
-      providers.wl-copy.enable = true;
     };
 
     diagnostic = {
