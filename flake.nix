@@ -2,22 +2,22 @@
   description = "nix configuration of askielboe";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
+    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixvim.url = "github:nix-community/nixvim/nixos-25.05";
+    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
     # nixvim uses it's own nixpkgs, see https://nix-community.github.io/nixvim/#recent-breaking-changes
 
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-    catppuccin.url = "github:catppuccin/nix/release-25.05";
+    catppuccin.url = "github:catppuccin/nix/release-25.05"; # https://github.com/catppuccin/nix/issues/782
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -40,7 +40,7 @@
       homeManagerModules = [
         nix-index-database.homeModules.nix-index
         { programs.nix-index-database.comma.enable = true; }
-        nixvim.homeManagerModules.nixvim
+        nixvim.homeModules.nixvim
         catppuccin.homeModules.catppuccin
       ];
     in
