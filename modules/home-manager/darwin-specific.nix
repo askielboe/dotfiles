@@ -30,7 +30,6 @@
 
   home.packages = with pkgs; [
     colima # Container runtimes (docker) on macOS (and Linux) with minimal setup
-    ollama
     ripsecrets # Find secrets
     transmission_4
     yt-dlp
