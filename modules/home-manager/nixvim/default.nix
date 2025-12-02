@@ -28,7 +28,6 @@
       luaPackages.luacheck
       markdownlint-cli
       nodePackages.htmlhint
-      nodePackages.jsonlint
       shellcheck
       statix
       stylelint

@@ -13,7 +13,6 @@
         html = [ "htmlhint" ];
         javascript = [ "eslint_d" ];
         javascriptreact = [ "eslint_d" ];
-        json = [ "jsonlint" ];
         lua = [ "luacheck" ];
         makefile = [ "checkmake" ];
         nix = [
