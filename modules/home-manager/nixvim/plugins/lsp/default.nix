@@ -21,7 +21,6 @@ in
         bashls.enable = true;
         docker_compose_language_service.enable = true;
         dockerls.enable = true;
-        erlangls.enable = true;
         eslint.enable = true;
         jinja_lsp = {
           enable = true;
