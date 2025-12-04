@@ -20,6 +20,17 @@
         on_enter = false;
       };
 
+      formatters.sqlfluff = {
+        # Use project-local sqlfluff via uv because sqlfluff-templater-dbt
+        # is not available in nixpkgs. Projects using dbt need the templater
+        # to format SQL files with dbt jinja syntax.
+        command = "sh";
+        args = [
+          "-c"
+          "uv run --quiet sqlfluff format --dialect postgres -"
+        ];
+      };
+
       formatters_by_ft = {
         python = [
           "ruff_format"
@@ -37,7 +48,7 @@
         vue = [ "prettierd" ];
         css = [ "prettierd" ];
         scss = [ "prettierd" ];
-        sql = [ "sqlfmt" ];
+        sql = [ "sqlfluff" ];
         swift = [ "swiftformat" ];
         html = [ "prettierd" ];
         less = [ "prettierd" ];
