@@ -13,7 +13,6 @@
       nixfmt-rfc-style
       nixfmt-rfc-style
       prettierd
-      python313Packages.sqlfmt
       ruff
       shfmt
       stylua

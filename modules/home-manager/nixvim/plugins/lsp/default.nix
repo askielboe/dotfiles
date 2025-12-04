@@ -29,7 +29,6 @@ in
         lua_ls.enable = true;
         nginx_language_server.enable = true;
         phpactor.enable = true;
-        postgres_lsp.enable = true;
         pyright = {
           enable = true;
           settings = {
