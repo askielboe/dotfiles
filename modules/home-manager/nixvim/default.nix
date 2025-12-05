@@ -11,8 +11,8 @@
       # Formatting
       fixjson
       nixfmt-rfc-style
-      nixfmt-rfc-style
       prettierd
+      python312Packages.sqlfmt
       ruff
       shfmt
       stylua
