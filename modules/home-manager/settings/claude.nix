@@ -21,19 +21,6 @@ in
       '';
     };
     alwaysThinkingEnabled = true;
-    mcpServers = {
-      serena = {
-        command = "${pkgs.nix}/bin/nix";
-        args = [
-          "run"
-          "github:oraios/serena"
-          "--"
-          "start-mcp-server"
-          "--transport"
-          "stdio"
-        ];
-      };
-    };
   };
 
   home.file.".claude/commands".source = "${ccplugins}/commands";
@@ -44,7 +31,7 @@ in
       bear = {
         command = "/etc/profiles/per-user/askielboe/bin/node";
         args = [ "/Users/askielboe/repos/bear-notes-mcp/dist/index.js" ];
-        env = {};
+        env = { };
       };
       trainerroad-transcripts = {
         command = "${pkgs.uv}/bin/uv";
