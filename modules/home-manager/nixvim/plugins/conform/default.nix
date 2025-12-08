@@ -1,23 +1,14 @@
 {
   programs.nixvim.plugins.conform-nvim = {
     enable = true;
-
-    lazyLoad.settings = {
-      cmd = [ "ConformInfo" ];
-      event = [
-        "BufWrite"
-        "User AutoSaveWritePre"
-      ];
-    };
-
     settings = {
       default_format_opts = {
         lsp_format = "fallback";
       };
 
-      format_after_save = {
-        async = true;
-        on_enter = false;
+      format_on_save = {
+        timeout_ms = 3000;
+        lsp_format = "fallback";
       };
 
       formatters_by_ft = {
