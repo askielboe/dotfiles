@@ -204,6 +204,17 @@
         };
       }
 
+      # Search and replace word under cursor in current file
+      {
+        mode = "n";
+        key = "<leader>rw";
+        action = ":%s/<C-r><C-w>//gc<Left><Left><Left>";
+        options = {
+          noremap = true;
+          desc = "Replace word under cursor in file";
+        };
+      }
+
       # Grug far
       {
         mode = "n";
