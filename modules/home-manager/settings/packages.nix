@@ -27,6 +27,7 @@ in
     docker-compose
     duf # Disk usage
     dust # Disk usage by folder
+    fd
     ffmpeg
     findutils
     gawk
