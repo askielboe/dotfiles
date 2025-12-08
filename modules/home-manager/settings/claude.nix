@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   ccplugins = builtins.fetchGit {
     url = "https://github.com/brennercruvinel/CCPlugins";
@@ -16,8 +16,8 @@ in
         model=$(echo "$input" | jq -r '.model.display_name');
         dir=$(echo "$input" | jq -r '.workspace.current_dir');
         branch=$(cd "$dir" 2>/dev/null && git --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'no git');
-        tokens=$(echo "$input" | jq -r 'if .usage then "\(.usage.input_tokens // 0) / \(.usage.output_tokens // 0)" else "n/a" end');
-        echo "$model | $branch | $tokens | $dir"
+        cost=$(echo "$input" | jq -r 'if .cost.total_cost_usd then "$\(.cost.total_cost_usd)" else "$0.00" end');
+        echo "$model | $branch | $cost | $dir"
       '';
     };
     alwaysThinkingEnabled = true;
