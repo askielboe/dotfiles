@@ -16,8 +16,7 @@ in
         model=$(echo "$input" | jq -r '.model.display_name');
         dir=$(echo "$input" | jq -r '.workspace.current_dir');
         branch=$(cd "$dir" 2>/dev/null && git --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'no git');
-        cost=$(echo "$input" | jq -r 'if .cost.total_cost_usd then "$\(.cost.total_cost_usd)" else "$0.00" end');
-        echo "$model | $branch | $cost | $dir"
+        echo "$model | $branch | $dir"
       '';
     };
     alwaysThinkingEnabled = true;
