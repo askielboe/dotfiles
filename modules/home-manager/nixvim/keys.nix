@@ -135,6 +135,18 @@
         };
       }
 
+      # Write all buffers with Ctrl+S
+      {
+        mode = "n";
+        key = "<C-s>";
+        action = "<CMD>wa<CR>";
+        options = {
+          noremap = true;
+          silent = true;
+          desc = "Write all buffers";
+        };
+      }
+
       # Global write and quit with Ctrl+Q (normal mode)
       {
         mode = "n";
