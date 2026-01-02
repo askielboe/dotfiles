@@ -14,6 +14,11 @@
         "com.apple.trackpad.forceClick" = false;
       };
 
+      screensaver = {
+        askForPassword = true;
+        askForPasswordDelay = 300; # Not working?
+      };
+
       controlcenter = {
         BatteryShowPercentage = true;
         Bluetooth = true;
