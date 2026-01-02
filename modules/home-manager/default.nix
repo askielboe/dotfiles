@@ -42,6 +42,8 @@
       ai = "aichat -e";
       he = "cd ~/.config/nix/ && nvim && cd -";
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
+      c = "claude";
+      cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
     };
   };
 

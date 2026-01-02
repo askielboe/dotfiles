@@ -10,6 +10,7 @@
     ];
 
     brews = [
+      "claude-squad"
       "lightdash"
     ];
 
