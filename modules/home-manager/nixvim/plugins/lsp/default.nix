@@ -40,7 +40,19 @@ in
           settings = {
             yaml = {
               schemas = {
-                "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json" = "models/**/schema.yml";
+                "https://raw.githubusercontent.com/lightdash/lightdash/main/packages/common/src/schemas/json/lightdash-dbt-2.0.json" =
+                  [
+                    "**/models/**/*.yml"
+                    "**/models/**/*.yaml"
+                  ];
+                "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json" =
+                  [
+                    "dbt_project.yml"
+                  ];
+                "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/packages-latest.json" =
+                  [
+                    "packages.yml"
+                  ];
               };
             };
           };
