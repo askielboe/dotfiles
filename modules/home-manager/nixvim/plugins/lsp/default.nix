@@ -29,17 +29,7 @@ in
         lua_ls.enable = true;
         nginx_language_server.enable = true;
         phpactor.enable = true;
-        pyright = {
-          enable = true;
-          settings = {
-            python = {
-              analysis = {
-                diagnosticMode = "workspace";
-              };
-              pythonPath = ".venv/bin/python";
-            };
-          };
-        };
+        ty.enable = true;
         ruby_lsp.enable = true;
         shopify_theme_ls.enable = true;
         swift_mesonls.enable = true;
