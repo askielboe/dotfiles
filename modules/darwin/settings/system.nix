@@ -33,6 +33,7 @@
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
           { app = "/Applications/Zen.app"; }
+          { app = "/Applications/Claude.app"; }
           { app = "/Applications/Zed.app"; }
           { app = "/Applications/Bear.app"; }
           { app = "/Applications/DEVONthink 3.app"; }
