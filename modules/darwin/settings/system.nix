@@ -24,7 +24,7 @@
 
       dock = {
         autohide = true;
-        show-recents = false;
+        show-recents = true;
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Things3.app"; }
@@ -40,15 +40,31 @@
           { app = "/System/Applications/Music.app"; }
           { app = "/Applications/Ghostty.app"; }
         ];
+        persistent-others = [
+          {
+            folder = {
+              path = "/Users/askielboe/Downloads";
+              showas = "fan";
+              arrangement = "date-modified";
+            };
+          }
+          {
+            folder = {
+              path = "/Applications";
+              showas = "fan";
+              arrangement = "date-modified";
+            };
+          }
+        ];
       };
 
       finder = {
         AppleShowAllExtensions = true;
-        _FXShowPosixPathInTitle = true;
         FXRemoveOldTrashItems = true;
         ShowExternalHardDrivesOnDesktop = false;
         ShowRemovableMediaOnDesktop = false;
         ShowStatusBar = true;
+        _FXShowPosixPathInTitle = true;
       };
 
       loginwindow = {
@@ -57,40 +73,6 @@
       };
 
       menuExtraClock.ShowDate = 1;
-
-      # persistent-others
-      # https://github.com/nix-darwin/nix-darwin/pull/1004#issuecomment-2440899127
-      CustomUserPreferences = {
-        # Sets Downloads folder with fan view in Dock
-        "com.apple.dock" = {
-          persistent-others = [
-            {
-              "tile-data" = {
-                "file-data" = {
-                  "_CFURLString" = "/Users/askielboe/Downloads";
-                  "_CFURLStringType" = 0;
-                };
-                "arrangement" = 2; # sorting order
-                "displayas" = 1; # 1 for fan display
-                "showas" = 1; # 1 for stack view
-              };
-              "tile-type" = "directory-tile";
-            }
-            {
-              "tile-data" = {
-                "file-data" = {
-                  "_CFURLString" = "/Applications";
-                  "_CFURLStringType" = 0;
-                };
-                "arrangement" = 2; # sorting order
-                "displayas" = 1; # 1 for fan display
-                "showas" = 1; # 1 for stack view
-              };
-              "tile-type" = "directory-tile";
-            }
-          ];
-        };
-      };
     };
   };
 
