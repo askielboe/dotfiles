@@ -55,6 +55,12 @@
         hostname = "linux215.unoeuro.com";
         user = "toustrupmark.dk";
       };
+      "k3s" = {
+        hostname = "37.27.196.7";
+        user = "root";
+        identityFile = "~/.ssh/id_rsa-motosumo-m1";
+        identitiesOnly = true;
+      };
     };
   };
 }
