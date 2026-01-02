@@ -10,8 +10,27 @@
       "WebFetch(domain:github.com)",
       "Bash(./build-and-switch-linux.sh)",
       "Bash(rm:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.gitbutler.com)",
+      "Bash(time claude --version:*)",
+      "Bash(time tmux new-session:*)",
+      "Bash(tmux kill-session:*)",
+      "Bash(time git worktree add /tmp/test-wt-diag -b test-branch-diag-$$)",
+      "Bash(git worktree remove:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(time timeout 35 claude:*)",
+      "Bash(cs version:*)",
+      "Bash(fd:*)",
+      "Bash(brew list:*)",
+      "Bash(/opt/homebrew/bin/claude-squad:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   },
-  "enableAllProjectMcpServers": false
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "serena"
+  ]
 }
