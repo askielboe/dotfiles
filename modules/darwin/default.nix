@@ -21,7 +21,10 @@
       automatic = true;
       options = "--delete-older-than 7d";
     };
-    optimise.automatic = true;
+    optimise = {
+      automatic = true;
+      auto-optimise-store = true;
+    };
     settings = {
       experimental-features = "nix-command flakes";
     };
