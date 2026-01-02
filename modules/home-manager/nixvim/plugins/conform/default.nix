@@ -11,6 +11,14 @@
         lsp_format = "fallback";
       };
 
+      formatters = {
+        sqlfluff = {
+          command = "sqlfluff";
+          args = [ "format" "--dialect" "postgres" "--templater" "jinja" "-" ];
+          stdin = true;
+        };
+      };
+
       formatters_by_ft = {
         python = [
           "ruff_format"
@@ -28,7 +36,7 @@
         vue = [ "prettierd" ];
         css = [ "prettierd" ];
         scss = [ "prettierd" ];
-        sql = [ "sqlfmt" ];
+        sql = [ "sqlfluff" ];
         swift = [ "swiftformat" ];
         html = [ "prettierd" ];
         less = [ "prettierd" ];

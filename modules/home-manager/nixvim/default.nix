@@ -12,7 +12,7 @@
       fixjson
       nixfmt-rfc-style
       prettierd
-      python312Packages.sqlfmt
+      sqlfluff
       ruff
       shfmt
       stylua
