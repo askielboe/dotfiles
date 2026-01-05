@@ -51,14 +51,14 @@
             folder = {
               path = "/Users/askielboe/Downloads";
               showas = "fan";
-              arrangement = "date-modified";
+              arrangement = "date-added";
             };
           }
           {
             folder = {
               path = "/Applications";
               showas = "fan";
-              arrangement = "date-modified";
+              arrangement = "date-added";
             };
           }
         ];
