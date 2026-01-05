@@ -23,7 +23,6 @@
     };
     optimise = {
       automatic = true;
-      auto-optimise-store = true;
     };
     settings = {
       experimental-features = "nix-command flakes";
