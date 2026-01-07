@@ -17,7 +17,7 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-    catppuccin.url = "github:catppuccin/nix/release-25.05"; # https://github.com/catppuccin/nix/issues/782
+    catppuccin.url = "github:catppuccin/nix/release-25.11";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
