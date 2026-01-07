@@ -25,6 +25,7 @@ in
     difftastic
     docker
     docker-compose
+    duckdb
     duf # Disk usage
     dust # Disk usage by folder
     fd
@@ -36,6 +37,7 @@ in
     git-annex
     git-filter-repo
     gnugrep
+    gnumake
     gnupg
     gnused
     gnutar
