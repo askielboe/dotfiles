@@ -1,5 +1,5 @@
 {
-  description = "nix configuration of askielboe";
+  description = "Nix configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -35,7 +35,23 @@
     let
       darwinSystem = "aarch64-darwin";
       linuxSystem = "x86_64-linux";
-      user = "askielboe";
+      privateFile =
+        let
+          darwinPath = /Users/askielboe/.config/nix/secrets/private.nix;
+          linuxPath = /home/askielboe/.config/nix/secrets/private.nix;
+        in
+        if builtins.pathExists darwinPath then
+          darwinPath
+        else if builtins.pathExists linuxPath then
+          linuxPath
+        else
+          null;
+      private =
+        if privateFile != null then
+          import privateFile
+        else
+          throw "Missing secrets/private.nix - copy from secrets/private.example.nix and fill in your values";
+      user = private.user.username;
 
       homeManagerModules = [
         nix-index-database.homeModules.nix-index
@@ -52,6 +68,7 @@
           system = darwinSystem;
           config.allowUnfree = true;
         };
+        specialArgs = { inherit private; };
         modules = [
           ./modules/darwin
           home-manager.darwinModules.home-manager
@@ -59,7 +76,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit nixvim nixpkgs-unstable; };
+              extraSpecialArgs = { inherit nixvim nixpkgs-unstable private; };
               users.${user}.imports = homeManagerModules ++ [
                 ./modules/home-manager
                 ./modules/home-manager/darwin-specific.nix
@@ -75,7 +92,7 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        extraSpecialArgs = { inherit nixvim nixpkgs-unstable; };
+        extraSpecialArgs = { inherit nixvim nixpkgs-unstable private; };
         modules = homeManagerModules ++ [
           ./modules/home-manager
           ./modules/home-manager/linux-specific.nix

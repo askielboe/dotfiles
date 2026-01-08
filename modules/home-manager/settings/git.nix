@@ -1,9 +1,4 @@
-{ ... }:
-
-let
-  name = "Andreas Skielboe";
-  email = "skielboe@gmail.com";
-in
+{ private, ... }:
 {
   programs = {
     delta = {
@@ -35,9 +30,9 @@ in
       };
       settings = {
         user = {
-          name = name;
-          email = email;
-          signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDUk1npSjpgOHYCDusD19DG+YcnG1lc79VLZBpSqNaHZ";
+          name = private.user.name;
+          email = private.user.email;
+          signingKey = private.user.signingKey;
         };
         init.defaultBranch = "main";
         core = {

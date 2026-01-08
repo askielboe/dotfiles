@@ -1,9 +1,8 @@
-{ ... }:
+{ private, ... }:
 {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    # includes = [ "~/.ssh/config_external" ];
     matchBlocks = {
       "*" = {
         identityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
@@ -19,46 +18,46 @@
         identitiesOnly = true;
       };
       "storagebox-restic" = {
-        hostname = "your-storagebox.de";
-        user = "u407515-sub6";
+        hostname = private.ssh.storagebox.hostname;
+        user = private.ssh.storagebox.user;
         identitiesOnly = true;
       };
       "paperless" = {
-        hostname = "135.181.80.183";
-        port = 54056;
-        user = "paperless";
+        hostname = private.ssh.paperless.hostname;
+        port = private.ssh.paperless.port;
+        user = private.ssh.paperless.user;
       };
       "synology" = {
-        hostname = "192.168.1.10";
+        hostname = private.ssh.synology.hostname;
         identitiesOnly = true;
-        user = "askielboe";
+        user = private.ssh.synology.user;
       };
       "dobby" = {
-        hostname = "192.168.1.12";
+        hostname = private.ssh.dobby.hostname;
         identitiesOnly = true;
-        user = "andreas";
+        user = private.ssh.dobby.user;
       };
       "macmini" = {
-        hostname = "192.168.1.11";
+        hostname = private.ssh.macmini.hostname;
         identitiesOnly = true;
-        user = "askielboe";
+        user = private.ssh.macmini.user;
       };
       "garage-hetzner" = {
-        hostname = "49.13.75.42";
+        hostname = private.ssh.garageHetzner.hostname;
         identitiesOnly = true;
       };
       "nix" = {
-        hostname = "135.181.34.240";
-        user = "root";
+        hostname = private.ssh.nix.hostname;
+        user = private.ssh.nix.user;
       };
       "simply-tm" = {
-        hostname = "linux215.unoeuro.com";
-        user = "toustrupmark.dk";
+        hostname = private.ssh.simplyTm.hostname;
+        user = private.ssh.simplyTm.user;
       };
       "k3s" = {
-        hostname = "37.27.196.7";
-        user = "root";
-        identityFile = "~/.ssh/id_rsa-motosumo-m1";
+        hostname = private.ssh.k3s.hostname;
+        user = private.ssh.k3s.user;
+        identityFile = private.ssh.k3s.identityFile;
         identitiesOnly = true;
       };
     };

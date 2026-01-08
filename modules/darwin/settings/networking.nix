@@ -1,9 +1,9 @@
-{ ... }:
+{ private, ... }:
 {
   networking = {
-    computerName = "swaggermis";
-    hostName = "swaggermis";
-    localHostName = "swaggermis";
+    computerName = private.machine.computerName;
+    hostName = private.machine.computerName;
+    localHostName = private.machine.computerName;
     knownNetworkServices = [
       "Wi-Fi"
     ];

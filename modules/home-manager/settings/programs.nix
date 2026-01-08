@@ -1,5 +1,7 @@
-{ ... }:
-
+{ private, ... }:
+let
+  aws = private.accounts.awsProfiles;
+in
 {
   programs = {
     java = {
@@ -36,20 +38,20 @@
       enable = true;
       settings = {
         "default" = {
-          region = "eu-west-1";
+          region = aws.default.region;
         };
-        "motosumo-ms" = {
-          region = "eu-central-1";
+        "${aws.motosumo.name}" = {
+          region = aws.motosumo.region;
         };
       };
       credentials = {
         "default" = {
-          region = "eu-west-1";
-          credential_process = "/opt/homebrew/bin/op read 'op://Private/4th5zdmzuccmmkk2jvwq5ftt3m/password'";
+          region = aws.default.region;
+          credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.default.opItem}/password'";
         };
-        "motosumo-ms" = {
-          region = "eu-central-1";
-          credential_process = "/opt/homebrew/bin/op read 'op://Private/qwm6obmd4fb4ijz3mr2qfvcajm/password'";
+        "${aws.motosumo.name}" = {
+          region = aws.motosumo.region;
+          credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.motosumo.opItem}/password'";
         };
       };
     };

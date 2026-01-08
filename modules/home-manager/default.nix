@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, private, ... }:
 {
   # Import shared home-manager settings
   imports = [
@@ -19,13 +19,13 @@
   ];
 
   home = {
-    username = "askielboe";
+    username = private.user.username;
     stateVersion = "24.11"; # Keep this unchanged
 
     sessionVariables = {
       DIRENV_LOG_FORMAT = "";
       EDITOR = "nvim";
-      OP_ACCOUNT = "***REMOVED-SECRET***";
+      OP_ACCOUNT = private.accounts.opAccount;
       PAGER = "bat";
       VISUAL = "nvim";
       XDG_CONFIG_HOME = "$HOME/.config";

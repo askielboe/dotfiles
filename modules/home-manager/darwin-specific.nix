@@ -1,7 +1,6 @@
-{ lib, pkgs, ... }:
-
+{ lib, pkgs, private, ... }:
 {
-  home.homeDirectory = "/Users/askielboe";
+  home.homeDirectory = private.user.homeDirectory;
 
   home.file = {
     ".config/ghostty/config".source = ./dotfiles/ghostty/config;
@@ -23,7 +22,7 @@
     hs() {
       echo "darwin-rebuild switch --flake"
       export NIXPKGS_ALLOW_UNFREE=1
-      sudo -E darwin-rebuild switch --flake ~/.config/nix/'.#askielboe' --impure
+      sudo -E darwin-rebuild switch --flake ~/.config/nix/'.#${private.user.username}' --impure
       exec $SHELL
     }
   '';
