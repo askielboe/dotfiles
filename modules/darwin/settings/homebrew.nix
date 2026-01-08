@@ -18,10 +18,10 @@
     casks = [
       "1password"
       "1password-cli"
+      "anytype"
       "appcleaner"
       "arq"
       "bitwarden"
-      "chatgpt"
       "claude"
       "cloudflare-warp"
       "cyberduck"
@@ -30,11 +30,10 @@
       "devonthink"
       "discord"
       "ghostty"
-      "google-chrome"
       "handbrake-app"
-      "jordanbaird-ice" # Hide menu bar icons
       "microsoft-teams"
-      "pocket-casts"
+      "notion"
+      "plex"
       "postico"
       "proxyman"
       "raycast"
@@ -44,7 +43,6 @@
       "sonos"
       "stats"
       "steam"
-      "thingsmacsandboxhelper"
       "tor-browser"
       "trainerroad"
       "transmission"
@@ -60,6 +58,7 @@
       "1Password for Safari" = 1569813296;
       Bear = 1091189122;
       DaisyDisk = 411643860;
+      Jomo = 1609960918;
       Keynote = 409183694;
       LookAway = 6747192301;
       Magnet = 441258766;
