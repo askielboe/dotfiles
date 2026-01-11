@@ -7,6 +7,7 @@
     ./settings/git-annex.nix
     ./settings/git.nix
     ./settings/nodejs.nix
+    ./settings/onepassword.nix
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/python.nix

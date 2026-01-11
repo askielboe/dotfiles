@@ -22,6 +22,9 @@
 
     cachix.url = "github:cachix/cachix";
     cachix.inputs.nixpkgs.follows = "nixpkgs";
+
+    onepassword-shell-plugins.url = "github:1Password/shell-plugins";
+    onepassword-shell-plugins.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -33,6 +36,7 @@
       nix-index-database,
       nixvim,
       catppuccin,
+      onepassword-shell-plugins,
       ...
     }:
     let
@@ -77,10 +81,11 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        extraSpecialArgs = { inherit nixvim nixpkgs-unstable; };
+        extraSpecialArgs = { inherit nixvim nixpkgs-unstable onepassword-shell-plugins; };
         modules = homeManagerModules ++ [
           ./modules/home-manager
           ./modules/home-manager/linux-specific.nix
+          onepassword-shell-plugins.hmModules.default
         ];
       };
     };
