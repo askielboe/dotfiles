@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, private, ... }:
 let
   ccplugins = builtins.fetchGit {
     url = "https://github.com/brennercruvinel/CCPlugins";
@@ -125,8 +125,8 @@ in
     globalShortcut = "Alt+Space";
     mcpServers = {
       bear = {
-        command = "/etc/profiles/per-user/askielboe/bin/node";
-        args = [ "/Users/askielboe/repos/bear-notes-mcp/dist/index.js" ];
+        command = "${pkgs.mcp-bear}/bin/mcp-bear";
+        args = [ "--token" private.apiKeys.bear ];
         env = { };
       };
       trainerroad = {
