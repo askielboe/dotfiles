@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "anytype-mcp": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1767859814,
-        "narHash": "sha256-K6Ikq5nYri5pNPD5fYjee5scG/JOX0O9g1GUzAuiR2g=",
-        "owner": "anyproto",
-        "repo": "anytype-mcp",
-        "rev": "7af1b97b91764dd1000db390520fb2e59a4a0f7e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anyproto",
-        "repo": "anytype-mcp",
-        "type": "github"
-      }
-    },
     "catppuccin": {
       "inputs": {
         "nixpkgs": [
@@ -162,6 +146,22 @@
         "type": "github"
       }
     },
+    "mcp-granola": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766968914,
+        "narHash": "sha256-TzYkTvEJJ8VySR9JnKIslPMp5f4EmiMjQcJn+GBkdq0=",
+        "owner": "proofgeist",
+        "repo": "granola-ai-mcp-server",
+        "rev": "9285044a9ead019ac064dd345626b0d73930f620",
+        "type": "github"
+      },
+      "original": {
+        "owner": "proofgeist",
+        "repo": "granola-ai-mcp-server",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -277,8 +277,8 @@
     },
     "packages": {
       "inputs": {
-        "anytype-mcp": "anytype-mcp",
         "mcp-bear": "mcp-bear",
+        "mcp-granola": "mcp-granola",
         "nixpkgs": [
           "nixpkgs"
         ]

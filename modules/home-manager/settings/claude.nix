@@ -129,6 +129,11 @@ in
         args = [ "--token" private.apiKeys.bear ];
         env = { };
       };
+      granola = {
+        command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
+        args = [ ];
+        env = { };
+      };
       trainerroad = {
         command = "${pkgs.uv}/bin/uv";
         args = [

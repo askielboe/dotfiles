@@ -1,0 +1,61 @@
+{
+  "nodes": {
+    "mcp-bear": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765959980,
+        "narHash": "sha256-YXd2rny8JnnzUFErRNv2cFh2ZkRfL+MspH9/wGBkl0g=",
+        "owner": "jkawamoto",
+        "repo": "mcp-bear",
+        "rev": "e8127153cf408a6119e6a15af60e530b955471a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jkawamoto",
+        "repo": "mcp-bear",
+        "type": "github"
+      }
+    },
+    "mcp-granola": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766968914,
+        "narHash": "sha256-TzYkTvEJJ8VySR9JnKIslPMp5f4EmiMjQcJn+GBkdq0=",
+        "owner": "proofgeist",
+        "repo": "granola-ai-mcp-server",
+        "rev": "9285044a9ead019ac064dd345626b0d73930f620",
+        "type": "github"
+      },
+      "original": {
+        "owner": "proofgeist",
+        "repo": "granola-ai-mcp-server",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1768127708,
+        "narHash": "sha256-1Sm77VfZh3mU0F5OqKABNLWxOuDeHIlcFjsXeeiPazs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "ffbc9f8cbaacfb331b6017d5a5abb21a492c9a38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "mcp-bear": "mcp-bear",
+        "mcp-granola": "mcp-granola",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
