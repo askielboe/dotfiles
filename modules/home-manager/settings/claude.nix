@@ -134,6 +134,13 @@ in
         args = [ ];
         env = { };
       };
+      voicemode = {
+        command = "${pkgs.mcp-voicemode}/bin/voice-mode";
+        args = [ ];
+        env = {
+          OPENAI_API_KEY = private.apiKeys.openai;
+        };
+      };
       trainerroad = {
         command = "${pkgs.uv}/bin/uv";
         args = [

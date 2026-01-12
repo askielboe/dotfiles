@@ -28,12 +28,14 @@
         {
           mcp-bear = import ./mcp-bear.nix { inherit pkgs; src = mcp-bear; };
           mcp-granola = import ./mcp-granola.nix { inherit pkgs; src = mcp-granola; };
+          mcp-voicemode = import ./mcp-voicemode.nix { inherit pkgs; };
         }
       );
 
       overlays.default = final: _prev: {
         mcp-bear = import ./mcp-bear.nix { pkgs = final; src = mcp-bear; };
         mcp-granola = import ./mcp-granola.nix { pkgs = final; src = mcp-granola; };
+        mcp-voicemode = import ./mcp-voicemode.nix { pkgs = final; };
       };
     };
 }
