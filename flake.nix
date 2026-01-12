@@ -19,6 +19,9 @@
 
     catppuccin.url = "github:catppuccin/nix/release-25.11";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
+
+    packages.url = "path:./packages";
+    packages.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -30,11 +33,13 @@
       nix-index-database,
       nixvim,
       catppuccin,
+      packages,
       ...
     }:
     let
       darwinSystem = "aarch64-darwin";
       linuxSystem = "x86_64-linux";
+
       privateFile =
         let
           darwinPath = /Users/askielboe/.config/nix/secrets/private.nix;
@@ -67,6 +72,7 @@
         pkgs = import nixpkgs {
           system = darwinSystem;
           config.allowUnfree = true;
+          overlays = [ packages.overlays.default ];
         };
         specialArgs = { inherit private; };
         modules = [

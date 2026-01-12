@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "anytype-mcp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767859814,
+        "narHash": "sha256-K6Ikq5nYri5pNPD5fYjee5scG/JOX0O9g1GUzAuiR2g=",
+        "owner": "anyproto",
+        "repo": "anytype-mcp",
+        "rev": "7af1b97b91764dd1000db390520fb2e59a4a0f7e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anyproto",
+        "repo": "anytype-mcp",
+        "type": "github"
+      }
+    },
     "catppuccin": {
       "inputs": {
         "nixpkgs": [
@@ -130,6 +146,22 @@
         "type": "github"
       }
     },
+    "mcp-bear": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765959980,
+        "narHash": "sha256-YXd2rny8JnnzUFErRNv2cFh2ZkRfL+MspH9/wGBkl0g=",
+        "owner": "jkawamoto",
+        "repo": "mcp-bear",
+        "rev": "e8127153cf408a6119e6a15af60e530b955471a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jkawamoto",
+        "repo": "mcp-bear",
+        "type": "github"
+      }
+    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -243,6 +275,24 @@
         "type": "github"
       }
     },
+    "packages": {
+      "inputs": {
+        "anytype-mcp": "anytype-mcp",
+        "mcp-bear": "mcp-bear",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./packages",
+        "type": "path"
+      },
+      "original": {
+        "path": "./packages",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
@@ -251,7 +301,8 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "packages": "packages"
       }
     },
     "systems": {
