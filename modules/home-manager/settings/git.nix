@@ -20,6 +20,7 @@
         ".direnv"
         ".envrc"
         ".pytest_cache/"
+        ".serena/"
         "cache.sh"
         "cancel-release.sh"
         "devbox.*"

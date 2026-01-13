@@ -7,12 +7,14 @@
 
     taps = [
       "lightdash/lightdash"
+      "max-sixty/worktrunk"
     ];
 
     brews = [
       "claude-squad"
       "lightdash"
       "mas"
+      "max-sixty/worktrunk/wt"
     ];
 
     casks = [

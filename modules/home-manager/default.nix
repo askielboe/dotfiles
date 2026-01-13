@@ -44,6 +44,8 @@
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
       c = "claude";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
+      ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude' -- --dangerously-skip-permissions";
+      wm = "wt merge";
     };
   };
 

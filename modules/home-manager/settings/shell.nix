@@ -6,6 +6,10 @@
       enable = true;
       autocd = false;
       cdpath = [ "~" ];
+      initContent = ''
+        # worktrunk (wt) shell integration
+        command -v wt >/dev/null 2>&1 && eval "$(wt config shell init zsh)"
+      '';
       prezto = {
         enable = true;
         pmodules = [

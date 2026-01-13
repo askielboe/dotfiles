@@ -1,0 +1,2 @@
+[post-create]
+copy-serena = "cp -r {{ main_worktree_path }}/.serena . 2>/dev/null || true"
