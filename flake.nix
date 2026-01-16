@@ -20,6 +20,10 @@
     catppuccin.url = "github:catppuccin/nix/release-25.11";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
+    nur.url = "github:nix-community/NUR";
+
+    arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
+
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -33,6 +37,8 @@
       nix-index-database,
       nixvim,
       catppuccin,
+      nur,
+      arkenfox,
       packages,
       ...
     }:
@@ -63,6 +69,7 @@
         { programs.nix-index-database.comma.enable = true; }
         nixvim.homeModules.nixvim
         catppuccin.homeModules.catppuccin
+        arkenfox.hmModules.arkenfox
       ];
     in
     {
@@ -82,7 +89,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit nixvim nixpkgs-unstable private; };
+              extraSpecialArgs = { inherit nixvim nixpkgs-unstable nur private; };
               users.${user}.imports = homeManagerModules ++ [
                 ./modules/home-manager
                 ./modules/home-manager/darwin-specific.nix
@@ -98,7 +105,7 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        extraSpecialArgs = { inherit nixvim nixpkgs-unstable private; };
+        extraSpecialArgs = { inherit nixvim nixpkgs-unstable nur private; };
         modules = homeManagerModules ++ [
           ./modules/home-manager
           ./modules/home-manager/linux-specific.nix

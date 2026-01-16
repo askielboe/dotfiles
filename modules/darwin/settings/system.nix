@@ -37,7 +37,7 @@
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
-          { app = "/Applications/Zen.app"; }
+          { app = "/Applications/Firefox.app"; }
           { app = "/Applications/Claude.app"; }
           { app = "/Applications/Zed.app"; }
           { app = "/Applications/Bear.app"; }

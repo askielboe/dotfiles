@@ -3,6 +3,7 @@
   imports = [
     ./settings/autostart.nix
     ./settings/environment.nix
+    ./settings/firefox.nix
     ./settings/homebrew.nix
     ./settings/networking.nix
     ./settings/power.nix

@@ -31,6 +31,7 @@
       "dbeaver-community"
       "devonthink"
       "discord"
+      "firefox"
       "ghostty"
       "handbrake-app"
       "hookmark"
