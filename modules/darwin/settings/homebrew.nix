@@ -33,6 +33,7 @@
       "discord"
       "ghostty"
       "handbrake-app"
+      "hookmark"
       "microsoft-teams"
       "notion"
       "plex"
