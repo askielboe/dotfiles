@@ -31,6 +31,11 @@ in
         phpactor.enable = true;
         ty.enable = true;
         ruby_lsp.enable = true;
+        rust_analyzer = {
+          enable = true;
+          installCargo = false;
+          installRustc = false;
+        };
         shopify_theme_ls.enable = true;
         swift_mesonls.enable = true;
         tflint.enable = true;

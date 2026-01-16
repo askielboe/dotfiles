@@ -45,6 +45,7 @@
           "fixjson"
           "prettierd"
         ];
+        rust = [ "rustfmt" ];
       };
     };
   };

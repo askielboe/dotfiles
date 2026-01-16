@@ -32,6 +32,7 @@
           "statix"
         ];
         python = [ "ruff" ];
+        rust = [ "clippy" ];
         sql = [ "sqlfluff" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];

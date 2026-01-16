@@ -14,6 +14,8 @@ in
     btop
     bzip2
     cargo
+    clippy
+    rust-analyzer
     ccache
     coreutils
     curl
