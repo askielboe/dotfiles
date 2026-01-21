@@ -6,29 +6,6 @@ let
     rev = "b02d67e33091abff7cef3c98465fc1fa5f96ba46";
   };
 
-  serenaConfig = {
-    gui_log_window = false;
-    web_dashboard = true;
-    web_dashboard_open_on_launch = false;
-    log_level = 20;
-    trace_lsp_communication = false;
-    ls_specific_settings = { };
-    tool_timeout = 240;
-    excluded_tools = [ ];
-    included_optional_tools = [ ];
-    default_max_tool_answer_chars = 150000;
-    token_count_estimator = "CHAR_COUNT";
-    language_backend = "LSP";
-    projects = [
-      "/Users/askielboe/.config/nix"
-      "/Users/askielboe/work/bear-related"
-      "/Users/askielboe/work/budget"
-      "/Users/askielboe/work/k3s"
-      "/Users/askielboe/work/motosumo/commons"
-      "/Users/askielboe/work/ms/mrs-warehouse"
-    ];
-  };
-
   icons = {
     bear = pkgs.fetchurl {
       url = "https://bear.app/images/logo.png";
@@ -181,5 +158,4 @@ in
     };
   };
 
-  home.file.".serena/serena_config.yml".source = yamlFormat.generate "serena_config.yml" serenaConfig;
 }
