@@ -29,6 +29,17 @@ let
     ];
   };
 
+  icons = {
+    bear = pkgs.fetchurl {
+      url = "https://bear.app/images/logo.png";
+      sha256 = "sha256-gTh0ZcXCLALMlmQmKeW66eCpQD+AySs2/+fOLyoN+uQ=";
+    };
+    granola = pkgs.fetchurl {
+      url = "https://www.granola.ai/favicon.ico";
+      sha256 = "sha256-5TEt+YrhKezY4nZ5//D8dvvJr79yTsWj/tmFHgtXoAc=";
+    };
+  };
+
   yamlFormat = pkgs.formats.yaml { };
 in
 {
@@ -128,11 +139,13 @@ in
         command = "${pkgs.mcp-bear}/bin/mcp-bear";
         args = [ "--token" private.apiKeys.bear ];
         env = { };
+        iconPath = "${icons.bear}";
       };
       granola = {
         command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
         args = [ ];
         env = { };
+        iconPath = "${icons.granola}";
       };
       voicemode = {
         command = "${pkgs.mcp-voicemode}/bin/voice-mode";
