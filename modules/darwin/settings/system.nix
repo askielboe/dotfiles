@@ -19,6 +19,10 @@
         askForPasswordDelay = 300; # Not working?
       };
 
+      screencapture = {
+        target = "clipboard";
+      };
+
       controlcenter = {
         BatteryShowPercentage = true;
         Bluetooth = true;
