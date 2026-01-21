@@ -1,4 +1,4 @@
-{ pkgs, nur, ... }:
+{ pkgs, lib, nur, ... }:
 let
   addons = nur.legacyPackages.${pkgs.stdenv.hostPlatform.system}.repos.rycee.firefox-addons;
 in
@@ -71,6 +71,21 @@ in
         "browser.warnOnQuit" = false;
         "browser.warnOnQuitShortcut" = false;
         "browser.sessionstore.warnOnQuit" = false;
+
+        "browser.translations.enable" = true;
+        "browser.translations.autoTranslate" = true;
+        "browser.translations.automaticallyPopup" = true;
+        "browser.translations.select.enable" = true;
+
+        "browser.urlbar.suggest.history" = true;
+        "browser.urlbar.suggest.bookmark" = true;
+        "browser.urlbar.suggest.openpage" = true;
+        "browser.urlbar.suggest.topsites" = true;
+        "browser.urlbar.suggest.recentsearches" = true;
+
+        "dom.event.clipboardevents.enabled" = true;
+
+        "pdfjs.disabled" = lib.mkForce true;
       };
 
       search = {
