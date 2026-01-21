@@ -54,7 +54,6 @@
       "zed"
       "zen"
       "zoom"
-      "zwift"
     ];
 
     masApps = {
@@ -62,7 +61,6 @@
       "1Password for Safari" = 1569813296;
       Bear = 1091189122;
       DaisyDisk = 411643860;
-      Jomo = 1609960918;
       Keynote = 409183694;
       LookAway = 6747192301;
       Magnet = 441258766;
