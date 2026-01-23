@@ -52,7 +52,6 @@
       "transmission"
       "vlc"
       "zed"
-      "zen"
       "zoom"
     ];
 
@@ -64,7 +63,6 @@
       Keynote = 409183694;
       LookAway = 6747192301;
       Magnet = 441258766;
-      Messenger = 1480068668;
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
