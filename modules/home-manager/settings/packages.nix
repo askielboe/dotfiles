@@ -16,6 +16,7 @@ in
     cargo
     clippy
     rust-analyzer
+    rustfmt
     ccache
     coreutils
     curl
