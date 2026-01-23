@@ -1,4 +1,9 @@
-{ pkgs, lib, private, ... }:
+{
+  pkgs,
+  lib,
+  private,
+  ...
+}:
 let
   ccplugins = builtins.fetchGit {
     url = "https://github.com/brennercruvinel/CCPlugins";
@@ -16,32 +21,10 @@ let
       sha256 = "sha256-5TEt+YrhKezY4nZ5//D8dvvJr79yTsWj/tmFHgtXoAc=";
     };
   };
-
-  yamlFormat = pkgs.formats.yaml { };
 in
 {
   home.file.".claude/settings.json".text = builtins.toJSON {
     model = "claude-opus-4-5-20251101";
-    statusLine = {
-      type = "command";
-      command = ''
-        input=$(cat);
-        model=$(echo "$input" | jq -r '.model.display_name');
-        usage=$(echo "$input" | jq '.context_window.current_usage');
-        if [ "$usage" != "null" ]; then
-          tokens=$(echo "$usage" | jq -r '(.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0)');
-        else
-          tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // 0');
-        fi
-        max_tokens=$(echo "$input" | jq -r '.context_window.context_window_size // 200000');
-        tokens_k=$((tokens / 1000));
-        max_k=$((max_tokens / 1000));
-        pct=$((tokens * 100 / max_tokens));
-        dir=$(echo "$input" | jq -r '.workspace.current_dir');
-        branch=$(cd "$dir" 2>/dev/null && git --no-optional-locks rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'no git');
-        echo "$model | ''${tokens_k}k/''${max_k}k ($pct%) | $branch | $dir"
-      '';
-    };
     alwaysThinkingEnabled = true;
     permissions = {
       allow = [ "*" ];
@@ -114,7 +97,10 @@ in
     mcpServers = {
       bear = {
         command = "${pkgs.mcp-bear}/bin/mcp-bear";
-        args = [ "--token" private.apiKeys.bear ];
+        args = [
+          "--token"
+          private.apiKeys.bear
+        ];
         env = { };
         iconPath = "${icons.bear}";
       };
