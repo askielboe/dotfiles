@@ -4,6 +4,7 @@
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/firefox.nix
+    ./settings/hammerspoon.nix
     ./settings/homebrew.nix
     ./settings/networking.nix
     ./settings/power.nix
