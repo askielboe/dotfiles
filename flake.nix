@@ -20,6 +20,7 @@
     catppuccin.url = "github:catppuccin/nix/release-25.11";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Firefox addons
     nur.url = "github:nix-community/NUR";
 
     arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
@@ -89,7 +90,14 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = { inherit nixvim nixpkgs-unstable nur private; };
+              extraSpecialArgs = {
+                inherit
+                  nixvim
+                  nixpkgs-unstable
+                  nur
+                  private
+                  ;
+              };
               users.${user}.imports = homeManagerModules ++ [
                 ./modules/home-manager
                 ./modules/home-manager/darwin-specific.nix
@@ -105,7 +113,14 @@
           system = linuxSystem;
           config.allowUnfree = true;
         };
-        extraSpecialArgs = { inherit nixvim nixpkgs-unstable nur private; };
+        extraSpecialArgs = {
+          inherit
+            nixvim
+            nixpkgs-unstable
+            nur
+            private
+            ;
+        };
         modules = homeManagerModules ++ [
           ./modules/home-manager
           ./modules/home-manager/linux-specific.nix
