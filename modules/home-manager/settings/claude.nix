@@ -30,6 +30,21 @@ in
       allow = [ "*" ];
       deny = [ ];
     };
+    statusLine = {
+      type = "command";
+      command = "~/.claude/statusline.sh";
+      padding = 0;
+    };
+  };
+
+  home.file.".claude/statusline.sh" = {
+    executable = true;
+    text = ''
+      #!/bin/bash
+      input=$(cat)
+      CURRENT_DIR=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.workspace.current_dir')
+      echo "''${CURRENT_DIR##*/}"
+    '';
   };
 
   home.file.".claude/commands".source = "${ccplugins}/commands";
