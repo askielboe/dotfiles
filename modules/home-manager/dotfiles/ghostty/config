@@ -32,9 +32,6 @@ keybind = ctrl+alt+cmd+h=resize_split:left,10
 keybind = ctrl+alt+cmd+k=resize_split:up,10
 keybind = ctrl+alt+cmd+l=resize_split:right,10
 
-# Quick terminal
-keybind = global:cmd+$=toggle_quick_terminal
-
 # Claude Code integration
 # Enable shell integration for better Claude Code experience
 shell-integration = zsh
