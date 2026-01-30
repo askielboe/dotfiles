@@ -15,20 +15,18 @@
       "lightdash"
       "mas"
       "max-sixty/worktrunk/wt"
+      "neonctl"
     ];
 
     casks = [
       "1password"
       "1password-cli"
-      "anytype"
       "appcleaner"
       "arq"
       "bitwarden"
       "claude"
       "cloudflare-warp"
       "cyberduck"
-      "db-browser-for-sqlite"
-      "dbeaver-community"
       "devonthink"
       "discord"
       "firefox"
@@ -40,7 +38,6 @@
       "plex"
       "postico"
       "proxyman"
-      "raycast"
       "reactotron"
       "signal"
       "slack"
@@ -62,7 +59,6 @@
       DaisyDisk = 411643860;
       Keynote = 409183694;
       LookAway = 6747192301;
-      Magnet = 441258766;
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
