@@ -14,10 +14,8 @@ in
     btop
     bzip2
     cargo
-    clippy
-    rust-analyzer
-    rustfmt
     ccache
+    clippy
     coreutils
     curl
     d2
@@ -49,6 +47,7 @@ in
     htop
     httpie
     jq
+    just
     k9s
     killall
     kubectl
@@ -66,6 +65,8 @@ in
     restic
     resticprofile
     ripgrep
+    rust-analyzer
+    rustfmt
     shellcheck
     sqlite
     ssm-session-manager-plugin
