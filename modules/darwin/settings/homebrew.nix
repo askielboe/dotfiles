@@ -30,6 +30,7 @@
       "cyberduck"
       "devonthink"
       "discord"
+      "element"
       "firefox"
       "ghostty"
       "handbrake-app"
