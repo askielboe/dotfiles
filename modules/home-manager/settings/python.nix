@@ -5,7 +5,6 @@
       ps: with ps; [
         ipython
         jedi-language-server
-        jupyter
         matplotlib
         numpy
         python-lsp-server
