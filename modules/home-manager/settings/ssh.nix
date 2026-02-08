@@ -60,6 +60,18 @@
         identityFile = private.ssh.k3s.identityFile;
         identitiesOnly = true;
       };
+      "oci-1" = {
+        hostname = private.ssh.oci1.hostname;
+        user = private.ssh.oci1.user;
+        identityFile = private.ssh.oci1.identityFile;
+        identitiesOnly = true;
+      };
+      "oci-2" = {
+        hostname = private.ssh.oci2.hostname;
+        user = private.ssh.oci2.user;
+        identityFile = private.ssh.oci2.identityFile;
+        identitiesOnly = true;
+      };
     };
   };
 }
