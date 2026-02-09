@@ -24,7 +24,7 @@ let
 in
 {
   home.file.".claude/settings.json".text = builtins.toJSON {
-    model = "claude-opus-4-5-20251101";
+    model = "claude-opus-4-6";
     alwaysThinkingEnabled = true;
     permissions = {
       allow = [ "*" ];
