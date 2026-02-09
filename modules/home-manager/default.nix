@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  nur,
   private,
   ...
 }:
@@ -11,7 +10,6 @@
     ./nixvim
     ./settings/claude.nix
     ./settings/file.nix
-    ./settings/firefox.nix
     ./settings/git-annex.nix
     ./settings/git.nix
     ./settings/nodejs.nix

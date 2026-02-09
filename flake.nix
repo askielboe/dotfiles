@@ -20,11 +20,6 @@
     catppuccin.url = "github:catppuccin/nix/release-25.11";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Firefox addons
-    nur.url = "github:nix-community/NUR";
-
-    arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
-
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -38,8 +33,6 @@
       nix-index-database,
       nixvim,
       catppuccin,
-      nur,
-      arkenfox,
       packages,
       ...
     }:
@@ -70,7 +63,6 @@
         { programs.nix-index-database.comma.enable = true; }
         nixvim.homeModules.nixvim
         catppuccin.homeModules.catppuccin
-        arkenfox.hmModules.arkenfox
       ];
     in
     {
@@ -94,7 +86,6 @@
                 inherit
                   nixvim
                   nixpkgs-unstable
-                  nur
                   private
                   ;
               };
@@ -117,7 +108,6 @@
           inherit
             nixvim
             nixpkgs-unstable
-            nur
             private
             ;
         };

@@ -31,7 +31,6 @@
       "devonthink"
       "discord"
       "element"
-      "firefox"
       "ghostty"
       "handbrake-app"
       "hookmark"
