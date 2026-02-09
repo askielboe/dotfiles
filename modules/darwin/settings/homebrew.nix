@@ -60,6 +60,8 @@
       DaisyDisk = 411643860;
       Keynote = 409183694;
       LookAway = 6747192301;
+      Numbers = 409203825;
+      Pages = 409201541;
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
