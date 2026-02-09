@@ -11,7 +11,6 @@
     ];
 
     brews = [
-      "claude-squad"
       "lightdash"
       "mas"
       "max-sixty/worktrunk/wt"
@@ -33,7 +32,6 @@
       "element"
       "ghostty"
       "handbrake-app"
-      "hookmark"
       "microsoft-teams"
       "notion"
       "plex"
