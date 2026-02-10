@@ -20,7 +20,6 @@
     casks = [
       "1password"
       "1password-cli"
-      "adguard"
       "appcleaner"
       "arq"
       "bartender"
@@ -55,6 +54,7 @@
     ];
 
     masApps = {
+      "1Blocker" = 1365531024;
       "1Password for Safari" = 1569813296;
       Bear = 1091189122;
       DaisyDisk = 411643860;
