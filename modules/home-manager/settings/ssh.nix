@@ -68,6 +68,7 @@
       };
       "oci-2" = {
         hostname = private.ssh.oci2.hostname;
+        port = private.ssh.oci2.port;
         user = private.ssh.oci2.user;
         identityFile = private.ssh.oci2.identityFile;
         identitiesOnly = true;
