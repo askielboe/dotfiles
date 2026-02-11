@@ -29,7 +29,6 @@
       "cloudflare-warp"
       "cyberduck"
       "devonthink"
-      "discord"
       "element"
       "ghostty"
       "granola"
