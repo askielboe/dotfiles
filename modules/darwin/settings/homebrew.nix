@@ -35,6 +35,7 @@
       "granola"
       "hammerspoon"
       "handbrake-app"
+      "jami"
       "microsoft-teams"
       "notion"
       "plex"
