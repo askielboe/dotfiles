@@ -6,11 +6,13 @@
     caskArgs.no_quarantine = true;
 
     taps = [
+      "jeanregisser/tap"
       "lightdash/lightdash"
       "max-sixty/worktrunk"
     ];
 
     brews = [
+      "jeanregisser/tap/bitwarden-cli-bio"
       "lightdash"
       "mas"
       "max-sixty/worktrunk/wt"
@@ -23,7 +25,6 @@
       "appcleaner"
       "arq"
       "bartender"
-      "bitwarden"
       "claude"
       "cloudflare-warp"
       "cyberduck"
@@ -66,6 +67,7 @@
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
       TestFlight = 899247664;
+      Bitwarden = 1352778147;
       "Things 3" = 904280696;
       Xcode = 497799835;
     };

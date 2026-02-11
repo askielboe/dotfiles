@@ -7,6 +7,7 @@
   };
 
   home.shellAliases = {
+    bw = "bwbio";
     o = "open .";
     cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
   };

@@ -11,6 +11,7 @@ in
   home.packages = with pkgs; [
     age
     aichat
+    bitwarden-cli
     btop
     bzip2
     cargo
