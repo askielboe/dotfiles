@@ -66,11 +66,10 @@
         identityFile = private.ssh.oci1.identityFile;
         identitiesOnly = true;
       };
-      "oci-2" = {
-        hostname = private.ssh.oci2.hostname;
-        port = private.ssh.oci2.port;
-        user = private.ssh.oci2.user;
-        identityFile = private.ssh.oci2.identityFile;
+      "dokku-1" = {
+        hostname = private.ssh.dokku1.hostname;
+        user = private.ssh.dokku1.user;
+        identityFile = private.ssh.dokku1.identityFile;
         identitiesOnly = true;
       };
     };
