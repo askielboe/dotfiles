@@ -55,6 +55,9 @@ in
     kubernetes-helm
     magic-wormhole
     mariadb
+    mcp-bear
+    mcp-granola
+    mcp-things
     ngrok
     nixpkgs-review
     npm-check-updates
