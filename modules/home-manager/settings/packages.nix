@@ -67,6 +67,7 @@ in
     resticprofile
     ripgrep
     rust-analyzer
+    rustc
     rustfmt
     shellcheck
     sqlite
