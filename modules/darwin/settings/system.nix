@@ -37,7 +37,7 @@
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Things3.app"; }
-          { app = "/System/Applications/Mail.app"; }
+          { app = "/Applications/Shortwave.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
