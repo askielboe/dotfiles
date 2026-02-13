@@ -13,6 +13,10 @@ let
       url = "https://www.granola.ai/favicon.ico";
       sha256 = "sha256-5TEt+YrhKezY4nZ5//D8dvvJr79yTsWj/tmFHgtXoAc=";
     };
+    things = pkgs.fetchurl {
+      url = "https://culturedcode.com/favicon.ico";
+      sha256 = "sha256-AdJQOdKrwWLAelVP6FaLNdFIW3ncTG57WO9s6+CtTWw=";
+    };
   };
 in
 {
@@ -42,6 +46,12 @@ in
         args = [ ];
         env = { };
         iconPath = "${icons.granola}";
+      };
+      things = {
+        command = "${pkgs.mcp-things}/bin/things-mcp";
+        args = [ ];
+        env = { };
+        iconPath = "${icons.things}";
       };
     };
     preferences = {

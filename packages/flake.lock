@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "mcp-things": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769880407,
+        "narHash": "sha256-mXt2wN04sYnaC4gjGluJhrJWrRoB4dj2COar3ybr+Wk=",
+        "owner": "hald",
+        "repo": "things-mcp",
+        "rev": "433bd44d8d1d89df2ab0e9d92eaac44843a0f493",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hald",
+        "repo": "things-mcp",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1768127708,
@@ -52,6 +68,7 @@
       "inputs": {
         "mcp-bear": "mcp-bear",
         "mcp-granola": "mcp-granola",
+        "mcp-things": "mcp-things",
         "nixpkgs": "nixpkgs"
       }
     }

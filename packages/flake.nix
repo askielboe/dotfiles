@@ -11,6 +11,10 @@
       url = "github:proofgeist/granola-ai-mcp-server";
       flake = false;
     };
+    mcp-things = {
+      url = "github:hald/things-mcp";
+      flake = false;
+    };
   };
 
   outputs =
@@ -18,6 +22,7 @@
       nixpkgs,
       mcp-bear,
       mcp-granola,
+      mcp-things,
       ...
     }:
     let
@@ -42,6 +47,10 @@
             inherit pkgs;
             src = mcp-granola;
           };
+          mcp-things = import ./mcp-things.nix {
+            inherit pkgs;
+            src = mcp-things;
+          };
         }
       );
       overlays.default = final: _prev: {
@@ -52,6 +61,10 @@
         mcp-granola = import ./mcp-granola.nix {
           pkgs = final;
           src = mcp-granola;
+        };
+        mcp-things = import ./mcp-things.nix {
+          pkgs = final;
+          src = mcp-things;
         };
       };
     };
