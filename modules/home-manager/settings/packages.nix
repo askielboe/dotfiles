@@ -61,6 +61,7 @@ in
     ngrok
     nixpkgs-review
     npm-check-updates
+    openclaw
     openssh
     parallel
     postgresql

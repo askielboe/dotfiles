@@ -1,5 +1,5 @@
 {
-  description = "MCP server packages";
+  description = "Custom packages";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -51,6 +51,7 @@
             inherit pkgs;
             src = mcp-things;
           };
+          openclaw = import ./openclaw.nix { inherit pkgs; };
         }
       );
       overlays.default = final: _prev: {
@@ -66,6 +67,7 @@
           pkgs = final;
           src = mcp-things;
         };
+        openclaw = import ./openclaw.nix { pkgs = final; };
       };
     };
 }
