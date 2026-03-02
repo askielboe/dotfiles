@@ -83,6 +83,14 @@
       };
 
       menuExtraClock.ShowDate = 1;
+
+      CustomUserPreferences = {
+        "com.apple.mail" = {
+          NSUserKeyEquivalents = {
+            "Mailbox Search" = "@$f";
+          };
+        };
+      };
     };
   };
 
