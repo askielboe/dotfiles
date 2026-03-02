@@ -4,6 +4,11 @@
   ...
 }:
 let
+  statuslineScript = pkgs.writeShellScript "claude-statusline" ''
+    input=$(cat)
+    DIR=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.workspace.project_dir')
+    echo "$DIR"
+  '';
   icons = {
     bear = pkgs.fetchurl {
       url = "https://bear.app/images/logo.png";
@@ -26,6 +31,10 @@ in
     permissions = {
       allow = [ "*" ];
       deny = [ ];
+    };
+    statusLine = {
+      type = "command";
+      command = "${statuslineScript}";
     };
   };
 
