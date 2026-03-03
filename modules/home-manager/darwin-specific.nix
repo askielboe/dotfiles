@@ -1,4 +1,18 @@
 { lib, pkgs, private, ... }:
+let
+  # Wrapper that pre-trusts the current directory so Claude never shows the trust dialog
+  claude-wrapper = pkgs.writeShellScript "claude-trust-dir" ''
+    CLAUDE_JSON="$HOME/.claude/.claude.json"
+    DIR="$PWD"
+    if [ -f "$CLAUDE_JSON" ]; then
+      tmp=$(mktemp)
+      ${pkgs.jq}/bin/jq --arg dir "$DIR" '
+        .projects[$dir] = (.projects[$dir] // {}) |
+        .projects[$dir].hasTrustDialogAccepted = true
+      ' "$CLAUDE_JSON" > "$tmp" && mv "$tmp" "$CLAUDE_JSON"
+    fi
+  '';
+in
 {
   home.homeDirectory = private.user.homeDirectory;
 
@@ -25,6 +39,11 @@
       export NIXPKGS_ALLOW_UNFREE=1
       sudo -E darwin-rebuild switch --flake ~/.config/nix/'.#${private.user.username}' --impure
       exec $SHELL
+    }
+
+    claude() {
+      ${claude-wrapper}
+      command claude "$@"
     }
   '';
 

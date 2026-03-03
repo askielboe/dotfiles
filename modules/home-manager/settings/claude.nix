@@ -29,6 +29,7 @@ in
     model = "claude-opus-4-6";
     alwaysThinkingEnabled = true;
     permissions = {
+      defaultMode = "bypassPermissions";
       allow = [ "*" ];
       deny = [ ];
     };
