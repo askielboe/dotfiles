@@ -4,6 +4,18 @@
   private,
   ...
 }:
+let
+  # Wrapper that pre-seeds workspace trust in ~/.claude/.claude.json before launching claude
+  claude-trusted = pkgs.writeShellScriptBin "claude-trusted" ''
+    CLAUDE_JSON="$HOME/.claude/.claude.json"
+    if [ -f "$CLAUDE_JSON" ]; then
+      ${pkgs.lib.getExe pkgs.jq} --arg dir "$PWD" \
+        '.projects[$dir] //= {} | .projects[$dir].hasTrustDialogAccepted = true' \
+        "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
+    fi
+    exec claude "$@"
+  '';
+in
 {
   # Import shared home-manager settings
   imports = [
@@ -39,6 +51,8 @@
       YARN_CACHE_FOLDER = "$HOME/.cache/yarn-global";
     };
 
+    packages = [ claude-trusted ];
+
     shellAliases = {
       ef = "e $(fzf)";
       cf = "cd $(fzf)";
@@ -50,7 +64,7 @@
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
       c = "claude";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
-      ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude' -- --dangerously-skip-permissions";
+      ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude-trusted' -- --dangerously-skip-permissions";
       wm = "wt merge";
       cm = "claude --dangerously-skip-permissions --continue 'Fix the merge conflicts. Do NOT merge or commit ONLY do rebase continue. Preserve any functionality added to main outside this branch.'";
 
