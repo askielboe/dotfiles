@@ -28,6 +28,7 @@ in
   home.file.".claude/settings.json".text = builtins.toJSON {
     model = "claude-opus-4-6";
     alwaysThinkingEnabled = true;
+    skipDangerousModePermissionPrompt = true;
     permissions = {
       defaultMode = "bypassPermissions";
       allow = [ "*" ];
@@ -36,6 +37,15 @@ in
     statusLine = {
       type = "command";
       command = "${statuslineScript}";
+    };
+    mcpServers = {
+      screenpipe = {
+        command = "${pkgs.nodejs_22}/bin/npx";
+        args = [
+          "-y"
+          "screenpipe-mcp"
+        ];
+      };
     };
   };
 
@@ -62,6 +72,14 @@ in
         args = [ ];
         env = { };
         iconPath = "${icons.things}";
+      };
+      screenpipe = {
+        command = "${pkgs.nodejs_22}/bin/npx";
+        args = [
+          "-y"
+          "screenpipe-mcp"
+        ];
+        env = { };
       };
     };
     preferences = {

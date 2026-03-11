@@ -6,12 +6,17 @@
 }:
 let
   # Wrapper that pre-seeds workspace trust in ~/.claude/.claude.json before launching claude
+  # Claude resolves the git root of cwd for the trust check, so we do the same
   claude-trusted = pkgs.writeShellScriptBin "claude-trusted" ''
     CLAUDE_JSON="$HOME/.claude/.claude.json"
     if [ -f "$CLAUDE_JSON" ]; then
-      ${pkgs.lib.getExe pkgs.jq} --arg dir "$PWD" \
-        '.projects[$dir] //= {} | .projects[$dir].hasTrustDialogAccepted = true' \
-        "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
+      DIR="$(${pkgs.git}/bin/git rev-parse --show-toplevel 2>/dev/null || pwd)"
+      ${pkgs.lib.getExe pkgs.jq} --arg dir "$DIR" '
+        .projects[$dir] //= {} |
+        .projects[$dir].hasTrustDialogAccepted = true |
+        .projects[$dir].hasClaudeMdExternalIncludesApproved = true |
+        .projects[$dir].hasClaudeMdExternalIncludesWarningShown = true
+      ' "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
     fi
     exec claude "$@"
   '';
