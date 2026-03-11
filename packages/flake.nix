@@ -52,6 +52,7 @@
             src = mcp-things;
           };
           openclaw = import ./openclaw.nix { inherit pkgs; };
+          screenpipe = import ./screenpipe.nix { inherit pkgs; };
         }
       );
       overlays.default = final: _prev: {
@@ -68,6 +69,7 @@
           src = mcp-things;
         };
         openclaw = import ./openclaw.nix { pkgs = final; };
+        screenpipe = import ./screenpipe.nix { pkgs = final; };
       };
     };
 }

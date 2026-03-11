@@ -29,6 +29,7 @@ in
     ./settings/openclaw.nix
     ./settings/packages.nix
     ./settings/programs.nix
+    ./settings/screenpipe.nix
     ./settings/python.nix
     ./settings/shell.nix
     ./settings/ssh.nix
