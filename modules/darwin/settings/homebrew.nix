@@ -30,12 +30,16 @@
       "cyberduck"
       "devonthink"
       "element"
+      "feather"
+      "firefox"
       "ghostty"
+      "google-chrome"
       "granola"
       "hammerspoon"
       "handbrake-app"
       "jami"
       "microsoft-teams"
+      "obsidian"
       "plex"
       "postico"
       "proxyman"
@@ -43,12 +47,10 @@
       "shortwave"
       "signal"
       "slack"
-      "sonos"
+      "soulver"
       "stats"
       "steam"
-      "superhuman"
       "tor-browser"
-      "trainerroad"
       "transmission"
       "vlc"
       "zed"
@@ -68,6 +70,7 @@
       "Microsoft Word" = 462054704;
       TestFlight = 899247664;
       Bitwarden = 1352778147;
+      "In Your Face" = 1476964367;
       "Things 3" = 904280696;
       Xcode = 497799835;
     };
