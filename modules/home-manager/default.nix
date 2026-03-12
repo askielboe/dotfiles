@@ -31,7 +31,7 @@ in
     ./settings/git.nix
     ./settings/nodejs.nix
     ./settings/ollama.nix
-    ./settings/openclaw.nix
+
     ./settings/packages.nix
     ./settings/programs.nix
     ./settings/screenpipe.nix

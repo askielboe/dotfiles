@@ -51,7 +51,7 @@
             inherit pkgs;
             src = mcp-things;
           };
-          openclaw = import ./openclaw.nix { inherit pkgs; };
+
           screenpipe = import ./screenpipe.nix { inherit pkgs; };
         }
       );
@@ -68,7 +68,7 @@
           pkgs = final;
           src = mcp-things;
         };
-        openclaw = import ./openclaw.nix { pkgs = final; };
+
         screenpipe = import ./screenpipe.nix { pkgs = final; };
       };
     };

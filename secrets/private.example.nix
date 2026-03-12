@@ -28,7 +28,7 @@
 
   apiKeys = {
     bear = "your-bear-api-token";
-    openclawGateway = "your-openclaw-gateway-token";
+
   };
 
   ssh = {
