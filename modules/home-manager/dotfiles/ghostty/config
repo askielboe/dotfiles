@@ -34,8 +34,7 @@ keybind = ctrl+alt+cmd+l=resize_split:right,10
 
 # Claude Code integration
 # Enable shell integration for better Claude Code experience
-shell-integration = zsh
-shell-integration-features = cursor,sudo,title
+shell-integration = none
 
 # Better copy/paste for code blocks
 clipboard-paste-protection = false
