@@ -1,2 +1,2 @@
 [post-create]
-direnv-allow= "direnv allow"
+direnv-allow = "test -f .envrc && direnv allow || true"
