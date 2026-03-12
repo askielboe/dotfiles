@@ -3,12 +3,14 @@ let
   # Wrapper that pre-trusts the current directory so Claude never shows the trust dialog
   claude-wrapper = pkgs.writeShellScript "claude-trust-dir" ''
     CLAUDE_JSON="$HOME/.claude/.claude.json"
-    DIR="$PWD"
+    DIR="$(${pkgs.git}/bin/git rev-parse --show-toplevel 2>/dev/null || pwd)"
     if [ -f "$CLAUDE_JSON" ]; then
       tmp=$(mktemp)
       ${pkgs.jq}/bin/jq --arg dir "$DIR" '
         .projects[$dir] = (.projects[$dir] // {}) |
-        .projects[$dir].hasTrustDialogAccepted = true
+        .projects[$dir].hasTrustDialogAccepted = true |
+        .projects[$dir].hasClaudeMdExternalIncludesApproved = true |
+        .projects[$dir].hasClaudeMdExternalIncludesWarningShown = true
       ' "$CLAUDE_JSON" > "$tmp" && mv "$tmp" "$CLAUDE_JSON"
     fi
   '';
