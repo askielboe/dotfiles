@@ -94,9 +94,16 @@ let
     ${reload}
     echo "screenpipe: audio disabled"
   '';
+
+  python = pkgs.python3.withPackages (ps: [ ps.rumps ]);
+
+  screenpipe-menubar = pkgs.writeShellScriptBin "screenpipe-menubar" ''
+    export PATH="${pkgs.lib.makeBinPath [ sp-mic-on sp-mic-on-da sp-mic-on-en sp-mic-on-de sp-mic-off ]}:$PATH"
+    exec ${python}/bin/python3 ${./screenpipe-menubar.py}
+  '';
 in
 {
-  home.packages = [ sp-mic-on sp-mic-on-da sp-mic-on-en sp-mic-on-de sp-mic-off ];
+  home.packages = [ sp-mic-on sp-mic-on-da sp-mic-on-en sp-mic-on-de sp-mic-off screenpipe-menubar ];
 
   # Symlink pre-fetched models into the locations screenpipe expects
   home.activation.screenpipeModels = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -114,6 +121,21 @@ in
     fi
     ln -sf "${models.whisper}" "$SNAP_DIR/ggml-large-v3-turbo-q8_0.bin"
   '';
+  launchd.agents.screenpipe-menubar = {
+    enable = true;
+    config = {
+      Label = "com.screenpipe.menubar";
+      ProgramArguments = [ "${screenpipe-menubar}/bin/screenpipe-menubar" ];
+      EnvironmentVariables = {
+        HOME = private.user.homeDirectory;
+      };
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "${private.user.homeDirectory}/Library/Logs/screenpipe-menubar.log";
+      StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/screenpipe-menubar.err.log";
+    };
+  };
+
   launchd.agents.screenpipe = {
     enable = true;
     config = {
