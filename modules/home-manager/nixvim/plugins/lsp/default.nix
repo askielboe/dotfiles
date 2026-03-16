@@ -29,7 +29,14 @@ in
         lua_ls.enable = true;
         nginx_language_server.enable = true;
         phpactor.enable = true;
-        ty.enable = true;
+        ty = {
+          enable = true;
+          settings = {
+            inlayHints = {
+              variableTypes = false;
+            };
+          };
+        };
         ruby_lsp.enable = true;
         rust_analyzer = {
           enable = true;
