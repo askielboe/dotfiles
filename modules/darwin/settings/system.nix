@@ -86,8 +86,25 @@
       menuExtraClock.ShowDate = 1;
 
       CustomUserPreferences = {
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            # Disable Spotlight search (Cmd+Space)
+            "64" = {
+              enabled = false;
+              value = {
+                parameters = [
+                  32
+                  49
+                  1048576
+                ];
+                type = "standard";
+              };
+            };
+          };
+        };
         "com.apple.mail" = {
           NSUserKeyEquivalents = {
+            "Archive" = "@e";
             "Mailbox Search" = "@$f";
           };
         };
