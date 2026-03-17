@@ -1,4 +1,4 @@
-{ lib, pkgs, private, ... }:
+{ lib, pkgs, nixpkgs-unstable, private, ... }:
 let
   # Wrapper that pre-trusts the current directory so Claude never shows the trust dialog
   claude-wrapper = pkgs.writeShellScript "claude-trust-dir" ''
@@ -14,6 +14,10 @@ let
       ' "$CLAUDE_JSON" > "$tmp" && mv "$tmp" "$CLAUDE_JSON"
     fi
   '';
+  unstable = import nixpkgs-unstable {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
 in
 {
   home.homeDirectory = private.user.homeDirectory;
@@ -50,7 +54,7 @@ in
   '';
 
   home.packages = with pkgs; [
-    colima # Container runtimes (docker) on macOS (and Linux) with minimal setup
+    unstable.colima # lima dependency is EOL in stable
     ripsecrets # Find secrets
     transmission_4
     yt-dlp
