@@ -122,7 +122,7 @@ in
     ln -sf "${models.whisper}" "$SNAP_DIR/ggml-large-v3-turbo-q8_0.bin"
   '';
   launchd.agents.screenpipe-menubar = {
-    enable = true;
+    enable = false;
     config = {
       Label = "com.screenpipe.menubar";
       ProgramArguments = [ "${screenpipe-menubar}/bin/screenpipe-menubar" ];
@@ -137,7 +137,7 @@ in
   };
 
   launchd.agents.screenpipe = {
-    enable = true;
+    enable = false;
     config = {
       Label = "com.screenpipe.daemon";
       ProgramArguments = [
