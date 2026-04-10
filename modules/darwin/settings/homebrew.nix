@@ -3,7 +3,6 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
-    caskArgs.no_quarantine = true;
 
     taps = [
       "jeanregisser/tap"
@@ -25,32 +24,31 @@
       "adguard"
       "appcleaner"
       "arq"
-      "bartender"
       "claude"
       "cyberduck"
       "devonthink"
       "element"
-      "feather"
       "firefox"
       "ghostty"
       "granola"
       "hammerspoon"
       "handbrake-app"
+      "linear-linear"
+      "meetingbar"
       "microsoft-teams"
+      "notion"
+      "nvidia-geforce-now"
       "obsidian"
-      "plex"
       "postico"
       "proxyman"
-      "reactotron"
       "shortwave"
-      "signal"
       "slack"
       "soulver"
       "stats"
-      "steam"
+      "sunsama"
+      "tigervnc"
       "tor-browser"
-      "transmission"
-      "vlc"
+      "ungoogled-chromium"
       "zed"
       "zoom"
     ];
@@ -70,6 +68,7 @@
       Bitwarden = 1352778147;
       "In Your Face" = 1476964367;
       "Things 3" = 904280696;
+      Albums = 1469948986;
       Xcode = 497799835;
     };
   };
