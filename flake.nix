@@ -22,6 +22,15 @@
 
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
+
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.brew-api.follows = "brew-api";
+    };
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
   };
 
   outputs =
@@ -34,6 +43,7 @@
       nixvim,
       catppuccin,
       packages,
+      brew-nix,
       ...
     }:
     let
@@ -72,7 +82,10 @@
         pkgs = import nixpkgs {
           system = darwinSystem;
           config.allowUnfree = true;
-          overlays = [ packages.overlays.default ];
+          overlays = [
+            packages.overlays.default
+            brew-nix.overlays.default
+          ];
         };
         specialArgs = { inherit private; };
         modules = [
