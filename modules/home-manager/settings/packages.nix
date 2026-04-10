@@ -30,6 +30,7 @@ in
     duckdb
     duf # Disk usage
     dust # Disk usage by folder
+    exiftool
     fd
     ffmpeg
     findutils
@@ -47,21 +48,23 @@ in
     hcloud
     htop
     httpie
+    imagemagick
     jq
     just
     k9s
     killall
     kubectl
     kubernetes-helm
+    litestream
     magic-wormhole
     mariadb
     mcp-bear
     mcp-granola
     mcp-things
+    mise
     ngrok
     nixpkgs-review
     npm-check-updates
-
     openssh
     parallel
     postgresql
