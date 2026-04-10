@@ -61,7 +61,6 @@ in
     mcp-bear
     mcp-granola
     mcp-things
-    mise
     ngrok
     nixpkgs-review
     npm-check-updates
