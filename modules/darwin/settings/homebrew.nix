@@ -36,7 +36,6 @@
       "linear-linear"
       "meetingbar"
       "microsoft-teams"
-      "notion"
       "nvidia-geforce-now"
       "obsidian"
       "postico"
