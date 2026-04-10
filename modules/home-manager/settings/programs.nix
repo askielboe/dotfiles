@@ -1,6 +1,9 @@
-{ private, ... }:
+{ pkgs, nixpkgs-unstable, private, ... }:
 let
   aws = private.accounts.awsProfiles;
+  unstable = import nixpkgs-unstable {
+    system = pkgs.stdenv.hostPlatform.system;
+  };
 in
 {
   programs = {
@@ -16,6 +19,7 @@ in
     };
     direnv = {
       enable = true;
+      package = unstable.direnv; # stable 2.37.1 fish tests fail to build
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
