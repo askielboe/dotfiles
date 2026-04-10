@@ -25,7 +25,7 @@ in
   # Import shared home-manager settings
   imports = [
     ./nixvim
-    ./settings/alfred.nix
+    ./settings/chromium.nix
     ./settings/claude.nix
     ./settings/file.nix
     ./settings/git-annex.nix
