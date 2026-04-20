@@ -38,7 +38,7 @@
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Things3.app"; }
           { app = "/System/Applications/Mail.app"; }
-          { app = "/Applications/Shortwave.app"; }
+          { app = "/Applications/Mimestream.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Users/askielboe/Applications/Home Manager Apps/Signal.app"; }
           { app = "/Applications/Slack.app"; }
