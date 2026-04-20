@@ -232,6 +232,8 @@ in
           "-y"
           "mcp-remote"
           "https://mrssporty.getoutline.com/mcp"
+          "--header"
+          "Authorization: Bearer ${private.apiKeys.outline}"
         ];
       };
     };
