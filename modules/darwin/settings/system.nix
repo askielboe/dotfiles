@@ -33,7 +33,7 @@
 
       dock = {
         autohide = true;
-        show-recents = true;
+        show-recents = false;
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Things3.app"; }
