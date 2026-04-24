@@ -66,7 +66,6 @@ in
       lg = "lazygit";
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       aider = "op run --no-masking aider";
-      ai = "aichat -e";
       he = "cd ~/.config/nix/ && nvim && cd -";
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
       c = "claude";

@@ -10,7 +10,6 @@ in
 {
   home.packages = with pkgs; [
     age
-    aichat
     bitwarden-cli
     btop
     bzip2
@@ -55,12 +54,12 @@ in
     killall
     kubectl
     kubernetes-helm
-    litestream
     magic-wormhole
     mariadb
     mcp-bear
     mcp-granola
     mcp-things
+    mise
     ngrok
     nixpkgs-review
     npm-check-updates
@@ -75,14 +74,11 @@ in
     rust-analyzer
     rustc
     rustfmt
-    shellcheck
     sqlite
     ssm-session-manager-plugin
     terraform
-    timewarrior
     tree
     unstable.claude-code
-    unstable.rustic
     uv
     wget
     which
