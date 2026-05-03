@@ -38,7 +38,6 @@
       "linear-linear"
       "meetingbar"
       "microsoft-teams"
-      "mimestream"
       "nvidia-geforce-now"
       "obsidian"
       "postico"
