@@ -122,8 +122,8 @@ in
   # ~/.claude.json (managed via `claude mcp add`), not from settings.json.
   # MCP servers for Claude Code are registered via the activation script below.
   home.file.".claude/settings.json".text = builtins.toJSON {
-    model = "claude-opus-4-6";
-    effortLevel = "high";
+    model = "claude-opus-4-7";
+    effortLevel = "xhigh";
     alwaysThinkingEnabled = true;
     skipDangerousModePermissionPrompt = true;
     permissions = {
