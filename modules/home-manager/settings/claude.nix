@@ -179,70 +179,70 @@ in
   home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
     force = true;
     text = builtins.toJSON {
-    globalShortcut = "Alt+Space";
-    mcpServers = {
-      bear = {
-        command = "${pkgs.mcp-bear}/bin/mcp-bear";
-        args = [
-          "--token"
-          private.apiKeys.bear
-        ];
-        env = { };
-        iconPath = "${icons.bear}";
-      };
-      granola = {
-        command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
-        args = [ ];
-        env = { };
-        iconPath = "${icons.granola}";
-      };
-      things = {
-        command = "${pkgs.mcp-things}/bin/things-mcp";
-        args = [ ];
-        env = { };
-        iconPath = "${icons.things}";
-      };
-      trengo = {
-        command = "${pkgs.nodejs_22}/bin/node";
-        args = [
-          "/Users/askielboe/work/mcp/servers/trengo/dist/index.js"
-        ];
-        env = {
-          TRENGO_API_TOKEN = private.apiKeys.trengo;
+      globalShortcut = "Alt+Space";
+      mcpServers = {
+        bear = {
+          command = "${pkgs.mcp-bear}/bin/mcp-bear";
+          args = [
+            "--token"
+            private.apiKeys.bear
+          ];
+          env = { };
+          iconPath = "${icons.bear}";
+        };
+        granola = {
+          command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
+          args = [ ];
+          env = { };
+          iconPath = "${icons.granola}";
+        };
+        things = {
+          command = "${pkgs.mcp-things}/bin/things-mcp";
+          args = [ ];
+          env = { };
+          iconPath = "${icons.things}";
+        };
+        trengo = {
+          command = "${pkgs.nodejs_22}/bin/node";
+          args = [
+            "/Users/askielboe/work/mcp/servers/trengo/dist/index.js"
+          ];
+          env = {
+            TRENGO_API_TOKEN = private.apiKeys.trengo;
+          };
+        };
+        toustrup-mark = toustrupMarkMcp;
+        waitingon = waitingonMcp;
+        circleci = circleciMcp;
+        google-chat = {
+          command = "${pkgs.nodejs_22}/bin/node";
+          args = [
+            "/Users/askielboe/work/mcp/servers/google-chat/dist/index.js"
+          ];
+          env = {
+            GOOGLE_CREDENTIALS_FILE = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
+            GOOGLE_TOKEN_FILE = googleChatTokenPath;
+          };
+        };
+        dba = dbaMcp;
+        bilbasen = bilbasenMcp;
+        outline = {
+          command = "${pkgs.nodejs_22}/bin/npx";
+          args = [
+            "-y"
+            "mcp-remote"
+            "https://mrssporty.getoutline.com/mcp"
+            "--header"
+            "Authorization: Bearer ${private.apiKeys.outline}"
+          ];
         };
       };
-      toustrup-mark = toustrupMarkMcp;
-      waitingon = waitingonMcp;
-      circleci = circleciMcp;
-      google-chat = {
-        command = "${pkgs.nodejs_22}/bin/node";
-        args = [
-          "/Users/askielboe/work/mcp/servers/google-chat/dist/index.js"
-        ];
-        env = {
-          GOOGLE_CREDENTIALS_FILE = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
-          GOOGLE_TOKEN_FILE = googleChatTokenPath;
+      preferences = {
+        menuBarEnabled = false;
+        quickEntryShortcut = {
+          accelerator = "Alt+Space";
         };
       };
-      dba = dbaMcp;
-      bilbasen = bilbasenMcp;
-      outline = {
-        command = "${pkgs.nodejs_22}/bin/npx";
-        args = [
-          "-y"
-          "mcp-remote"
-          "https://mrssporty.getoutline.com/mcp"
-          "--header"
-          "Authorization: Bearer ${private.apiKeys.outline}"
-        ];
-      };
     };
-    preferences = {
-      menuBarEnabled = false;
-      quickEntryShortcut = {
-        accelerator = "Alt+Space";
-      };
-    };
-  };
   };
 }
