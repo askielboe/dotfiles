@@ -27,14 +27,8 @@
   };
 
   apiKeys = {
-    bear = "your-bear-api-token";
     circleci = "your-circleci-token";
     slackUser = "xoxp-your-slack-user-token";
-  };
-
-  hetznerS3BearMcp = {
-    accessKey = "your-hetzner-s3-access-key";
-    secretKey = "your-hetzner-s3-secret-key";
   };
 
   googleChat = {

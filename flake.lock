@@ -168,22 +168,6 @@
         "type": "github"
       }
     },
-    "mcp-bear": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1765959980,
-        "narHash": "sha256-YXd2rny8JnnzUFErRNv2cFh2ZkRfL+MspH9/wGBkl0g=",
-        "owner": "jkawamoto",
-        "repo": "mcp-bear",
-        "rev": "e8127153cf408a6119e6a15af60e530b955471a4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jkawamoto",
-        "repo": "mcp-bear",
-        "type": "github"
-      }
-    },
     "mcp-granola": {
       "flake": false,
       "locked": {
@@ -368,7 +352,6 @@
     },
     "packages": {
       "inputs": {
-        "mcp-bear": "mcp-bear",
         "mcp-granola": "mcp-granola",
         "mcp-things": "mcp-things",
         "nixpkgs": [

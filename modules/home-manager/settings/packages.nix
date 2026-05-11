@@ -56,7 +56,6 @@ in
     kubernetes-helm
     magic-wormhole
     mariadb
-    mcp-bear
     mcp-granola
     mcp-things
     mise
