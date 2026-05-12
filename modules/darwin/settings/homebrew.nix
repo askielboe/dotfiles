@@ -27,6 +27,7 @@
       "claude"
       "conductor"
       "cyberduck"
+      "datagrip"
       "devonthink"
       "element"
       "firefox"
