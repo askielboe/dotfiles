@@ -167,6 +167,12 @@ in
             "SLACK_USER_TOKEN": "${private.apiKeys.slackUser}",
             "GCHAT_TOKEN_PATH": "${private.user.homeDirectory}/.local/state/google-chat-mcp/token.json"
           }
+        } |
+        .mcpServers.bear = {
+          "type": "stdio",
+          "command": "/Applications/Bear.app/Contents/MacOS/bearcli",
+          "args": ["mcp-server"],
+          "env": {}
         }
       ' "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
     fi
@@ -177,6 +183,11 @@ in
     text = builtins.toJSON {
       globalShortcut = "Alt+Space";
       mcpServers = {
+        bear = {
+          command = "/Applications/Bear.app/Contents/MacOS/bearcli";
+          args = [ "mcp-server" ];
+          env = { };
+        };
         granola = {
           command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
           args = [ ];

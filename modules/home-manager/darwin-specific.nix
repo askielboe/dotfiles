@@ -30,6 +30,7 @@ in
     bw = "bwbio";
     o = "open .";
     cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
+    bearcli = "/Applications/Bear.app/Contents/MacOS/bearcli";
   };
 
   programs.ssh.matchBlocks = {
