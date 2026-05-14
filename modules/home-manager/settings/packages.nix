@@ -22,7 +22,6 @@ in
     dbt
     deploy-rs
     devbox
-    devenv
     difftastic
     docker
     docker-compose
@@ -78,6 +77,7 @@ in
     terraform
     tree
     unstable.claude-code
+    unstable.devenv
     uv
     wget
     which
