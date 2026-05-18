@@ -32,9 +32,8 @@ keybind = ctrl+alt+cmd+h=resize_split:left,10
 keybind = ctrl+alt+cmd+k=resize_split:up,10
 keybind = ctrl+alt+cmd+l=resize_split:right,10
 
-# Claude Code integration
-# Enable shell integration for better Claude Code experience
-shell-integration = none
+# Shell integration (also enables cwd inheritance for new tabs/splits via OSC 7)
+shell-integration = detect
 
 # Better copy/paste for code blocks
 clipboard-paste-protection = false
