@@ -79,6 +79,7 @@ in
     unstable.claude-code
     unstable.devenv
     uv
+    vykar
     wget
     which
     xcbeautify

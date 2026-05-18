@@ -40,6 +40,7 @@ in
     ./settings/shell.nix
     ./settings/ssh.nix
     ./settings/tmux.nix
+    ./settings/vykar.nix
     ./settings/whisper.nix
   ];
 
