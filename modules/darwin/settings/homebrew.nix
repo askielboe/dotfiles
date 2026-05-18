@@ -36,7 +36,7 @@
       "granola"
       "hammerspoon"
       "handbrake-app"
-      "linear-linear"
+      "linear"
       "meetingbar"
       "microsoft-teams"
       "nvidia-geforce-now"
