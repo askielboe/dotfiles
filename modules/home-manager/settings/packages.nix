@@ -15,6 +15,7 @@ in
     bzip2
     cargo
     ccache
+    clickhouse
     clippy
     coreutils
     curl

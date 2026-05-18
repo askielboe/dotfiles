@@ -31,6 +31,12 @@
     slackUser = "xoxp-your-slack-user-token";
   };
 
+  clickhouse = {
+    host = "your-instance.region.aws.clickhouse.cloud";
+    user = "default";
+    opItem = "your-1password-item-id";
+  };
+
   googleChat = {
     clientId = "your-google-oauth-client-id.apps.googleusercontent.com";
     clientSecret = "your-google-oauth-client-secret";
