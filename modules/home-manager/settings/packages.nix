@@ -77,7 +77,6 @@ in
     ssm-session-manager-plugin
     terraform
     tree
-    unstable.claude-code
     unstable.devenv
     uv
     vykar
