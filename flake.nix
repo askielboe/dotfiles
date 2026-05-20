@@ -31,6 +31,11 @@
       url = "github:BatteredBunny/brew-api";
       flake = false;
     };
+
+    addy-skills = {
+      url = "github:addyosmani/agent-skills";
+      flake = false;
+    };
   };
 
   outputs =
@@ -44,6 +49,7 @@
       catppuccin,
       packages,
       brew-nix,
+      addy-skills,
       ...
     }:
     let
@@ -103,6 +109,7 @@
                   nixvim
                   nixpkgs-unstable
                   private
+                  addy-skills
                   ;
               };
               users.${user}.imports = homeManagerModules ++ [
@@ -125,6 +132,7 @@
             nixvim
             nixpkgs-unstable
             private
+            addy-skills
             ;
         };
         modules = homeManagerModules ++ [

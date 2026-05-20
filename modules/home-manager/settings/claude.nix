@@ -1,6 +1,7 @@
 {
   pkgs,
   nixpkgs-unstable,
+  addy-skills,
   private,
   ...
 }:
@@ -81,6 +82,10 @@ in
       bear = bearMcp // { type = "stdio"; };
       dba = dbaMcp // { type = "stdio"; };
       bilbasen = bilbasenMcp // { type = "stdio"; };
+    };
+
+    skills = {
+      using-agent-skills = "${addy-skills}/skills/using-agent-skills";
     };
   };
 
