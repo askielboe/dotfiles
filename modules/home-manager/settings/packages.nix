@@ -12,6 +12,7 @@ in
     age
     bitwarden-cli
     btop
+    bun
     bzip2
     cargo
     ccache
