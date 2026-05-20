@@ -44,6 +44,7 @@
       "postico"
       "proxyman"
       "shortwave"
+      "signal"
       "slack"
       "soulver"
       "stats"

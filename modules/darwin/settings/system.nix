@@ -41,7 +41,7 @@
           { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Shortwave.app"; }
           { app = "/System/Applications/Messages.app"; }
-          { app = "/Users/askielboe/Applications/Home Manager Apps/Signal.app"; }
+          { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
           { app = "/System/Cryptexes/App/System/Applications/Safari.app"; }
           { app = "/Applications/Claude.app"; }

@@ -23,15 +23,6 @@
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
 
-    brew-nix = {
-      url = "github:BatteredBunny/brew-nix";
-      inputs.brew-api.follows = "brew-api";
-    };
-    brew-api = {
-      url = "github:BatteredBunny/brew-api";
-      flake = false;
-    };
-
     addy-skills = {
       url = "github:addyosmani/agent-skills";
       flake = false;
@@ -48,7 +39,6 @@
       nixvim,
       catppuccin,
       packages,
-      brew-nix,
       addy-skills,
       ...
     }:
@@ -93,7 +83,6 @@
               direnv = prev.direnv.overrideAttrs (old: { doCheck = false; }); # fish tests get killed in Nix sandbox on macOS
             })
             packages.overlays.default
-            brew-nix.overlays.default
           ];
         };
         specialArgs = { inherit private; };

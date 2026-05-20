@@ -59,10 +59,6 @@ in
     ripsecrets # Find secrets
     transmission_4
     yt-dlp
-
-    # Casks managed via brew-nix (pinned in flake.lock)
-    brewCasks.vlc
-    brewCasks.signal
   ];
 
 }
