@@ -14,6 +14,9 @@
       initContent = ''
         # worktrunk (wt) shell integration
         command -v wt >/dev/null 2>&1 && eval "$(wt config shell init zsh)"
+
+        # devenv automatic shell activation (cd into a trusted dir → env activates)
+        command -v devenv >/dev/null 2>&1 && eval "$(devenv hook zsh)"
       '';
       prezto = {
         enable = true;
