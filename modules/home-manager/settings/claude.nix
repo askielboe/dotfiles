@@ -77,7 +77,7 @@ in
     package = unstable.claude-code;
 
     settings = {
-      model = "claude-opus-4-7";
+      model = "claude-opus-4-8";
       effortLevel = "xhigh";
       alwaysThinkingEnabled = true;
       skipDangerousModePermissionPrompt = true;
