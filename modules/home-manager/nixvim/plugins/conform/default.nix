@@ -7,14 +7,15 @@
       };
 
       format_on_save = {
-        timeout_ms = 3000;
+        timeout_ms = 5000;
         lsp_format = "fallback";
       };
 
       formatters = {
         sqlfluff = {
+          # Dialect/templater resolved from project .sqlfluff (falls back to ~/.sqlfluff).
           command = "sqlfluff";
-          args = [ "format" "--dialect" "postgres" "--templater" "jinja" "-" ];
+          args = [ "format" "-" ];
           stdin = true;
         };
       };

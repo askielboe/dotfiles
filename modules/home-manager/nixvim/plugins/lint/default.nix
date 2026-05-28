@@ -5,17 +5,6 @@
 
       lazyLoad.settings.event = "DeferredUIEnter";
 
-      linters.sqlfluff = {
-        # Use project-local sqlfluff via uv because sqlfluff-templater-dbt
-        # is not available in nixpkgs. Projects using dbt need the templater
-        # to lint SQL files with dbt jinja syntax.
-        cmd = "sh";
-        args = [
-          "-c"
-          "uv run --quiet sqlfluff lint --dialect postgres --format json '$FILENAME'"
-        ];
-      };
-
       lintersByFt = {
         css = [ "stylelint" ];
         dockerfile = [ "hadolint" ];
