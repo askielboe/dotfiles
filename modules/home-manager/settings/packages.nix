@@ -71,6 +71,7 @@ in
     restic
     resticprofile
     ripgrep
+    rsync
     rust-analyzer
     rustc
     rustfmt
