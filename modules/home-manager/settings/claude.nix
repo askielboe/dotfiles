@@ -28,6 +28,20 @@ let
     };
   };
 
+  googleChatCredentials = builtins.toJSON {
+    web = {
+      client_id = private.googleChat.clientId;
+      project_id = private.googleChat.projectId;
+      auth_uri = "https://accounts.google.com/o/oauth2/auth";
+      token_uri = "https://oauth2.googleapis.com/token";
+      auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs";
+      client_secret = private.googleChat.clientSecret;
+      redirect_uris = [ "http://localhost:3003/oauth/callback" ];
+    };
+  };
+  googleChatCredentialsPath = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
+  googleChatTokenPath = "${private.user.homeDirectory}/.local/state/google-chat-mcp/token.json";
+
   bearMcp = {
     command = "/Applications/Bear.app/Contents/MacOS/bearcli";
     args = [ "mcp-server" ];
@@ -79,9 +93,15 @@ in
     };
 
     mcpServers = {
-      bear = bearMcp // { type = "stdio"; };
-      dba = dbaMcp // { type = "stdio"; };
-      bilbasen = bilbasenMcp // { type = "stdio"; };
+      bear = bearMcp // {
+        type = "stdio";
+      };
+      dba = dbaMcp // {
+        type = "stdio";
+      };
+      bilbasen = bilbasenMcp // {
+        type = "stdio";
+      };
     };
 
     skills = {
@@ -89,12 +109,22 @@ in
     };
   };
 
+  home.file.".config/google-chat-mcp/credentials.json".text = googleChatCredentials;
+
   home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
     force = true;
     text = builtins.toJSON {
       globalShortcut = "Alt+Space";
       mcpServers = {
         bear = bearMcp;
+        google-chat = {
+          command = "${pkgs.mcp-google-chat}/bin/google-chat-mcp";
+          args = [ ];
+          env = {
+            GOOGLE_CREDENTIALS_FILE = googleChatCredentialsPath;
+            GOOGLE_TOKEN_FILE = googleChatTokenPath;
+          };
+        };
         granola = {
           command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
           args = [ ];
