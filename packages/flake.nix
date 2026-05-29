@@ -43,7 +43,6 @@
             src = mcp-things;
           };
 
-          screenpipe = import ./screenpipe.nix { inherit pkgs; };
           mcp-google-chat = import ./mcp-google-chat.nix { inherit pkgs; };
           vykar = import ./vykar.nix { inherit pkgs; };
         }
@@ -58,7 +57,6 @@
           src = mcp-things;
         };
 
-        screenpipe = import ./screenpipe.nix { pkgs = final; };
         mcp-google-chat = import ./mcp-google-chat.nix { pkgs = final; };
         vykar = import ./vykar.nix { pkgs = final; };
       };
