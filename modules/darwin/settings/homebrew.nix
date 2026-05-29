@@ -5,17 +5,12 @@
     onActivation.cleanup = "zap";
 
     taps = [
-      "jeanregisser/tap"
-      "lightdash/lightdash"
       "max-sixty/worktrunk"
     ];
 
     brews = [
-      "jeanregisser/tap/bitwarden-cli-bio"
-      "lightdash"
       "mas"
       "max-sixty/worktrunk/wt"
-      "neonctl"
     ];
 
     casks = [
@@ -25,11 +20,9 @@
       "appcleaner"
       "arq"
       "claude"
-      "conductor"
       "cyberduck"
       "datagrip"
       "devonthink"
-      "element"
       "firefox"
       "ghostty"
       "gitbutler"
@@ -41,14 +34,12 @@
       "microsoft-teams"
       "mimestream"
       "nvidia-geforce-now"
-      "obsidian"
       "postico"
       "proxyman"
       "signal"
       "slack"
       "soulver"
       "stats"
-      "sunsama"
       "tigervnc"
       "tor-browser"
       "ungoogled-chromium"
@@ -63,8 +54,6 @@
       DaisyDisk = 411643860;
       Keynote = 409183694;
       LookAway = 6747192301;
-      Numbers = 409203825;
-      Pages = 409201541;
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
