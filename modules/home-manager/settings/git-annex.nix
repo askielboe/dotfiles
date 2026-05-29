@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -37,7 +42,7 @@ let
       };
       remotes = mkOption {
         type = types.attrsOf remoteOpts;
-        default = {};
+        default = { };
         description = "Remote configurations for this repository";
       };
     };
@@ -55,7 +60,7 @@ in
 
     repositories = mkOption {
       type = types.attrsOf repoOpts;
-      default = {};
+      default = { };
       description = "Git-annex repository configurations";
     };
   };

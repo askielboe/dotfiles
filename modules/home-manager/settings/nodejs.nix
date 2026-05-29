@@ -6,4 +6,3 @@
     nodePackages.prettier
   ];
 }
-

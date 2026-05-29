@@ -80,7 +80,9 @@
           config.allowUnfree = true;
           overlays = [
             (final: prev: {
-              direnv = prev.direnv.overrideAttrs (old: { doCheck = false; }); # fish tests get killed in Nix sandbox on macOS
+              direnv = prev.direnv.overrideAttrs (old: {
+                doCheck = false;
+              }); # fish tests get killed in Nix sandbox on macOS
             })
             packages.overlays.default
           ];

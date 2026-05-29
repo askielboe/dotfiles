@@ -15,7 +15,10 @@
         sqlfluff = {
           # Dialect/templater resolved from project .sqlfluff (falls back to ~/.sqlfluff).
           command = "sqlfluff";
-          args = [ "format" "-" ];
+          args = [
+            "format"
+            "-"
+          ];
           stdin = true;
         };
       };
