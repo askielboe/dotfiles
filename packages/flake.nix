@@ -44,7 +44,6 @@
           };
 
           mcp-google-chat = import ./mcp-google-chat.nix { inherit pkgs; };
-          vykar = import ./vykar.nix { inherit pkgs; };
         }
       );
       overlays.default = final: _prev: {
@@ -58,7 +57,6 @@
         };
 
         mcp-google-chat = import ./mcp-google-chat.nix { pkgs = final; };
-        vykar = import ./vykar.nix { pkgs = final; };
       };
     };
 }

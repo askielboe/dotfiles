@@ -81,7 +81,6 @@ in
     tree
     unstable.devenv
     uv
-    vykar
     wget
     which
     xcbeautify
