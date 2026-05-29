@@ -39,6 +39,7 @@
           { app = "/Applications/Things3.app"; }
           { app = "/Applications/Linear.app"; }
           { app = "/System/Applications/Mail.app"; }
+          { app = "/Applications/Mimestream.app"; }
           { app = "/Applications/Shortwave.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
