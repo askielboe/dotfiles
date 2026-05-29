@@ -17,6 +17,23 @@ let
     echo "$DIR"
   '';
 
+  lspServers = {
+    rust = {
+      command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+      args = [ ];
+      extensionToLanguage = {
+        ".rs" = "rust";
+      };
+    };
+    swift = {
+      command = "${pkgs.sourcekit-lsp}/bin/sourcekit-lsp";
+      args = [ ];
+      extensionToLanguage = {
+        ".swift" = "swift";
+      };
+    };
+  };
+
   icons = {
     granola = pkgs.fetchurl {
       url = "https://www.granola.ai/favicon.ico";
@@ -108,6 +125,8 @@ in
       using-agent-skills = "${addy-skills}/skills/using-agent-skills";
     };
   };
+
+  home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
 
   home.file.".config/google-chat-mcp/credentials.json".text = googleChatCredentials;
 

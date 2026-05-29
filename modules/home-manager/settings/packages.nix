@@ -5,6 +5,15 @@ let
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
+
+  repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
+    set -euo pipefail
+    target="''${1:-.}"
+    mkdir -p "$target/.repomix"
+    out="$target/.repomix/skeleton.md"
+    ${unstable.repomix}/bin/repomix --compress --output "$out" "$target"
+    echo "Wrote $out"
+  '';
 in
 
 {
@@ -75,11 +84,13 @@ in
     rust-analyzer
     rustc
     rustfmt
+    sourcekit-lsp
     sqlite
     ssm-session-manager-plugin
     terraform
     tree
     unstable.devenv
+    unstable.repomix
     uv
     wget
     which
@@ -87,5 +98,7 @@ in
     xh # Rust re-write of httpie
     yazi
     zip
+
+    repomix-skeleton
   ];
 }
