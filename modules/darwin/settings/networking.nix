@@ -1,7 +1,7 @@
 { private, ... }:
 {
   networking = {
-    computerName = private.machine.computerName;
+    inherit (private.machine) computerName;
     hostName = private.machine.computerName;
     localHostName = private.machine.computerName;
     knownNetworkServices = [

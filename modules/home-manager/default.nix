@@ -42,7 +42,7 @@ in
   ];
 
   home = {
-    username = private.user.username;
+    inherit (private.user) username;
     stateVersion = "24.11"; # Keep this unchanged
 
     sessionVariables = {

@@ -30,9 +30,9 @@
       };
       settings = {
         user = {
-          name = private.user.name;
-          email = private.user.email;
-          signingKey = private.user.signingKey;
+          inherit (private.user) name;
+          inherit (private.user) email;
+          inherit (private.user) signingKey;
         };
         init.defaultBranch = "main";
         core = {

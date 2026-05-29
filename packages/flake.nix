@@ -25,7 +25,7 @@
         "aarch64-darwin"
         "x86_64-linux"
       ];
-      forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+      forAllSystems = f: nixpkgs.lib.genAttrs systems f;
     in
     {
       packages = forAllSystems (
@@ -42,8 +42,9 @@
             inherit pkgs;
             src = mcp-things;
           };
-
-          mcp-google-chat = import ./mcp-google-chat.nix { inherit pkgs; };
+          mcp-google-chat = import ./mcp-google-chat.nix {
+            inherit pkgs;
+          };
         }
       );
       overlays.default = final: _prev: {
@@ -55,8 +56,9 @@
           pkgs = final;
           src = mcp-things;
         };
-
-        mcp-google-chat = import ./mcp-google-chat.nix { pkgs = final; };
+        mcp-google-chat = import ./mcp-google-chat.nix {
+          pkgs = final;
+        };
       };
     };
 }

@@ -39,19 +39,19 @@ in
       enable = true;
       settings = {
         "default" = {
-          region = aws.default.region;
+          inherit (aws.default) region;
         };
         "${aws.motosumo.name}" = {
-          region = aws.motosumo.region;
+          inherit (aws.motosumo) region;
         };
       };
       credentials = {
         "default" = {
-          region = aws.default.region;
+          inherit (aws.default) region;
           credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.default.opItem}/password'";
         };
         "${aws.motosumo.name}" = {
-          region = aws.motosumo.region;
+          inherit (aws.motosumo) region;
           credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.motosumo.opItem}/password'";
         };
       };

@@ -18,58 +18,58 @@
         identitiesOnly = true;
       };
       "storagebox-restic" = {
-        hostname = private.ssh.storagebox.hostname;
-        user = private.ssh.storagebox.user;
+        inherit (private.ssh.storagebox) hostname;
+        inherit (private.ssh.storagebox) user;
         identitiesOnly = true;
       };
       "paperless" = {
-        hostname = private.ssh.paperless.hostname;
-        port = private.ssh.paperless.port;
-        user = private.ssh.paperless.user;
+        inherit (private.ssh.paperless) hostname;
+        inherit (private.ssh.paperless) port;
+        inherit (private.ssh.paperless) user;
       };
       "synology" = {
-        hostname = private.ssh.synology.hostname;
+        inherit (private.ssh.synology) hostname;
         identitiesOnly = true;
-        user = private.ssh.synology.user;
+        inherit (private.ssh.synology) user;
       };
       "dobby" = {
-        hostname = private.ssh.dobby.hostname;
+        inherit (private.ssh.dobby) hostname;
         identitiesOnly = true;
-        user = private.ssh.dobby.user;
+        inherit (private.ssh.dobby) user;
       };
       "macmini" = {
-        hostname = private.ssh.macmini.hostname;
+        inherit (private.ssh.macmini) hostname;
         identitiesOnly = true;
-        user = private.ssh.macmini.user;
+        inherit (private.ssh.macmini) user;
       };
       "garage-hetzner" = {
-        hostname = private.ssh.garageHetzner.hostname;
+        inherit (private.ssh.garageHetzner) hostname;
         identitiesOnly = true;
       };
       "nix" = {
-        hostname = private.ssh.nix.hostname;
-        user = private.ssh.nix.user;
+        inherit (private.ssh.nix) hostname;
+        inherit (private.ssh.nix) user;
       };
       "simply-tm" = {
-        hostname = private.ssh.simplyTm.hostname;
-        user = private.ssh.simplyTm.user;
+        inherit (private.ssh.simplyTm) hostname;
+        inherit (private.ssh.simplyTm) user;
       };
       "k3s" = {
-        hostname = private.ssh.k3s.hostname;
-        user = private.ssh.k3s.user;
-        identityFile = private.ssh.k3s.identityFile;
+        inherit (private.ssh.k3s) hostname;
+        inherit (private.ssh.k3s) user;
+        inherit (private.ssh.k3s) identityFile;
         identitiesOnly = true;
       };
       "oci-1" = {
-        hostname = private.ssh.oci1.hostname;
-        user = private.ssh.oci1.user;
-        identityFile = private.ssh.oci1.identityFile;
+        inherit (private.ssh.oci1) hostname;
+        inherit (private.ssh.oci1) user;
+        inherit (private.ssh.oci1) identityFile;
         identitiesOnly = true;
       };
       "oci-2" = {
-        hostname = private.ssh.oci2.hostname;
-        user = private.ssh.oci2.user;
-        identityFile = private.ssh.oci2.identityFile;
+        inherit (private.ssh.oci2) hostname;
+        inherit (private.ssh.oci2) user;
+        inherit (private.ssh.oci2) identityFile;
         identitiesOnly = true;
       };
     };

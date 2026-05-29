@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   launchd.user.agents = {
     ice = {
       serviceConfig = {
