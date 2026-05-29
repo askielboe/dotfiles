@@ -44,7 +44,6 @@
       "obsidian"
       "postico"
       "proxyman"
-      "shortwave"
       "signal"
       "slack"
       "soulver"
