@@ -123,7 +123,14 @@ in
 
     skills = {
       using-agent-skills = "${addy-skills}/skills/using-agent-skills";
+      refactor = ./claude-assets/skills/refactor;
     };
+
+    agents = {
+      refactor-mapper = ./claude-assets/agents/refactor-mapper.md;
+    };
+
+    memory.source = ./claude-assets/memory.md;
   };
 
   home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
