@@ -1,4 +1,10 @@
-{ lib, pkgs, nixpkgs-unstable, private, ... }:
+{
+  lib,
+  pkgs,
+  nixpkgs-unstable,
+  private,
+  ...
+}:
 let
   # Wrapper that pre-trusts the current directory so Claude never shows the trust dialog
   claude-wrapper = pkgs.writeShellScript "claude-trust-dir" ''
@@ -15,22 +21,31 @@ let
     fi
   '';
   unstable = import nixpkgs-unstable {
-    system = pkgs.stdenv.hostPlatform.system;
+    inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
 in
 {
-  home.homeDirectory = private.user.homeDirectory;
+  home = {
+    inherit (private.user) homeDirectory;
 
-  home.file = {
-    ".config/ghostty/config".source = ./dotfiles/ghostty/config;
-  };
+    file = {
+      ".config/ghostty/config".source = ./dotfiles/ghostty/config;
+    };
 
-  home.shellAliases = {
-    bw = "bwbio";
-    o = "open .";
-    cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
-    bearcli = "/Applications/Bear.app/Contents/MacOS/bearcli";
+    shellAliases = {
+      bw = "bwbio";
+      o = "open .";
+      cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
+      bearcli = "/Applications/Bear.app/Contents/MacOS/bearcli";
+    };
+
+    packages = with pkgs; [
+      unstable.colima # lima dependency is EOL in stable
+      ripsecrets # Find secrets
+      transmission_4
+      yt-dlp
+    ];
   };
 
   programs.ssh.matchBlocks = {
@@ -53,12 +68,4 @@ in
       command claude "$@"
     }
   '';
-
-  home.packages = with pkgs; [
-    unstable.colima # lima dependency is EOL in stable
-    ripsecrets # Find secrets
-    transmission_4
-    yt-dlp
-  ];
-
 }

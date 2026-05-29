@@ -19,25 +19,26 @@ let
   };
 in
 {
-  home.packages = with pkgs; [
-    whisper-cpp
-  ];
+  home = {
+    packages = with pkgs; [
+      whisper-cpp
+    ];
 
-  home.sessionVariables = {
-    HF_HOME = "$HOME/.cache/huggingface";
-    WHISPER_CPP_MODELS = "$HF_HOME/whisper-cpp-models";
+    sessionVariables = {
+      HF_HOME = "$HOME/.cache/huggingface";
+      WHISPER_CPP_MODELS = "$HF_HOME/whisper-cpp-models";
+    };
+
+    shellAliases = {
+      whisper = "whisper-cli -m $WHISPER_CPP_MODELS/ggml-large-v3-turbo-q5_0.bin";
+    };
+
+    file = {
+      ".cache/huggingface/whisper-cpp-models/ggml-large-v3-turbo-q5_0.bin".source =
+        whisperLargeV3TurboQ5Model;
+      ".cache/huggingface/whisper-cpp-models/ggml-large-v2-q5_0.bin".source = whisperLargeV2Q5Model;
+      ".cache/huggingface/whisper-cpp-models/ggml-large-v3-q5_0.bin".source = whisperLargeV3Q5Model;
+      ".cache/huggingface/whisper-cpp-models/ggml-medium-q5_0.bin".source = whisperMediumQ5Model;
+    };
   };
-
-  home.shellAliases = {
-    whisper = "whisper-cli -m $WHISPER_CPP_MODELS/ggml-large-v3-turbo-q5_0.bin";
-  };
-
-  home.file.".cache/huggingface/whisper-cpp-models/ggml-large-v3-turbo-q5_0.bin".source =
-    whisperLargeV3TurboQ5Model;
-  home.file.".cache/huggingface/whisper-cpp-models/ggml-large-v2-q5_0.bin".source =
-    whisperLargeV2Q5Model;
-  home.file.".cache/huggingface/whisper-cpp-models/ggml-large-v3-q5_0.bin".source =
-    whisperLargeV3Q5Model;
-  home.file.".cache/huggingface/whisper-cpp-models/ggml-medium-q5_0.bin".source =
-    whisperMediumQ5Model;
 }
