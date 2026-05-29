@@ -39,7 +39,6 @@ in
     ./settings/python.nix
     ./settings/shell.nix
     ./settings/ssh.nix
-    ./settings/tinybird.nix
     ./settings/tmux.nix
     ./settings/vykar.nix
     ./settings/whisper.nix
