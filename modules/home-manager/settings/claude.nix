@@ -125,6 +125,13 @@ in
 
   home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
 
+  # End-of-session maintainability review slash commands. Managed as individual
+  # files so the rest of ~/.claude/commands (other commands + runtime files)
+  # stays untouched and writable. These become read-only store symlinks — to
+  # change a command, edit the source .md and re-run `hs`.
+  home.file.".claude/commands/review-audit.md".source = ./claude-assets/commands/review-audit.md;
+  home.file.".claude/commands/review-fix.md".source = ./claude-assets/commands/review-fix.md;
+
   home.file.".config/google-chat-mcp/credentials.json".text = googleChatCredentials;
 
   home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
