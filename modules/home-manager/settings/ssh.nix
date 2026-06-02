@@ -22,6 +22,15 @@
         inherit (private.ssh.storagebox) user;
         identitiesOnly = true;
       };
+      # git-annex export target for the Audiobookshelf library (sub-account u407515-sub14, port 23)
+      "storagebox-audiobooks" = {
+        inherit (private.ssh.storageboxAudiobooks) hostname;
+        inherit (private.ssh.storageboxAudiobooks) user;
+        inherit (private.ssh.storageboxAudiobooks) port;
+        # Public half of the 1Password-held key; IdentitiesOnly needs it to pick the agent key.
+        identityFile = "~/.ssh/storagebox-audiobooks.pub";
+        identitiesOnly = true;
+      };
       "paperless" = {
         inherit (private.ssh.paperless) hostname;
         inherit (private.ssh.paperless) port;
