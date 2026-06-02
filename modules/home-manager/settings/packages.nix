@@ -43,6 +43,7 @@ in
     fd
     ffmpeg
     findutils
+    fswatch
     gawk
     gh
     git
@@ -57,6 +58,7 @@ in
     hcloud
     htop
     httpie
+    hugo
     imagemagick
     jq
     just
@@ -77,6 +79,7 @@ in
     postgresql
     qsv # CSV wrangler
     rclone
+    repomix-skeleton
     restic
     resticprofile
     ripgrep
@@ -98,7 +101,5 @@ in
     xh # Rust re-write of httpie
     yazi
     zip
-
-    repomix-skeleton
   ];
 }
