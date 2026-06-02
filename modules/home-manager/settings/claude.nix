@@ -129,8 +129,6 @@ in
     agents = {
       refactor-mapper = ./claude-assets/agents/refactor-mapper.md;
     };
-
-    memory.source = ./claude-assets/memory.md;
   };
 
   home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
