@@ -68,4 +68,40 @@ in
       command claude "$@"
     }
   '';
+
+  # Bear MCP bridge: expose the local `bearcli mcp-server` (stdio) as Streamable
+  # HTTP on 127.0.0.1:9099 so the k3s gateway can proxy to it remotely (Tailscale
+  # egress → https://mcp.skielboe.com/bear/mcp). bearcli only runs on macOS, so
+  # this must live on this machine. Works only while the Mac is awake/logged in.
+  #
+  # Tailnet exposure is declarative: the nix-darwin module
+  # modules/darwin/settings/tailscale.nix enables tailscaled and asserts
+  #   tailscale serve --bg --tcp 9099 tcp://127.0.0.1:9099
+  # which makes this device reachable at <device>:9099 on the tailnet — the
+  # endpoint the cluster's Tailscale egress targets. Only `sudo tailscale up`
+  # (login) is manual, and only once.
+  launchd.agents.bear-mcp-bridge = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.uv}/bin/uvx" # uv ships uvx; fetches+caches mcp-proxy from PyPI on first run
+        "mcp-proxy"
+        "--host"
+        "127.0.0.1"
+        "--port"
+        "9099"
+        "--"
+        "/Applications/Bear.app/Contents/MacOS/bearcli"
+        "mcp-server"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "${private.user.homeDirectory}/Library/Logs/bear-mcp-bridge.out.log";
+      StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/bear-mcp-bridge.err.log";
+      EnvironmentVariables = {
+        HOME = private.user.homeDirectory; # uv cache lives under $HOME
+        PATH = "/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
+  };
 }

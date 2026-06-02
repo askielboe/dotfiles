@@ -59,11 +59,6 @@ let
   googleChatCredentialsPath = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
   googleChatTokenPath = "${private.user.homeDirectory}/.local/state/google-chat-mcp/token.json";
 
-  bearMcp = {
-    command = "/Applications/Bear.app/Contents/MacOS/bearcli";
-    args = [ "mcp-server" ];
-    env = { };
-  };
   dbaMcp = {
     command = "${pkgs.nodejs_22}/bin/node";
     args = [ "/Users/askielboe/work/mcp/servers/dba/dist/index.js" ];
@@ -110,9 +105,6 @@ in
     };
 
     mcpServers = {
-      bear = bearMcp // {
-        type = "stdio";
-      };
       dba = dbaMcp // {
         type = "stdio";
       };
@@ -140,7 +132,6 @@ in
     text = builtins.toJSON {
       globalShortcut = "Alt+Space";
       mcpServers = {
-        bear = bearMcp;
         google-chat = {
           command = "${pkgs.mcp-google-chat}/bin/google-chat-mcp";
           args = [ ];

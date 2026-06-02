@@ -10,6 +10,7 @@
     ./settings/resticprofile.nix
     ./settings/security.nix
     ./settings/system.nix
+    ./settings/tailscale.nix
   ];
 
   users.users.askielboe = {
