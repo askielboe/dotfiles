@@ -37,6 +37,7 @@ in
     ./settings/python.nix
     ./settings/shell.nix
     ./settings/ssh.nix
+    ./settings/syncthing.nix
     ./settings/tmux.nix
     ./settings/whisper.nix
   ];
