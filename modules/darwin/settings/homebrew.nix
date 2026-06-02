@@ -56,6 +56,7 @@ _: {
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
+      SponsorBlock = 1573461917;
       TestFlight = 899247664;
       Bitwarden = 1352778147;
       "In Your Face" = 1476964367;
