@@ -1,2 +1,2 @@
-[post-create]
+[pre-start]
 direnv-allow = "test -f .envrc && direnv allow || true"
