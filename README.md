@@ -89,6 +89,24 @@ The file uses ActivityWatch's legacy `{ "categories": [...] }` import format
 editing categories in the UI, click **Export** and overwrite the repo file to
 keep it authoritative.
 
+### Extra watchers
+
+Beyond the bundled window/AFK watchers:
+
+- **Editor (`aw-watcher-vim`)** — installed declaratively into Neovim via
+  `modules/home-manager/nixvim/plugins/aw-watcher-vim/`. It auto-starts on launch
+  and reports the edited file + language to `aw-server` (an
+  `aw-watcher-vim_<host>` bucket appears at <http://localhost:5600>). Nothing to
+  do beyond rebuilding; `:AWStatus` inside nvim confirms it's connected.
+
+- **Browser (`aw-watcher-web`)** — **manual, per-browser**. This is a browser
+  extension, and your browsers are Homebrew casks (not home-manager-managed), so
+  it can't be installed declaratively. Install "ActivityWatch Web Watcher" from
+  each browser's add-on store (Firefox: addons.mozilla.org; ungoogled-chromium:
+  Chrome Web Store / sideload). It talks to `aw-server` on `5600` and creates an
+  `aw-watcher-web-<browser>` bucket. This gives per-tab URL/domain data, which is
+  more reliable than the page title alone for categorizing web work.
+
 ### Proposed follow-up (not applied): richer terminal titles
 
 Terminal work is keyword-categorized off the terminal **window title**. The
