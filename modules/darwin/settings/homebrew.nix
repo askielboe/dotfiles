@@ -1,7 +1,11 @@
 _: {
   homebrew = {
     enable = true;
-    onActivation.cleanup = "zap";
+    onActivation = {
+      cleanup = "zap";
+      # Newer Homebrew requires an explicit force flag for `brew bundle --cleanup`.
+      extraFlags = [ "--force-cleanup" ];
+    };
 
     taps = [
       "max-sixty/worktrunk"
