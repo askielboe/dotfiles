@@ -4,7 +4,7 @@ let
 in
 {
   services.syncthing = {
-    enable = true;
+    enable = false;
     settings = {
       devices.dobby = {
         id = "2GITK5Q-6R76XLR-TT6QK2F-LN3LMUS-OTMZDZW-3PJQ55A-547ASZJ-WCLADAS";
