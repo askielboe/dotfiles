@@ -14,18 +14,18 @@ _: {
   #   (also approve the terminal app if macOS prompts for it).
   homebrew.casks = [ "activitywatch@beta" ];
 
-  # Launch the aw-qt tray at login. aw-qt is the supervisor that spawns and keeps
-  # aw-server, aw-watcher-afk and aw-watcher-window running. KeepAlive relaunches
-  # it if it exits. Path is the standard bundle launcher — confirm it exists after
-  # the cask first installs (ls /Applications/ActivityWatch.app/Contents/MacOS).
+  # Launch the ActivityWatch desktop app at login. The 0.14 beta is the Tauri
+  # rewrite: the launcher is aw-tauri (not the old aw-qt tray), and it supervises
+  # the bundled aw-server-rust + aw-watcher-afk + aw-watcher-window (under
+  # Contents/Resources). KeepAlive relaunches it if it exits.
   launchd.user.agents.activitywatch = {
     serviceConfig = {
-      Label = "net.activitywatch.aw-qt";
-      ProgramArguments = [ "/Applications/ActivityWatch.app/Contents/MacOS/aw-qt" ];
+      Label = "net.activitywatch.aw-tauri";
+      ProgramArguments = [ "/Applications/ActivityWatch.app/Contents/MacOS/aw-tauri" ];
       RunAtLoad = true;
       KeepAlive = true;
-      StandardOutPath = "/Users/askielboe/Library/Logs/activitywatch/aw-qt.out.log";
-      StandardErrorPath = "/Users/askielboe/Library/Logs/activitywatch/aw-qt.err.log";
+      StandardOutPath = "/Users/askielboe/Library/Logs/activitywatch/aw-tauri.out.log";
+      StandardErrorPath = "/Users/askielboe/Library/Logs/activitywatch/aw-tauri.err.log";
     };
   };
 
