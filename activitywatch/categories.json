@@ -1,0 +1,66 @@
+{
+  "categories": [
+    { "name": ["Work"], "rule": { "type": "none" } },
+    {
+      "name": ["Work", "Mrs Sporty / Sportivity"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "mrs.?sporty|mrssporty|sportivity|clubplanner|virtuagym|mypelvi"
+      }
+    },
+    {
+      "name": ["Work", "Salesforce"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "salesforce|cloudity|lightning|\\bapex\\b|force\\.com"
+      }
+    },
+    {
+      "name": ["Work", "Data warehouse"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "clickhouse|\\bdbt\\b|metabase|lightdash|airbyte|dagster|motherduck"
+      }
+    },
+    {
+      "name": ["Work", "Comms & support"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "trengo|slack|gmail|outline|linear|granola"
+      }
+    },
+    {
+      "name": ["Work", "Coding"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "ghostty|iterm|wezterm|kitty|alacritty|\\bnvim\\b|\\bvim\\b|zed|vscode|code|claude"
+      }
+    },
+    {
+      "name": ["Toustrup Mark"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "toustrup|paperless|wiki|bof.?llesskab"
+      }
+    },
+    {
+      "name": ["Homelab"],
+      "rule": {
+        "type": "regex",
+        "ignore_case": true,
+        "regex": "k3s|kubectl|helm|syncthing|navidrome|audiobookshelf|jellyfin|nixos|home-manager|nas"
+      }
+    },
+    {
+      "name": ["Comms", "Email"],
+      "rule": { "type": "regex", "ignore_case": true, "regex": "mail|gmail|proton" }
+    },
+    { "name": ["Uncategorized"], "rule": { "type": "none" } }
+  ]
+}
