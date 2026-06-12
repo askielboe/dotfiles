@@ -69,19 +69,6 @@ let
     args = [ "/Users/askielboe/work/mcp/servers/bilbasen/dist/index.js" ];
     env = { };
   };
-  toustrupMarkMcp = {
-    command = "${pkgs.nodejs_22}/bin/node";
-    args = [
-      "/Users/askielboe/work/mcp/servers/toustrup-mark/dist/index.js"
-    ];
-    env = {
-      PAPERLESS_URL = "https://docs.toustrupmark.dk";
-      PAPERLESS_TOKEN = private.apiKeys.paperless;
-      WIKI_URL = "https://wiki.toustrupmark.dk";
-      WIKI_USERNAME = "Andreas Skielboe@claude-mcp";
-      WIKI_PASSWORD = private.apiKeys.wikiPassword;
-    };
-  };
 in
 {
   programs.claude-code = {
@@ -168,7 +155,6 @@ in
             TRENGO_API_TOKEN = private.apiKeys.trengo;
           };
         };
-        toustrup-mark = toustrupMarkMcp;
         dba = dbaMcp;
         bilbasen = bilbasenMcp;
         outline = {
