@@ -8,10 +8,12 @@ _: {
     };
 
     taps = [
+      "beeper/tap"
       "max-sixty/worktrunk"
     ];
 
     brews = [
+      "beeper/tap/bbctl"
       "mas"
       "max-sixty/worktrunk/wt"
     ];
@@ -22,9 +24,12 @@ _: {
       "adguard"
       "appcleaner"
       "arq"
+      "beeper"
+      "bitwarden"
       "claude"
       "cyberduck"
       "datagrip"
+      "dbeaver-community"
       "devonthink"
       "firefox"
       "ghostty"
@@ -39,6 +44,7 @@ _: {
       "nvidia-geforce-now"
       "postico"
       "proxyman"
+      "shortwave"
       "signal"
       "slack"
       "soulver"
@@ -55,14 +61,15 @@ _: {
       "1Password for Safari" = 1569813296;
       Bear = 1091189122;
       DaisyDisk = 411643860;
-      Keynote = 409183694;
+      Keynote = 361285480;
       LookAway = 6747192301;
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
+      Numbers = 361304891;
+      Pages = 361309726;
       SponsorBlock = 1573461917;
       TestFlight = 899247664;
-      Bitwarden = 1352778147;
       "In Your Face" = 1476964367;
       "Things 3" = 904280696;
       Albums = 1469948986;
