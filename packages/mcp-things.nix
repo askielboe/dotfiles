@@ -13,7 +13,8 @@ let
   };
 
   fastmcp = pkgs.python312Packages.fastmcp.overridePythonAttrs (old: {
-    pythonRelaxDeps = [ "mcp" ];
+    # Append so nixpkgs' own relaxations (py-key-value-aio, pydocket) are preserved.
+    pythonRelaxDeps = (old.pythonRelaxDeps or [ ]) ++ [ "mcp" ];
     doCheck = false;
   });
 in

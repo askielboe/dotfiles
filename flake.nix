@@ -83,6 +83,31 @@
               direnv = prev.direnv.overrideAttrs (old: {
                 doCheck = false;
               }); # fish tests get killed in Nix sandbox on macOS
+              resticprofile = prev.resticprofile.overrideAttrs (old: {
+                doCheck = false;
+              }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
+              pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+                (pyfinal: pyprev: {
+                  pylint = pyprev.pylint.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # parallel-execution test times out in the Nix sandbox
+                  mcp = pyprev.mcp.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # server integration tests can't bind ports in the Nix sandbox
+                  portalocker = pyprev.portalocker.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # multiprocess lock test times out in the Nix sandbox
+                  pydantic-monty = pyprev.pydantic-monty.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # test_limits gets killed (resource/timeout) in the Nix sandbox
+                  cfn-lint = pyprev.cfn-lint.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # quickstart-template integration tests assert stale exit codes
+                  aiobotocore = pyprev.aiobotocore.overridePythonAttrs (old: {
+                    doCheck = false;
+                  }); # aiohttp test server can't bind in the Nix sandbox
+                })
+              ];
             })
             packages.overlays.default
           ];

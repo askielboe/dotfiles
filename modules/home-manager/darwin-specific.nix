@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   nixpkgs-unstable,
   private,
@@ -48,11 +47,11 @@ in
     ];
   };
 
-  programs.ssh.matchBlocks = {
-    "github.com".identityFile = "~/.ssh/id_ed25519-github";
-    "flextribe".identityFile = "~/.ssh/id_ed25519-github";
-    "storagebox-restic".identityFile = "~/.ssh/id_ed25519-storagebox";
-    "garage-hetzner".identityFile = "~/.ssh/id_ed25519-hetzner-garage";
+  programs.ssh.settings = {
+    "github.com".IdentityFile = "~/.ssh/id_ed25519-github";
+    "flextribe".IdentityFile = "~/.ssh/id_ed25519-github";
+    "storagebox-restic".IdentityFile = "~/.ssh/id_ed25519-storagebox";
+    "garage-hetzner".IdentityFile = "~/.ssh/id_ed25519-hetzner-garage";
   };
 
   programs.zsh.initContent = ''

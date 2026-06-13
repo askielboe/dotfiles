@@ -77,4 +77,7 @@ in
   };
 
   catppuccin.enable = true;
+  # catppuccin's gemini-cli module still sets the old `programs.gemini-cli`
+  # (renamed to programs.antigravity-cli in home-manager); we don't use it.
+  catppuccin.gemini-cli.enable = false;
 }

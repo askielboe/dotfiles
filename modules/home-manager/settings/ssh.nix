@@ -3,83 +3,83 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        identityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+        IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
       };
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identitiesOnly = true;
+        HostName = "github.com";
+        User = "git";
+        IdentitiesOnly = true;
       };
       "flextribe" = {
-        hostname = "github.com";
-        user = "git";
-        identitiesOnly = true;
+        HostName = "github.com";
+        User = "git";
+        IdentitiesOnly = true;
       };
       "storagebox-restic" = {
-        inherit (private.ssh.storagebox) hostname;
-        inherit (private.ssh.storagebox) user;
-        identitiesOnly = true;
+        HostName = private.ssh.storagebox.hostname;
+        User = private.ssh.storagebox.user;
+        IdentitiesOnly = true;
       };
       # git-annex export target for the Audiobookshelf library (sub-account u407515-sub14, port 23)
       "storagebox-audiobooks" = {
-        inherit (private.ssh.storageboxAudiobooks) hostname;
-        inherit (private.ssh.storageboxAudiobooks) user;
-        inherit (private.ssh.storageboxAudiobooks) port;
+        HostName = private.ssh.storageboxAudiobooks.hostname;
+        User = private.ssh.storageboxAudiobooks.user;
+        Port = private.ssh.storageboxAudiobooks.port;
         # Public half of the 1Password-held key; IdentitiesOnly needs it to pick the agent key.
-        identityFile = "~/.ssh/storagebox-audiobooks.pub";
-        identitiesOnly = true;
+        IdentityFile = "~/.ssh/storagebox-audiobooks.pub";
+        IdentitiesOnly = true;
       };
       "paperless" = {
-        inherit (private.ssh.paperless) hostname;
-        inherit (private.ssh.paperless) port;
-        inherit (private.ssh.paperless) user;
+        HostName = private.ssh.paperless.hostname;
+        Port = private.ssh.paperless.port;
+        User = private.ssh.paperless.user;
       };
       "synology" = {
-        inherit (private.ssh.synology) hostname;
-        identitiesOnly = true;
-        inherit (private.ssh.synology) user;
+        HostName = private.ssh.synology.hostname;
+        IdentitiesOnly = true;
+        User = private.ssh.synology.user;
       };
       "dobby" = {
-        inherit (private.ssh.dobby) hostname;
-        identitiesOnly = true;
-        inherit (private.ssh.dobby) user;
+        HostName = private.ssh.dobby.hostname;
+        IdentitiesOnly = true;
+        User = private.ssh.dobby.user;
       };
       "macmini" = {
-        inherit (private.ssh.macmini) hostname;
-        identitiesOnly = true;
-        inherit (private.ssh.macmini) user;
+        HostName = private.ssh.macmini.hostname;
+        IdentitiesOnly = true;
+        User = private.ssh.macmini.user;
       };
       "garage-hetzner" = {
-        inherit (private.ssh.garageHetzner) hostname;
-        identitiesOnly = true;
+        HostName = private.ssh.garageHetzner.hostname;
+        IdentitiesOnly = true;
       };
       "nix" = {
-        inherit (private.ssh.nix) hostname;
-        inherit (private.ssh.nix) user;
+        HostName = private.ssh.nix.hostname;
+        User = private.ssh.nix.user;
       };
       "simply-tm" = {
-        inherit (private.ssh.simplyTm) hostname;
-        inherit (private.ssh.simplyTm) user;
+        HostName = private.ssh.simplyTm.hostname;
+        User = private.ssh.simplyTm.user;
       };
       "k3s" = {
-        inherit (private.ssh.k3s) hostname;
-        inherit (private.ssh.k3s) user;
-        inherit (private.ssh.k3s) identityFile;
-        identitiesOnly = true;
+        HostName = private.ssh.k3s.hostname;
+        User = private.ssh.k3s.user;
+        IdentityFile = private.ssh.k3s.identityFile;
+        IdentitiesOnly = true;
       };
       "oci-1" = {
-        inherit (private.ssh.oci1) hostname;
-        inherit (private.ssh.oci1) user;
-        inherit (private.ssh.oci1) identityFile;
-        identitiesOnly = true;
+        HostName = private.ssh.oci1.hostname;
+        User = private.ssh.oci1.user;
+        IdentityFile = private.ssh.oci1.identityFile;
+        IdentitiesOnly = true;
       };
       "oci-2" = {
-        inherit (private.ssh.oci2) hostname;
-        inherit (private.ssh.oci2) user;
-        inherit (private.ssh.oci2) identityFile;
-        identitiesOnly = true;
+        HostName = private.ssh.oci2.hostname;
+        User = private.ssh.oci2.user;
+        IdentityFile = private.ssh.oci2.identityFile;
+        IdentitiesOnly = true;
       };
     };
   };

@@ -26,7 +26,7 @@
       hadolint
       luaPackages.luacheck
       markdownlint-cli
-      nodePackages.htmlhint
+      htmlhint
       shellcheck
       statix
       stylelint
