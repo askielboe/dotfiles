@@ -10,7 +10,7 @@
 
       # Formatting
       fixjson
-      nixfmt-rfc-style
+      nixfmt
       prettierd
       sqlfluff
       ruff
