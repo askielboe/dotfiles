@@ -54,7 +54,6 @@ _: {
       "ungoogled-chromium"
       "vlc"
       "zed"
-      "zoom"
     ];
 
     masApps = {
