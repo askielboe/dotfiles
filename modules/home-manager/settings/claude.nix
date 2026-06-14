@@ -82,7 +82,7 @@ in
       skipDangerousModePermissionPrompt = true;
       permissions = {
         defaultMode = "bypassPermissions";
-        allow = [ "*" ];
+        allow = [ ];
         deny = [ ];
       };
       statusLine = {
