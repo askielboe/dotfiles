@@ -110,6 +110,13 @@ in
     updraftplus-export
     wp-snapshots
 
+    // Reinstallable / regenerated trees (anchored to folder root).
+    // These three dominated the file count (~347k files, 72% of the folder)
+    // and are backups or re-pullable, not source — see "NAS is sync, not backup".
+    /tm/tm-backup
+    /tm/tm-wiki
+    /tm/wp-live-pull
+
     // Archives
     *.zip
     *.tar
