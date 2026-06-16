@@ -1,4 +1,27 @@
-_: {
+{
+  lib,
+  pkgs,
+  private,
+  ...
+}:
+let
+  # Single source of truth: these third-party taps populate both the Brewfile and
+  # the trust.json written below.
+  taps = [
+    "beeper/tap"
+    "max-sixty/worktrunk"
+  ];
+
+  # Homebrew 6.0 refuses to load untrusted third-party taps. During `darwin-rebuild`,
+  # `brew bundle` runs under `sudo --preserve-env=PATH`, which strips XDG_CONFIG_HOME,
+  # so brew reads ~/.homebrew/trust.json (not the ~/.config copy `brew trust` writes
+  # in an interactive shell). Generate the trusted-taps set from `taps` so it always
+  # matches the Brewfile; it is installed to ~/.homebrew/trust.json by the activation
+  # step below (a writable real file, since brew also writes trust.json.lock there
+  # during `--cleanup`).
+  trustJson = pkgs.writeText "homebrew-trust.json" (builtins.toJSON { trustedtaps = taps; });
+in
+{
   homebrew = {
     enable = true;
     onActivation = {
@@ -7,10 +30,7 @@ _: {
       extraFlags = [ "--force-cleanup" ];
     };
 
-    taps = [
-      "beeper/tap"
-      "max-sixty/worktrunk"
-    ];
+    inherit taps;
 
     brews = [
       "beeper/tap/bbctl"
@@ -75,4 +95,14 @@ _: {
       Xcode = 497799835;
     };
   };
+
+  # Install the declarative tap-trust file before `brew bundle` runs (this script
+  # is prepended to nix-darwin's own homebrew activation via mkBefore, and runs as
+  # root during system activation). It must be a real, user-owned, writable file:
+  # brew creates trust.json.lock alongside it during `--cleanup`, so a read-only
+  # Nix-store path can't be used here.
+  system.activationScripts.homebrew.text = lib.mkBefore ''
+    install -d -o ${private.user.username} -g staff -m 700 ${private.user.homeDirectory}/.homebrew
+    install -o ${private.user.username} -g staff -m 600 ${trustJson} ${private.user.homeDirectory}/.homebrew/trust.json
+  '';
 }
