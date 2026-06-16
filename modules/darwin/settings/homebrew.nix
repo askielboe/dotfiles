@@ -72,6 +72,7 @@ in
       "tigervnc"
       "tor-browser"
       "ungoogled-chromium"
+      "visual-studio-code"
       "vlc"
       "zed"
     ];
