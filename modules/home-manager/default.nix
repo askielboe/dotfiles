@@ -33,6 +33,7 @@ in
     ./settings/git.nix
     ./settings/nodejs.nix
     ./settings/packages.nix
+    ./settings/pi.nix
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix

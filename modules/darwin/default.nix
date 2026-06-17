@@ -6,6 +6,7 @@
     ./settings/hammerspoon.nix
     ./settings/homebrew.nix
     ./settings/networking.nix
+    ./settings/pi-mlx-python.nix
     ./settings/power.nix
     ./settings/resticprofile.nix
     ./settings/security.nix

@@ -37,6 +37,9 @@ in
       o = "open .";
       cfgutil = "/Applications/Apple\ Configurator.app/Contents/MacOS/cfgutil";
       bearcli = "/Applications/Bear.app/Contents/MacOS/bearcli";
+      # Start/stop the on-demand local MLX server (launchd.agents.pi-mlx-server).
+      mlx-up = "launchctl start org.nix-community.home.pi-mlx-server";
+      mlx-down = "launchctl stop org.nix-community.home.pi-mlx-server";
     };
 
     packages = with pkgs; [
@@ -100,6 +103,48 @@ in
       EnvironmentVariables = {
         HOME = private.user.homeDirectory; # uv cache lives under $HOME
         PATH = "/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
+  };
+
+  # On-demand local MLX inference server so `pim` (see settings/pi.nix) has a
+  # model on :11434 without running the extension's /mlx-start in a pi session.
+  # Reuses what the extension already built — no second pip install, no re-download:
+  #   - venv python: ~/.pi/agent/pi-mlx-models/venv/bin/python3   (built by /mlx-init)
+  #   - HF_HOME:     ~/.pi/agent/pi-mlx-models/models             (the 15 GB /mlx-start cached)
+  # This is the exact invocation the extension itself spawns. While it's running,
+  # do NOT also use /mlx-start — it would fight for :11434.
+  #
+  # On-demand: RunAtLoad/KeepAlive are off, so nothing loads at login — the model
+  # is ~16 GB resident only while the server runs. Start/stop with the mlx-up /
+  # mlx-down aliases below; first request after mlx-up waits ~30-60s for the model
+  # to load. For an always-on server instead, set RunAtLoad = true and KeepAlive
+  # = true (keeps ~16 GB of your 32 GB committed from login).
+  launchd.agents.pi-mlx-server = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${private.user.homeDirectory}/.pi/agent/pi-mlx-models/venv/bin/python3"
+        "-m"
+        "mlx_lm.server"
+        "--model"
+        "mlx-community/Qwen3.6-27B-4bit" # keep in sync with settings/pi.nix
+        "--host"
+        "127.0.0.1"
+        "--port"
+        "11434"
+      ];
+      RunAtLoad = false; # on-demand: don't load 16 GB at login
+      KeepAlive = false; # so `launchctl stop` (mlx-down) actually frees the RAM
+      StandardOutPath = "${private.user.homeDirectory}/Library/Logs/pi-mlx-server.out.log";
+      StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/pi-mlx-server.err.log";
+      EnvironmentVariables = {
+        HOME = private.user.homeDirectory;
+        # Point at the cache the extension already populated, else it re-downloads ~16 GB.
+        HF_HOME = "${private.user.homeDirectory}/.pi/agent/pi-mlx-models/models";
+        TRANSFORMERS_CACHE = "${private.user.homeDirectory}/.pi/agent/pi-mlx-models/models";
+        HF_HUB_DISABLE_TELEMETRY = "1";
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
     };
   };
