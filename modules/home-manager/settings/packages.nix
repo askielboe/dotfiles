@@ -55,6 +55,7 @@ in
     gnused
     gnutar
     go
+    google-cloud-sdk
     hcloud
     htop
     httpie
