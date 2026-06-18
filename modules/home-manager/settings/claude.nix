@@ -83,6 +83,35 @@ let
     in
     lib.removePrefix "version: " versionLine;
 
+  # PreToolUse(Bash) hook: a skill/CLAUDE.md rule is only advisory — Claude can still
+  # reach for `git`. This hook makes `but` non-optional by blocking raw `git` WRITE
+  # commands (exit 2 feeds the message back to Claude) whenever the repo is
+  # GitButler-managed (has a `gitbutler/workspace` branch). Reads (status/log/diff/
+  # show/blame), `but ...`, and every non-git command pass through untouched, and in
+  # plain-git repos the hook is a no-op. The regex tolerates global options that take
+  # an argument (`git -C <path> commit`, `git -c k=v commit`) without swallowing the
+  # subcommand. Tested against commit/add/push/checkout/rm and the `-C`/`-c`/absolute
+  # -path forms.
+  butGitGuard = pkgs.writeShellScript "but-git-guard" ''
+    input=$(cat)
+    cmd=$(${pkgs.jq}/bin/jq -r '.tool_input.command // ""' <<<"$input")
+    cwd=$(${pkgs.jq}/bin/jq -r '.cwd // ""' <<<"$input")
+    [ -z "$cwd" ] && cwd="$PWD"
+
+    # Only enforce inside GitButler-managed repos.
+    ${pkgs.git}/bin/git -C "$cwd" show-ref --verify --quiet refs/heads/gitbutler/workspace 2>/dev/null || exit 0
+
+    re='(^|[^[:alnum:]_])git[[:space:]]+(((-C|-c|--git-dir|--work-tree|--namespace)[[:space:]]+[^[:space:]]+|--?[[:alnum:]-]+)[[:space:]]+)*(add|commit|push|pull|checkout|switch|merge|rebase|stash|cherry-pick|restore|reset|revert|am|clean|rm|mv|tag)([[:space:]]|$)'
+    if [[ "$cmd" =~ $re ]]; then
+      echo 'BLOCKED: this repo is GitButler-managed (gitbutler/workspace). Use the `but` CLI, not git, for write operations:' >&2
+      echo '  but status -fv                                    # current state + the CLI IDs you need' >&2
+      echo '  but commit <branch-id> -m "msg" --changes <ids>  # commit specific files to a branch' >&2
+      echo '  but branch new <name> | but push | but amend | but undo' >&2
+      exit 2
+    fi
+    exit 0
+  '';
+
   dbaMcp = {
     command = "${pkgs.nodejs_22}/bin/node";
     args = [ "/Users/askielboe/work/mcp/servers/dba/dist/index.js" ];
@@ -108,6 +137,19 @@ in
         defaultMode = "bypassPermissions";
         allow = [ ];
         deny = [ ];
+      };
+      hooks = {
+        PreToolUse = [
+          {
+            matcher = "Bash";
+            hooks = [
+              {
+                type = "command";
+                command = "${butGitGuard}";
+              }
+            ];
+          }
+        ];
       };
       statusLine = {
         type = "command";
