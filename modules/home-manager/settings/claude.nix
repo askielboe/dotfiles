@@ -72,8 +72,8 @@ let
 
   # Version the vendored skill was generated against, read from its SKILL.md
   # frontmatter at eval time. The activation check below compares this against the
-  # live `but --version` so a CLI upgrade that outdates the skill is flagged on the
-  # next `hs` instead of silently drifting.
+  # installed app's bundle version so a CLI upgrade that outdates the skill is
+  # flagged on the next `hs` instead of silently drifting.
   butSkillDir = ./claude-assets/skills/but;
   butSkillVersion =
     let
@@ -143,18 +143,22 @@ in
   home.packages = lib.optionals pkgs.stdenv.isDarwin [ butCli ];
 
   # On every `hs`, warn (without failing the switch) if the GitButler CLI has moved
-  # past the version the vendored skill was generated against. Skips silently when
-  # the app isn't installed yet (e.g. first switch on a fresh machine, before the
-  # cask lands). To clear the warning: re-run the vendoring command it prints, then
-  # `git add` the skill and `hs` again.
+  # past the version the vendored skill was generated against. The version is read
+  # from the app bundle's Info.plist (CFBundleShortVersionString == the `but`
+  # version) rather than by running `but --version`: the CLI is the Tauri GUI binary,
+  # which blocks indefinitely when launched from the activation context (no GUI
+  # session to attach to). Reading the plist is cheap and never launches the app.
+  # Skips silently when the app isn't installed yet (e.g. first switch on a fresh
+  # machine, before the cask lands). To clear the warning: re-run the vendoring
+  # command it prints, then `git add` the skill and `hs` again.
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      butApp=/Applications/GitButler.app/Contents/MacOS/gitbutler-tauri
-      if [ -x "$butApp" ]; then
-        cliVersion="$("${butCli}/bin/but" --version 2>/dev/null | ${pkgs.gawk}/bin/awk '{print $2}')"
+      plist=/Applications/GitButler.app/Contents/Info.plist
+      if [ -f "$plist" ]; then
+        cliVersion="$(/usr/bin/defaults read /Applications/GitButler.app/Contents/Info CFBundleShortVersionString 2>/dev/null)"
         if [ -n "$cliVersion" ] && [ "$cliVersion" != "${butSkillVersion}" ]; then
           echo "" >&2
-          echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, CLI $cliVersion." >&2
+          echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, app $cliVersion." >&2
           echo "    Re-vendor:  but skill install --path ${toString butSkillDir}" >&2
           echo "    then 'git add' the skill and run hs again." >&2
           echo "" >&2
