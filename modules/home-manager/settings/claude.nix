@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   nixpkgs-unstable,
   addy-skills,
@@ -59,6 +60,29 @@ let
   googleChatCredentialsPath = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
   googleChatTokenPath = "${private.user.homeDirectory}/.local/state/google-chat-mcp/token.json";
 
+  # GitButler's `but` CLI is the desktop-app binary invoked under a different
+  # argv[0]; the app ships it inside the cask declared in homebrew.nix. GitButler's
+  # "Install CLI" button only drops an imperative symlink in /opt/homebrew/bin, so we
+  # provide `but` declaratively via this wrapper instead (macOS-only; the path is the
+  # fixed cask install location). `exec -a but` preserves the basename the binary
+  # dispatches on. Pair with the vendored `but` skill below for Claude ↔ GitButler.
+  butCli = pkgs.writeShellScriptBin "but" ''
+    exec -a but /Applications/GitButler.app/Contents/MacOS/gitbutler-tauri "$@"
+  '';
+
+  # Version the vendored skill was generated against, read from its SKILL.md
+  # frontmatter at eval time. The activation check below compares this against the
+  # live `but --version` so a CLI upgrade that outdates the skill is flagged on the
+  # next `hs` instead of silently drifting.
+  butSkillDir = ./claude-assets/skills/but;
+  butSkillVersion =
+    let
+      versionLine = lib.findFirst (lib.hasPrefix "version:") "version: unknown" (
+        lib.splitString "\n" (builtins.readFile (butSkillDir + "/SKILL.md"))
+      );
+    in
+    lib.removePrefix "version: " versionLine;
+
   dbaMcp = {
     command = "${pkgs.nodejs_22}/bin/node";
     args = [ "/Users/askielboe/work/mcp/servers/dba/dist/index.js" ];
@@ -103,11 +127,40 @@ in
     skills = {
       using-agent-skills = "${addy-skills}/skills/using-agent-skills";
       refactor = ./claude-assets/skills/refactor;
+      # Teaches Claude to drive GitButler's `but` CLI instead of raw git for all
+      # write operations (commit/push/branch), enabling parallel virtual-branch
+      # agents. Vendored via `but skill install --path ...` and pinned to the CLI
+      # version; the activation check below flags drift after a `but` upgrade.
+      but = butSkillDir;
     };
 
     agents = {
       refactor-mapper = ./claude-assets/agents/refactor-mapper.md;
     };
+  };
+
+  # Provide the `but` CLI on PATH declaratively (macOS only; wraps the cask app).
+  home.packages = lib.optionals pkgs.stdenv.isDarwin [ butCli ];
+
+  # On every `hs`, warn (without failing the switch) if the GitButler CLI has moved
+  # past the version the vendored skill was generated against. Skips silently when
+  # the app isn't installed yet (e.g. first switch on a fresh machine, before the
+  # cask lands). To clear the warning: re-run the vendoring command it prints, then
+  # `git add` the skill and `hs` again.
+  home.activation = lib.mkIf pkgs.stdenv.isDarwin {
+    checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      butApp=/Applications/GitButler.app/Contents/MacOS/gitbutler-tauri
+      if [ -x "$butApp" ]; then
+        cliVersion="$("${butCli}/bin/but" --version 2>/dev/null | ${pkgs.gawk}/bin/awk '{print $2}')"
+        if [ -n "$cliVersion" ] && [ "$cliVersion" != "${butSkillVersion}" ]; then
+          echo "" >&2
+          echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, CLI $cliVersion." >&2
+          echo "    Re-vendor:  but skill install --path ${toString butSkillDir}" >&2
+          echo "    then 'git add' the skill and run hs again." >&2
+          echo "" >&2
+        fi
+      fi
+    '';
   };
 
   home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
