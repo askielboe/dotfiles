@@ -61,6 +61,7 @@ in
       "meetingbar"
       "microsoft-teams"
       "mimestream"
+      "mixxx"
       "nvidia-geforce-now"
       "postico"
       "proxyman"
