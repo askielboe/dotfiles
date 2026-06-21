@@ -83,13 +83,6 @@ let
     in
     lib.removePrefix "version: " versionLine;
 
-  # Writable working-tree path used in the re-vendoring hint below. Deliberately a
-  # literal string and NOT `toString butSkillDir`: the latter resolves to the
-  # read-only /nix/store copy of this repo, so `but skill install --path <store>`
-  # fails with EACCES (permission denied). Re-vendoring must regenerate the skill
-  # into the checkout so it can be `git add`-ed, hence point at ~/.config/nix.
-  butSkillSourcePath = "$HOME/.config/nix/modules/home-manager/settings/claude-assets/skills/but";
-
   # PreToolUse(Bash) hook: a skill/CLAUDE.md rule is only advisory — Claude can still
   # reach for `git`. This hook makes `but` non-optional by blocking raw `git` WRITE
   # commands (exit 2 feeds the message back to Claude) whenever the repo is
@@ -198,8 +191,9 @@ in
   # which blocks indefinitely when launched from the activation context (no GUI
   # session to attach to). Reading the plist is cheap and never launches the app.
   # Skips silently when the app isn't installed yet (e.g. first switch on a fresh
-  # machine, before the cask lands). To clear the warning: re-run the vendoring
-  # command it prints, then `git add` the skill and `hs` again.
+  # machine, before the cask lands). To clear the warning: run `just
+  # update-but-skill` (re-vendors the skill into the checkout and commits just
+  # that change), then `hs` again.
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       plist=/Applications/GitButler.app/Contents/Info.plist
@@ -208,8 +202,8 @@ in
         if [ -n "$cliVersion" ] && [ "$cliVersion" != "${butSkillVersion}" ]; then
           echo "" >&2
           echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, app $cliVersion." >&2
-          echo "    Re-vendor:  but skill install --path ${butSkillSourcePath}" >&2
-          echo "    then 'git add' the skill and run hs again." >&2
+          echo "    Fix:  cd $HOME/.config/nix && just update-but-skill   (re-vendors + commits)" >&2
+          echo "    then run hs again to apply." >&2
           echo "" >&2
         fi
       fi
