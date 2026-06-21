@@ -83,6 +83,13 @@ let
     in
     lib.removePrefix "version: " versionLine;
 
+  # Writable working-tree path used in the re-vendoring hint below. Deliberately a
+  # literal string and NOT `toString butSkillDir`: the latter resolves to the
+  # read-only /nix/store copy of this repo, so `but skill install --path <store>`
+  # fails with EACCES (permission denied). Re-vendoring must regenerate the skill
+  # into the checkout so it can be `git add`-ed, hence point at ~/.config/nix.
+  butSkillSourcePath = "$HOME/.config/nix/modules/home-manager/settings/claude-assets/skills/but";
+
   # PreToolUse(Bash) hook: a skill/CLAUDE.md rule is only advisory — Claude can still
   # reach for `git`. This hook makes `but` non-optional by blocking raw `git` WRITE
   # commands (exit 2 feeds the message back to Claude) whenever the repo is
@@ -201,7 +208,7 @@ in
         if [ -n "$cliVersion" ] && [ "$cliVersion" != "${butSkillVersion}" ]; then
           echo "" >&2
           echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, app $cliVersion." >&2
-          echo "    Re-vendor:  but skill install --path ${toString butSkillDir}" >&2
+          echo "    Re-vendor:  but skill install --path ${butSkillSourcePath}" >&2
           echo "    then 'git add' the skill and run hs again." >&2
           echo "" >&2
         fi
