@@ -28,6 +28,7 @@ in
     ./settings/chromium.nix
     ./settings/claude.nix
     ./settings/clickhouse.nix
+    ./settings/factory.nix
     ./settings/file.nix
     ./settings/git-annex.nix
     ./settings/git.nix

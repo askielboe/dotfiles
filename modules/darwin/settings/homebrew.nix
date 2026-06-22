@@ -52,6 +52,8 @@ in
       "datagrip"
       "dbeaver-community"
       "devonthink"
+      "droid" # Factory's AI coding CLI; configured for Anthropic BYOK in settings/factory.nix
+      "factory" # Factory's desktop app (GUI companion to the droid CLI)
       "firefox"
       "ghostty"
       "gitbutler"
