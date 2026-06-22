@@ -34,6 +34,7 @@ in
 
     brews = [
       "beeper/tap/bbctl"
+      "herdr"
       "mas"
       "max-sixty/worktrunk/wt"
     ];

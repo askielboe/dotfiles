@@ -47,45 +47,78 @@
         };
       }
 
-      # Split navigation
+      # Split navigation, with seamless fall-through to herdr panes.
+      # Move within nvim splits; if already at the edge and running inside a
+      # herdr pane (HERDR_ENV=1), hand off to herdr to focus the pane in that
+      # direction. herdr deliberately does NOT bind ctrl+hjkl (it has no
+      # vim-aware passthrough), so nvim drives navigation and only delegates at
+      # the boundary -- the vim-tmux-navigator pattern over herdr's pane CLI.
       {
         mode = "n";
         key = "<C-h>";
-        action = "<C-w>h";
+        action.__raw = ''
+          function()
+            local w = vim.api.nvim_get_current_win()
+            vim.cmd.wincmd("h")
+            if w == vim.api.nvim_get_current_win() and vim.env.HERDR_ENV == "1" then
+              vim.fn.jobstart({ "herdr", "pane", "focus", "--direction", "left", "--current" })
+            end
+          end
+        '';
         options = {
-          noremap = true;
           silent = true;
-          desc = "Move to left split";
+          desc = "Move to left split or herdr pane";
         };
       }
       {
         mode = "n";
         key = "<C-j>";
-        action = "<C-w>j";
+        action.__raw = ''
+          function()
+            local w = vim.api.nvim_get_current_win()
+            vim.cmd.wincmd("j")
+            if w == vim.api.nvim_get_current_win() and vim.env.HERDR_ENV == "1" then
+              vim.fn.jobstart({ "herdr", "pane", "focus", "--direction", "down", "--current" })
+            end
+          end
+        '';
         options = {
-          noremap = true;
           silent = true;
-          desc = "Move to below split";
+          desc = "Move to below split or herdr pane";
         };
       }
       {
         mode = "n";
         key = "<C-k>";
-        action = "<C-w>k";
+        action.__raw = ''
+          function()
+            local w = vim.api.nvim_get_current_win()
+            vim.cmd.wincmd("k")
+            if w == vim.api.nvim_get_current_win() and vim.env.HERDR_ENV == "1" then
+              vim.fn.jobstart({ "herdr", "pane", "focus", "--direction", "up", "--current" })
+            end
+          end
+        '';
         options = {
-          noremap = true;
           silent = true;
-          desc = "Move to above split";
+          desc = "Move to above split or herdr pane";
         };
       }
       {
         mode = "n";
         key = "<C-l>";
-        action = "<C-w>l";
+        action.__raw = ''
+          function()
+            local w = vim.api.nvim_get_current_win()
+            vim.cmd.wincmd("l")
+            if w == vim.api.nvim_get_current_win() and vim.env.HERDR_ENV == "1" then
+              vim.fn.jobstart({ "herdr", "pane", "focus", "--direction", "right", "--current" })
+            end
+          end
+        '';
         options = {
-          noremap = true;
           silent = true;
-          desc = "Move to right split";
+          desc = "Move to right split or herdr pane";
         };
       }
 
