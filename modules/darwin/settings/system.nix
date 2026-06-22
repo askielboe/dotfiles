@@ -35,10 +35,10 @@ _: {
         show-recents = false;
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
-          { app = "/Applications/Things3.app"; }
           { app = "/Applications/Linear.app"; }
           { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Mimestream.app"; }
+          { app = "/Applications/Shortwave.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
@@ -46,9 +46,8 @@ _: {
           { app = "/Applications/Claude.app"; }
           { app = "/Applications/Zed.app"; }
           { app = "/Applications/Bear.app"; }
-          { app = "/Applications/DEVONthink 3.app"; }
+          { app = "/Applications/DEVONthink.app"; }
           { app = "/Applications/1Password.app"; }
-          { app = "/System/Applications/Music.app"; }
           { app = "/Applications/Ghostty.app"; }
         ];
         persistent-others = [
