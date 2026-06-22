@@ -2,7 +2,7 @@
 
 # Path to the vendored GitButler `but` skill, relative to the repo root. Kept in
 # sync with `butSkillDir` in modules/home-manager/settings/claude.nix.
-but_skill_dir := "modules/home-manager/settings/claude-assets/skills/but"
+but_skill_dir := "modules/home-manager/settings/claude-assets/skills/gitbutler"
 
 # List available recipes.
 default:

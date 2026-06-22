@@ -74,7 +74,13 @@ let
   # frontmatter at eval time. The activation check below compares this against the
   # installed app's bundle version so a CLI upgrade that outdates the skill is
   # flagged on the next `hs` instead of silently drifting.
-  butSkillDir = ./claude-assets/skills/but;
+  # NOTE: the directory MUST be named `gitbutler`. GitButler's `but skill check`
+  # (run debounced on every `but` invocation) detects an installed skill purely by
+  # folder name — it scans agent skill locations for a subdir literally called
+  # `gitbutler`, ignoring the SKILL.md `name:` field. Installing under any other name
+  # (e.g. `but`) makes `but` print "AGENT ACTION REQUIRED: skill not installed" on
+  # every mutation. Claude still surfaces it as `but` via the frontmatter `name:`.
+  butSkillDir = ./claude-assets/skills/gitbutler;
   butSkillVersion =
     let
       versionLine = lib.findFirst (lib.hasPrefix "version:") "version: unknown" (
@@ -173,7 +179,9 @@ in
       # write operations (commit/push/branch), enabling parallel virtual-branch
       # agents. Vendored via `but skill install --path ...` and pinned to the CLI
       # version; the activation check below flags drift after a `but` upgrade.
-      but = butSkillDir;
+      # The attr key is the installed dir name and MUST be `gitbutler` (see the
+      # butSkillDir note above) — that is how `but` detects the skill is present.
+      gitbutler = butSkillDir;
     };
 
     agents = {
