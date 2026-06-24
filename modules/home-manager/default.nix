@@ -42,6 +42,7 @@ in
     ./settings/syncthing.nix
     ./settings/tmux.nix
     ./settings/whisper.nix
+    ./settings/zed.nix
   ];
 
   home = {
@@ -78,8 +79,15 @@ in
     };
   };
 
+  # Catppuccin theming, enabled globally. We WANT it on for every program that
+  # supports it (Zed, bat, btop, …) — do NOT disable it per-program as a styling
+  # preference. Per-program disables below are bug workarounds only.
   catppuccin.enable = true;
-  # catppuccin's gemini-cli module still sets the old `programs.gemini-cli`
-  # (renamed to programs.antigravity-cli in home-manager); we don't use it.
+
+  # SOLE exception, and ONLY because of a home-manager bug — not a preference:
+  # catppuccin's gemini-cli module still targets the old `programs.gemini-cli` option,
+  # which home-manager renamed to `programs.antigravity-cli`. Left enabled it
+  # errors/no-ops against the stale name, so we turn it off here. Keep catppuccin
+  # enabled for everything else.
   catppuccin.gemini-cli.enable = false;
 }
