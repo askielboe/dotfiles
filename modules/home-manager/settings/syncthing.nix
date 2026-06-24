@@ -179,9 +179,9 @@ let
 
   # Prefix every real pattern (not blank lines, not `//` comments) with `(?d)`.
   deletableIgnores = lib.concatStringsSep "\n" (
-    map (
-      line: if line == "" || lib.hasPrefix "//" line then line else "(?d)" + line
-    ) (lib.splitString "\n" rawIgnores)
+    map (line: if line == "" || lib.hasPrefix "//" line then line else "(?d)" + line) (
+      lib.splitString "\n" rawIgnores
+    )
   );
 
   # Syncthing never syncs `.stignore` itself, but a file it `#include`s syncs
@@ -195,7 +195,7 @@ let
 in
 {
   services.syncthing = {
-    enable = true;
+    enable = false;
     settings = {
       devices.dobby = {
         id = "2GITK5Q-6R76XLR-TT6QK2F-LN3LMUS-OTMZDZW-3PJQ55A-547ASZJ-WCLADAS";
