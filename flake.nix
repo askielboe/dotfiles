@@ -23,10 +23,10 @@
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
 
-    addy-skills = {
-      url = "github:addyosmani/agent-skills";
-      flake = false;
-    };
+    # sqlit: terminal UI for SQL databases. Its flake exposes lib.makeSqlit;
+    # clickhouse-connect is added via an override in packages.nix.
+    sqlit.url = "github:Maxteabag/sqlit";
+    sqlit.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -39,7 +39,7 @@
       nixvim,
       catppuccin,
       packages,
-      addy-skills,
+      sqlit,
       ...
     }:
     let
@@ -125,7 +125,7 @@
                   nixvim
                   nixpkgs-unstable
                   private
-                  addy-skills
+                  sqlit
                   ;
               };
               users.${user}.imports = homeManagerModules ++ [
@@ -148,7 +148,7 @@
             nixvim
             nixpkgs-unstable
             private
-            addy-skills
+            sqlit
             ;
         };
         modules = homeManagerModules ++ [

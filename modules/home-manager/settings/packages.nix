@@ -1,10 +1,31 @@
-{ pkgs, nixpkgs-unstable, ... }:
+{
+  pkgs,
+  nixpkgs-unstable,
+  sqlit,
+  ...
+}:
 
 let
   unstable = import nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
+
+  # sqlit TUI with the ClickHouse driver. Upstream's makeSqlit only covers
+  # extras packaged in nixpkgs (clickhouse-connect is excluded there), so we
+  # append it to the dependencies ourselves.
+  sqlit-clickhouse =
+    (sqlit.lib.${pkgs.stdenv.hostPlatform.system}.makeSqlit {
+      extras = [
+        "ssh"
+        "postgres"
+        "mysql"
+        "duckdb"
+      ];
+    }).overridePythonAttrs
+      (old: {
+        dependencies = old.dependencies ++ [ pkgs.python3.pkgs.clickhouse-connect ];
+      });
 
   repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
     set -euo pipefail
@@ -89,6 +110,7 @@ in
     rustc
     rustfmt
     sourcekit-lsp
+    sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
     sqlite
     ssm-session-manager-plugin
     terraform
