@@ -45,15 +45,11 @@ in
       "adguard"
       "appcleaner"
       "arq"
-      "beeper"
       "bitwarden"
       "claude"
       "cyberduck"
-      "datagrip"
       "dbeaver-community"
       "devonthink"
-      "droid" # Factory's AI coding CLI; configured for Anthropic BYOK in settings/factory.nix
-      "factory" # Factory's desktop app (GUI companion to the droid CLI)
       "firefox"
       "ghostty"
       "gitbutler"
@@ -68,6 +64,7 @@ in
       "nvidia-geforce-now"
       "postico"
       "proxyman"
+      "rescuetime"
       "shortwave"
       "signal"
       "slack"
