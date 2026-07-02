@@ -32,7 +32,6 @@ All three are declared in this repo's Nix config under
 
 ```nix
 skills = {
-  using-agent-skills = "${addy-skills}/skills/using-agent-skills";
   refactor = ./claude-assets/skills/refactor;
 };
 

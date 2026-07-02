@@ -2,7 +2,6 @@
   lib,
   pkgs,
   nixpkgs-unstable,
-  addy-skills,
   private,
   ...
 }:
@@ -173,7 +172,6 @@ in
     };
 
     skills = {
-      using-agent-skills = "${addy-skills}/skills/using-agent-skills";
       refactor = ./claude-assets/skills/refactor;
       # Teaches Claude to drive GitButler's `but` CLI instead of raw git for all
       # write operations (commit/push/branch), enabling parallel virtual-branch
