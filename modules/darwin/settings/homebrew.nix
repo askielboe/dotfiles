@@ -10,7 +10,6 @@ let
   taps = [
     "beeper/tap"
     "herald-email/herald"
-    "max-sixty/worktrunk"
     "raine/claude-history"
   ];
 
@@ -23,7 +22,6 @@ let
     "herald-email/herald/herald"
     "herdr"
     "mas"
-    "max-sixty/worktrunk/wt"
     "raine/claude-history/claude-history"
   ];
 

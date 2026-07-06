@@ -122,6 +122,7 @@ in
     uv
     wget
     which
+    worktrunk # `wt`: git worktree workflow tool
     xcbeautify
     xh # Rust re-write of httpie
     yazi
