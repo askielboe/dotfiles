@@ -111,6 +111,7 @@ in
     rustc
     rustfmt
     sourcekit-lsp
+    specify-cli # GitHub Spec Kit: bootstrap projects for Spec-Driven Development
     sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
     sqlite
     ssm-session-manager-plugin

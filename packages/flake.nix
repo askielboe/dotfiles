@@ -45,6 +45,9 @@
           mcp-google-chat = import ./mcp-google-chat.nix {
             inherit pkgs;
           };
+          specify-cli = import ./specify-cli.nix {
+            inherit pkgs;
+          };
         }
       );
       overlays.default = final: _prev: {
@@ -57,6 +60,9 @@
           src = mcp-things;
         };
         mcp-google-chat = import ./mcp-google-chat.nix {
+          pkgs = final;
+        };
+        specify-cli = import ./specify-cli.nix {
           pkgs = final;
         };
       };
