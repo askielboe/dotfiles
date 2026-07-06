@@ -10,6 +10,7 @@ let
   taps = [
     "beeper/tap"
     "max-sixty/worktrunk"
+    "raine/claude-history"
   ];
 
   # Homebrew 6.0 refuses to load untrusted third-party taps. During `darwin-rebuild`,
@@ -37,6 +38,7 @@ in
       "herdr"
       "mas"
       "max-sixty/worktrunk/wt"
+      "raine/claude-history/claude-history"
     ];
 
     casks = [

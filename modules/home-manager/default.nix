@@ -71,6 +71,7 @@ in
       he = "cd ~/.config/nix/ && nvim && cd -";
       hu = "cd ~/.config/nix/ && nix flake update && cd -";
       c = "claude";
+      ch = "claude-history";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
       ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude-trusted' -- --dangerously-skip-permissions";
       wm = "wt merge";
