@@ -95,6 +95,7 @@ in
     mise
     mr # myrepos: run sync/status/etc. across many repos at once
     ngrok
+    nixfmt # Formatter for nix files
     nixpkgs-review
     npm-check-updates
     openssh
