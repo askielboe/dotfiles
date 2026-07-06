@@ -89,7 +89,7 @@ in
       "soulver"
       "stats"
       "tigervnc"
-      "todoist"
+      "todoist-app"
       "tor-browser"
       "ungoogled-chromium"
       "visual-studio-code"
