@@ -134,7 +134,7 @@ in
     package = unstable.claude-code;
 
     settings = {
-      model = "claude-opus-4-8";
+      model = "best";
       effortLevel = "xhigh";
       alwaysThinkingEnabled = true;
       skipDangerousModePermissionPrompt = true;
