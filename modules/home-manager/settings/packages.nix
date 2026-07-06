@@ -93,6 +93,7 @@ in
     mcp-granola
     mcp-things
     mise
+    mr # myrepos: run sync/status/etc. across many repos at once
     ngrok
     nixpkgs-review
     npm-check-updates
