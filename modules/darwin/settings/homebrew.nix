@@ -9,9 +9,33 @@ let
   # the trust.json written below.
   taps = [
     "beeper/tap"
+    "herald-email/herald"
     "max-sixty/worktrunk"
     "raine/claude-history"
   ];
+
+  # Third-party CLI formulae (non-casks). Declared here in the `let` (rather than
+  # inline under `homebrew`) so the activation-time "outdated formula" warning below
+  # can match these against `brew outdated` output. These are stopgaps we'd rather
+  # get from nixpkgs (or drop) eventually.
+  brews = [
+    "beeper/tap/bbctl"
+    "herald-email/herald/herald"
+    "herdr"
+    "mas"
+    "max-sixty/worktrunk/wt"
+    "raine/claude-history/claude-history"
+  ];
+
+  # Leaf names (tap prefix stripped) — `brew outdated` prints short names, so match on these.
+  brewLeaves = map (b: lib.last (lib.splitString "/" b)) brews;
+
+  # The activation-time "outdated formula" warning lives in a sibling shell script so it
+  # gets editor tooling (highlighting/shellcheck) instead of a nix heredoc. nix passes it
+  # the primary user + declared formulae as args; see the file header for details.
+  brewOutdatedWarning = pkgs.writeShellScript "brew-outdated-warning" (
+    builtins.readFile ./brew-outdated-warning.sh
+  );
 
   # Homebrew 6.0 refuses to load untrusted third-party taps. During `darwin-rebuild`,
   # `brew bundle` runs under `sudo --preserve-env=PATH`, which strips XDG_CONFIG_HOME,
@@ -33,13 +57,7 @@ in
 
     inherit taps;
 
-    brews = [
-      "beeper/tap/bbctl"
-      "herdr"
-      "mas"
-      "max-sixty/worktrunk/wt"
-      "raine/claude-history/claude-history"
-    ];
+    inherit brews;
 
     casks = [
       "1password"
@@ -106,8 +124,16 @@ in
   # root during system activation). It must be a real, user-owned, writable file:
   # brew creates trust.json.lock alongside it during `--cleanup`, so a read-only
   # Nix-store path can't be used here.
-  system.activationScripts.homebrew.text = lib.mkBefore ''
-    install -d -o ${private.user.username} -g staff -m 700 ${private.user.homeDirectory}/.homebrew
-    install -o ${private.user.username} -g staff -m 600 ${trustJson} ${private.user.homeDirectory}/.homebrew/trust.json
-  '';
+  system.activationScripts.homebrew.text = lib.mkMerge [
+    (lib.mkBefore ''
+      install -d -o ${private.user.username} -g staff -m 700 ${private.user.homeDirectory}/.homebrew
+      install -o ${private.user.username} -g staff -m 600 ${trustJson} ${private.user.homeDirectory}/.homebrew/trust.json
+    '')
+
+    # After `brew bundle`: warn (never fail) when a declared formula is outdated.
+    # `|| true` guards against activation running under `set -e`.
+    (lib.mkAfter ''
+      ${brewOutdatedWarning} ${private.user.username} ${lib.concatStringsSep " " brewLeaves} || true
+    '')
+  ];
 }
