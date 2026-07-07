@@ -38,6 +38,7 @@ in
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix
+    ./settings/sqlit.nix
     ./settings/ssh.nix
     ./settings/syncthing.nix
     ./settings/tmux.nix
