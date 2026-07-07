@@ -8,7 +8,6 @@ let
   # Single source of truth: these third-party taps populate both the Brewfile and
   # the trust.json written below.
   taps = [
-    "beeper/tap"
     "herald-email/herald"
     "raine/claude-history"
   ];
@@ -18,7 +17,6 @@ let
   # can match these against `brew outdated` output. These are stopgaps we'd rather
   # get from nixpkgs (or drop) eventually.
   brews = [
-    "beeper/tap/bbctl"
     "herald-email/herald/herald"
     "herdr"
     "mas"
@@ -113,7 +111,6 @@ in
       TestFlight = 899247664;
       "In Your Face" = 1476964367;
       "Things 3" = 904280696;
-      Albums = 1469948986;
       Xcode = 497799835;
     };
   };
