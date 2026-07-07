@@ -27,6 +27,17 @@ let
         dependencies = old.dependencies ++ [ pkgs.python3.pkgs.clickhouse-connect ];
       });
 
+  # GYB stores client_secrets.json and OAuth tokens in its config folder,
+  # which defaults to the directory of the gyb script itself — the read-only
+  # nix store. Wrap it to use a writable config folder instead. An explicit
+  # --config-folder on the command line still wins (argparse takes the last
+  # occurrence).
+  gyb-wrapped = pkgs.writeShellScriptBin "gyb" ''
+    cfg="''${XDG_CONFIG_HOME:-$HOME/.config}/gyb"
+    mkdir -p "$cfg"
+    exec ${pkgs.gyb}/bin/gyb --config-folder "$cfg" "$@"
+  '';
+
   repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
     set -euo pipefail
     target="''${1:-.}"
@@ -77,6 +88,7 @@ in
     gnutar
     go
     google-cloud-sdk
+    gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
     hcloud
     htop
     httpie
