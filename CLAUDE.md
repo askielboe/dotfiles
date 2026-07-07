@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A Nix flake managing system and user configuration for macOS (nix-darwin + home-manager) and Linux (home-manager standalone). All inputs are pinned to the 25.11 release channel.
+A Nix flake managing system and user configuration for macOS (nix-darwin + home-manager) and Linux (home-manager standalone). All inputs are pinned to the 26.05 release channel.
 
 ## Commands
 
