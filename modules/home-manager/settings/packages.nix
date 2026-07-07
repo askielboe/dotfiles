@@ -63,6 +63,7 @@ in
     curl
     d2
     dbt
+    deadnix
     deploy-rs
     devbox
     difftastic
@@ -128,6 +129,7 @@ in
     sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
     sqlite
     ssm-session-manager-plugin
+    statix
     terraform
     tree
     unstable.devenv
