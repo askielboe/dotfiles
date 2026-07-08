@@ -12,7 +12,14 @@ source "$CONFIG_DIR/colors.sh"
 [ -z "$CPU_USAGE" ] && exit 0
 
 cpu_color="$PEACH"
-[ "$CPU_USAGE" -ge 80 ] && cpu_color="$RED"
+cpu_fill=0x30fab387
+if [ "$CPU_USAGE" -ge 80 ]; then
+  cpu_color="$RED"
+  cpu_fill=0x30f38ba8
+fi
+
+# Normalise the whole-percent load to the 0–1 range the graph plots.
+cpu_frac="$(awk "BEGIN { printf \"%.3f\", $CPU_USAGE / 100 }")"
 
 disk_color="$YELLOW"
 [ "$DISK_USAGE" -ge 95 ] && disk_color="$RED"
@@ -25,6 +32,8 @@ read -r down up <<<"$(env | awk -F= '
   /^NETWORK_TX_/ { tx += $2 }
   END { print fmt(rx), fmt(tx) }')"
 
-sketchybar --set cpu icon.color="$cpu_color" label="${CPU_USAGE}%" \
+sketchybar --set cpu graph.color="$cpu_color" \
+    graph.fill_color="$cpu_fill" label="${CPU_USAGE}%" \
+  --push cpu "$cpu_frac" \
   --set disk icon.color="$disk_color" label="${DISK_USAGE}%" \
   --set network label="↓${down} ↑${up}"

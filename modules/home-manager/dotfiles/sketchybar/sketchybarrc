@@ -111,10 +111,20 @@ sketchybar --add item gpu right \
     update_freq=5 \
     script="$PLUGIN_DIR/gpu.sh"
 
-sketchybar --add item cpu right \
+# cpu is a graph, not a number: stats.sh pushes the current load (0–1) as a new
+# data point per system_stats event. 40 points × 5s ≈ 3 min of scrolling history.
+# No icon — the trace speaks for itself; the exact % label sits to its right.
+# background.height (< bar height 34) insets the trace vertically, and the bar
+# centres it, so the graph gets top/bottom padding; label.padding_left keeps the
+# % off the trace.
+sketchybar --add graph cpu right 40 \
   --set cpu \
-    icon=󰻠 \
-    icon.color="$PEACH"
+    icon.drawing=off \
+    graph.color="$PEACH" \
+    graph.fill_color=0x30fab387 \
+    graph.line_width=2 \
+    background.height=16 \
+    label.padding_left=10
 
 # ---- system stats provider ----------------------------------------------------
 
