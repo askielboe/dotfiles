@@ -3,11 +3,22 @@
 # The launchd agent comes from modules/darwin/settings/sketchybar.nix; this
 # file is symlinked to ~/.config/sketchybar by darwin-specific.nix.
 # Manual reload: sketchybar --reload
+#
+# Item definitions live in items/*.sh, one file per bar item (or logical
+# group). They are sourced (same shell) in the explicit left-to-right order
+# below — that source order IS the on-screen order, since sketchybar places
+# items within each region in definition order. Reordering the bar means
+# reordering this list. Sourced files inherit $CONFIG_DIR, $PLUGIN_DIR,
+# $AEROSPACE and the colour vars set here without re-export.
+#
+# To add an item: create items/<name>.sh and add a `source` line below,
+# positioned to match where it should appear in its region.
 
 # shellcheck source=colors.sh
 source "$CONFIG_DIR/colors.sh"
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
+ITEM_DIR="$CONFIG_DIR/items"
 AEROSPACE="/opt/homebrew/bin/aerospace"
 
 # ---- bar & defaults ---------------------------------------------------------
@@ -33,186 +44,32 @@ sketchybar --default \
   background.corner_radius=6 \
   background.height=20
 
-# ---- left: aerospace workspaces ---------------------------------------------
+# ---- items (source order = on-screen order) ---------------------------------
 
-# Fired by exec-on-workspace-change in aerospace.toml.
-sketchybar --add event aerospace_workspace_change
+# Left region (left → right):
+# shellcheck source=items/workspaces.sh
+source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
+# shellcheck source=items/front_app.sh
+source "$ITEM_DIR/front_app.sh" # focused application
 
-# One item per workspace, hidden until the controller paints it. Each shows the
-# workspace id; the focused one is accent-coloured (the per-window app glyphs
-# live in the win.* pool below). Only the focused and non-empty workspaces are
-# drawn (there are ~30 persistent ones).
-for ws in $("$AEROSPACE" list-workspaces --all); do
-  sketchybar --add item space."$ws" left \
-    --set space."$ws" \
-      drawing=off \
-      icon="$ws" \
-      icon.padding_left=8 \
-      icon.padding_right=8 \
-      click_script="$AEROSPACE workspace $ws"
-done
+# Center region:
+# shellcheck source=items/pomodoro.sh
+source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 
-# A fixed pool of window items. On each repaint the controller fills win.1..N
-# with one sketchybar-app-font glyph per window in the FOCUSED workspace,
-# highlights the focused window's glyph, hides the rest, and --moves the pool to
-# sit right after the focused workspace item. A fixed pool (vs. dynamic
-# --add/--remove) keeps the single-repaint model and avoids item churn. 16
-# covers any realistic accordion depth; windows beyond that are not shown.
-# icon.y_offset nudges the app-font glyphs down to vertical centre.
-for i in {1..16}; do
-  sketchybar --add item win."$i" left \
-    --set win."$i" \
-      drawing=off \
-      icon.font="sketchybar-app-font:Regular:15.0" \
-      icon.y_offset=-1 \
-      icon.padding_left=4 \
-      icon.padding_right=4 \
-      label.drawing=off \
-      background.corner_radius=6 \
-      background.height=20 \
-      background.drawing=off
-done
-
-# A single hidden controller repaints all workspace items in one call;
-# per-item scripts would spawn ~30 processes per workspace switch.
-# front_app_switched and space_windows_change catch windows being created,
-# destroyed or moved between workspaces, which fire no aerospace event.
-sketchybar --add item space_controller left \
-  --set space_controller \
-    drawing=off \
-    script="$PLUGIN_DIR/aerospace.sh" \
-  --subscribe space_controller aerospace_workspace_change front_app_switched space_windows_change
-
-# ---- left: focused application ----------------------------------------------
-
-sketchybar --add item front_app left \
-  --set front_app \
-    icon.font="sketchybar-app-font:Regular:15.0" \
-    label.font="Hack Nerd Font:Bold:13.0" \
-    script="$PLUGIN_DIR/front_app.sh" \
-  --subscribe front_app front_app_switched
-
-# ---- center: current focus / pomodoro ---------------------------------------
-
-# Backed by openpomodoro-cli (on the agent's PATH via services.sketchybar
-# .extraPackages). `pomodoro start "task"` sets the label + a 25-min countdown;
-# the CLI's start/stop hooks (~/.pomodoro/hooks, nix-managed) fire this event so
-# the item wakes instantly. pomodoro.sh flips update_freq, so it only ticks (1s)
-# while a Pomodoro runs — idle costs no polling. Left-click finishes the
-# Pomodoro (counts it toward the daily goal); right-click cancels it.
-sketchybar --add event pomodoro_update
-
-sketchybar --add item pomodoro center \
-  --set pomodoro \
-    icon=󰔟 \
-    icon.color="$PEACH" \
-    drawing=off \
-    update_freq=0 \
-    script="$PLUGIN_DIR/pomodoro.sh" \
-    click_script='if [ "$BUTTON" = "right" ]; then pomodoro cancel; else pomodoro finish; fi' \
-  --subscribe pomodoro pomodoro_update
-
-# ---- right: clock, claude usage, meeting, battery, volume, stats (r-to-l) -----
-
-sketchybar --add item clock right \
-  --set clock \
-    icon=󰃰 \
-    icon.color="$MAUVE" \
-    update_freq=30 \
-    script="$PLUGIN_DIR/clock.sh"
-
-# Claude 5h / 7d token windows + extra-usage spend from /api/oauth/usage. The
-# plugin owns the icon, label and colour (severity of the most-binding window)
-# and refreshes the OAuth token in place. Shows "login" until you run
-# `claude-usage-login` once. update_freq=180 is the endpoint's safe poll rate.
-sketchybar --add item claude_usage right \
-  --set claude_usage \
-    icon=󰛄 \
-    icon.color="$MAUVE" \
-    drawing=off \
-    update_freq=180 \
-    script="$PLUGIN_DIR/claude-usage.sh"
-
-# Minimal MeetingBar: the next upcoming timed calendar event as "<in>· <title>",
-# via icalBuddy (see plugins/meeting.sh). Sits just left of the clock. Hidden
-# until the plugin paints an event; needs Calendar access granted to the
-# sketchybar agent on first run (Privacy & Security ▸ Calendars). update_freq
-# here is only the initial cadence — the plugin re-sets it adaptively (5 min when
-# far, 30s in the final 15 min).
-sketchybar --add item next_meeting right \
-  --set next_meeting \
-    icon=󰃭 \
-    icon.color="$TEXT" \
-    drawing=off \
-    update_freq=60 \
-    script="$PLUGIN_DIR/meeting.sh"
-
-sketchybar --add item battery right \
-  --set battery \
-    update_freq=120 \
-    script="$PLUGIN_DIR/battery.sh" \
-  --subscribe battery system_woke power_source_change
-
-sketchybar --add item volume right \
-  --set volume \
-    icon.color="$BLUE" \
-    script="$PLUGIN_DIR/volume.sh" \
-  --subscribe volume volume_change
-
-# cpu, disk and network are passive: a single controller below repaints all
-# three per system_stats event, so they carry no script of their own.
-sketchybar --add item network right \
-  --set network \
-    icon=󰛳 \
-    icon.color="$LAVENDER"
-
-sketchybar --add item disk right \
-  --set disk \
-    icon=󰋊 \
-    icon.color="$YELLOW"
-
-# The provider has no GPU stat; this one still polls ioreg.
-sketchybar --add item gpu right \
-  --set gpu \
-    icon=󰢮 \
-    icon.color="$TEAL" \
-    update_freq=5 \
-    script="$PLUGIN_DIR/gpu.sh"
-
-# cpu is a graph, not a number: stats.sh pushes the current load (0–1) as a new
-# data point per system_stats event. 40 points × 5s ≈ 3 min of scrolling history.
-# No icon — the trace speaks for itself; the exact % label sits to its right.
-# background.height (< bar height 34) insets the trace vertically, and the bar
-# centres it, so the graph gets top/bottom padding; label.padding_left keeps the
-# % off the trace.
-sketchybar --add graph cpu right 40 \
-  --set cpu \
-    icon.drawing=off \
-    graph.color="$PEACH" \
-    graph.fill_color=0x30fab387 \
-    graph.line_width=2 \
-    background.height=16 \
-    label.padding_left=10
-
-# ---- system stats provider ----------------------------------------------------
-
-# stats_provider (brew: joncrangle/tap/sketchybar-system-stats) pushes the
-# system_stats event every 5s over mach messages — no polling processes.
-# en0 = Wi-Fi, en17 = USB dock LAN; stats.sh sums whichever carries traffic.
-# The provider runs as its own launchd agent (sketchybar-stats-provider in
-# modules/darwin/settings/sketchybar.nix), NOT from here: a backgrounded
-# child of this config script lives in sketchybar's KeepAlive process group
-# and gets reaped when launchd bounces that job at login, silently killing
-# the stats. A supervised agent survives login and restarts if it dies.
-# The provider also registers the event itself, but only after it starts, so
-# add it here first to keep the subscription order-independent.
-sketchybar --add event system_stats
-
-sketchybar --add item stats_controller right \
-  --set stats_controller \
-    drawing=off \
-    script="$PLUGIN_DIR/stats.sh" \
-  --subscribe stats_controller system_stats
+# Right region (defined left → right; sketchybar stacks them right → left, so
+# the first-sourced item is rightmost):
+# shellcheck source=items/clock.sh
+source "$ITEM_DIR/clock.sh"
+# shellcheck source=items/claude_usage.sh
+source "$ITEM_DIR/claude_usage.sh"
+# shellcheck source=items/meeting.sh
+source "$ITEM_DIR/meeting.sh" # next_meeting
+# shellcheck source=items/battery.sh
+source "$ITEM_DIR/battery.sh"
+# shellcheck source=items/volume.sh
+source "$ITEM_DIR/volume.sh"
+# shellcheck source=items/stats.sh
+source "$ITEM_DIR/stats.sh" # network, disk, gpu, cpu graph + controller
 
 # ---- init --------------------------------------------------------------------
 
