@@ -9,6 +9,7 @@ let
   # the trust.json written below.
   taps = [
     "herald-email/herald"
+    "nikitabobko/tap"
     "raine/claude-history"
   ];
 
@@ -78,6 +79,7 @@ in
       "microsoft-teams"
       "mimestream"
       "mixxx"
+      "nikitabobko/tap/aerospace"
       "nvidia-geforce-now"
       "postico"
       "proxyman"
