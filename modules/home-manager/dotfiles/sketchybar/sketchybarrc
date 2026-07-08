@@ -70,7 +70,7 @@ sketchybar --add item front_app left \
     script="$PLUGIN_DIR/front_app.sh" \
   --subscribe front_app front_app_switched
 
-# ---- right: clock, battery, volume (added right-to-left) ---------------------
+# ---- right: clock, battery, volume, stats (added right-to-left) --------------
 
 sketchybar --add item clock right \
   --set clock \
@@ -90,6 +90,35 @@ sketchybar --add item volume right \
     icon.color="$BLUE" \
     script="$PLUGIN_DIR/volume.sh" \
   --subscribe volume volume_change
+
+sketchybar --add item network right \
+  --set network \
+    icon=󰛳 \
+    icon.color="$LAVENDER" \
+    update_freq=5 \
+    script="$PLUGIN_DIR/network.sh"
+
+sketchybar --add item disk right \
+  --set disk \
+    icon=󰋊 \
+    icon.color="$YELLOW" \
+    update_freq=300 \
+    script="$PLUGIN_DIR/disk.sh" \
+  --subscribe disk system_woke
+
+sketchybar --add item gpu right \
+  --set gpu \
+    icon=󰢮 \
+    icon.color="$TEAL" \
+    update_freq=5 \
+    script="$PLUGIN_DIR/gpu.sh"
+
+sketchybar --add item cpu right \
+  --set cpu \
+    icon=󰻠 \
+    icon.color="$PEACH" \
+    update_freq=5 \
+    script="$PLUGIN_DIR/cpu.sh"
 
 # ---- init --------------------------------------------------------------------
 
