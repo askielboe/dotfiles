@@ -12,6 +12,13 @@ _: {
   # on the title. This TCC grant cannot be set declaratively:
   #   System Settings → Privacy & Security → Accessibility → enable ActivityWatch
   #   (also approve the terminal app if macOS prompts for it).
+  #
+  # Category rules (what counts as Work/Media/Comms) are edited in the AW web UI
+  # (Settings → Categories) and stored in aw-server's own DB — nix does not manage
+  # them. The stock rules are Linux/browser-oriented and dump most macOS app time
+  # into "Uncategorized", so retune them there. They feed the `productive`
+  # sketchybar item (dotfiles/sketchybar/plugins/productive.sh — today's active
+  # time under the "Work" tree) and the AW dashboard alike.
   homebrew.casks = [ "activitywatch@beta" ];
 
   # Launch the ActivityWatch desktop app at login. The 0.14 beta is the Tauri

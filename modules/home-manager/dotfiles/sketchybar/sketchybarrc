@@ -60,6 +60,8 @@ source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 # the first-sourced item is rightmost):
 # shellcheck source=items/clock.sh
 source "$ITEM_DIR/clock.sh"
+# shellcheck source=items/productive.sh
+source "$ITEM_DIR/productive.sh" # ActivityWatch productive time today (+ uncat)
 # shellcheck source=items/claude_usage.sh
 source "$ITEM_DIR/claude_usage.sh"
 # shellcheck source=items/gchat.sh
