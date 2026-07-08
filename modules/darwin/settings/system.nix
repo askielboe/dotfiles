@@ -15,6 +15,15 @@ _: {
         # resize animation makes tiling feel mushy.
         NSAutomaticWindowAnimationsEnabled = false;
         NSWindowResizeTime = 0.001;
+        # Activating an app must not yank macOS to another Space — AeroSpace
+        # owns workspace placement.
+        AppleSpacesSwitchOnActivate = false;
+        NSAutomaticCapitalizationEnabled = false;
+        NSAutomaticQuoteSubstitutionEnabled = false;
+        NSAutomaticDashSubstitutionEnabled = false;
+        NSAutomaticPeriodSubstitutionEnabled = false;
+        "com.apple.sound.beep.volume" = 0.0;
+        "com.apple.sound.beep.feedback" = 0;
       };
 
       # Keep macOS's own window management out of AeroSpace's way.
@@ -26,6 +35,8 @@ _: {
         EnableTopTilingByEdgeDrag = false;
         EnableTilingOptionAccelerator = false;
         EnableTiledWindowMargins = false;
+        StandardHideWidgets = true;
+        StageManagerHideWidgets = true;
       };
 
       screensaver = {
@@ -49,6 +60,9 @@ _: {
         autohide = true;
         autohide-delay = 0.0;
         show-recents = false;
+        tilesize = 56;
+        # 1 = disabled; the macOS default puts Quick Note in this corner.
+        wvous-br-corner = 1;
         # AeroSpace parks hidden-workspace windows in a corner; grouping by app
         # keeps Mission Control legible (recommended by the AeroSpace docs).
         expose-group-apps = true;
@@ -90,6 +104,7 @@ _: {
 
       finder = {
         AppleShowAllExtensions = true;
+        FXPreferredViewStyle = "Nlsv";
         FXRemoveOldTrashItems = true;
         ShowExternalHardDrivesOnDesktop = false;
         ShowRemovableMediaOnDesktop = false;
