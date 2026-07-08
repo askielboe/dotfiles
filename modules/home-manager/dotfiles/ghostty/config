@@ -1,6 +1,8 @@
 # Theme
 theme = "Catppuccin Mocha"
-macos-titlebar-style = tabs
+# native (not tabs): the custom titlebar-tabs implementation squares/clips
+# window corners on macOS 26 Tahoe (ghostty#7563).
+macos-titlebar-style = native
 font-size = 15
 
 # Session management
