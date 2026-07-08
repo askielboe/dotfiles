@@ -1,0 +1,97 @@
+#!/bin/bash
+# Claude usage meter: 5-hour + 7-day token windows and the extra-usage
+# (pay-as-you-go) spend, read from Anthropic's authoritative /api/oauth/usage
+# endpoint — the same source the CLI's `/usage` command uses.
+#
+# Auth is a user:profile-scoped OAuth token minted once by `claude-usage-login`
+# (modules/darwin/settings/claude-usage-login.sh) into the state file below.
+# The token expires every ~8h; this plugin refreshes it in place via the stored
+# refresh token. That file rotates, so it lives outside the nix store, not in
+# the repo. jq/curl come from services.sketchybar.extraPackages.
+#
+# Polls at update_freq=180 (the documented safe interval for this endpoint;
+# a shorter cadence with the required User-Agent still risks the rate-limited
+# bucket). No event subscriptions — purely timer-driven.
+
+# shellcheck source=../colors.sh
+source "$CONFIG_DIR/colors.sh"
+
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/claude-usage/oauth.json"
+TOKEN_URL="https://console.anthropic.com/v1/oauth/token"
+USAGE_URL="https://api.anthropic.com/api/oauth/usage"
+CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
+# The claude-code/<v> User-Agent is required; without it the endpoint routes to
+# an aggressively rate-limited bucket. The exact version is not significant.
+UA="claude-code/2.1.201"
+ICON="󰛄"
+
+# Paint the item and stop. $1=label, $2=color.
+render() {
+  sketchybar --set claude_usage drawing=on icon="$ICON" \
+    icon.color="$2" label="$1" label.color="$2"
+  exit 0
+}
+
+[ -f "$STATE_FILE" ] || render "login" "$OVERLAY0"
+
+access_token="$(jq -r '.access_token // empty' "$STATE_FILE" 2>/dev/null)"
+refresh_token="$(jq -r '.refresh_token // empty' "$STATE_FILE" 2>/dev/null)"
+expires_at="$(jq -r '.expires_at // 0' "$STATE_FILE" 2>/dev/null)"
+[ -n "$access_token" ] || render "login" "$OVERLAY0"
+
+# Refresh when the access token is within 5 min of expiry (or already gone).
+now="$(date +%s)"
+if [ "$now" -ge "$((expires_at - 300))" ]; then
+  [ -n "$refresh_token" ] || render "auth?" "$RED"
+  resp="$(curl -fsS --max-time 10 -X POST "$TOKEN_URL" \
+    -H 'Content-Type: application/json' \
+    -d "$(jq -n --arg rt "$refresh_token" --arg id "$CLIENT_ID" \
+      '{grant_type:"refresh_token",refresh_token:$rt,client_id:$id}')")" || render "auth?" "$RED"
+  printf '%s' "$resp" | jq -e '.access_token' >/dev/null 2>&1 || render "auth?" "$RED"
+  # Persist rotated tokens atomically; keep the old refresh token if none returned.
+  tmp="$STATE_FILE.tmp"
+  printf '%s' "$resp" | jq --arg oldrt "$refresh_token" '{
+    access_token,
+    refresh_token: (.refresh_token // $oldrt),
+    expires_at: ((now + (.expires_in // 28800)) | floor)
+  }' > "$tmp" && mv "$tmp" "$STATE_FILE" && chmod 600 "$STATE_FILE"
+  access_token="$(printf '%s' "$resp" | jq -r '.access_token')"
+fi
+
+usage="$(curl -fsS --max-time 10 "$USAGE_URL" \
+  -H "Authorization: Bearer $access_token" \
+  -H "anthropic-beta: oauth-2025-04-20" \
+  -H "User-Agent: $UA" \
+  -H "Content-Type: application/json")" || render "…" "$OVERLAY0"
+
+# Bail if the payload is not the expected object (e.g. an error body).
+printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || render "auth?" "$RED"
+
+# utilization is a 0–100 percentage per the endpoint spec; round to int.
+read -r five_h seven_d over_enabled over_used over_limit <<<"$(printf '%s' "$usage" | jq -r '
+  [ (.five_hour.utilization // 0 | round),
+    (.seven_day.utilization // 0 | round),
+    (.extra_usage.is_enabled // false),
+    (.extra_usage.used_credits // 0),
+    (.extra_usage.monthly_limit // 0)
+  ] | @tsv' | tr "\t" " ")"
+
+# Colour the item by the most-binding token window.
+worst="$five_h"; [ "$seven_d" -gt "$worst" ] && worst="$seven_d"
+if   [ "$worst" -ge 100 ]; then color="$RED"
+elif [ "$worst" -ge 85 ];  then color="$PEACH"
+else color="$GREEN"; fi
+
+label="5h ${five_h}%  7d ${seven_d}%"
+if [ "$over_enabled" = "true" ]; then
+  spend="$(awk "BEGIN { printf \"%.2f\", $over_used }")"
+  if awk "BEGIN { exit !($over_limit > 0) }"; then
+    # Show spend against the monthly extra-usage cap, e.g. "$0.00/50".
+    cap="$(awk "BEGIN { printf \"%.0f\", $over_limit }")"
+    label="$label  \$$spend/$cap"
+  else
+    label="$label  \$$spend"
+  fi
+fi
+
+render "$label" "$color"

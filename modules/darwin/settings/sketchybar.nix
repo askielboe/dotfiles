@@ -1,4 +1,22 @@
 { pkgs, ... }:
+let
+  # One-time interactive login that mints a user:profile-scoped OAuth token for
+  # the claude_usage item and writes it to ~/.local/state/claude-usage/oauth.json.
+  # That token rotates on refresh, so it lives outside the read-only nix store
+  # (the plugin refreshes it in place); nothing sensitive is committed. Run
+  # `claude-usage-login` once after a switch. writeShellApplication runs
+  # shellcheck on the body and injects the runtime deps onto its PATH.
+  claude-usage-login = pkgs.writeShellApplication {
+    name = "claude-usage-login";
+    runtimeInputs = [
+      pkgs.openssl
+      pkgs.curl
+      pkgs.jq
+      pkgs.coreutils
+    ];
+    text = builtins.readFile ./claude-usage-login.sh;
+  };
+in
 {
   # https://felixkratz.github.io/SketchyBar/
   # Status bar replacing the macOS menu bar, showing AeroSpace workspaces.
@@ -9,14 +27,20 @@
   # in aerospace.toml.
   services.sketchybar = {
     enable = true;
-    # Both must be on the agent's PATH, which plugin scripts inherit:
+    # All must be on the agent's PATH, which plugin scripts inherit:
     #   sketchybar-app-font — icon_map.sh (app name -> glyph) for the front_app plugin
     #   openpomodoro-cli    — `pomodoro status` for the pomodoro center plugin
+    #   jq / curl           — claude-usage.sh (OAuth token refresh + /api/oauth/usage)
     extraPackages = [
       pkgs.sketchybar-app-font
       pkgs.openpomodoro-cli
+      pkgs.jq
+      pkgs.curl
     ];
   };
+
+  # `claude-usage-login` CLI for the one-time OAuth mint (see the let binding).
+  environment.systemPackages = [ claude-usage-login ];
 
   # System-stats provider (brew: joncrangle/tap/sketchybar-system-stats). It
   # pushes the `system_stats` event to the bar every 5s over mach messages,
