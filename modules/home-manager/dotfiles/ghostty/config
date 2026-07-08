@@ -41,3 +41,5 @@ clipboard-paste-bracketed-safe = false
 
 scrollback-limit = 10000000
 mouse-hide-while-typing = true
+
+unfocused-split-opacity = 1
