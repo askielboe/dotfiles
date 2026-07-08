@@ -5,7 +5,6 @@
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/firewall-prune.nix
-    ./settings/hammerspoon.nix
     ./settings/homebrew.nix
     ./settings/jankyborders.nix
     ./settings/networking.nix

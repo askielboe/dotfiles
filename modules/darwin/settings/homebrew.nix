@@ -72,7 +72,6 @@ in
       "ghostty"
       "gitbutler"
       "granola"
-      "hammerspoon"
       "handbrake-app"
       "linear"
       "meetingbar"
