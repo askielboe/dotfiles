@@ -1,0 +1,8 @@
+#!/bin/bash
+# openpomodoro-cli hook — symlinked to ~/.pomodoro/hooks/{start,stop} by
+# modules/home-manager/darwin-specific.nix. The CLI runs it on start / finish /
+# cancel; it wakes the sketchybar `pomodoro` center item so it repaints
+# immediately instead of waiting for its next tick (or, while idle, forever,
+# since pomodoro.sh drops update_freq to 0 when nothing is running).
+sb="$(command -v sketchybar || echo /run/current-system/sw/bin/sketchybar)"
+"$sb" --trigger pomodoro_update 2>/dev/null || true

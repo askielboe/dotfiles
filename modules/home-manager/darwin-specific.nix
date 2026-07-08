@@ -60,6 +60,18 @@ in
         # `launchctl kickstart -k gui/$UID/org.nixos.sketchybar` fixes it.
         onChange = "/run/current-system/sw/bin/sketchybar --reload || true";
       };
+      # openpomodoro-cli runs these on start / finish / cancel; both point at the
+      # same script, which triggers the pomodoro_update event so the sketchybar
+      # `pomodoro` center item repaints immediately. The `pomodoro` binary keeps
+      # its own state (current/history) alongside in ~/.pomodoro/.
+      ".pomodoro/hooks/start" = {
+        source = ./dotfiles/openpomodoro/hook;
+        executable = true;
+      };
+      ".pomodoro/hooks/stop" = {
+        source = ./dotfiles/openpomodoro/hook;
+        executable = true;
+      };
     };
 
     shellAliases = {

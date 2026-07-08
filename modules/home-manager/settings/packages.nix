@@ -118,6 +118,7 @@ in
     nixfmt # Formatter for nix files
     nixpkgs-review
     npm-check-updates
+    openpomodoro-cli # `pomodoro start "task"`; drives the sketchybar center item
     openssh
     parallel
     postgresql

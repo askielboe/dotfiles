@@ -9,9 +9,13 @@
   # in aerospace.toml.
   services.sketchybar = {
     enable = true;
-    # icon_map.sh (app name -> app-font glyph, used by the front_app plugin)
-    # must be on the agent's PATH, which plugin scripts inherit.
-    extraPackages = [ pkgs.sketchybar-app-font ];
+    # Both must be on the agent's PATH, which plugin scripts inherit:
+    #   sketchybar-app-font — icon_map.sh (app name -> glyph) for the front_app plugin
+    #   openpomodoro-cli    — `pomodoro status` for the pomodoro center plugin
+    extraPackages = [
+      pkgs.sketchybar-app-font
+      pkgs.openpomodoro-cli
+    ];
   };
 
   # System-stats provider (brew: joncrangle/tap/sketchybar-system-stats). It
