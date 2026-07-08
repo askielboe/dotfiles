@@ -38,15 +38,21 @@ sketchybar --default \
 # Fired by exec-on-workspace-change in aerospace.toml.
 sketchybar --add event aerospace_workspace_change
 
-# One item per workspace, hidden until the controller paints it. Only the
-# focused and non-empty workspaces are shown (there are ~30 persistent ones).
+# One item per workspace, hidden until the controller paints it. The item's
+# icon is the workspace id; the focused workspace additionally shows a glyph
+# per window (its accordion / tiled stack) in the label, using
+# sketchybar-app-font. Only the focused and non-empty workspaces are drawn
+# (there are ~30 persistent ones).
 for ws in $("$AEROSPACE" list-workspaces --all); do
   sketchybar --add item space."$ws" left \
     --set space."$ws" \
       drawing=off \
-      icon.drawing=off \
-      label="$ws" \
-      label.padding_left=8 \
+      icon="$ws" \
+      icon.padding_left=8 \
+      icon.padding_right=4 \
+      label.font="sketchybar-app-font:Regular:15.0" \
+      label.drawing=off \
+      label.padding_left=2 \
       label.padding_right=8 \
       click_script="$AEROSPACE workspace $ws"
 done
