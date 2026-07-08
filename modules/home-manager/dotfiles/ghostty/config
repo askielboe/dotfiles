@@ -42,4 +42,8 @@ clipboard-paste-bracketed-safe = false
 scrollback-limit = 10000000
 mouse-hide-while-typing = true
 
-unfocused-split-opacity = 1
+# Active split highlighting — Ghostty has no active-split border (yet), so the
+# active-pane signal is the dim: unfocused splits recede toward crust instead
+# of washing out toward base.
+unfocused-split-opacity = 0.88
+unfocused-split-fill = #11111b
