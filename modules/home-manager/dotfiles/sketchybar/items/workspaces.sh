@@ -7,8 +7,9 @@
 sketchybar --add event aerospace_workspace_change
 
 # One item per workspace, hidden until the controller paints it. Each shows the
-# workspace id; the focused one is accent-coloured. Only the focused and
-# non-empty workspaces are drawn (there are ~30 persistent ones).
+# workspace id; the focused one gets a mauve background pill (painted by the
+# controller). Only the focused and non-empty workspaces are drawn (there are
+# ~30 persistent ones).
 for ws in $("$AEROSPACE" list-workspaces --all); do
   sketchybar --add item space."$ws" left \
     --set space."$ws" \
@@ -16,6 +17,7 @@ for ws in $("$AEROSPACE" list-workspaces --all); do
       icon="$ws" \
       icon.padding_left=8 \
       icon.padding_right=8 \
+      label.drawing=off \
       click_script="$AEROSPACE workspace $ws"
 done
 
