@@ -1,7 +1,35 @@
 # shellcheck shell=bash
-# Right: system stats — network, disk, gpu, cpu graph + the controller that
-# repaints them. Sourced by ../sketchybarrc; runtime repaint lives in
-# ../plugins/stats.sh.
+# Right: system stats — network throughput, wired/Wi-Fi link info, disk, gpu,
+# cpu graph + the controllers that repaint them. Sourced by ../sketchybarrc;
+# runtime repaint lives in ../plugins/stats.sh and ../plugins/network_link.sh.
+
+# Link info (negotiated Ethernet speed; Wi-Fi band + tx rate) sits just right of
+# the throughput readout — added first so the right→left stack places it at the
+# rightmost edge of the stats group. Both items are passive: the hidden
+# network_link controller repaints them and toggles each item's drawing by
+# whether that interface is up (so an undocked laptop shows only Wi-Fi, a desktop
+# on the dock shows both).
+sketchybar --add item eth right \
+  --set eth \
+    drawing=off \
+    icon=󰈁 \
+    icon.color="$GREEN"
+
+sketchybar --add item wifi right \
+  --set wifi \
+    drawing=off \
+    icon=󰖩 \
+    icon.color="$BLUE"
+
+# system_profiler (the only non-root Wi-Fi source in macOS 26) costs ~6s, so the
+# controller runs off the critical path on a slow 60s timer plus wifi_change and
+# system_woke — link speed/band change on cable/roam/wake, not continuously.
+sketchybar --add item network_link right \
+  --set network_link \
+    drawing=off \
+    update_freq=60 \
+    script="$PLUGIN_DIR/network_link.sh" \
+  --subscribe network_link wifi_change system_woke
 
 # cpu, disk and network are passive: a single controller below repaints all
 # three per system_stats event, so they carry no script of their own.
