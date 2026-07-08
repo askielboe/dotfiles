@@ -12,7 +12,9 @@ The Desktop-app OAuth client id/secret come from your Google Cloud project (see
 the setup steps in modules/darwin/settings/sketchybar.nix). Provide them via the
 GCHAT_CLIENT_ID / GCHAT_CLIENT_SECRET environment variables, or paste them when
 prompted. The requested scopes are read-only: chat.spaces.readonly,
-chat.messages.readonly, chat.users.readstate.readonly.
+chat.messages.readonly, chat.users.readstate.readonly, plus openid + email so we
+can record which account this is — the gchat item opens each chip's account with
+`?authuser=<email>` and needs to know the address (stored as `email` in the JSON).
 """
 
 import base64
@@ -30,6 +32,8 @@ import webbrowser
 from pathlib import Path
 
 SCOPES = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/chat.spaces.readonly",
     "https://www.googleapis.com/auth/chat.messages.readonly",
     "https://www.googleapis.com/auth/chat.users.readstate.readonly",
@@ -44,6 +48,35 @@ STATE_DIR = (
 def b64url(raw):
     """base64url without padding, per RFC 7636."""
     return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
+
+
+def email_from_token(tok):
+    """Best-effort account email from the OAuth response (for ?authuser=).
+
+    Prefers the id_token's `email` claim (no extra request; it's Google-issued
+    over TLS, so we read the payload without verifying a signature), and falls
+    back to the OIDC userinfo endpoint. Returns None if neither yields one — the
+    login still succeeds, the gchat chip just won't deep-link to this account.
+    """
+    idt = tok.get("id_token")
+    if idt:
+        try:
+            payload = idt.split(".")[1]
+            payload += "=" * (-len(payload) % 4)  # restore base64url padding
+            email = json.loads(base64.urlsafe_b64decode(payload)).get("email")
+            if email:
+                return email
+        except Exception:  # noqa: BLE001 - fall through to the userinfo call
+            pass
+    try:
+        req = urllib.request.Request(
+            "https://openidconnect.googleapis.com/v1/userinfo",
+            headers={"Authorization": f"Bearer {tok['access_token']}"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read().decode()).get("email")
+    except Exception:  # noqa: BLE001 - email is a nice-to-have, not required
+        return None
 
 
 def capture_code(port, expected_state):
@@ -149,12 +182,15 @@ def main():
             "https://myaccount.google.com/permissions and retry"
         )
 
+    email = email_from_token(tok)
+
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     out = STATE_DIR / f"{label}.json"
     out.write_text(
         json.dumps(
             {
                 "label": label,
+                "email": email,
                 "client_id": client_id,
                 "client_secret": client_secret,
                 "refresh_token": tok["refresh_token"],
@@ -165,7 +201,13 @@ def main():
         )
     )
     out.chmod(0o600)
-    print(f"\nSuccess. Saved {out}")
+    print(f"\nSuccess. Saved {out}" + (f" ({email})" if email else ""))
+    if not email:
+        print(
+            "Note: couldn't determine this account's email, so the chip will open "
+            "the default Chat account. Add \"email\": \"you@domain\" to the JSON to "
+            "route clicks to this account."
+        )
     print("The sketchybar gchat item will pick it up on its next refresh.")
 
 

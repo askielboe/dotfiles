@@ -30,7 +30,9 @@ let
   #   2. APIs & Services -> Library -> enable "Google Chat API".
   #   3. APIs & Services -> OAuth consent screen -> User type "Internal".
   #   4. Add scopes: chat.spaces.readonly, chat.messages.readonly,
-  #      chat.users.readstate.readonly (all read-only).
+  #      chat.users.readstate.readonly (all read-only), plus openid + email
+  #      (non-sensitive; lets gchat-login record which account each token is, so
+  #      its bar chip can deep-link to that account via ?authuser=<email>).
   #   5. Credentials -> Create credentials -> OAuth client ID -> "Desktop app".
   #      Note the client ID and secret.
   #   6. After `hs`, run once per account (paste the id/secret when prompted, or

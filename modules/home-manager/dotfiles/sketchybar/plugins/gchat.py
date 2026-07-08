@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-"""Google Chat unread indicator for sketchybar.
+"""Google Chat unread indicator for sketchybar — one chip per account.
 
-Polls the Google Chat REST API for one or more Workspace accounts and paints the
-`gchat` bar item with the number of unread conversations. There is no single
-"unread badge" endpoint, so per account we:
+sketchybar routes a click to a whole item, not to a character inside its label,
+so a single item showing "2·1" can only ever open one account. To make each
+count independently clickable we run ONE item per account, named
+`gchat.<label>`, and this script polls exactly that account (its name arrives as
+$NAME, e.g. "gchat.work-a", and the label after the dot is the state-file stem).
+A separate static item owns the shared 󰭹 icon, so these count items carry no
+icon of their own — the bar reads "󰭹 2·0". The "·" separator is appended here to
+every count except the rightmost (last in sort order). items/gchat.sh declares
+the items by enumerating the state files at bar load.
+
+Per account there is no "unread badge" endpoint, so we:
 
   1. list every space/DM/group the user belongs to (`spaces.list`, paginated);
   2. read each space's per-user read state (`getSpaceReadState.lastReadTime`);
@@ -14,6 +22,12 @@ Sending a message advances your own `lastReadTime`, so messages you sent don't
 count. A space you've never opened has no `lastReadTime` and counts as unread if
 it holds any message — matching how Google Chat itself bolds it.
 
+The chip's click_script is rewritten each poll to open *this* account via
+`https://chat.google.com/?authuser=<email>` — Google's account router resolves
+`authuser=<email>` to the right session regardless of Chrome's sign-in order (an
+index like /u/0/ is not stable). The email comes from the state file's `email`
+field, written by `gchat-login`; without it we fall back to the plain URL.
+
 Each account is one JSON state file under ~/.local/state/gchat/*.json (written by
 `gchat-login`). The OAuth access token is refreshed in place when near expiry,
 exactly like the claude_usage plugin; the rotating file lives outside the
@@ -22,7 +36,7 @@ environment — plugins/gchat.sh sources colors.sh before exec'ing this script.
 
 The per-space checks fan out across a thread pool so a large space list stays
 fast. update_freq=60 keeps us far under the API's 3000-reads/min project quota
-even with hundreds of spaces across both accounts.
+even with hundreds of spaces.
 """
 
 import concurrent.futures as cf
@@ -38,14 +52,16 @@ from pathlib import Path
 
 API = "https://chat.googleapis.com/v1"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
+CHAT_URL = "https://chat.google.com/"
 EPOCH = "1970-01-01T00:00:00Z"
 HTTP_TIMEOUT = 10
 MAX_WORKERS = 16
-ICON = "\U000f0b79"  # nf-md-chat
 
 STATE_DIR = (
     Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "gchat"
 )
+# sketchybar passes the item name in $NAME, e.g. "gchat.work-a"; the login/"no
+# accounts" anchor is the bare "gchat".
 NAME = sys.argv[1] if len(sys.argv) > 1 else "gchat"
 
 # Catppuccin Mocha colours, injected by the wrapper (see colors.sh); the
@@ -81,20 +97,39 @@ def sb_set(*args):
     subprocess.run(["sketchybar", "--set", NAME, *args], check=False)
 
 
-def render(label, color, drawing="on"):
-    """Paint the item and exit."""
-    sb_set(
+def click_script_for(email):
+    """Shell command that opens Google Chat for this specific account.
+
+    `?authuser=<email>` is Google's account-router hint; unlike a /u/<index>/
+    path it doesn't depend on the browser's sign-in order. Falls back to the
+    plain Chat URL when the state file has no `email` (e.g. minted before
+    gchat-login captured it — add one to the JSON to enable per-account routing).
+    """
+    if not email:
+        return f"open '{CHAT_URL}'"
+    q = urllib.parse.urlencode({"authuser": email})
+    return f"open '{CHAT_URL}?{q}'"
+
+
+def render(label, color, drawing="on", click=None):
+    """Paint the count item's label (optionally its click target) and exit.
+
+    The shared 󰭹 lives on a separate static item, so we only ever set the label
+    here; the count items are created with icon.drawing=off.
+    """
+    args = [
         f"drawing={drawing}",
-        f"icon={ICON}",
-        f"icon.color={color}",
         f"label={label}",
         f"label.color={color}",
-    )
+    ]
+    if click is not None:
+        args.append(f"click_script={click}")
+    sb_set(*args)
     sys.exit(0)
 
 
 def hide():
-    """Everything is read — hide the item and exit."""
+    """This account is all read — hide the chip and exit."""
     sb_set("drawing=off")
     sys.exit(0)
 
@@ -170,9 +205,8 @@ def space_unread(token, space):
     return 1 if data.get("messages") else 0
 
 
-def account_unread(state_path):
-    """Count of unread conversations for one account."""
-    token = access_token(state_path)
+def account_unread(token):
+    """Count of unread conversations for the account behind `token`."""
     spaces = list_spaces(token)
     if not spaces:
         return 0
@@ -180,40 +214,46 @@ def account_unread(state_path):
         return sum(ex.map(lambda s: space_unread(token, s), spaces))
 
 
+def account_labels():
+    """Sorted state-file stems (the accounts), excluding the shared client.json."""
+    if not STATE_DIR.exists():
+        return []
+    return sorted(p.stem for p in STATE_DIR.glob("*.json") if p.name != "client.json")
+
+
 def main():
-    files = sorted(p for p in STATE_DIR.glob("*.json") if p.name != "client.json")
-    if not files:
-        render("login", OVERLAY0)  # nothing set up yet
+    labels = account_labels()
 
-    labels, total, any_ok, auth_err, net_err = [], 0, False, False, False
-    for f in files:
-        try:
-            c = account_unread(f)
-            total += c
-            labels.append(str(c))
-            any_ok = True
-        except urllib.error.HTTPError:
-            labels.append("!")  # token/quota rejected -> real action needed
-            auth_err = True
-        except (urllib.error.URLError, OSError):
-            labels.append("·")  # network down -> transient, don't alarm
-            net_err = True
-        except Exception:  # noqa: BLE001 - never crash the bar
-            labels.append("!")
-            auth_err = True
+    # The bare "gchat" name reaches here only as the placeholder shown before any
+    # account exists — once accounts exist the shared icon owns that name and has
+    # no script. Prompt to log in (or bow out if somehow invoked with accounts).
+    if not NAME.startswith("gchat."):
+        hide() if labels else render("login", OVERLAY0)
 
-    if not any_ok:
-        # Every account failed. Distinguish a real credential problem (red, needs
-        # re-login) from a transient network outage (dim, self-heals) so the item
-        # doesn't cry "auth?" every time the Wi-Fi drops.
-        render("auth?", RED) if auth_err else render("", OVERLAY0)
-    if total == 0 and not auth_err and not net_err:
-        hide()  # everything genuinely read
+    label = NAME[len("gchat.") :]
+    state_path = STATE_DIR / f"{label}.json"
+    if not state_path.exists():
+        hide()  # account removed since bar load — this count disappears
 
-    # Per-account breakdown when there's more than one account, e.g. "2·1"
-    # ("·" marks an account that couldn't be reached this poll).
-    label = "·".join(labels) if len(files) > 1 else labels[0]
-    render(label, RED if auth_err else PEACH)
+    st = json.loads(state_path.read_text())
+    click = click_script_for(st.get("email"))
+    # Dot-separate the counts: every account but the rightmost (last in sort
+    # order) carries a trailing separator so the row reads "2·0".
+    sep = "" if labels and label == labels[-1] else "·"
+
+    try:
+        token = access_token(state_path)
+        count = account_unread(token)
+    except urllib.error.HTTPError:
+        render(f"!{sep}", RED, click=click)  # token/quota rejected -> re-login
+    except (urllib.error.URLError, OSError):
+        render(f"?{sep}", OVERLAY0, click=click)  # network down -> self-heals
+    except Exception:  # noqa: BLE001 - never crash the bar
+        render(f"!{sep}", RED, click=click)
+
+    # Peach when this account has unread, dim grey at 0 (always shown).
+    color = PEACH if count > 0 else OVERLAY0
+    render(f"{count}{sep}", color, click=click)
 
 
 if __name__ == "__main__":
