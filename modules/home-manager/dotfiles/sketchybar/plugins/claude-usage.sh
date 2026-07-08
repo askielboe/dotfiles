@@ -17,7 +17,10 @@
 source "$CONFIG_DIR/colors.sh"
 
 STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/claude-usage/oauth.json"
-TOKEN_URL="https://console.anthropic.com/v1/oauth/token"
+# api.anthropic.com is the live token endpoint. The old console.anthropic.com host
+# is deprecated (301s to platform.claude.com) and its /v1/oauth/token is globally
+# rate-limited (persistent 429), so refreshes there never succeed.
+TOKEN_URL="https://api.anthropic.com/v1/oauth/token"
 USAGE_URL="https://api.anthropic.com/api/oauth/usage"
 CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 # The claude-code/<v> User-Agent is required; without it the endpoint routes to
@@ -68,12 +71,17 @@ usage="$(curl -fsS --max-time 10 "$USAGE_URL" \
 printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || render "auth?" "$RED"
 
 # utilization is a 0–100 percentage per the endpoint spec; round to int.
-read -r five_h seven_d over_enabled over_used over_limit <<<"$(printf '%s' "$usage" | jq -r '
+# extra_usage amounts are minor units (e.g. cents) — divide by 10^decimal_places
+# for the major-currency figure, and label it with the account's currency.
+read -r five_h seven_d over_enabled over_used over_limit over_dp over_cur \
+  <<<"$(printf '%s' "$usage" | jq -r '
   [ (.five_hour.utilization // 0 | round),
     (.seven_day.utilization // 0 | round),
     (.extra_usage.is_enabled // false),
     (.extra_usage.used_credits // 0),
-    (.extra_usage.monthly_limit // 0)
+    (.extra_usage.monthly_limit // 0),
+    (.extra_usage.decimal_places // 2),
+    (.extra_usage.currency // "USD")
   ] | @tsv' | tr "\t" " ")"
 
 # Colour the item by the most-binding token window.
@@ -82,15 +90,24 @@ if   [ "$worst" -ge 100 ]; then color="$RED"
 elif [ "$worst" -ge 85 ];  then color="$PEACH"
 else color="$GREEN"; fi
 
+# Currency symbol for the common cases; fall back to the ISO code + space.
+case "$over_cur" in
+  USD) sym="\$" ;;
+  EUR) sym="€"  ;;
+  GBP) sym="£"  ;;
+  *)   sym="$over_cur " ;;
+esac
+divisor="$(awk "BEGIN { printf \"%d\", 10 ^ $over_dp }")"
+
 label="5h ${five_h}%  7d ${seven_d}%"
 if [ "$over_enabled" = "true" ]; then
-  spend="$(awk "BEGIN { printf \"%.2f\", $over_used }")"
+  spend="$(awk "BEGIN { printf \"%.2f\", $over_used / $divisor }")"
   if awk "BEGIN { exit !($over_limit > 0) }"; then
-    # Show spend against the monthly extra-usage cap, e.g. "$0.00/50".
-    cap="$(awk "BEGIN { printf \"%.0f\", $over_limit }")"
-    label="$label  \$$spend/$cap"
+    # Show spend against the monthly extra-usage cap, e.g. "€61.81/100".
+    cap="$(awk "BEGIN { printf \"%.0f\", $over_limit / $divisor }")"
+    label="$label  ${sym}${spend}/${cap}"
   else
-    label="$label  \$$spend"
+    label="$label  ${sym}${spend}"
   fi
 fi
 

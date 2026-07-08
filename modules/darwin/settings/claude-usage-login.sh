@@ -7,7 +7,11 @@
 
 client_id="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 redirect="https://console.anthropic.com/oauth/code/callback"
-token_url="https://console.anthropic.com/v1/oauth/token"
+# Token exchange goes to api.anthropic.com. The old console.anthropic.com host is
+# being deprecated (it 301s to platform.claude.com) and its /v1/oauth/token is
+# globally rate-limited (persistent 429, no Retry-After); api.anthropic.com is the
+# live endpoint. The redirect_uri above stays as the client's registered callback.
+token_url="https://api.anthropic.com/v1/oauth/token"
 # URL-encoded forms for the authorize query string.
 redirect_enc="https%3A%2F%2Fconsole.anthropic.com%2Foauth%2Fcode%2Fcallback"
 scope_enc="org:create_api_key%20user:profile%20user:inference"
