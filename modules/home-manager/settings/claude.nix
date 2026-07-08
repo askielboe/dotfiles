@@ -13,8 +13,9 @@ let
 
   statuslineScript = pkgs.writeShellScript "claude-statusline" ''
     input=$(cat)
-    DIR=$(echo "$input" | ${pkgs.jq}/bin/jq -r '.workspace.project_dir')
-    echo "$DIR"
+    DIR=$(${pkgs.jq}/bin/jq -r '.workspace.project_dir' <<<"$input")
+    MODEL=$(${pkgs.jq}/bin/jq -r '.model.display_name // .model.id // "?"' <<<"$input")
+    echo "$DIR  ·  $MODEL"
   '';
 
   lspServers = {
@@ -134,10 +135,11 @@ in
     package = unstable.claude-code;
 
     settings = {
-      model = "best";
+      model = "opus";
       effortLevel = "xhigh";
       alwaysThinkingEnabled = true;
       skipDangerousModePermissionPrompt = true;
+      tui = "fullscreen";
       permissions = {
         defaultMode = "bypassPermissions";
         allow = [ ];
