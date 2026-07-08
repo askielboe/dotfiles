@@ -30,11 +30,12 @@ hide() { sketchybar --set "$NAME" drawing=off update_freq="${1:-300}"; exit 0; }
 # -ic restricts to just the mo2tion Google calendar (its primary calendar is
 # named "Andreas"), so personal/other calendars never surface here.
 # -n from now on · -ea skip all-day · -eed start only · -li 1 just the next one.
+# eventsToday (not eventsToday+1): only today's remaining events count.
 line="$("$ICALBUDDY" -ic 'Andreas' -n -ea -nc -npn -nrd -eed -b '' -ps '|@@|' \
-  -iep 'title,datetime' -df '%Y-%m-%d' -tf '%H:%M' -li 1 eventsToday+1 \
+  -iep 'title,datetime' -df '%Y-%m-%d' -tf '%H:%M' -li 1 eventsToday \
   2>/dev/null | head -1)"
 
-# No upcoming meeting today or tomorrow — hide, re-check in 5 min.
+# No more meetings today — hide, re-check in 5 min.
 [ -n "$line" ] || hide
 
 title="${line%@@*}"
@@ -49,7 +50,7 @@ fi
 now=$(/bin/date +%s)
 mins=$(((start - now + 30) / 60)) # round to nearest minute
 
-# Countdown text: <1h in minutes, <10h as HhMm, else weekday + clock (tomorrow).
+# Countdown text: <1h in minutes, <10h as HhMm, else the event's clock time.
 if [ "$mins" -lt 1 ]; then
   cd="now"
 elif [ "$mins" -lt 60 ]; then
@@ -57,7 +58,7 @@ elif [ "$mins" -lt 60 ]; then
 elif [ "$mins" -lt 600 ]; then
   cd="$((mins / 60))h$((mins % 60))m"
 else
-  cd="$(/bin/date -j -f %s "$start" '+%a %H:%M')"
+  cd="$(/bin/date -j -f %s "$start" '+%H:%M')"
 fi
 
 # Urgency colour + poll cadence both ramp as the meeting approaches.
