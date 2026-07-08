@@ -1,6 +1,7 @@
 _: {
-  security = {
-    pam.services.sudo_local.touchIdAuth = true;
-    pam.services.sudo_local.watchIdAuth = true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    watchIdAuth = true;
+    reattach = true;
   };
 }
