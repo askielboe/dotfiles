@@ -28,10 +28,11 @@ CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 UA="claude-code/2.1.201"
 ICON="󰛄"
 
-# Paint the item and stop. $1=label, $2=color.
+# Paint the item and stop. $1=label text, $2=label colour. The glyph is always
+# PEACH (the Claude brand orange); only the label carries state colour.
 render() {
   sketchybar --set claude_usage drawing=on icon="$ICON" \
-    icon.color="$2" label="$1" label.color="$2"
+    icon.color="$PEACH" label="$1" label.color="$2"
   exit 0
 }
 
@@ -83,11 +84,11 @@ read -r five_h seven_d over_enabled over_used over_dp over_cur \
     (.extra_usage.currency // "USD")
   ] | @tsv' | tr "\t" " ")"
 
-# Colour the item by the most-binding token window.
+# Colour the numbers only when the most-binding window runs high: they sit at
+# neutral TEXT until then, and turn RED past the 85% threshold. The glyph stays
+# PEACH (brand) regardless, so a healthy chip carries no alert colour at all.
 worst="$five_h"; [ "$seven_d" -gt "$worst" ] && worst="$seven_d"
-if   [ "$worst" -ge 100 ]; then color="$RED"
-elif [ "$worst" -ge 85 ];  then color="$PEACH"
-else color="$GREEN"; fi
+if [ "$worst" -ge 85 ]; then color="$RED"; else color="$TEXT"; fi
 
 # Currency symbol for the common cases; fall back to the ISO code + space.
 case "$over_cur" in
@@ -99,8 +100,8 @@ esac
 divisor="$(awk "BEGIN { printf \"%d\", 10 ^ $over_dp }")"
 
 # Compact readout: 5h·7d window utilisation joined by a middot (the same
-# separator the productive item uses), e.g. "42·30". The colour set above flags
-# the most-binding window, so the numbers stay plain.
+# separator the productive item uses), e.g. "42·30". The colour set above tints
+# these numbers RED once the most-binding window runs high.
 label="${five_h}·${seven_d}"
 
 # Append extra-usage spend as a compact, rounded figure (e.g. "€62") when the
