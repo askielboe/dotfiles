@@ -91,21 +91,19 @@ sketchybar --add item volume right \
     script="$PLUGIN_DIR/volume.sh" \
   --subscribe volume volume_change
 
+# cpu, disk and network are passive: a single controller below repaints all
+# three per system_stats event, so they carry no script of their own.
 sketchybar --add item network right \
   --set network \
     icon=󰛳 \
-    icon.color="$LAVENDER" \
-    update_freq=5 \
-    script="$PLUGIN_DIR/network.sh"
+    icon.color="$LAVENDER"
 
 sketchybar --add item disk right \
   --set disk \
     icon=󰋊 \
-    icon.color="$YELLOW" \
-    update_freq=300 \
-    script="$PLUGIN_DIR/disk.sh" \
-  --subscribe disk system_woke
+    icon.color="$YELLOW"
 
+# The provider has no GPU stat; this one still polls ioreg.
 sketchybar --add item gpu right \
   --set gpu \
     icon=󰢮 \
@@ -116,9 +114,25 @@ sketchybar --add item gpu right \
 sketchybar --add item cpu right \
   --set cpu \
     icon=󰻠 \
-    icon.color="$PEACH" \
-    update_freq=5 \
-    script="$PLUGIN_DIR/cpu.sh"
+    icon.color="$PEACH"
+
+# ---- system stats provider ----------------------------------------------------
+
+# stats_provider (brew: joncrangle/tap/sketchybar-system-stats) pushes the
+# system_stats event every 5s over mach messages — no polling processes.
+# en0 = Wi-Fi, en17 = USB dock LAN; stats.sh sums whichever carries traffic.
+# The provider also registers the event itself, but only after it starts, so
+# add it here first to keep the subscription order-independent.
+sketchybar --add event system_stats
+
+sketchybar --add item stats_controller right \
+  --set stats_controller \
+    drawing=off \
+    script="$PLUGIN_DIR/stats.sh" \
+  --subscribe stats_controller system_stats
+
+killall stats_provider 2>/dev/null
+/opt/homebrew/bin/stats_provider --cpu usage --disk usage --network en0 en17 --no-units &
 
 # ---- init --------------------------------------------------------------------
 

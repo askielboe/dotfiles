@@ -9,6 +9,7 @@ let
   # the trust.json written below.
   taps = [
     "herald-email/herald"
+    "joncrangle/tap"
     "nikitabobko/tap"
     "raine/claude-history"
   ];
@@ -21,6 +22,8 @@ let
     "herald-email/herald/herald"
     "herdr"
     "mas"
+    # Push-based sketchybar event provider (system_stats event); started by sketchybarrc.
+    "joncrangle/tap/sketchybar-system-stats"
     "raine/claude-history/claude-history"
   ];
 
