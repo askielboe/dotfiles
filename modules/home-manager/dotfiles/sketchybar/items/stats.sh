@@ -15,27 +15,39 @@ sketchybar --add item disk right \
     icon=󰋊 \
     icon.color="$YELLOW"
 
-# The provider has no GPU stat; this one still polls ioreg.
-sketchybar --add item gpu right \
+# The provider has no GPU stat; this graph still polls ioreg on its own timer.
+# Same trace styling as the cpu graph below (no icon, % label to the right);
+# gpu.sh pushes each utilisation reading as a new 0–1 data point.
+sketchybar --add graph gpu right 52 \
   --set gpu \
-    icon=󰢮 \
-    icon.color="$TEAL" \
+    icon.drawing=off \
+    graph.color="$TEAL" \
+    graph.fill_color=0x3094e2d5 \
+    graph.line_width=2 \
+    background.drawing=on \
+    background.color=0x00000000 \
+    background.height=18 \
+    label.padding_left=10 \
     update_freq=5 \
     script="$PLUGIN_DIR/gpu.sh"
 
 # cpu is a graph, not a number: stats.sh pushes the current load (0–1) as a new
-# data point per system_stats event. 40 points × 5s ≈ 3 min of scrolling history.
+# data point per system_stats event. 52 points × 5s ≈ 4 min of scrolling history.
 # No icon — the trace speaks for itself; the exact % label sits to its right.
-# background.height (< bar height 34) insets the trace vertically, and the bar
-# centres it, so the graph gets top/bottom padding; label.padding_left keeps the
-# % off the trace.
-sketchybar --add graph cpu right 40 \
+# A graph fills the whole bar height by default; enabling a background (kept
+# invisible via a fully-transparent colour) with a set height confines the trace
+# to that shorter box, which the bar centres vertically → top/bottom padding.
+# height 18 ≈ half the 34px bar (sketchybar's own dotfiles use 22 in a 40px bar).
+# label.padding_left keeps the % off the trace.
+sketchybar --add graph cpu right 52 \
   --set cpu \
     icon.drawing=off \
     graph.color="$PEACH" \
     graph.fill_color=0x30fab387 \
     graph.line_width=2 \
-    background.height=16 \
+    background.drawing=on \
+    background.color=0x00000000 \
+    background.height=18 \
     label.padding_left=10
 
 # stats_provider (brew: joncrangle/tap/sketchybar-system-stats) pushes the
