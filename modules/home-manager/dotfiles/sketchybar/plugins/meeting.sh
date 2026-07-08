@@ -27,8 +27,10 @@ hide() { sketchybar --set "$NAME" drawing=off update_freq="${1:-300}"; exit 0; }
 
 # Next timed event starting from now, as one machine-readable line:
 #   "<title>@@<YYYY-MM-DD at HH:MM>"
+# -ic restricts to just the mo2tion Google calendar (its primary calendar is
+# named "Andreas"), so personal/other calendars never surface here.
 # -n from now on · -ea skip all-day · -eed start only · -li 1 just the next one.
-line="$("$ICALBUDDY" -n -ea -nc -npn -nrd -eed -b '' -ps '|@@|' \
+line="$("$ICALBUDDY" -ic 'Andreas' -n -ea -nc -npn -nrd -eed -b '' -ps '|@@|' \
   -iep 'title,datetime' -df '%Y-%m-%d' -tf '%H:%M' -li 1 eventsToday+1 \
   2>/dev/null | head -1)"
 
