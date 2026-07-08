@@ -73,13 +73,12 @@ printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || render 
 # utilization is a 0–100 percentage per the endpoint spec; round to int.
 # extra_usage amounts are minor units (e.g. cents) — divide by 10^decimal_places
 # for the major-currency figure, and label it with the account's currency.
-read -r five_h seven_d over_enabled over_used over_limit over_dp over_cur \
+read -r five_h seven_d over_enabled over_used over_dp over_cur \
   <<<"$(printf '%s' "$usage" | jq -r '
   [ (.five_hour.utilization // 0 | round),
     (.seven_day.utilization // 0 | round),
     (.extra_usage.is_enabled // false),
     (.extra_usage.used_credits // 0),
-    (.extra_usage.monthly_limit // 0),
     (.extra_usage.decimal_places // 2),
     (.extra_usage.currency // "USD")
   ] | @tsv' | tr "\t" " ")"
@@ -99,16 +98,16 @@ case "$over_cur" in
 esac
 divisor="$(awk "BEGIN { printf \"%d\", 10 ^ $over_dp }")"
 
-label="5h ${five_h}%  7d ${seven_d}%"
+# Compact readout: 5h·7d window utilisation joined by a middot (the same
+# separator the productive item uses), e.g. "42·30". The colour set above flags
+# the most-binding window, so the numbers stay plain.
+label="${five_h}·${seven_d}"
+
+# Append extra-usage spend as a compact, rounded figure (e.g. "€62") when the
+# pay-as-you-go bucket is enabled. The monthly cap is omitted to keep it narrow.
 if [ "$over_enabled" = "true" ]; then
-  spend="$(awk "BEGIN { printf \"%.2f\", $over_used / $divisor }")"
-  if awk "BEGIN { exit !($over_limit > 0) }"; then
-    # Show spend against the monthly extra-usage cap, e.g. "€61.81/100".
-    cap="$(awk "BEGIN { printf \"%.0f\", $over_limit / $divisor }")"
-    label="$label  ${sym}${spend}/${cap}"
-  else
-    label="$label  ${sym}${spend}"
-  fi
+  spend="$(awk "BEGIN { printf \"%.0f\", $over_used / $divisor }")"
+  label="$label ${sym}${spend}"
 fi
 
 render "$label" "$color"
