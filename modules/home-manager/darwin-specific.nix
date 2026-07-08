@@ -30,6 +30,14 @@ in
 
     file = {
       ".config/ghostty/config".source = ./dotfiles/ghostty/config;
+      ".aerospace.toml" = {
+        source = ./dotfiles/aerospace/aerospace.toml;
+        # Adopt the pre-existing hand-managed file: overwrite it with the
+        # symlink on first switch instead of failing with "file in the way".
+        force = true;
+        # AeroSpace only re-reads its config on demand; no-op if it isn't running.
+        onChange = "/opt/homebrew/bin/aerospace reload-config || true";
+      };
     };
 
     shellAliases = {
