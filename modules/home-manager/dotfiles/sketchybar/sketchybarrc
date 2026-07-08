@@ -62,6 +62,8 @@ source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 source "$ITEM_DIR/clock.sh"
 # shellcheck source=items/claude_usage.sh
 source "$ITEM_DIR/claude_usage.sh"
+# shellcheck source=items/gchat.sh
+source "$ITEM_DIR/gchat.sh" # google chat unread indicator
 # shellcheck source=items/meeting.sh
 source "$ITEM_DIR/meeting.sh" # next_meeting
 # shellcheck source=items/battery.sh

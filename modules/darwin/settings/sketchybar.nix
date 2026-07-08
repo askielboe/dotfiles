@@ -16,6 +16,32 @@ let
     ];
     text = builtins.readFile ./claude-usage-login.sh;
   };
+
+  # One-time interactive OAuth login for the `gchat` sketchybar item (Google Chat
+  # unread indicator). Run `gchat-login <label>` once per account; it runs
+  # Google's loopback OAuth flow and writes a refresh token to
+  # ~/.local/state/gchat/<label>.json, which plugins/gchat.py refreshes in place
+  # (rotating, so kept out of the read-only nix store). Stdlib-only Python, so
+  # the wrapper just puts python3 on PATH and execs the script from the store.
+  #
+  # GOOGLE CLOUD SETUP (once, both accounts are Workspace so this is the easy
+  # path — Internal consent, non-expiring refresh tokens):
+  #   1. console.cloud.google.com -> create/pick a project.
+  #   2. APIs & Services -> Library -> enable "Google Chat API".
+  #   3. APIs & Services -> OAuth consent screen -> User type "Internal".
+  #   4. Add scopes: chat.spaces.readonly, chat.messages.readonly,
+  #      chat.users.readstate.readonly (all read-only).
+  #   5. Credentials -> Create credentials -> OAuth client ID -> "Desktop app".
+  #      Note the client ID and secret.
+  #   6. After `hs`, run once per account (paste the id/secret when prompted, or
+  #      export GCHAT_CLIENT_ID / GCHAT_CLIENT_SECRET first):
+  #         gchat-login work-a
+  #         gchat-login work-b
+  gchat-login = pkgs.writeShellApplication {
+    name = "gchat-login";
+    runtimeInputs = [ pkgs.python3 ];
+    text = ''exec python3 ${./gchat-login.py} "$@"'';
+  };
 in
 {
   # https://felixkratz.github.io/SketchyBar/
@@ -31,16 +57,23 @@ in
     #   sketchybar-app-font — icon_map.sh (app name -> glyph) for the front_app plugin
     #   openpomodoro-cli    — `pomodoro status` for the pomodoro center plugin
     #   jq / curl           — claude-usage.sh (OAuth token refresh + /api/oauth/usage)
+    #   python3             — gchat.py (Google Chat unread poller, stdlib only)
     extraPackages = [
       pkgs.sketchybar-app-font
       pkgs.openpomodoro-cli
       pkgs.jq
       pkgs.curl
+      pkgs.python3
     ];
   };
 
-  # `claude-usage-login` CLI for the one-time OAuth mint (see the let binding).
-  environment.systemPackages = [ claude-usage-login ];
+  # One-time OAuth login CLIs (see the let bindings): `claude-usage-login` mints
+  # the claude_usage token; `gchat-login <label>` mints a Google Chat token per
+  # account for the gchat item.
+  environment.systemPackages = [
+    claude-usage-login
+    gchat-login
+  ];
 
   # System-stats provider (brew: joncrangle/tap/sketchybar-system-stats). It
   # pushes the `system_stats` event to the bar every 5s over mach messages,
