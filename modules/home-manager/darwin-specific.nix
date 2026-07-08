@@ -29,7 +29,18 @@ in
     inherit (private.user) homeDirectory;
 
     file = {
-      ".config/ghostty/config".source = ./dotfiles/ghostty/config;
+      ".config/ghostty/config" = {
+        source = ./dotfiles/ghostty/config;
+        # Ghostty reloads config on SIGUSR2 (>= 1.2). pgrep/pkill -f can't see
+        # the argv of the LaunchServices-spawned process, so resolve the PID via
+        # ps. No-op when Ghostty isn't running. Window-chrome settings (e.g.
+        # titlebar style) still only apply to new windows.
+        onChange = ''
+          for pid in $(/bin/ps ax -o pid=,comm= | /usr/bin/awk '$2 == "/Applications/Ghostty.app/Contents/MacOS/ghostty" {print $1}'); do
+            /bin/kill -USR2 "$pid" || true
+          done
+        '';
+      };
       ".aerospace.toml" = {
         source = ./dotfiles/aerospace/aerospace.toml;
         # Adopt the pre-existing hand-managed file: overwrite it with the
@@ -37,6 +48,17 @@ in
         force = true;
         # AeroSpace only re-reads its config on demand; no-op if it isn't running.
         onChange = "/opt/homebrew/bin/aerospace reload-config || true";
+      };
+      # The launchd agent (modules/darwin/settings/sketchybar.nix) reads the
+      # standard ~/.config/sketchybar/sketchybarrc from here.
+      ".config/sketchybar" = {
+        source = ./dotfiles/sketchybar;
+        recursive = true;
+        # Caveat, first switch on a fresh machine only: the agent may start
+        # before these files are linked, and a config-less daemon resolves its
+        # config path at startup, so --reload can't recover it. One manual
+        # `launchctl kickstart -k gui/$UID/org.nixos.sketchybar` fixes it.
+        onChange = "/run/current-system/sw/bin/sketchybar --reload || true";
       };
     };
 
