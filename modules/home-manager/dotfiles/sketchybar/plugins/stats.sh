@@ -1,7 +1,8 @@
 #!/bin/bash
 # Repaints the cpu, disk and network items from one system_stats event,
 # pushed every 5s over mach messages by stats_provider (brew:
-# joncrangle/tap/sketchybar-system-stats), which sketchybarrc starts.
+# joncrangle/tap/sketchybar-system-stats), run as the sketchybar-stats-provider
+# launchd agent (modules/darwin/settings/sketchybar.nix).
 # One script call per event instead of three polled plugins. GPU is not
 # covered by the provider and stays in gpu.sh.
 
