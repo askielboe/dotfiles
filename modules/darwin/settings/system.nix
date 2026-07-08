@@ -11,6 +11,21 @@ _: {
         AppleShowAllExtensions = true;
         NSWindowShouldDragOnGesture = true;
         "com.apple.trackpad.forceClick" = false;
+        # AeroSpace resizes windows on every layout change; the default ~0.2s
+        # resize animation makes tiling feel mushy.
+        NSAutomaticWindowAnimationsEnabled = false;
+        NSWindowResizeTime = 0.001;
+      };
+
+      # Keep macOS's own window management out of AeroSpace's way.
+      WindowManager = {
+        # Clicking bare wallpaper (e.g. a gap between tiles) must not hide all windows.
+        EnableStandardClickToShowDesktop = false;
+        # Disable Sequoia's drag-to-edge tiling suggestions and margins.
+        EnableTilingByEdgeDrag = false;
+        EnableTopTilingByEdgeDrag = false;
+        EnableTilingOptionAccelerator = false;
+        EnableTiledWindowMargins = false;
       };
 
       screensaver = {
@@ -32,7 +47,12 @@ _: {
 
       dock = {
         autohide = true;
+        autohide-delay = 0.0;
         show-recents = false;
+        # AeroSpace parks hidden-workspace windows in a corner; grouping by app
+        # keeps Mission Control legible (recommended by the AeroSpace docs).
+        expose-group-apps = true;
+        mru-spaces = false;
         persistent-apps = [
           { app = "/System/Applications/Calendar.app"; }
           { app = "/Applications/Linear.app"; }
