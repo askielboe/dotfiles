@@ -3,17 +3,40 @@
 # cpu graph + the controllers that repaint them. Sourced by ../sketchybarrc;
 # runtime repaint lives in ../plugins/stats.sh and ../plugins/network_link.sh.
 
-# Link info (negotiated Ethernet speed; Wi-Fi band + tx rate) sits just right of
-# the throughput readout — added first so the right→left stack places it at the
-# rightmost edge of the stats group. Both items are passive: the hidden
-# network_link controller repaints them and toggles each item's drawing by
-# whether that interface is up (so an undocked laptop shows only Wi-Fi, a desktop
-# on the dock shows both).
+# Link info (Ethernet speed indicator; Wi-Fi band) plus the live/peak throughput
+# readouts, grouped at the right edge of the stats block. The link items (eth,
+# wifi) are passive: the hidden network_link controller repaints them and toggles
+# each item's drawing by whether that interface is up (so an undocked laptop shows
+# only Wi-Fi, a desktop on the dock shows both). Right region packs right→left
+# (first-added is rightmost), so the add order below reads on screen (left→right)
+# as:
+#   Wi-Fi 5G | live up/down | peak up/down | [eth glyph]
 sketchybar --add item eth right \
   --set eth \
     drawing=off \
     icon=󰈁 \
     icon.color="$GREEN"
+
+# Peak throughput since the connection last came up, one line "up/down" (dimmed),
+# at the right edge beside the link glyph. net_peak is reset by network_link.sh
+# when the connection identity changes. Label font is the bar default (13pt).
+sketchybar --add item netpeak right \
+  --set netpeak \
+    icon.drawing=off \
+    icon.padding_left=0 \
+    icon.padding_right=0 \
+    label.color="$SUBTEXT0"
+
+# Live throughput, one line "up/down" (bright), between the link indicator and the
+# peak. network, netpeak, disk and the cpu graph are all passive — the single
+# stats controller at the bottom repaints them per system_stats, so they carry no
+# script of their own. stats.sh feeds the whole "up/down" string as the label.
+sketchybar --add item network right \
+  --set network \
+    icon.drawing=off \
+    icon.padding_left=0 \
+    icon.padding_right=0 \
+    label.color="$TEXT"
 
 sketchybar --add item wifi right \
   --set wifi \
@@ -30,13 +53,6 @@ sketchybar --add item network_link right \
     update_freq=60 \
     script="$PLUGIN_DIR/network_link.sh" \
   --subscribe network_link wifi_change system_woke
-
-# cpu, disk and network are passive: a single controller below repaints all
-# three per system_stats event, so they carry no script of their own.
-sketchybar --add item network right \
-  --set network \
-    icon=󰛳 \
-    icon.color="$LAVENDER"
 
 sketchybar --add item disk right \
   --set disk \
