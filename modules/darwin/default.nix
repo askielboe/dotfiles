@@ -12,6 +12,7 @@
     ./settings/power.nix
     ./settings/resticprofile.nix
     ./settings/security.nix
+    ./settings/sketchybar.nix
     ./settings/spotlight.nix
     ./settings/system.nix
     ./settings/tailscale.nix

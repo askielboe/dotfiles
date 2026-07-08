@@ -1,0 +1,97 @@
+#!/bin/bash
+# sketchybar config — Catppuccin Mocha with AeroSpace workspaces on the left.
+# The launchd agent comes from modules/darwin/settings/sketchybar.nix; this
+# file is symlinked to ~/.config/sketchybar by darwin-specific.nix.
+# Manual reload: sketchybar --reload
+
+# shellcheck source=colors.sh
+source "$CONFIG_DIR/colors.sh"
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+AEROSPACE="/opt/homebrew/bin/aerospace"
+
+# ---- bar & defaults ---------------------------------------------------------
+
+sketchybar --bar \
+  position=top \
+  height=34 \
+  display=all \
+  color="$BAR_COLOR" \
+  blur_radius=20 \
+  padding_left=8 \
+  padding_right=8
+
+sketchybar --default \
+  icon.font="Hack Nerd Font:Bold:14.0" \
+  icon.color="$TEXT" \
+  icon.padding_left=8 \
+  icon.padding_right=4 \
+  label.font="Hack Nerd Font:Regular:13.0" \
+  label.color="$TEXT" \
+  label.padding_left=4 \
+  label.padding_right=8 \
+  background.corner_radius=6 \
+  background.height=20
+
+# ---- left: aerospace workspaces ---------------------------------------------
+
+# Fired by exec-on-workspace-change in aerospace.toml.
+sketchybar --add event aerospace_workspace_change
+
+# One item per workspace, hidden until the controller paints it. Only the
+# focused and non-empty workspaces are shown (there are ~30 persistent ones).
+for ws in $("$AEROSPACE" list-workspaces --all); do
+  sketchybar --add item space."$ws" left \
+    --set space."$ws" \
+      drawing=off \
+      icon.drawing=off \
+      label="$ws" \
+      label.padding_left=8 \
+      label.padding_right=8 \
+      click_script="$AEROSPACE workspace $ws"
+done
+
+# A single hidden controller repaints all workspace items in one call;
+# per-item scripts would spawn ~30 processes per workspace switch.
+# front_app_switched and space_windows_change catch windows being created,
+# destroyed or moved between workspaces, which fire no aerospace event.
+sketchybar --add item space_controller left \
+  --set space_controller \
+    drawing=off \
+    script="$PLUGIN_DIR/aerospace.sh" \
+  --subscribe space_controller aerospace_workspace_change front_app_switched space_windows_change
+
+# ---- left: focused application ----------------------------------------------
+
+sketchybar --add item front_app left \
+  --set front_app \
+    icon.font="sketchybar-app-font:Regular:15.0" \
+    label.font="Hack Nerd Font:Bold:13.0" \
+    script="$PLUGIN_DIR/front_app.sh" \
+  --subscribe front_app front_app_switched
+
+# ---- right: clock, battery, volume (added right-to-left) ---------------------
+
+sketchybar --add item clock right \
+  --set clock \
+    icon=󰃰 \
+    icon.color="$MAUVE" \
+    update_freq=30 \
+    script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item battery right \
+  --set battery \
+    update_freq=120 \
+    script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery system_woke power_source_change
+
+sketchybar --add item volume right \
+  --set volume \
+    icon.color="$BLUE" \
+    script="$PLUGIN_DIR/volume.sh" \
+  --subscribe volume volume_change
+
+# ---- init --------------------------------------------------------------------
+
+sketchybar --update
+"$PLUGIN_DIR/aerospace.sh" # paint initial workspace state

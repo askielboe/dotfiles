@@ -59,6 +59,12 @@ persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 on-mode-changed = []
 
+# Repaint sketchybar's workspace indicators on every workspace switch.
+# See modules/home-manager/dotfiles/sketchybar (plugins/aerospace.sh).
+exec-on-workspace-change = ['/bin/bash', '-c',
+  '/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE"'
+]
+
 focus-follows-mouse.enabled = false
 
 # Possible values: (qwerty|dvorak|colemak)
@@ -77,7 +83,9 @@ gaps.inner.horizontal = 8
 gaps.inner.vertical =   8
 gaps.outer.left =       10
 gaps.outer.bottom =     10
-gaps.outer.top =        10
+# sketchybar (height 34) owns the top edge (the macOS menu bar is auto-hidden);
+# 34 + the usual 10 gap keeps windows clear of the bar.
+gaps.outer.top =        44
 gaps.outer.right =      10
 
 # 'main' binding mode declaration
