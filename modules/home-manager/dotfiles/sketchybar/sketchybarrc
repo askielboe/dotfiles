@@ -55,6 +55,8 @@ source "$ITEM_DIR/front_app.sh" # focused application
 # Center region:
 # shellcheck source=items/pomodoro.sh
 source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
+# shellcheck source=items/micromanager.sh
+source "$ITEM_DIR/micromanager.sh" # micromanager focus-block timer + app glyphs
 
 # Right region (defined left → right; sketchybar stacks them right → left, so
 # the first-sourced item is rightmost):
