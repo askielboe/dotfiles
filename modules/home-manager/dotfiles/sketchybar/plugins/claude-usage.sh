@@ -104,11 +104,13 @@ divisor="$(awk "BEGIN { printf \"%d\", 10 ^ $over_dp }")"
 # these numbers RED once the most-binding window runs high.
 label="${five_h}·${seven_d}"
 
-# Append extra-usage spend as a compact, rounded figure (e.g. "€62") when the
-# pay-as-you-go bucket is enabled. The monthly cap is omitted to keep it narrow.
+# Append extra-usage spend as a compact, rounded figure (e.g. "€62") — but only
+# once it rounds to a non-zero amount. A pay-as-you-go bucket that is merely
+# enabled (or has sub-unit spend) would render a meaningless "€0", so we hide the
+# field entirely until spend is real, keeping the chip narrow and uncluttered.
 if [ "$over_enabled" = "true" ]; then
   spend="$(awk "BEGIN { printf \"%.0f\", $over_used / $divisor }")"
-  label="$label ${sym}${spend}"
+  [ "$spend" -gt 0 ] && label="$label ${sym}${spend}"
 fi
 
 render "$label" "$color"
