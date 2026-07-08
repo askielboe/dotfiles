@@ -21,6 +21,8 @@ let
   brews = [
     "herald-email/herald/herald"
     "herdr"
+    # Next-meeting glyph in sketchybar (plugins/meeting.sh) reads EventKit via icalBuddy.
+    "ical-buddy"
     "mas"
     # Push-based sketchybar event provider (system_stats event); started by sketchybarrc.
     "joncrangle/tap/sketchybar-system-stats"
