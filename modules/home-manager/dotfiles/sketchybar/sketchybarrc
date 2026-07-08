@@ -60,20 +60,20 @@ source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 # the first-sourced item is rightmost):
 # shellcheck source=items/clock.sh
 source "$ITEM_DIR/clock.sh"
-# shellcheck source=items/productive.sh
-source "$ITEM_DIR/productive.sh" # ActivityWatch productive time today (+ uncat)
-# shellcheck source=items/claude_usage.sh
-source "$ITEM_DIR/claude_usage.sh"
-# shellcheck source=items/gchat.sh
-source "$ITEM_DIR/gchat.sh" # google chat unread indicator
 # shellcheck source=items/meeting.sh
-source "$ITEM_DIR/meeting.sh" # next_meeting
+source "$ITEM_DIR/meeting.sh"
 # shellcheck source=items/battery.sh
 source "$ITEM_DIR/battery.sh"
 # shellcheck source=items/volume.sh
 source "$ITEM_DIR/volume.sh"
 # shellcheck source=items/stats.sh
-source "$ITEM_DIR/stats.sh" # network, disk, gpu, cpu graph + controller
+source "$ITEM_DIR/stats.sh"
+# shellcheck source=items/productive.sh
+source "$ITEM_DIR/productive.sh"
+# shellcheck source=items/claude_usage.sh
+source "$ITEM_DIR/claude_usage.sh"
+# shellcheck source=items/gchat.sh
+source "$ITEM_DIR/gchat.sh"
 
 # ---- init --------------------------------------------------------------------
 
