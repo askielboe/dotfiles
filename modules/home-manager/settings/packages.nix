@@ -14,6 +14,12 @@ let
   # sqlit TUI with the ClickHouse driver. Upstream's makeSqlit only covers
   # extras packaged in nixpkgs (clickhouse-connect is excluded there), so we
   # append it to the dependencies ourselves.
+  #
+  # The patch fixes an upstream bug (as of a77d420): the TUI's
+  # ConnectionManager.populate_credentials only reads the OS keyring and
+  # never runs a connection's password_command, so it connects with an
+  # empty password. The CLI path (sqlit query) handles it correctly; the
+  # patch copies that logic over.
   sqlit-clickhouse =
     (sqlit.lib.${pkgs.stdenv.hostPlatform.system}.makeSqlit {
       extras = [
@@ -25,6 +31,7 @@ let
     }).overridePythonAttrs
       (old: {
         dependencies = old.dependencies ++ [ pkgs.python3.pkgs.clickhouse-connect ];
+        patches = (old.patches or [ ]) ++ [ ./sqlit-password-command.patch ];
       });
 
   # GYB stores client_secrets.json and OAuth tokens in its config folder,

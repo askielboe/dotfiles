@@ -56,6 +56,10 @@
       # Set encoding type
       encoding = "utf-8";
       fileencoding = "utf-8";
+
+      # Smarter diff mode: histogram algorithm, indent-aware hunks,
+      # line-matching within hunks, and word-level inline highlights (nvim 0.12+)
+      diffopt = "internal,filler,closeoff,algorithm:histogram,indent-heuristic,linematch:60,inline:word";
     };
   };
 }
