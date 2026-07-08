@@ -19,5 +19,5 @@ fi
 # Normalise the whole-percent utilisation to the 0–1 range the graph plots.
 frac="$(awk "BEGIN { printf \"%.3f\", $gpu / 100 }")"
 
-sketchybar --set "$NAME" graph.color="$color" graph.fill_color="$fill" label="${gpu}%" \
+sketchybar --set "$NAME" graph.color="$color" graph.fill_color="$fill" icon.color="$color" \
   --push "$NAME" "$frac"

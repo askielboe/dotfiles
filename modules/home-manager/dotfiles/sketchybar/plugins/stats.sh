@@ -33,7 +33,7 @@ read -r down up <<<"$(env | awk -F= '
   END { print fmt(rx), fmt(tx) }')"
 
 sketchybar --set cpu graph.color="$cpu_color" \
-    graph.fill_color="$cpu_fill" label="${CPU_USAGE}%" \
+    graph.fill_color="$cpu_fill" icon.color="$cpu_color" \
   --push cpu "$cpu_frac" \
   --set disk icon.color="$disk_color" label="${DISK_USAGE}%" \
   --set network label="↓${down} ↑${up}"

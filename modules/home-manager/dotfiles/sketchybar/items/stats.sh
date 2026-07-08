@@ -44,39 +44,40 @@ sketchybar --add item disk right \
     icon.color="$YELLOW"
 
 # The provider has no GPU stat; this graph still polls ioreg on its own timer.
-# Same trace styling as the cpu graph below (no icon, % label to the right);
+# Same trace styling as the cpu graph below (icon to the left, no % label);
 # gpu.sh pushes each utilisation reading as a new 0–1 data point.
 sketchybar --add graph gpu right 52 \
   --set gpu \
-    icon.drawing=off \
+    icon=󰢮 \
+    icon.color="$TEAL" \
+    label.drawing=off \
     graph.color="$TEAL" \
     graph.fill_color=0x3094e2d5 \
     graph.line_width=2 \
     background.drawing=on \
     background.color=0x00000000 \
     background.height=18 \
-    label.padding_left=10 \
     update_freq=5 \
     script="$PLUGIN_DIR/gpu.sh"
 
 # cpu is a graph, not a number: stats.sh pushes the current load (0–1) as a new
 # data point per system_stats event. 52 points × 5s ≈ 4 min of scrolling history.
-# No icon — the trace speaks for itself; the exact % label sits to its right.
+# An icon sits to the left of the trace; no % label — the trace speaks for itself.
 # A graph fills the whole bar height by default; enabling a background (kept
 # invisible via a fully-transparent colour) with a set height confines the trace
 # to that shorter box, which the bar centres vertically → top/bottom padding.
 # height 18 ≈ half the 34px bar (sketchybar's own dotfiles use 22 in a 40px bar).
-# label.padding_left keeps the % off the trace.
 sketchybar --add graph cpu right 52 \
   --set cpu \
-    icon.drawing=off \
+    icon=󰻠 \
+    icon.color="$PEACH" \
+    label.drawing=off \
     graph.color="$PEACH" \
     graph.fill_color=0x30fab387 \
     graph.line_width=2 \
     background.drawing=on \
     background.color=0x00000000 \
-    background.height=18 \
-    label.padding_left=10
+    background.height=18
 
 # Battery temperature as an ambient-heat gauge: "do I need to move into the
 # shade?". The battery is a slow thermal mass tracking the enclosure/environment,
