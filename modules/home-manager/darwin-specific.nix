@@ -82,6 +82,13 @@ in
       # Start/stop the on-demand local MLX server (launchd.agents.pi-mlx-server).
       mlx-up = "launchctl start org.nix-community.home.pi-mlx-server";
       mlx-down = "launchctl stop org.nix-community.home.pi-mlx-server";
+      # openpomodoro-cli (drives the sketchybar center item). zsh expands these
+      # as prefixes, so `poms "Write the report"` → `pomodoro start "Write ..."`.
+      pom = "pomodoro"; # base, for status/history/amend/repeat/clear
+      poms = "pomodoro start"; # start a Pomodoro (pass the task description)
+      pomf = "pomodoro finish"; # finish early, count it toward the daily goal
+      pomc = "pomodoro cancel"; # cancel/abandon the current Pomodoro
+      pomb = "pomodoro break"; # take a break (blocks: live countdown in the shell)
     };
 
     packages = with pkgs; [
