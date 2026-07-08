@@ -228,24 +228,29 @@
       }
 
       # Normal mode - move line down
+      # NB: ctrl+alt+j/k (not plain <M-j>/<M-k>) because AeroSpace binds
+      # alt-j/k globally (focus down/up) and swallows them before Ghostty/nvim.
+      # Ghostty's Kitty keyboard protocol disambiguates <c-M-j> from <CR>.
       {
         mode = "n";
-        key = "<M-j>";
+        key = "<c-M-j>";
         action = ":m .+1<CR>==";
         options = {
           noremap = true;
           silent = true;
+          desc = "Move line down";
         };
       }
 
       # Normal mode - move line up
       {
         mode = "n";
-        key = "<M-k>";
+        key = "<c-M-k>";
         action = ":m .-2<CR>==";
         options = {
           noremap = true;
           silent = true;
+          desc = "Move line up";
         };
       }
 
