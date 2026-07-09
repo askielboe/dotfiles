@@ -17,7 +17,6 @@
       shfmt
       stylua
       swiftformat
-      yamlfmt
 
       # Linting
       checkmake

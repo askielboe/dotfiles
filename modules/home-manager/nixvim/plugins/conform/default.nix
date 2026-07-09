@@ -31,7 +31,7 @@
         lua = [ "stylua" ];
         nix = [ "nixfmt" ];
         markdown = [ "prettierd" ];
-        yaml = [ "yamlfmt" ];
+        yaml = [ "prettierd" ];
         bash = [ "shfmt" ];
         javascript = [ "prettierd" ];
         javascriptreact = [ "prettierd" ];
