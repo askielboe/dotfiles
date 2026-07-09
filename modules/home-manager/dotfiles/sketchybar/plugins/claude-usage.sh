@@ -1,7 +1,8 @@
 #!/bin/bash
-# Claude usage meter: 5-hour + 7-day token windows and the extra-usage
-# (pay-as-you-go) spend, read from Anthropic's authoritative /api/oauth/usage
-# endpoint — the same source the CLI's `/usage` command uses.
+# Claude usage meter: the 7-day window renders as a filling pie-ring, the
+# 5-hour window as a percentage beside it, and the extra-usage (pay-as-you-go)
+# spend appears only once a window hits 100%. All read from Anthropic's
+# authoritative /api/oauth/usage endpoint — the same source `/usage` uses.
 #
 # Auth is a user:profile-scoped OAuth token minted once by `claude-usage-login`
 # (modules/darwin/settings/claude-usage-login.sh) into the state file below.
@@ -27,6 +28,12 @@ CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 # an aggressively rate-limited bucket. The exact version is not significant.
 UA="claude-code/2.1.201"
 ICON="󰛄"
+
+# Weekly (7-day) utilisation renders as a filling pie-ring in the label:
+# index 0 = empty circle, 1..8 = circle-slice-1..8 (~12.5% each), 8 = full.
+# Glyphs are embedded literally because macOS /bin/bash is 3.2 and lacks
+# printf '\U' for astral (>U+FFFF) codepoints.
+RING=(󰄰 󰪞 󰪟 󰪠 󰪡 󰪢 󰪣 󰪤 󰪥)
 
 # Paint the item and stop. $1=label text, $2=label colour. The glyph is always
 # PEACH (the Claude brand orange); only the label carries state colour.
@@ -84,11 +91,25 @@ read -r five_h seven_d over_enabled over_used over_dp over_cur \
     (.extra_usage.currency // "USD")
   ] | @tsv' | tr "\t" " ")"
 
-# Colour the numbers only when the most-binding window runs high: they sit at
-# neutral TEXT until then, and turn RED past the 85% threshold. The glyph stays
-# PEACH (brand) regardless, so a healthy chip carries no alert colour at all.
+# Colour follows the most-binding window: neutral TEXT until it runs high, then
+# RED past the 85% threshold. The icon glyph stays PEACH (brand) regardless, so
+# a healthy chip carries no alert colour at all. The ring and percentage share
+# the label colour (a sketchybar label carries a single colour).
 worst="$five_h"; [ "$seven_d" -gt "$worst" ] && worst="$seven_d"
 if [ "$worst" -ge 85 ]; then color="$RED"; else color="$TEXT"; fi
+
+# Weekly (7-day) utilisation → pie-ring glyph. Map 0–100 onto the 9 RING states
+# by rounding to the nearest eighth, but keep the endpoints honest: any non-zero
+# usage shows at least a sliver (never the empty circle), and the full circle is
+# reserved strictly for a true 100% (so 88–99% caps at slice-7).
+idx=$(( (seven_d * 8 + 50) / 100 ))
+[ "$seven_d" -gt 0 ] && [ "$idx" -eq 0 ] && idx=1
+[ "$seven_d" -lt 100 ] && [ "$idx" -ge 8 ] && idx=7
+[ "$idx" -gt 8 ] && idx=8
+
+# Hourly-ish (5-hour) utilisation → a plain percentage beside the ring, e.g.
+# "󰪡 45%".
+label="${RING[$idx]} ${five_h}%"
 
 # Currency symbol for the common cases; fall back to the ISO code + space.
 case "$over_cur" in
@@ -99,16 +120,12 @@ case "$over_cur" in
 esac
 divisor="$(awk "BEGIN { printf \"%d\", 10 ^ $over_dp }")"
 
-# Compact readout: 5h·7d window utilisation joined by a middot (the same
-# separator the productive item uses), e.g. "42·30". The colour set above tints
-# these numbers RED once the most-binding window runs high.
-label="${five_h}·${seven_d}"
-
-# Append extra-usage spend as a compact, rounded figure (e.g. "€62") — but only
-# once it rounds to a non-zero amount. A pay-as-you-go bucket that is merely
-# enabled (or has sub-unit spend) would render a meaningless "€0", so we hide the
-# field entirely until spend is real, keeping the chip narrow and uncluttered.
-if [ "$over_enabled" = "true" ]; then
+# Append extra-usage (pay-as-you-go) spend ONLY once a window is actually maxed
+# out — i.e. 5h or 7d has reached 100%. Below 100% the spend is background noise,
+# so hiding it keeps the chip narrow and calm; at 100% it becomes the number that
+# matters (what the overage is costing). Still suppressed when it rounds to zero
+# or the bucket is disabled, which would render a meaningless "€0".
+if [ "$over_enabled" = "true" ] && { [ "$five_h" -ge 100 ] || [ "$seven_d" -ge 100 ]; }; then
   spend="$(awk "BEGIN { printf \"%.0f\", $over_used / $divisor }")"
   [ "$spend" -gt 0 ] && label="$label ${sym}${spend}"
 fi
