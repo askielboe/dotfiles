@@ -87,7 +87,6 @@ in
       "nvidia-geforce-now"
       "postico"
       "proxyman"
-      "rescuetime"
       "shortwave"
       "signal"
       "slack"
