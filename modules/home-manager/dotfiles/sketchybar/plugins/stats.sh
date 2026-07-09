@@ -60,7 +60,7 @@ printf '%s %s\n' "$pk_rx" "$pk_tx" >"$STATE_DIR/net_peak"
 peak_down="$(fmt_bits "$pk_rx")"
 peak_up="$(fmt_bits "$pk_tx")"
 
-# Feed the single-line network items (see items/stats.sh): live "up/down" in
+# Feed the single-line network items (see items/network.sh): live "up/down" in
 # network (bright), peak-since-connect "up/down" in netpeak (dimmed), each as one
 # label with a slash between the two rates.
 sketchybar --set cpu graph.color="$cpu_color" \

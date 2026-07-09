@@ -1,7 +1,7 @@
 #!/bin/bash
 # Paints the wired + Wi-Fi link-info items: whether a wired link is up (glyph
 # only) and the Wi-Fi band. Driven by the hidden network_link controller
-# (items/stats.sh) on a 60s timer plus wifi_change/system_woke, since link
+# (items/network.sh) on a 60s timer plus wifi_change/system_woke, since link
 # presence and band change only on cable/roam/wake, not continuously.
 #
 # The SSID is deliberately not shown: macOS 26 redacts it to "<redacted>" for
