@@ -12,14 +12,7 @@ source "$CONFIG_DIR/colors.sh"
 [ -z "$CPU_USAGE" ] && exit 0
 
 cpu_color="$PEACH"
-cpu_fill=0x30fab387
-if [ "$CPU_USAGE" -ge 80 ]; then
-  cpu_color="$RED"
-  cpu_fill=0x30f38ba8
-fi
-
-# Normalise the whole-percent load to the 0–1 range the graph plots.
-cpu_frac="$(awk "BEGIN { printf \"%.3f\", $CPU_USAGE / 100 }")"
+[ "$CPU_USAGE" -ge 80 ] && cpu_color="$RED"
 
 disk_color="$YELLOW"
 [ "$DISK_USAGE" -ge 95 ] && disk_color="$RED"
@@ -63,9 +56,7 @@ peak_up="$(fmt_bits "$pk_tx")"
 # Feed the single-line network items (see items/network.sh): live "up/down" in
 # network (bright), peak-since-connect "up/down" in netpeak (dimmed), each as one
 # label with a slash between the two rates.
-sketchybar --set cpu graph.color="$cpu_color" \
-    graph.fill_color="$cpu_fill" icon.color="$cpu_color" \
-  --push cpu "$cpu_frac" \
+sketchybar --set cpu icon.color="$cpu_color" label="${CPU_USAGE}%" \
   --set disk icon.color="$disk_color" label="${DISK_USAGE}%" \
   --set network label="${up}/${down}" \
   --set netpeak label="${peak_up}/${peak_down}"

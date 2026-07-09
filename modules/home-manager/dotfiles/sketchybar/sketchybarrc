@@ -57,7 +57,13 @@ sketchybar --default \
 # shellcheck source=items/workspaces.sh
 source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
 # shellcheck source=items/front_app.sh
-source "$ITEM_DIR/front_app.sh" # focused application
+# source "$ITEM_DIR/front_app.sh" # focused application
+# shellcheck source=items/gchat.sh
+source "$ITEM_DIR/gchat.sh"
+# shellcheck source=items/productive.sh
+source "$ITEM_DIR/productive.sh"
+# shellcheck source=items/meeting.sh
+source "$ITEM_DIR/meeting.sh"
 
 # Focus HUD (pomodoro + micromanager) — position "q" (native: left of the notch).
 # It sits just left of centre, flush against the notch, and on a non-notched
@@ -73,33 +79,24 @@ source "$ITEM_DIR/micromanager.sh" # micromanager focus-block timer + app glyphs
 # the first-sourced item is rightmost):
 # shellcheck source=items/clock.sh
 source "$ITEM_DIR/clock.sh"
-# shellcheck source=items/meeting.sh
-source "$ITEM_DIR/meeting.sh"
 # shellcheck source=items/battery.sh
 source "$ITEM_DIR/battery.sh"
-# shellcheck source=items/volume.sh
-source "$ITEM_DIR/volume.sh"
-# System stats cluster (right → left on screen: temp, cpu, gpu, disk, then the
-# network cluster). Sourced in add order — network first (rightmost), controller
-# last so its passive items exist when the first system_stats event fires.
-# shellcheck source=items/network.sh
-source "$ITEM_DIR/network.sh" # wired/Wi-Fi link + live/peak throughput
 # shellcheck source=items/disk.sh
 source "$ITEM_DIR/disk.sh"
+# shellcheck source=items/temp.sh
+source "$ITEM_DIR/temp.sh"
+# shellcheck source=items/volume.sh
+source "$ITEM_DIR/volume.sh"
+# shellcheck source=items/network.sh
+source "$ITEM_DIR/network.sh"
 # shellcheck source=items/gpu.sh
 source "$ITEM_DIR/gpu.sh"
 # shellcheck source=items/cpu.sh
 source "$ITEM_DIR/cpu.sh"
-# shellcheck source=items/temp.sh
-source "$ITEM_DIR/temp.sh"
 # shellcheck source=items/stats_controller.sh
-source "$ITEM_DIR/stats_controller.sh" # invisible: repaints cpu/disk/network
-# shellcheck source=items/productive.sh
-source "$ITEM_DIR/productive.sh"
+source "$ITEM_DIR/stats_controller.sh"
 # shellcheck source=items/claude_usage.sh
 source "$ITEM_DIR/claude_usage.sh"
-# shellcheck source=items/gchat.sh
-source "$ITEM_DIR/gchat.sh"
 
 # ---- init --------------------------------------------------------------------
 
