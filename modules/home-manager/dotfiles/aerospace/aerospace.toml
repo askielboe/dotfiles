@@ -83,9 +83,13 @@ gaps.inner.horizontal = 8
 gaps.inner.vertical =   8
 gaps.outer.left =       10
 gaps.outer.bottom =     10
-# sketchybar (height 34) owns the top edge (the macOS menu bar is auto-hidden);
-# 34 + the usual 10 gap keeps windows clear of the bar.
-gaps.outer.top =        44
+# sketchybar (height 34) owns the top edge. On this notched MacBook, macOS
+# still reserves the ~37pt notch/menu-bar safe area for window placement even
+# though the menu bar is auto-hidden (_HIHideMenuBar), and AeroSpace measures
+# gaps.outer.top from *below* that reserve — not from y=0. So the reserve
+# already pushes windows past the 34pt bar; we only add the ~10pt visible gap
+# on top. (Setting this to 34+10=44 double-counts the reserve → a ~44pt band.)
+gaps.outer.top =        8
 gaps.outer.right =      10
 
 # 'main' binding mode declaration
