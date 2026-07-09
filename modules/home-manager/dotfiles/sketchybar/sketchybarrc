@@ -23,10 +23,17 @@ AEROSPACE="/opt/homebrew/bin/aerospace"
 
 # ---- bar & defaults ---------------------------------------------------------
 
+# notch_width tells sketchybar how wide the built-in display's notch is, so the
+# native q (left-of-notch) / e (right-of-notch) item positions sit flush beside
+# it. It applies ONLY to the internal notched display — on external monitors the
+# notch region is zero-width, so q/e collapse toward centre automatically (no
+# per-display logic needed). The 16" MBP notch measures ~185pt; 200 leaves a
+# little clearance. The focus HUD (pomodoro + micromanager) uses q — see below.
 sketchybar --bar \
   position=top \
   height=34 \
   display=all \
+  notch_width=200 \
   color="$BAR_COLOR" \
   blur_radius=20 \
   padding_left=8 \
@@ -52,7 +59,11 @@ source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
 # shellcheck source=items/front_app.sh
 source "$ITEM_DIR/front_app.sh" # focused application
 
-# Center region:
+# Focus HUD (pomodoro + micromanager) — position "q" (native: left of the notch).
+# It sits just left of centre, flush against the notch, and on a non-notched
+# display collapses toward centre. Left of the notch, not right ("e"), because
+# the right region is wide enough to overlap an e-anchored item. See notch_width
+# on the bar above; sketchybar handles the per-display placement, no detection.
 # shellcheck source=items/pomodoro.sh
 source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 # shellcheck source=items/micromanager.sh

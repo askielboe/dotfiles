@@ -1,5 +1,9 @@
 # shellcheck shell=bash
-# Center: current focus / pomodoro. Sourced by ../sketchybarrc.
+# Focus HUD (with micromanager): current focus / pomodoro. Sourced by
+# ../sketchybarrc. Position "q" is sketchybar's native "left of the notch" slot:
+# it sits just left of centre, clearing the notch on the built-in display, and
+# collapses toward centre on a non-notched display (notch_width, set on the bar,
+# applies only to the internal display). See ../sketchybarrc for the notch note.
 #
 # Backed by openpomodoro-cli (on the agent's PATH via services.sketchybar
 # .extraPackages). `pomodoro start "task"` sets the label + a 25-min countdown;
@@ -9,7 +13,7 @@
 # Pomodoro (counts it toward the daily goal); right-click cancels it.
 sketchybar --add event pomodoro_update
 
-sketchybar --add item pomodoro center \
+sketchybar --add item pomodoro q \
   --set pomodoro \
     icon=󰔟 \
     icon.color="$PEACH" \
