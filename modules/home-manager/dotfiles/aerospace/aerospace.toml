@@ -22,9 +22,11 @@ enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
-# The 'accordion-padding' specifies the size of accordion padding
-# You can set 0 to disable the padding feature
-accordion-padding = 30
+# The 'accordion-padding' specifies the size of accordion padding: how far the
+# stacked windows behind the focused one peek out (left/right in a horizontal
+# accordion, top/bottom in a vertical one). Kept non-zero so the windows behind
+# stay visible, just a tighter peek. Set 0 to disable the feature entirely.
+accordion-padding = 20
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
