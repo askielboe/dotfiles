@@ -7,7 +7,8 @@
 #
 # stats_provider (brew: joncrangle/tap/sketchybar-system-stats) pushes the
 # system_stats event every 5s over mach messages — no polling processes.
-# en0 = Wi-Fi, en17 = USB dock LAN; stats.sh sums whichever carries traffic.
+# It watches every live enN interface (en0 = Wi-Fi, plus any dock/USB Ethernet;
+# see stats-provider-launch.sh); stats.sh sums whichever carries traffic.
 # The provider runs as its own launchd agent (sketchybar-stats-provider in
 # modules/darwin/settings/sketchybar.nix), NOT from here: a backgrounded
 # child of this config script lives in sketchybar's KeepAlive process group

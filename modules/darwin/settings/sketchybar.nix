@@ -44,6 +44,16 @@ let
     runtimeInputs = [ pkgs.python3 ];
     text = ''exec python3 ${./gchat-login.py} "$@"'';
   };
+
+  # Launch wrapper for the system-stats provider agent below. Resolves the live
+  # enN interface list at startup instead of hardcoding names that macOS
+  # re-enumerates (see the script for the full rationale). writeShellApplication
+  # runs shellcheck on the body; the script uses only absolute system paths, so
+  # it needs nothing on PATH.
+  stats-provider-launch = pkgs.writeShellApplication {
+    name = "stats-provider-launch";
+    text = builtins.readFile ./stats-provider-launch.sh;
+  };
 in
 {
   # https://felixkratz.github.io/SketchyBar/
@@ -84,19 +94,14 @@ in
   # sketchybar's KeepAlive process group, which launchd reaps at login and
   # would silently kill the stats. KeepAlive restarts it if it ever dies;
   # ordering vs. sketchybar is irrelevant since it re-pushes every 5s.
+  #
+  # Launched via stats-provider-launch (above), which resolves the current enN
+  # interfaces at startup rather than naming them here: the provider aborts if a
+  # named interface is missing, and macOS re-enumerates dock/USB Ethernet to a
+  # new enN over time (the old en17 disappeared and silently killed the stats).
   launchd.user.agents.sketchybar-stats-provider = {
     serviceConfig = {
-      ProgramArguments = [
-        "/opt/homebrew/bin/stats_provider"
-        "--cpu"
-        "usage"
-        "--disk"
-        "usage"
-        "--network"
-        "en0"
-        "en17"
-        "--no-units"
-      ];
+      ProgramArguments = [ "${stats-provider-launch}/bin/stats-provider-launch" ];
       RunAtLoad = true;
       KeepAlive = true;
       ProcessType = "Background";
