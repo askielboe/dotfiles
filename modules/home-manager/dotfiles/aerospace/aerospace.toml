@@ -85,13 +85,24 @@ gaps.inner.horizontal = 8
 gaps.inner.vertical =   8
 gaps.outer.left =       10
 gaps.outer.bottom =     10
-# sketchybar (height 34) owns the top edge. On this notched MacBook, macOS
-# still reserves the ~37pt notch/menu-bar safe area for window placement even
-# though the menu bar is auto-hidden (_HIHideMenuBar), and AeroSpace measures
-# gaps.outer.top from *below* that reserve — not from y=0. So the reserve
-# already pushes windows past the 34pt bar; we only add the ~10pt visible gap
-# on top. (Setting this to 34+10=44 double-counts the reserve → a ~44pt band.)
-gaps.outer.top =        8
+# sketchybar (height 34) owns the top edge, but the gap needed to clear it
+# differs per display, so this is per-monitor:
+#   • Built-in notched MacBook: macOS reserves the ~37pt notch/menu-bar safe
+#     area for window placement even with the menu bar auto-hidden
+#     (_HIHideMenuBar), and AeroSpace measures gaps.outer.top from *below* that
+#     reserve — not from y=0. The reserve already pushes windows past the 34pt
+#     bar, so we only add the ~8pt visible gap. (34+8 here double-counts it.)
+#   • External displays (e.g. the Dell U4025QW): no notch, and with the menu
+#     bar auto-hidden the visibleFrame top is y=0 with zero reserve (measured),
+#     so AeroSpace tiles from the very top and windows slide under the 34pt bar.
+#     They need the full bar height + visible gap = 34+8 = 42.
+# Monitor patterns are case-insensitive regex substrings; "built-in" matches
+# "Built-in Retina Display". The trailing 42 is the default for every other
+# (external, reserve-less) display.
+gaps.outer.top = [
+  { monitor."built-in" = 8 },
+  42,
+]
 gaps.outer.right =      10
 
 # 'main' binding mode declaration
