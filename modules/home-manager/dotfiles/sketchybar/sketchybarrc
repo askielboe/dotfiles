@@ -93,6 +93,8 @@ source "$ITEM_DIR/stats_controller.sh"
 source "$ITEM_DIR/claude_usage.sh"
 
 # Left region (left → right):
+# shellcheck source=items/apple.sh
+source "$ITEM_DIR/apple.sh" # green Apple logo + click menu (far left)
 # shellcheck source=items/workspaces.sh
 source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
 # shellcheck source=items/aerospace_mode.sh
