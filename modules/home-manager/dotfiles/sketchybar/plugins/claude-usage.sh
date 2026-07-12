@@ -43,22 +43,30 @@ render() {
   exit 0
 }
 
-[ -f "$STATE_FILE" ] || render "login" "$OVERLAY0"
+# Not authenticated (no token yet) or auth is broken (refresh/usage failed):
+# hide the chip entirely rather than nag with a "login"/"auth?" label. It
+# reappears on the next poll as soon as a valid token is present again.
+hide() {
+  sketchybar --set claude_usage drawing=off
+  exit 0
+}
+
+[ -f "$STATE_FILE" ] || hide
 
 access_token="$(jq -r '.access_token // empty' "$STATE_FILE" 2>/dev/null)"
 refresh_token="$(jq -r '.refresh_token // empty' "$STATE_FILE" 2>/dev/null)"
 expires_at="$(jq -r '.expires_at // 0' "$STATE_FILE" 2>/dev/null)"
-[ -n "$access_token" ] || render "login" "$OVERLAY0"
+[ -n "$access_token" ] || hide
 
 # Refresh when the access token is within 5 min of expiry (or already gone).
 now="$(date +%s)"
 if [ "$now" -ge "$((expires_at - 300))" ]; then
-  [ -n "$refresh_token" ] || render "auth?" "$RED"
+  [ -n "$refresh_token" ] || hide
   resp="$(curl -fsS --max-time 10 -X POST "$TOKEN_URL" \
     -H 'Content-Type: application/json' \
     -d "$(jq -n --arg rt "$refresh_token" --arg id "$CLIENT_ID" \
-      '{grant_type:"refresh_token",refresh_token:$rt,client_id:$id}')")" || render "auth?" "$RED"
-  printf '%s' "$resp" | jq -e '.access_token' >/dev/null 2>&1 || render "auth?" "$RED"
+      '{grant_type:"refresh_token",refresh_token:$rt,client_id:$id}')")" || hide
+  printf '%s' "$resp" | jq -e '.access_token' >/dev/null 2>&1 || hide
   # Persist rotated tokens atomically; keep the old refresh token if none returned.
   tmp="$STATE_FILE.tmp"
   printf '%s' "$resp" | jq --arg oldrt "$refresh_token" '{
@@ -75,8 +83,8 @@ usage="$(curl -fsS --max-time 10 "$USAGE_URL" \
   -H "User-Agent: $UA" \
   -H "Content-Type: application/json")" || render "…" "$OVERLAY0"
 
-# Bail if the payload is not the expected object (e.g. an error body).
-printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || render "auth?" "$RED"
+# Bail if the payload is not the expected object (e.g. an auth error body).
+printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || hide
 
 # utilization is a 0–100 percentage per the endpoint spec; round to int.
 # extra_usage amounts are minor units (e.g. cents) — divide by 10^decimal_places
