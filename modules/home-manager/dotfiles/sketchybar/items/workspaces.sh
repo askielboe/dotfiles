@@ -7,17 +7,22 @@
 sketchybar --add event aerospace_workspace_change
 
 # One item per workspace, hidden until the controller paints it. Each shows the
-# workspace id; the focused one gets a mauve background pill (painted by the
-# controller). Only the focused and non-empty workspaces are drawn (there are
-# ~30 persistent ones).
+# workspace id (icon) plus a glyph per app in that workspace (label, rendered in
+# sketchybar-app-font — the controller fills it in). The focused one gets a mauve
+# background pill; other non-empty ones a subtle surface pill; empty ones are
+# hidden (there are ~30 persistent workspaces). label starts hidden so empty
+# workspaces show nothing until painted.
 for ws in $("$AEROSPACE" list-workspaces --all); do
   sketchybar --add item space."$ws" left \
     --set space."$ws" \
       drawing=off \
       icon="$ws" \
       icon.padding_left=8 \
-      icon.padding_right=8 \
+      icon.padding_right=4 \
+      label.font="sketchybar-app-font:Regular:15.0" \
       label.drawing=off \
+      label.padding_left=2 \
+      label.padding_right=8 \
       click_script="$AEROSPACE workspace $ws"
 done
 
