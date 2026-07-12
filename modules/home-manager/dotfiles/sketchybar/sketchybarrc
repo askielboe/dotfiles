@@ -5,14 +5,16 @@
 # Manual reload: sketchybar --reload
 #
 # Item definitions live in items/*.sh, one file per bar item (or logical
-# group). They are sourced (same shell) in the explicit left-to-right order
-# below — that source order IS the on-screen order, since sketchybar places
-# items within each region in definition order. Reordering the bar means
-# reordering this list. Sourced files inherit $CONFIG_DIR, $PLUGIN_DIR,
-# $AEROSPACE and the colour vars set here without re-export.
+# group), sourced (same shell) below. sketchybar orders items WITHIN each
+# region (left / right / q) by definition order, so source order IS the
+# on-screen order within a region — but cross-region source order has no
+# effect on layout. The right region is therefore sourced FIRST on purpose
+# (see the items section) so the stats subscription registers early at boot.
+# Sourced files inherit $CONFIG_DIR, $PLUGIN_DIR, $AEROSPACE and the colour
+# vars set here without re-export.
 #
 # To add an item: create items/<name>.sh and add a `source` line below,
-# positioned to match where it should appear in its region.
+# positioned within its region's block to match where it should appear.
 
 # shellcheck source=colors.sh
 source "$CONFIG_DIR/colors.sh"
@@ -56,7 +58,39 @@ sketchybar --default \
   background.corner_radius=6 \
   background.height=20
 
-# ---- items (source order = on-screen order) ---------------------------------
+# ---- items (source order = on-screen order WITHIN each region) ---------------
+
+# Right region — sourced FIRST on purpose (defined left → right; sketchybar
+# stacks them right → left, so the first-sourced item is rightmost). This block
+# holds the invisible stats_controller, which subscribes to the system_stats
+# event that paints cpu/disk/network (see items/stats_controller.sh). Cross-
+# region source order doesn't affect layout, so sourcing the right region ahead
+# of the ~30-item workspace loop below gets that subscription registered early
+# in config load. Sourced last (as it was), cpu/disk/network stayed blank for
+# many seconds after boot under heavy login load until the whole config
+# finished; sourced first, the provider's next push (every 5s) lands within
+# seconds of boot. stats_controller must stay after the cpu/disk/network items
+# within this block so they exist when the first event fires.
+# shellcheck source=items/clock.sh
+source "$ITEM_DIR/clock.sh"
+# shellcheck source=items/battery.sh
+source "$ITEM_DIR/battery.sh"
+# shellcheck source=items/disk.sh
+source "$ITEM_DIR/disk.sh"
+# shellcheck source=items/temp.sh
+source "$ITEM_DIR/temp.sh"
+# shellcheck source=items/volume.sh
+source "$ITEM_DIR/volume.sh"
+# shellcheck source=items/network.sh
+source "$ITEM_DIR/network.sh"
+# shellcheck source=items/gpu.sh
+source "$ITEM_DIR/gpu.sh"
+# shellcheck source=items/cpu.sh
+source "$ITEM_DIR/cpu.sh"
+# shellcheck source=items/stats_controller.sh
+source "$ITEM_DIR/stats_controller.sh"
+# shellcheck source=items/claude_usage.sh
+source "$ITEM_DIR/claude_usage.sh"
 
 # Left region (left → right):
 # shellcheck source=items/workspaces.sh
@@ -79,29 +113,6 @@ source "$ITEM_DIR/meeting.sh"
 source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 # shellcheck source=items/micromanager.sh
 source "$ITEM_DIR/micromanager.sh" # micromanager focus-block timer + app glyphs
-
-# Right region (defined left → right; sketchybar stacks them right → left, so
-# the first-sourced item is rightmost):
-# shellcheck source=items/clock.sh
-source "$ITEM_DIR/clock.sh"
-# shellcheck source=items/battery.sh
-source "$ITEM_DIR/battery.sh"
-# shellcheck source=items/disk.sh
-source "$ITEM_DIR/disk.sh"
-# shellcheck source=items/temp.sh
-source "$ITEM_DIR/temp.sh"
-# shellcheck source=items/volume.sh
-source "$ITEM_DIR/volume.sh"
-# shellcheck source=items/network.sh
-source "$ITEM_DIR/network.sh"
-# shellcheck source=items/gpu.sh
-source "$ITEM_DIR/gpu.sh"
-# shellcheck source=items/cpu.sh
-source "$ITEM_DIR/cpu.sh"
-# shellcheck source=items/stats_controller.sh
-source "$ITEM_DIR/stats_controller.sh"
-# shellcheck source=items/claude_usage.sh
-source "$ITEM_DIR/claude_usage.sh"
 
 # ---- init --------------------------------------------------------------------
 
