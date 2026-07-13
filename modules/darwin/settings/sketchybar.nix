@@ -114,4 +114,11 @@ in
   # Auto-hide the macOS menu bar so sketchybar owns the top edge. Hovering at
   # the top still reveals it (Stats, MeetingBar etc. stay reachable).
   system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+
+  # Make the revealed native menu bar opaque so it paints over sketchybar
+  # instead of letting it bleed through the translucent material. NOTE: this is
+  # macOS's system-wide "Reduce transparency" — it also makes the Dock, Control
+  # Center, Notification Center and app sidebars opaque (no menu-bar-only knob
+  # exists). Drop this line to go back to the translucent default.
+  system.defaults.universalaccess.reduceTransparency = true;
 }
