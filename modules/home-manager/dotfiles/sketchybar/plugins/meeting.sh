@@ -1,6 +1,7 @@
 #!/bin/bash
 # Right-side "next meeting" item — a minimal MeetingBar: just the next upcoming
-# timed calendar event as "<countdown> · <title>". No dropdown, no join button.
+# timed calendar event as "<start time> · <title>" (e.g. "14:00 · Standup"). No
+# dropdown, no join button.
 #
 # Data comes from icalBuddy (brew: ical-buddy), which reads the same EventKit
 # calendars MeetingBar / Calendar.app use. EventKit is gated by TCC, so the
@@ -41,25 +42,27 @@ line="$("$ICALBUDDY" -ic 'Andreas' -n -ea -nc -npn -nrd -eed -b '' -ps '|@@|' \
 title="${line%@@*}"
 dt="${line##*@@}"
 
-start=$(/bin/date -j -f '%Y-%m-%d at %H:%M' "$dt" +%s 2>/dev/null)
+# icalBuddy OMITS the date for today's events (we only query eventsToday),
+# emitting just the clock time like "10:30"; when it does prefix a date the
+# string is "<date> at <time>". Either way the event is today, so take the time
+# — the last whitespace-delimited token, robust to both forms — and pin it to
+# today's date to get an epoch. (The old '%Y-%m-%d at %H:%M' parse silently
+# failed on the bare-time form, dropping every meeting into the raw-title
+# fallback below with no time shown.)
+hhmm="${dt##* }"
+start=$(/bin/date -j -f '%Y-%m-%d %H:%M' "$(/bin/date +%Y-%m-%d) $hhmm" +%s 2>/dev/null)
 if [ -z "$start" ]; then
   # Unparseable datetime (locale/format drift) — don't hide it, show title raw.
   sketchybar --set "$NAME" drawing=on icon.color="$TEXT" label="$title" update_freq=300
   exit 0
 fi
 now=$(/bin/date +%s)
+# mins-to-start still drives the urgency colour + poll cadence below, even though
+# the label shows the absolute clock time rather than a relative countdown.
 mins=$(((start - now + 30) / 60)) # round to nearest minute
 
-# Countdown text: <1h in minutes, <10h as HhMm, else the event's clock time.
-if [ "$mins" -lt 1 ]; then
-  cd="now"
-elif [ "$mins" -lt 60 ]; then
-  cd="${mins}m"
-elif [ "$mins" -lt 600 ]; then
-  cd="$((mins / 60))h$((mins % 60))m"
-else
-  cd="$(/bin/date -j -f %s "$start" '+%H:%M')"
-fi
+# Label shows the event's clock start time, e.g. "14:00".
+clock="$(/bin/date -j -f %s "$start" '+%H:%M')"
 
 # Urgency colour + poll cadence both ramp as the meeting approaches.
 if [ "$mins" -le 5 ]; then
@@ -80,4 +83,4 @@ sketchybar --set "$NAME" \
   drawing=on \
   update_freq="$freq" \
   icon.color="$color" \
-  label="$cd · $title"
+  label="$clock · $title"

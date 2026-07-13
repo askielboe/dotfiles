@@ -1,8 +1,9 @@
 # shellcheck shell=bash
 # Left: next_meeting. Sourced by ../sketchybarrc.
 #
-# Minimal MeetingBar: the next upcoming timed calendar event as "<in>· <title>",
-# via icalBuddy (see plugins/meeting.sh). Sits just left of the clock. Hidden
+# Minimal MeetingBar: the next upcoming timed calendar event as
+# "<start time> · <title>" (e.g. "14:00 · Standup"), via icalBuddy (see
+# plugins/meeting.sh). Sits just left of the clock. Hidden
 # until the plugin paints an event; needs Calendar access granted to the
 # sketchybar agent on first run (Privacy & Security ▸ Calendars). update_freq
 # here is only the initial cadence — the plugin re-sets it adaptively (5 min when
