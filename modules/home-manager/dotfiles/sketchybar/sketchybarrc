@@ -31,15 +31,20 @@ AEROSPACE="/opt/homebrew/bin/aerospace"
 # notch region is zero-width, so q/e collapse toward centre automatically (no
 # per-display logic needed). The 16" MBP notch measures ~185pt; 200 leaves a
 # little clearance. The focus HUD (pomodoro + micromanager) uses q — see below.
-# topmost=on keeps the bar drawn above regular application windows. Without it
+# topmost=window keeps the bar above regular application windows. Without it
 # (the default topmost=off) tiled/maximised windows — especially on external
 # displays like the Dell — render on top of the bar and hide it. AeroSpace's
-# top gap reserves the space, but z-order still needs this to stay on top.
+# top gap reserves the space, but z-order still needs this to stay above windows.
+# Use "window", NOT "on": topmost=on draws the bar above EVERYTHING, including
+# system overlays, so it covers macOS notification banners — their top edge (where
+# the hover-to-dismiss ✕ lives) ends up under the bar and the banner becomes
+# undismissable. topmost=window sits above windows but below system overlays, so
+# notifications render on top of the bar and stay clickable.
 sketchybar --bar \
   position=top \
   height=34 \
   display=all \
-  topmost=on \
+  topmost=window \
   notch_width=200 \
   color="$BAR_COLOR" \
   blur_radius=20 \
