@@ -95,6 +95,8 @@ source "$ITEM_DIR/claude_usage.sh"
 # Left region (left → right):
 # shellcheck source=items/workspaces.sh
 source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
+# shellcheck source=items/aerospace_mode.sh
+source "$ITEM_DIR/aerospace_mode.sh" # red SERVICE pill while in aerospace service mode
 # shellcheck source=items/front_app.sh
 # source "$ITEM_DIR/front_app.sh" # focused application
 # shellcheck source=items/gchat.sh

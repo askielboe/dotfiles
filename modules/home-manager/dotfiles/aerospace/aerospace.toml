@@ -14,8 +14,12 @@ after-startup-command = []
 start-at-login = true
 
 # Automatically reload the config when the config file is saved
-# After setting this to true, reload once manually to start the auto-reloading
-auto-reload-config = false
+# After setting this to true, reload once manually to start the auto-reloading.
+# Note: with home-manager the live path ~/.aerospace.toml is a symlink into the
+# nix store that `hs` atomically re-points; AeroSpace's watcher may not always
+# see that swap, so after `hs` an `aerospace reload-config` is still the reliable
+# way to load a new config into the running instance.
+auto-reload-config = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -224,20 +228,26 @@ gaps.outer.right =      10
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-    alt-shift-semicolon = 'mode service'
+    # Also raise the SERVICE pill in sketchybar (items/aerospace_mode.sh) so it's
+    # obvious we've left main mode; the service bindings below lower it again.
+    alt-shift-semicolon = ['mode service', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=on']
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-    esc = ['reload-config', 'mode main']
-    r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
-    backspace = ['close-all-windows-but-current', 'mode main']
+    # Every binding here returns to main, so each also lowers the SERVICE pill
+    # (items/aerospace_mode.sh) via the trailing exec-and-forget. This lives on
+    # the bindings rather than on-mode-changed because that callback isn't told
+    # the target mode. If you add a service binding, carry the same hide command.
+    esc = ['reload-config', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    r = ['flatten-workspace-tree', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off'] # reset layout
+    f = ['layout floating tiling', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off'] # Toggle between floating and tiling layout
+    backspace = ['close-all-windows-but-current', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
 
     # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
     #s = ['layout sticky tiling', 'mode main']
 
-    alt-shift-h = ['join-with left', 'mode main']
-    alt-shift-j = ['join-with down', 'mode main']
-    alt-shift-k = ['join-with up', 'mode main']
-    alt-shift-l = ['join-with right', 'mode main']
+    alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
