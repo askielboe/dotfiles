@@ -12,6 +12,12 @@ sketchybar --add event aerospace_workspace_change
 # background pill; other non-empty ones a subtle surface pill; empty ones are
 # hidden (there are ~30 persistent workspaces). label starts hidden so empty
 # workspaces show nothing until painted.
+# icon.y_offset=-1: the id digit (Hack Nerd Font) and the app glyphs
+# (sketchybar-app-font) have different font metrics, so at the same offset the
+# digit's baseline lands ~1.5px above the glyphs' — the key visibly floats above
+# the row. Nudge ONLY the icon down 1pt so the two baselines line up (measured:
+# digit bottom 43 -> 45 vs glyph bottom 44-45). Do NOT also offset the label:
+# moving both together just shifts the whole pill and leaves the gap unchanged.
 for ws in $("$AEROSPACE" list-workspaces --all); do
   sketchybar --add item space."$ws" left \
     --set space."$ws" \
@@ -19,6 +25,7 @@ for ws in $("$AEROSPACE" list-workspaces --all); do
       icon="$ws" \
       icon.padding_left=8 \
       icon.padding_right=4 \
+      icon.y_offset=-1 \
       label.font="sketchybar-app-font:Regular:15.0" \
       label.drawing=off \
       label.padding_left=2 \
