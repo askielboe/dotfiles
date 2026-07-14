@@ -9,8 +9,8 @@ let
   # the trust.json written below.
   taps = [
     "herald-email/herald"
-    "joncrangle/tap"
-    "nikitabobko/tap"
+    "joncrangle/tap" # for sketchybar-system-stats
+    "nikitabobko/tap" # aerospace
     "raine/claude-history"
   ];
 
@@ -66,6 +66,7 @@ in
       "1password-cli"
       "activitywatch@beta"
       "adguard"
+      "aerial"
       "appcleaner"
       "arq"
       "bitwarden"
@@ -78,6 +79,7 @@ in
       "gitbutler"
       "granola"
       "handbrake-app"
+      "insta360-link-controller"
       "linear"
       "meetingbar"
       "microsoft-teams"
@@ -92,6 +94,7 @@ in
       "slack"
       "soulver"
       "stats"
+      "sunsama"
       "tigervnc"
       "todoist-app"
       "tor-browser"
