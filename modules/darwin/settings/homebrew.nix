@@ -58,6 +58,13 @@ in
       cleanup = "zap";
       # Newer Homebrew requires an explicit force flag for `brew bundle --cleanup`.
       extraFlags = [ "--force-cleanup" ];
+      # Activation-time `brew bundle` runs under `sudo --preserve-env=PATH`, so the
+      # HOMEBREW_NO_ENV_HINTS session variable (home-manager, interactive shells only)
+      # never reaches it. extraEnv prepends KEY=VALUE onto the bundle invocation itself,
+      # so the hint block is silenced during `hs` too — not just in interactive shells.
+      extraEnv = {
+        HOMEBREW_NO_ENV_HINTS = "1";
+      };
     };
 
     inherit taps;
