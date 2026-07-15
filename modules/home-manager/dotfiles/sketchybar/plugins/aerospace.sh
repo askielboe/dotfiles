@@ -5,6 +5,14 @@
 # non-empty ones a subtle surface pill, and empty ones are hidden (there are ~30
 # persistent workspaces). FOCUSED_WORKSPACE is set by the AeroSpace
 # exec-on-workspace-change callback; on other events, ask aerospace.
+#
+# Speed matters here: this runs on every workspace switch and the focused pill
+# only moves once it finishes, so a slow repaint reads as a laggy highlight. The
+# whole thing is therefore kept to a handful of subprocesses — three aerospace
+# queries, one awk pass and one sketchybar call. In particular the per-workspace
+# app glyphs are computed in ONE awk pass over all windows (not an awk per
+# workspace — that spawned ~30 processes and dominated the repaint at ~300ms),
+# and the per-workspace lookups below are pure-bash (no subshell/fork per item).
 
 # shellcheck source=../colors.sh
 source "$CONFIG_DIR/colors.sh"
@@ -16,39 +24,68 @@ nonempty=" $("$AEROSPACE" list-workspaces --monitor all --empty no | tr '\n' ' '
 
 # All windows once, as "workspace|app-name" lines. icon_map.sh from
 # pkgs.sketchybar-app-font (on the agent PATH) defines __icon_map, which maps an
-# app name to a glyph in $icon_result. One aerospace query + in-shell lookups keep
-# a repaint to a single aerospace call and a single sketchybar call.
+# app name to a glyph in $icon_result (an in-shell function — no subprocess).
 windows="$("$AEROSPACE" list-windows --all --format '%{workspace}|%{app-name}')"
 map="$(command -v icon_map.sh)"
 # shellcheck disable=SC1090 # resolved from PATH at runtime
 [ -n "$map" ] && source "$map"
 
-# Glyph string for one workspace: its deduped app names mapped to glyphs,
-# space-separated. Empty output for an empty workspace.
-glyphs_for() {
-  ws="$1"
-  out=""
-  apps="$(printf '%s\n' "$windows" | awk -F'|' -v w="$ws" '$1==w && $2!="" && !seen[$2]++ {print $2}')"
-  [ -z "$apps" ] && return 0
-  while IFS= read -r app; do
+# One awk pass turns the window list into, per non-empty workspace, its deduped
+# app names in first-seen order as a TAB-separated line ("ws<TAB>app1<TAB>app2").
+# This replaces an awk invocation per workspace: doing it once is the whole point
+# of this rewrite. Note: /bin/bash on macOS is 3.2 (no associative arrays), so
+# the result stays a newline-delimited string and is looked up in-shell below.
+app_lines="$(printf '%s\n' "$windows" | awk -F'|' '
+  $2 != "" && !seen[$1 SUBSEP $2]++ { apps[$1] = apps[$1] $2 "\t" }
+  END { for (w in apps) print w "\t" apps[w] }
+')"
+
+# Deduped app names for one workspace (TAB-separated) into $apps_result — a
+# pure-bash scan of $app_lines, no subprocess. Empty when the workspace has no
+# mapped windows. Sets a global rather than echoing so the caller needn't wrap it
+# in $(...), which would fork a subshell for every one of the ~30 workspaces.
+apps_result=""
+apps_for() {
+  local ws="$1" line
+  apps_result=""
+  while IFS= read -r line; do
+    case "$line" in
+    "$ws"$'\t'*)
+      apps_result="${line#*$'\t'}"
+      return 0
+      ;;
+    esac
+  done <<EOF
+$app_lines
+EOF
+}
+
+# Glyph string for one workspace into $glyphs: its app names mapped to glyphs via
+# __icon_map, space-separated (with a trailing space). Empty for an empty
+# workspace. Same global-not-echo reason as apps_for.
+glyphs=""
+build_glyphs() {
+  local ws="$1" app IFS=$'\t'
+  glyphs=""
+  apps_for "$ws"
+  [ -z "$apps_result" ] && return 0
+  for app in $apps_result; do
     [ -z "$app" ] && continue
     if [ -n "$map" ]; then
       __icon_map "$app"
       # shellcheck disable=SC2154 # icon_result is set by __icon_map
-      out="$out$icon_result "
+      glyphs="$glyphs$icon_result "
     else
-      out="$out:default: "
+      glyphs="$glyphs:default: "
     fi
-  done <<EOF
-$apps
-EOF
-  printf '%s' "$out"
+  done
 }
 
 set --
 
 for ws in $("$AEROSPACE" list-workspaces --all); do
-  g="$(glyphs_for "$ws")"
+  build_glyphs "$ws"
+  g="$glyphs"
   if [ "$ws" = "$focused" ]; then
     set -- "$@" --set "space.$ws" drawing=on \
       label="$g" label.drawing=on label.color="$CRUST" \
