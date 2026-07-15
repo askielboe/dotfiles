@@ -6,7 +6,10 @@
 }:
 let
   # Single source of truth: these third-party taps populate both the Brewfile and
-  # the trust.json written below.
+  # the trust.json written below. They are ALSO pinned to flake.lock via nix-homebrew
+  # (see the `nix-homebrew.taps` block in flake.nix). Keep the two lists in sync:
+  # here they use Homebrew's short form (owner/<name>); there the on-disk repo form
+  # (owner/homebrew-<name>). Both resolve to the same tap directory.
   taps = [
     "herald-email/herald"
     "joncrangle/tap" # for sketchybar-system-stats

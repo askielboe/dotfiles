@@ -27,10 +27,38 @@
     # clickhouse-connect is added via an override in packages.nix.
     sqlit.url = "github:Maxteabag/sqlit";
     sqlit.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nix-homebrew: manage the Homebrew installation itself and pin the third-party
+    # taps to flake.lock. Inputs must be declared here (flake rule); the module config
+    # that consumes them lives in modules/darwin/settings/nix-homebrew.nix, reached via
+    # specialArgs. homebrew-core/homebrew-cask are intentionally NOT inputs: they stay on
+    # Homebrew's JSON API (matched to the installed brew) to avoid cask-DSL skew against
+    # nix-homebrew's lagging brew. See that module for the full rationale.
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    # Third-party taps (small, low-churn). `flake = false` raw checkouts, symlinked into
+    # the Homebrew prefix; they move only on `nix flake update` (`hu`). Keep in sync with
+    # the short-form `taps` list in modules/darwin/settings/homebrew.nix (Brewfile + trust).
+    homebrew-herald = {
+      url = "github:herald-email/homebrew-herald";
+      flake = false;
+    };
+    homebrew-joncrangle = {
+      url = "github:joncrangle/homebrew-tap";
+      flake = false;
+    };
+    homebrew-nikitabobko = {
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
+    };
+    homebrew-claude-history = {
+      url = "github:raine/homebrew-claude-history";
+      flake = false;
+    };
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
@@ -112,7 +140,7 @@
             packages.overlays.default
           ];
         };
-        specialArgs = { inherit private; };
+        specialArgs = { inherit private inputs; };
         modules = [
           ./modules/darwin
           home-manager.darwinModules.home-manager

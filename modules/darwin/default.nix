@@ -8,6 +8,7 @@
     ./settings/homebrew.nix
     ./settings/jankyborders.nix
     ./settings/networking.nix
+    ./settings/nix-homebrew.nix
     ./settings/pi-mlx-python.nix
     ./settings/power.nix
     ./settings/resticprofile.nix
