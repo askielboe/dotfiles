@@ -12,12 +12,16 @@ sketchybar --add event aerospace_workspace_change
 # background pill; other non-empty ones a subtle surface pill; empty ones are
 # hidden (there are ~30 persistent workspaces). label starts hidden so empty
 # workspaces show nothing until painted.
-# icon.y_offset=-1: the id digit (Hack Nerd Font) and the app glyphs
-# (sketchybar-app-font) have different font metrics, so at the same offset the
-# digit's baseline lands ~1.5px above the glyphs' — the key visibly floats above
-# the row. Nudge ONLY the icon down 1pt so the two baselines line up (measured:
-# digit bottom 43 -> 45 vs glyph bottom 44-45). Do NOT also offset the label:
-# moving both together just shifts the whole pill and leaves the gap unchanged.
+# label.y_offset=-2: the id digit (Hack Nerd Font) and the app glyphs
+# (sketchybar-app-font) have different font metrics. sketchybar centres each
+# field on its own em box, but the app-font glyphs are top-heavy — their ink sits
+# in the upper part of the box — so at y_offset=0 their optical centre lands ~2.5px
+# ABOVE the digit's and the glyphs visibly float above the row. Aligning the
+# BASELINES (bottoms) doesn't fix this: the glyphs are taller, so equal bottoms
+# still leave their centre high. Instead nudge ONLY the label (glyphs) DOWN 2pt so
+# its optical centre meets the digit's, which already sits at the pill centre
+# (measured: digit centre y≈33.5, glyph centre 30 -> 34). Leave the icon at the
+# default y_offset=0.
 for ws in $("$AEROSPACE" list-workspaces --all); do
   sketchybar --add item space."$ws" left \
     --set space."$ws" \
@@ -25,9 +29,9 @@ for ws in $("$AEROSPACE" list-workspaces --all); do
       icon="$ws" \
       icon.padding_left=8 \
       icon.padding_right=4 \
-      icon.y_offset=-1 \
       label.font="sketchybar-app-font:Regular:15.0" \
       label.drawing=off \
+      label.y_offset=-2 \
       label.padding_left=2 \
       label.padding_right=8 \
       click_script="$AEROSPACE workspace $ws"
