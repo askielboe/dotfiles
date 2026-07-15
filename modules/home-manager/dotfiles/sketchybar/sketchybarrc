@@ -110,8 +110,12 @@ source "$ITEM_DIR/aerospace_mode.sh" # red SERVICE pill while in aerospace servi
 source "$ITEM_DIR/gchat.sh"
 # shellcheck source=items/productive.sh
 source "$ITEM_DIR/productive.sh"
+# Full-day schedule strip (experiment) — supersedes the single next_meeting item
+# below. Disable one and enable the other to switch back.
+# shellcheck source=items/schedule.sh
+source "$ITEM_DIR/schedule.sh"
 # shellcheck source=items/meeting.sh
-source "$ITEM_DIR/meeting.sh"
+# source "$ITEM_DIR/meeting.sh"
 
 # Focus HUD (pomodoro + micromanager) — position "q" (native: left of the notch).
 # It sits just left of centre, flush against the notch, and on a non-notched
