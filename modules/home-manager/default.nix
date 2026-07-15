@@ -53,6 +53,7 @@ in
     sessionVariables = {
       DIRENV_LOG_FORMAT = "";
       EDITOR = "nvim";
+      HOMEBREW_NO_ENV_HINTS = "1"; # silence brew's "hide these hints" nag block
       OP_ACCOUNT = private.accounts.opAccount;
       PAGER = "bat";
       VISUAL = "nvim";
