@@ -1,8 +1,10 @@
 #!/bin/bash
 # Claude usage meter: the 7-day window renders as a filling pie-ring, the
 # 5-hour window as a percentage beside it, and the extra-usage (pay-as-you-go)
-# spend appears only once a window hits 100%. All read from Anthropic's
-# authoritative /api/oauth/usage endpoint — the same source `/usage` uses.
+# spend appears only once a window hits 100%. Once the chip goes red (a window
+# ≥ 85%) it also appends a hourglass countdown to that binding window's reset,
+# so a healthy chip stays minimal but a hot one says when it clears. All read
+# from Anthropic's authoritative /api/oauth/usage endpoint — same as `/usage`.
 #
 # Auth is a user:profile-scoped OAuth token minted once by `claude-usage-login`
 # (modules/darwin/settings/claude-usage-login.sh) into the state file below.
@@ -51,6 +53,20 @@ hide() {
   exit 0
 }
 
+# Compact humanised duration for the reset countdown: "5d3h", "2h13m", "45m".
+# Drops the smaller unit when it's zero (e.g. "2h" not "2h0m", "5d" not "5d0h").
+fmt_dur() {
+  local s="$1" d h m
+  d=$(( s / 86400 )); h=$(( (s % 86400) / 3600 )); m=$(( (s % 3600) / 60 ))
+  if [ "$d" -gt 0 ]; then
+    { [ "$h" -gt 0 ] && printf '%dd%dh' "$d" "$h"; } || printf '%dd' "$d"
+  elif [ "$h" -gt 0 ]; then
+    { [ "$m" -gt 0 ] && printf '%dh%dm' "$h" "$m"; } || printf '%dh' "$h"
+  else
+    printf '%dm' "$m"
+  fi
+}
+
 [ -f "$STATE_FILE" ] || hide
 
 access_token="$(jq -r '.access_token // empty' "$STATE_FILE" 2>/dev/null)"
@@ -89,21 +105,31 @@ printf '%s' "$usage" | jq -e '.five_hour.utilization' >/dev/null 2>&1 || hide
 # utilization is a 0–100 percentage per the endpoint spec; round to int.
 # extra_usage amounts are minor units (e.g. cents) — divide by 10^decimal_places
 # for the major-currency figure, and label it with the account's currency.
-read -r five_h seven_d over_enabled over_used over_dp over_cur \
+# resets_at is each window's UTC reset instant as ISO-8601 with microseconds and
+# a +00:00 offset (e.g. 2026-…T16:50:00.766135+00:00) — take the fixed-width
+# YYYY-MM-DDTHH:MM:SS prefix and parse it as UTC into epoch seconds (0 if null).
+read -r five_h seven_d over_enabled over_used over_dp over_cur five_reset seven_reset \
   <<<"$(printf '%s' "$usage" | jq -r '
+  def reset_epoch: if . == null or . == "" then 0
+    else (.[0:19] | strptime("%Y-%m-%dT%H:%M:%S") | mktime) end;
   [ (.five_hour.utilization // 0 | round),
     (.seven_day.utilization // 0 | round),
     (.extra_usage.is_enabled // false),
     (.extra_usage.used_credits // 0),
     (.extra_usage.decimal_places // 2),
-    (.extra_usage.currency // "USD")
+    (.extra_usage.currency // "USD"),
+    (.five_hour.resets_at | reset_epoch),
+    (.seven_day.resets_at | reset_epoch)
   ] | @tsv' | tr "\t" " ")"
 
 # Colour follows the most-binding window: neutral TEXT until it runs high, then
 # RED past the 85% threshold. The icon glyph stays PEACH (brand) regardless, so
 # a healthy chip carries no alert colour at all. The ring and percentage share
-# the label colour (a sketchybar label carries a single colour).
-worst="$five_h"; [ "$seven_d" -gt "$worst" ] && worst="$seven_d"
+# the label colour (a sketchybar label carries a single colour). Track the
+# binding window's reset instant alongside `worst` so the red-state countdown
+# below reports when THAT window (the one driving the alert) actually clears.
+worst="$five_h"; reset_epoch="$five_reset"
+[ "$seven_d" -gt "$worst" ] && { worst="$seven_d"; reset_epoch="$seven_reset"; }
 if [ "$worst" -ge 85 ]; then color="$RED"; else color="$TEXT"; fi
 
 # Weekly (7-day) utilisation → pie-ring glyph. Map 0–100 onto the 9 RING states
@@ -118,6 +144,15 @@ idx=$(( (seven_d * 8 + 50) / 100 ))
 # Hourly-ish (5-hour) utilisation → a plain percentage beside the ring, e.g.
 # "󰪡 45%".
 label="${RING[$idx]} ${five_h}%"
+
+# Time-to-reset of the binding window (hourglass glyph), shown ONLY while the
+# chip is red (worst ≥ 85) — the "when does the pressure ease" number. A 5-hour
+# reset shows as e.g. "󰔟 2h13m", a 7-day reset as "󰔟 5d3h". Below the threshold
+# it's noise, so the calm state stays minimal. Guard on a future epoch to skip a
+# stale/zero reset (e.g. a null resets_at, which reset_epoch mapped to 0).
+if [ "$worst" -ge 85 ] && [ "$reset_epoch" -gt "$now" ]; then
+  label="$label 󰔟 $(fmt_dur $(( reset_epoch - now )))"
+fi
 
 # Currency symbol for the common cases; fall back to the ISO code + space.
 case "$over_cur" in
