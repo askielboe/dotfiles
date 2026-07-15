@@ -5,12 +5,17 @@
 # Nerd Font. Lock uses `pmset displaysleepnow` (CGSession's lock path was removed
 # on modern macOS) — it locks when "require password after sleep" is set, which
 # it effectively always is.
+# icon.y_offset=1: the apple glyph's bounding box is centred, but its ink is
+# bottom-heavy (thin leaf on top, bulky body below), so its optical weight sits
+# ~2.5px low and it reads as sitting below the workspace row. Lift it 1pt so its
+# visual centre lines up (measured device px: green centroid 37 -> 35).
 
 sketchybar --add item apple left \
   --set apple \
     icon="" \
     icon.font="Hack Nerd Font:Bold:16.0" \
     icon.color="$GREEN" \
+    icon.y_offset=1 \
     icon.padding_left=6 \
     icon.padding_right=6 \
     label.drawing=off \
