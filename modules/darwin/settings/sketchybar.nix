@@ -69,12 +69,14 @@ in
     #   sketchybar-app-font — icon_map.sh (app name -> glyph) for the front_app plugin
     #   openpomodoro-cli    — `pomodoro status` for the pomodoro center plugin
     #   jq / curl           — claude-usage.sh (OAuth token refresh + /api/oauth/usage)
+    #   fd / jq             — claude-rate.sh (select recent ~/.claude logs, sum output tokens/s)
     #   python3             — gchat.py (Google Chat unread poller, stdlib only)
     extraPackages = [
       pkgs.sketchybar-app-font
       pkgs.openpomodoro-cli
       pkgs.jq
       pkgs.curl
+      pkgs.fd
       pkgs.python3
     ];
   };
