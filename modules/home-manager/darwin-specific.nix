@@ -92,6 +92,7 @@ in
     };
 
     packages = with pkgs; [
+      nh # nix-helper: drives `hs` — nvd package diff, elevation only for activation
       unstable.colima # lima dependency is EOL in stable
       ripsecrets # Find secrets
       transmission_4
@@ -108,10 +109,13 @@ in
 
   programs.zsh.initContent = ''
     hs() {
-      echo "darwin-rebuild switch --flake"
-      export NIXPKGS_ALLOW_UNFREE=1
-      sudo -E darwin-rebuild switch --flake ~/.config/nix/'.#${private.user.username}' --impure
-      exec $SHELL
+      # nh (nix-helper) builds as your user, prints an nvd package diff, and only
+      # elevates (sudo) for the activation step. --impure is required because
+      # secrets/private.nix is gitignored, i.e. outside the pure flake source;
+      # NIXPKGS_ALLOW_UNFREE lets unfree packages evaluate under --impure.
+      # Extra args pass through: `hs -u` also updates flake inputs, `hs --dry`
+      # previews without activating, `hs -a` asks before activating.
+      NIXPKGS_ALLOW_UNFREE=1 nh darwin switch ~/.config/nix -H ${private.user.username} --impure "$@"
     }
 
     claude() {
