@@ -134,6 +134,12 @@ in
     (lib.mkBefore ''
       install -d -o ${private.user.username} -g staff -m 700 ${private.user.homeDirectory}/.homebrew
       install -o ${private.user.username} -g staff -m 600 ${trustJson} ${private.user.homeDirectory}/.homebrew/trust.json
+      # Interactive `brew` (run as the user, with XDG_CONFIG_HOME=~/.config) reads a
+      # *different* trust file than the sudo activation context above. Write the same
+      # generated file there too so ad-hoc `brew upgrade`/`install` trusts the declared
+      # taps without a per-command warning, and stale hand-added trusts don't accrete.
+      install -d -o ${private.user.username} -g staff -m 700 ${private.user.homeDirectory}/.config/homebrew
+      install -o ${private.user.username} -g staff -m 600 ${trustJson} ${private.user.homeDirectory}/.config/homebrew/trust.json
     '')
 
     # After `brew bundle`: warn (never fail) when a declared formula is outdated.
