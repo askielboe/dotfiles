@@ -46,20 +46,6 @@ let
     };
   };
 
-  googleChatCredentials = builtins.toJSON {
-    web = {
-      client_id = private.googleChat.clientId;
-      project_id = private.googleChat.projectId;
-      auth_uri = "https://accounts.google.com/o/oauth2/auth";
-      token_uri = "https://oauth2.googleapis.com/token";
-      auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs";
-      client_secret = private.googleChat.clientSecret;
-      redirect_uris = [ "http://localhost:3003/oauth/callback" ];
-    };
-  };
-  googleChatCredentialsPath = "${private.user.homeDirectory}/.config/google-chat-mcp/credentials.json";
-  googleChatTokenPath = "${private.user.homeDirectory}/.local/state/google-chat-mcp/token.json";
-
   # GitButler's `but` CLI is the desktop-app binary invoked under a different
   # argv[0]; the app ships it inside the cask declared in homebrew.nix. GitButler's
   # "Install CLI" button only drops an imperative symlink in /opt/homebrew/bin, so we
@@ -227,21 +213,14 @@ in
   home.file.".claude/commands/review-audit.md".source = ./claude-assets/commands/review-audit.md;
   home.file.".claude/commands/review-fix.md".source = ./claude-assets/commands/review-fix.md;
 
-  home.file.".config/google-chat-mcp/credentials.json".text = googleChatCredentials;
-
   home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
     force = true;
     text = builtins.toJSON {
       globalShortcut = "Alt+Space";
+      # Only genuinely-local tools live here. Everything served by the k3s gateway
+      # (trengo, dba, bilbasen, google-chat-moto/-hcc, bear) is reached remotely as
+      # a claude.ai connector at https://mcp.skielboe.com/<path>/mcp, not locally.
       mcpServers = {
-        google-chat = {
-          command = "${pkgs.mcp-google-chat}/bin/google-chat-mcp";
-          args = [ ];
-          env = {
-            GOOGLE_CREDENTIALS_FILE = googleChatCredentialsPath;
-            GOOGLE_TOKEN_FILE = googleChatTokenPath;
-          };
-        };
         granola = {
           command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
           args = [ ];
@@ -254,17 +233,6 @@ in
           env = { };
           iconPath = "${icons.things}";
         };
-        trengo = {
-          command = "${pkgs.nodejs_22}/bin/node";
-          args = [
-            "/Users/askielboe/work/mcp/servers/trengo/dist/index.js"
-          ];
-          env = {
-            TRENGO_API_TOKEN = private.apiKeys.trengo;
-          };
-        };
-        dba = dbaMcp;
-        bilbasen = bilbasenMcp;
         outline = {
           command = "${pkgs.nodejs_22}/bin/npx";
           args = [

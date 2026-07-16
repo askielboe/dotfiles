@@ -37,12 +37,6 @@
     opItem = "your-1password-item-id";
   };
 
-  googleChat = {
-    clientId = "your-google-oauth-client-id.apps.googleusercontent.com";
-    clientSecret = "your-google-oauth-client-secret";
-    projectId = "your-gcp-project-id";
-  };
-
   ssh = {
     storagebox = {
       hostname = "your-storagebox.de";

@@ -42,9 +42,6 @@
             inherit pkgs;
             src = mcp-things;
           };
-          mcp-google-chat = import ./mcp-google-chat.nix {
-            inherit pkgs;
-          };
           specify-cli = import ./specify-cli.nix {
             inherit pkgs;
           };
@@ -58,9 +55,6 @@
         mcp-things = import ./mcp-things.nix {
           pkgs = final;
           src = mcp-things;
-        };
-        mcp-google-chat = import ./mcp-google-chat.nix {
-          pkgs = final;
         };
         specify-cli = import ./specify-cli.nix {
           pkgs = final;
