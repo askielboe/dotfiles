@@ -35,17 +35,6 @@ let
     };
   };
 
-  icons = {
-    granola = pkgs.fetchurl {
-      url = "https://www.granola.ai/favicon.ico";
-      sha256 = "sha256-5TEt+YrhKezY4nZ5//D8dvvJr79yTsWj/tmFHgtXoAc=";
-    };
-    things = pkgs.fetchurl {
-      url = "https://culturedcode.com/favicon.ico";
-      sha256 = "sha256-AdJQOdKrwWLAelVP6FaLNdFIW3ncTG57WO9s6+CtTWw=";
-    };
-  };
-
   # GitButler's `but` CLI is the desktop-app binary invoked under a different
   # argv[0]; the app ships it inside the cask declared in homebrew.nix. GitButler's
   # "Install CLI" button only drops an imperative symlink in /opt/homebrew/bin, so we
@@ -187,6 +176,32 @@ in
         fi
       fi
     '';
+
+    # Claude Desktop rewrites this file at runtime (window + cowork state), atomically
+    # replacing any home.file symlink with a plain file — so a read-only store symlink
+    # can never hold it. Instead we own only the `mcpServers` slice: force it empty. No
+    # local stdio servers run in Desktop; every integration is a claude.ai connector
+    # (3rd-party, or the mcp.skielboe.com k3s gateway). All app-written keys are
+    # preserved; globalShortcut + preferences are seeded as defaults only (the app's own
+    # values win via the deep-merge below). This also keeps plaintext API tokens out of
+    # the on-disk config. To reintroduce a genuinely-local server, add it to the jq
+    # `.mcpServers = {...}` assignment here rather than a home.file block.
+    claudeDesktopMcpServers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      cfg="$HOME/Library/Application Support/Claude/claude_desktop_config.json"
+      seed='{"globalShortcut":"Alt+Space","preferences":{"menuBarEnabled":false,"quickEntryShortcut":{"accelerator":"Alt+Space"}}}'
+      if [ -f "$cfg" ]; then
+        tmp="$(${pkgs.coreutils}/bin/mktemp "$cfg.XXXXXX")"
+        if ${pkgs.jq}/bin/jq --argjson seed "$seed" '($seed * .) | .mcpServers = {}' "$cfg" > "$tmp"; then
+          ${pkgs.coreutils}/bin/mv -f "$tmp" "$cfg"
+        else
+          ${pkgs.coreutils}/bin/rm -f "$tmp"
+          echo "⚠️  claude_desktop_config.json isn't valid JSON; left it untouched." >&2
+        fi
+      else
+        ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$cfg")"
+        echo "$seed" | ${pkgs.jq}/bin/jq '.mcpServers = {}' > "$cfg"
+      fi
+    '';
   };
 
   home.file.".claude/.lsp.json".text = builtins.toJSON lspServers;
@@ -198,36 +213,4 @@ in
   home.file.".claude/commands/review-audit.md".source = ./claude-assets/commands/review-audit.md;
   home.file.".claude/commands/review-fix.md".source = ./claude-assets/commands/review-fix.md;
 
-  home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
-    force = true;
-    text = builtins.toJSON {
-      globalShortcut = "Alt+Space";
-      # Only genuinely-local tools live here. Everything served by the k3s gateway
-      # (trengo, dba, bilbasen, google-chat-moto/-hcc, bear) is reached remotely as
-      # a claude.ai connector at https://mcp.skielboe.com/<path>/mcp, not locally.
-      mcpServers = {
-        granola = {
-          command = "${pkgs.mcp-granola}/bin/granola-mcp-server";
-          args = [ ];
-          env = { };
-          iconPath = "${icons.granola}";
-        };
-        things = {
-          command = "${pkgs.mcp-things}/bin/things-mcp";
-          args = [ ];
-          env = { };
-          iconPath = "${icons.things}";
-        };
-        # outline moved to a claude.ai OAuth connector (its /mcp endpoint supports
-        # OAuth + dynamic client registration), so it no longer needs a local
-        # mcp-remote bridge or a plaintext bearer token baked into this config.
-      };
-      preferences = {
-        menuBarEnabled = false;
-        quickEntryShortcut = {
-          accelerator = "Alt+Space";
-        };
-      };
-    };
-  };
 }
