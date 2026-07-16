@@ -104,16 +104,6 @@ let
     exit 0
   '';
 
-  dbaMcp = {
-    command = "${pkgs.nodejs_22}/bin/node";
-    args = [ "/Users/askielboe/work/mcp/servers/dba/dist/index.js" ];
-    env = { };
-  };
-  bilbasenMcp = {
-    command = "${pkgs.nodejs_22}/bin/node";
-    args = [ "/Users/askielboe/work/mcp/servers/bilbasen/dist/index.js" ];
-    env = { };
-  };
 in
 {
   programs.claude-code = {
@@ -150,14 +140,9 @@ in
       };
     };
 
-    mcpServers = {
-      dba = dbaMcp // {
-        type = "stdio";
-      };
-      bilbasen = bilbasenMcp // {
-        type = "stdio";
-      };
-    };
+    # No local stdio MCP servers in the CLI: dba/bilbasen are served remotely by
+    # the k3s gateway (registered at claude.ai), not duplicated into local config.
+    mcpServers = { };
 
     skills = {
       refactor = ./claude-assets/skills/refactor;
@@ -233,16 +218,9 @@ in
           env = { };
           iconPath = "${icons.things}";
         };
-        outline = {
-          command = "${pkgs.nodejs_22}/bin/npx";
-          args = [
-            "-y"
-            "mcp-remote"
-            "https://mrssporty.getoutline.com/mcp"
-            "--header"
-            "Authorization: Bearer ${private.apiKeys.outline}"
-          ];
-        };
+        # outline moved to a claude.ai OAuth connector (its /mcp endpoint supports
+        # OAuth + dynamic client registration), so it no longer needs a local
+        # mcp-remote bridge or a plaintext bearer token baked into this config.
       };
       preferences = {
         menuBarEnabled = false;
