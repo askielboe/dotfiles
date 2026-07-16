@@ -1,18 +1,25 @@
 # shellcheck shell=bash
-# Left: gchat. Sourced by ../sketchybarrc.
+# Centre (position "q", native left-of-notch): gchat unread pills. Sourced by
+# ../sketchybarrc, LAST in the q block so it sits flush against the notch — i.e.
+# centre — and stays put when the transient focus HUD (pomodoro/micromanager,
+# also in q) appears to its left.
 #
-# Google Chat unread indicator: a single 󰭹 icon followed by one clickable count
-# per account, dot-separated — e.g. "󰭹 2·0". Each count is its own sketchybar
-# item (gchat.<label>, one per ~/.local/state/gchat/<label>.json), so clicking a
-# number opens *that* account (the poller sets its click_script to
-# https://chat.google.com/?authuser=<email>; see plugins/gchat.py). A count is
-# peach when that account has unread and dim grey at 0. "!" (red) means the
-# account's token was rejected (re-run gchat-login); "?" is a transient blip. The
-# dot separator is appended to each non-last count's label by the poller.
+# Google Chat unread indicator: a shared 󰭹 icon followed by one clickable count
+# per account — e.g. "󰭹 2 0". Each count is its own sketchybar item
+# (gchat.<label>, one per ~/.local/state/gchat/<label>.json), so clicking a number
+# opens *that* account (the poller sets its click_script to
+# https://chat.google.com/?authuser=<email>; see plugins/gchat.py).
 #
-# The left region stacks first-added = leftmost, so to read "󰭹 a·b" left→right we
-# add the shared icon first (leftmost) and then the counts in order. Enumerated at
-# bar load, so a new account needs a reload (`hs` does).
+# Look: an account with unread renders as a filled PILL — peach background, dark
+# (CRUST) count — so new messages read at a glance; an all-read account is a dim,
+# pill-less 0. "!" is a red pill (token rejected -> re-run gchat-login); "?" is a
+# dim transient network blip. The pill geometry (corner_radius/height) is set here;
+# plugins/gchat.py only toggles background.drawing + the colours each poll.
+#
+# The q region stacks first-added = leftmost (last-added = flush against the
+# notch). We add the shared icon first (leftmost) then the counts in order, so the
+# row reads "󰭹 a b" left→right. Enumerated at bar load, so a new account needs a
+# reload (`hs` does).
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/gchat"
 
 labels=()
@@ -27,7 +34,7 @@ fi
 
 if [ "${#labels[@]}" -eq 0 ]; then
   # Nothing set up yet: a single "login" prompt until `gchat-login <label>` runs.
-  sketchybar --add item gchat left \
+  sketchybar --add item gchat q \
     --set gchat \
       icon=󰭹 \
       icon.color="$TEXT" \
@@ -38,26 +45,31 @@ if [ "${#labels[@]}" -eq 0 ]; then
 else
   # Shared icon, leftmost (added first). Static: no script; clicking it opens the
   # default Chat account (the numbers are the per-account targets).
-  sketchybar --add item gchat left \
+  sketchybar --add item gchat q \
     --set gchat \
       icon=󰭹 \
       icon.color="$TEXT" \
-      icon.padding_right=3 \
+      icon.padding_right=4 \
       label.drawing=off \
       drawing=on \
       click_script="open 'https://chat.google.com/'"
   # Counts in on-screen order (left → right); each self-polls its own account. No
   # icon on the counts — the shared 󰭹 is a separate item, added first so it lands
-  # leftmost. Tight label padding keeps "N·M" reading as a unit.
+  # leftmost. Pill geometry lives here (rounded, 18px tall); the poller flips
+  # background.drawing on for the unread/error states and off when all-read. Label
+  # padding is the pill's inner padding, held constant so 0<->pill doesn't reflow.
   for ((i = 0; i < ${#labels[@]}; i++)); do
     label="${labels[$i]}"
-    sketchybar --add item "gchat.$label" left \
+    sketchybar --add item "gchat.$label" q \
       --set "gchat.$label" \
         icon.drawing=off \
         label=0 \
         label.color="$OVERLAY0" \
-        label.padding_left=2 \
-        label.padding_right=2 \
+        label.padding_left=6 \
+        label.padding_right=6 \
+        background.corner_radius=9 \
+        background.height=18 \
+        background.drawing=off \
         drawing=on \
         update_freq=60 \
         click_script="open 'https://chat.google.com/'" \

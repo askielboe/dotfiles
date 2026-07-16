@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""Google Chat unread indicator for sketchybar — one chip per account.
+"""Google Chat unread indicator for sketchybar — one pill per account.
 
 sketchybar routes a click to a whole item, not to a character inside its label,
-so a single item showing "2·1" can only ever open one account. To make each
+so a single item showing "2 1" can only ever open one account. To make each
 count independently clickable we run ONE item per account, named
 `gchat.<label>`, and this script polls exactly that account (its name arrives as
 $NAME, e.g. "gchat.work-a", and the label after the dot is the state-file stem).
 A separate static item owns the shared 󰭹 icon, so these count items carry no
-icon of their own — the bar reads "󰭹 2·0". The "·" separator is appended here to
-every count except the rightmost (last in sort order). items/gchat.sh declares
-the items by enumerating the state files at bar load.
+icon of their own — the bar reads "󰭹 2 0". An account with unread renders as a
+filled peach PILL with a dark count so new messages read at a glance; an all-read
+account is a dim, pill-less 0. items/gchat.sh declares the items (and their pill
+geometry) by enumerating the state files at bar load.
 
 Per account there is no "unread badge" endpoint, so we:
 
@@ -31,7 +32,7 @@ field, written by `gchat-login`; without it we fall back to the plain URL.
 Each account is one JSON state file under ~/.local/state/gchat/*.json (written by
 `gchat-login`). The OAuth access token is refreshed in place when near expiry,
 exactly like the claude_usage plugin; the rotating file lives outside the
-read-only nix store. Colour vars (TEXT/PEACH/RED/OVERLAY0) come from the
+read-only nix store. Colour vars (TEXT/PEACH/RED/OVERLAY0/CRUST) come from the
 environment — plugins/gchat.sh sources colors.sh before exec'ing this script.
 
 The per-space checks fan out across a thread pool so a large space list stays
@@ -70,6 +71,8 @@ TEXT = os.environ.get("TEXT", "0xffcdd6f4")
 PEACH = os.environ.get("PEACH", "0xfffab387")
 RED = os.environ.get("RED", "0xfff38ba8")
 OVERLAY0 = os.environ.get("OVERLAY0", "0xff6c7086")
+# Near-black, used as the dark text on the peach/red pills.
+CRUST = os.environ.get("CRUST", "0xff11111b")
 
 
 def _get(url, token, _retry=True):
@@ -111,17 +114,23 @@ def click_script_for(email):
     return f"open '{CHAT_URL}?{q}'"
 
 
-def render(label, color, drawing="on", click=None):
-    """Paint the count item's label (optionally its click target) and exit.
+def render(label, color, *, bg=None, drawing="on", click=None):
+    """Paint the count item and exit.
 
-    The shared 󰭹 lives on a separate static item, so we only ever set the label
-    here; the count items are created with icon.drawing=off.
+    `bg` (a colour) fills the label into a rounded PILL — used for the unread
+    (peach) and token-rejected (red) states so new messages read at a glance;
+    with no `bg` the label is a plain dim glyph (all-read 0 / transient "?").
+    The shared 󰭹 lives on a separate static item, so we only ever touch this
+    item's label + background here (the count items are icon.drawing=off).
     """
     args = [
         f"drawing={drawing}",
         f"label={label}",
         f"label.color={color}",
+        "background.drawing=" + ("on" if bg else "off"),
     ]
+    if bg:
+        args.append(f"background.color={bg}")
     if click is not None:
         args.append(f"click_script={click}")
     sb_set(*args)
@@ -237,23 +246,22 @@ def main():
 
     st = json.loads(state_path.read_text())
     click = click_script_for(st.get("email"))
-    # Dot-separate the counts: every account but the rightmost (last in sort
-    # order) carries a trailing separator so the row reads "2·0".
-    sep = "" if labels and label == labels[-1] else "·"
 
     try:
         token = access_token(state_path)
         count = account_unread(token)
     except urllib.error.HTTPError:
-        render(f"!{sep}", RED, click=click)  # token/quota rejected -> re-login
+        render("!", CRUST, bg=RED, click=click)  # token/quota rejected -> re-login
     except (urllib.error.URLError, OSError):
-        render(f"?{sep}", OVERLAY0, click=click)  # network down -> self-heals
+        render("?", OVERLAY0, click=click)  # network down -> self-heals
     except Exception:  # noqa: BLE001 - never crash the bar
-        render(f"!{sep}", RED, click=click)
+        render("!", CRUST, bg=RED, click=click)
 
-    # Peach when this account has unread, dim grey at 0 (always shown).
-    color = PEACH if count > 0 else OVERLAY0
-    render(f"{count}{sep}", color, click=click)
+    if count > 0:
+        # Unread: a peach pill with a dark count so new messages jump out.
+        render(str(count), CRUST, bg=PEACH, click=click)
+    # All read: a dim, pill-less 0 — present but quiet.
+    render("0", OVERLAY0, click=click)
 
 
 if __name__ == "__main__":

@@ -108,8 +108,6 @@ source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
 source "$ITEM_DIR/aerospace_mode.sh" # red SERVICE pill while in aerospace service mode
 # shellcheck source=items/front_app.sh
 # source "$ITEM_DIR/front_app.sh" # focused application
-# shellcheck source=items/gchat.sh
-source "$ITEM_DIR/gchat.sh"
 # shellcheck source=items/productive.sh
 source "$ITEM_DIR/productive.sh"
 # Full-day schedule strip (experiment) — supersedes the single next_meeting item
@@ -128,6 +126,10 @@ source "$ITEM_DIR/schedule.sh"
 source "$ITEM_DIR/pomodoro.sh" # current focus / pomodoro
 # shellcheck source=items/micromanager.sh
 source "$ITEM_DIR/micromanager.sh" # micromanager focus-block timer + app glyphs
+# gchat unread pills — also position "q", sourced LAST so it sits flush against
+# the notch (centre) and stays put while the focus HUD above appears to its left.
+# shellcheck source=items/gchat.sh
+source "$ITEM_DIR/gchat.sh" # Google Chat unread pills (centre)
 
 # ---- init --------------------------------------------------------------------
 
