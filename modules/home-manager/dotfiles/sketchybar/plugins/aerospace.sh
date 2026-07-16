@@ -2,8 +2,11 @@
 # Repaints the workspace items in a single sketchybar call. Each space.<ws> shows
 # its id (icon) plus a glyph per app in it (label, sketchybar-app-font) — like the
 # SketchyBar example. The focused one gets a mauve pill with dark text, other
-# non-empty ones a subtle surface pill, and empty ones are hidden (there are ~30
-# persistent workspaces). FOCUSED_WORKSPACE is set by the AeroSpace
+# occupied ones a subtle surface pill. The numbered home row 1-9 is ALWAYS shown —
+# as a dim bare number (no pill, no glyphs) when empty — so those slots are a
+# fixed, at-a-glance strip and free ones are obvious; the letter workspaces (A-Z)
+# only appear when they hold a window (or are focused), keeping the ~20 unused
+# letters out of the bar. FOCUSED_WORKSPACE is set by the AeroSpace
 # exec-on-workspace-change callback; on other events, ask aerospace.
 #
 # Speed matters here: this runs on every workspace switch and the focused pill
@@ -95,7 +98,19 @@ for ws in $("$AEROSPACE" list-workspaces --all); do
     *" $ws "*) set -- "$@" --set "space.$ws" drawing=on \
       label="$g" label.drawing=on label.color="$TEXT" \
       icon.color="$SUBTEXT0" background.drawing=on background.color="$SURFACE0" ;;
-    *) set -- "$@" --set "space.$ws" drawing=off ;;
+    # Empty & unfocused. The numbered home row 1-9 always stays visible, drawn as
+    # a dim bare number (no pill, no glyphs) so the digit strip is fixed and free
+    # slots are obvious at a glance. Letter workspaces (A-Z) instead hide when
+    # empty, keeping the ~20 unused letters out of the bar. Reset pill/label/icon
+    # state explicitly since items keep their prior look across repaints (a
+    # just-emptied workspace would otherwise carry its old pill).
+    *)
+      case "$ws" in
+      [1-9]) set -- "$@" --set "space.$ws" drawing=on \
+        label="" label.drawing=off icon.color="$OVERLAY0" background.drawing=off ;;
+      *) set -- "$@" --set "space.$ws" drawing=off ;;
+      esac
+      ;;
     esac
   fi
 done

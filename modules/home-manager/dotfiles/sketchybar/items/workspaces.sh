@@ -9,9 +9,11 @@ sketchybar --add event aerospace_workspace_change
 # One item per workspace, hidden until the controller paints it. Each shows the
 # workspace id (icon) plus a glyph per app in that workspace (label, rendered in
 # sketchybar-app-font — the controller fills it in). The focused one gets a mauve
-# background pill; other non-empty ones a subtle surface pill; empty ones are
-# hidden (there are ~30 persistent workspaces). label starts hidden so empty
-# workspaces show nothing until painted.
+# background pill; other occupied ones a subtle surface pill. The numbered home
+# row 1-9 always shows (a dim bare number, no pill/glyphs, when empty); letter
+# workspaces only show when they hold a window or are focused (there are ~30
+# persistent workspaces). label starts hidden so empty workspaces show only their
+# id until painted.
 # label.y_offset=-2: the id digit (Hack Nerd Font) and the app glyphs
 # (sketchybar-app-font) have different font metrics. sketchybar centres each
 # field on its own em box, but the app-font glyphs are top-heavy — their ink sits
