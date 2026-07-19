@@ -23,17 +23,16 @@
     home = "/Users/askielboe";
   };
 
-  nix = {
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 7d";
-    };
-    optimise = {
-      automatic = true;
-    };
-    settings = {
-      experimental-features = "nix-command flakes";
-    };
+  # Nix itself is managed by Determinate (see the `determinate` input + module in
+  # flake.nix), NOT nix-darwin. `determinateNix.enable` disables nix-darwin's Nix
+  # management; settings below are written to /etc/nix/nix.custom.conf.
+  determinateNix.enable = true;
+  determinateNix.customSettings = {
+    # The point of the migration: parallel evaluation across all 10 cores.
+    # 0 = all cores. (Determinate 3.16+ already defaults to unlimited; explicit.)
+    eval-cores = 0;
+    # Preserve the old nix.optimise.automatic (hardlink dedup on each store add).
+    auto-optimise-store = true;
   };
 
   # Fix the nixbld group ID due to changes in MacOS 15

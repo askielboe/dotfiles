@@ -2,6 +2,8 @@
   description = "Nix configuration";
 
   inputs = {
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -18,7 +20,6 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
     catppuccin.url = "github:catppuccin/nix/release-26.05";
-    catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
     packages.url = "path:./packages";
     packages.inputs.nixpkgs.follows = "nixpkgs";
@@ -143,6 +144,7 @@
         specialArgs = { inherit private inputs; };
         modules = [
           ./modules/darwin
+          inputs.determinate.darwinModules.default
           home-manager.darwinModules.home-manager
           {
             home-manager = {
