@@ -83,6 +83,22 @@ in
     };
   };
 
+  # Don't build the offline `man home-configuration.nix` manpage. This is the sole
+  # consumer of home-manager's generated options.json, which leaks a context-free
+  # nixpkgs store path and makes every `hs` print:
+  #   warning: Using 'builtins.derivation' to create a derivation named 'options.json'
+  #   that references the store path '/nix/store/…-source' without a proper context.
+  # Root cause is upstream (not fixable from here): HM imports nixpkgs'
+  # modules/generic/meta-maintainers.nix (meta.maintainers/meta.teams), whose
+  # declaration site is an absolute nixpkgs flake-input path. HM's docs
+  # `transformOptions` only relativises its OWN source tree + a literal
+  # "lib/modules.nix", so that nixpkgs path passes through into options.json;
+  # make-options-doc then unsafeDiscardStringContext's it. Old Nix stayed silent,
+  # but Determinate Nix warns on context-free store paths (surfaced by our
+  # nix-darwin→Determinate migration). The manpage is the only in-config knob;
+  # HTML manual + the online options search remain. Re-enable to restore it.
+  manual.manpages.enable = false;
+
   # Catppuccin theming, enabled globally. We WANT it on for every program that
   # supports it (Zed, bat, btop, …) — do NOT disable it per-program as a styling
   # preference. Per-program disables below are bug workarounds only.
