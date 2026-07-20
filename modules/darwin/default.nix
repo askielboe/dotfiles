@@ -33,6 +33,14 @@
     eval-cores = 0;
     # Preserve the old nix.optimise.automatic (hardlink dedup on each store add).
     auto-optimise-store = true;
+    # Catppuccin builds its own `whiskers` (a Rust binary, ~10 min from source)
+    # which isn't on cache.nixos.org. It's a build-only tool with no runtime GC
+    # root, so Determinate's disk-pressure GC evicts it between switches — pull
+    # it from the project's Cachix instead of recompiling every `hs`.
+    extra-substituters = [ "https://catppuccin.cachix.org" ];
+    extra-trusted-public-keys = [
+      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+    ];
   };
 
   # Fix the nixbld group ID due to changes in MacOS 15

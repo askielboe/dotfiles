@@ -3,3 +3,5 @@
 result
 age/
 secrets/private.nix
+# Nix eval cache written into cwd by root-run activation under lazy-trees
+.cache/
