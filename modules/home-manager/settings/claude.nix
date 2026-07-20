@@ -93,11 +93,56 @@ let
     exit 0
   '';
 
+  # A self-correcting `rg` for the ripgrep `-r` footgun. In GNU grep `-r` means
+  # "recursive"; in ripgrep `-r`/`--replace` instead takes the following text as a
+  # REPLACEMENT and rewrites every match (rg already recurses by default). A
+  # habit-driven `rg -rn` / `-rin` / `-nri` parses as --replace=n / =in / =i and
+  # silently rewrites the output — which reads back as "mangled," sending Claude off
+  # to re-Read the file for the real value.
+  #
+  # This is NOT enforced via a PreToolUse hook: a hook only sees the raw command
+  # STRING and can't tell which command a flag belongs to, so it false-fired on
+  # `rg -i … ; rm -rf …` (the `-rf` is rm's) and on the legitimate `rg -trust`
+  # (search Rust files: `-t` takes value "rust"), and even on a true hit Claude just
+  # abandoned rg. A wrapper sees rg's REAL argv, so it fixes exactly the footgun and
+  # nothing else — zero false positives.
+  #
+  # It rewrites only a cluster whose chars before `r` are all *boolean* short flags
+  # (so `-rn`→`-n`, `-rin`→`-in`); it leaves untouched `--replace=` (long form),
+  # `-r <text>` (space form), and value-taking clusters like `-trust` / `-glob`
+  # (their leading flag consumes the rest, so the `r` isn't --replace). It runs the
+  # real rg and prints a one-line stderr note so the correction is visible, not swept
+  # away. Wired in below via `claude-code.override { ripgrep = rgGuard; }` — that is
+  # the ONLY `rg` Claude's Bash tool and built-in Grep tool resolve to, because the
+  # nixpkgs claude-code wrapper sets USE_BUILTIN_RIPGREP=0 and PREPENDS its `ripgrep`
+  # input to PATH (ahead of the home-manager profile). Diagnosed 2026-07 from real
+  # sessions (`rg -rin "cachix|..."`).
+  rgGuard = pkgs.writeShellScriptBin "rg" ''
+    args=()
+    # A short cluster of boolean flags with ripgrep's -r (--replace) glued on:
+    # either `r` followed by more chars (-rn, -rin) or a trailing `r` after >=1
+    # boolean (-nr, -lir). Bare `-r`, `--replace=`, `-r <text>` (space form), and
+    # value-taking clusters like `-trust` (-t consumes "rust") are all excluded.
+    re='^-[acFhiIlLnNoPpqsSuUvwxz]*r[a-zA-Z0-9]|^-[acFhiIlLnNoPpqsSuUvwxz]+r$'
+    for a in "$@"; do
+      if [[ "$a" =~ $re ]]; then
+        fixed=''${a/r/}
+        echo "rg: corrected $a -> $fixed  (ripgrep -r is --replace, not grep-style recursive; rg already recurses)" >&2
+        args+=("$fixed")
+      else
+        args+=("$a")
+      fi
+    done
+    exec ${unstable.ripgrep}/bin/rg "''${args[@]}"
+  '';
+
 in
 {
   programs.claude-code = {
     enable = true;
-    package = unstable.claude-code;
+    # rgGuard replaces the ripgrep claude-code prepends to PATH (see the note in the
+    # let block), so every `rg` Claude runs self-corrects the `-r`/--replace footgun.
+    package = unstable.claude-code.override { ripgrep = rgGuard; };
 
     settings = {
       model = "opus";
