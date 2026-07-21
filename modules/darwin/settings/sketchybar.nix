@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, private, ... }:
 let
   # One-time interactive login that mints a user:profile-scoped OAuth token for
   # the claude_usage item and writes it to ~/.local/state/claude-usage/oauth.json.
@@ -79,6 +79,20 @@ in
       pkgs.fd
       pkgs.python3
     ];
+  };
+
+  # Give the launchd agent that services.sketchybar creates (label
+  # org.nixos.sketchybar) somewhere to write its stdout/stderr. The upstream
+  # module sets no Standard{Out,Error}Path, so when sketchybarrc fails to load —
+  # e.g. the daemon starts before home-manager links the config and caches an
+  # empty bar (the "blank grey band" failure, diagnosed 2026-07) — the error has
+  # nowhere to land and the breakage is invisible. These capture it so the next
+  # failure is diagnosable via ~/Library/Logs/sketchybar.err.log. serviceConfig
+  # merges with the module's ProgramArguments/KeepAlive/RunAtLoad on the same
+  # agent (additive attrs), so this only adds the two log-path keys.
+  launchd.user.agents.sketchybar.serviceConfig = {
+    StandardOutPath = "${private.user.homeDirectory}/Library/Logs/sketchybar.out.log";
+    StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/sketchybar.err.log";
   };
 
   # One-time OAuth login CLIs (see the let bindings): `claude-usage-login` mints
