@@ -31,8 +31,12 @@
     # The point of the migration: parallel evaluation across all 10 cores.
     # 0 = all cores. (Determinate 3.16+ already defaults to unlimited; explicit.)
     eval-cores = 0;
-    # Preserve the old nix.optimise.automatic (hardlink dedup on each store add).
-    auto-optimise-store = true;
+    # Deliberately NOT `auto-optimise-store`: that hard-links store paths inline
+    # on every store write, i.e. it puts dedup on the interactive `hs` path. It
+    # is NOT the old `nix.optimise.automatic` (that was a weekly, off-path launchd
+    # job). Enabling it against a store with a link backlog turned one `hs` into a
+    # ~6-min inline `nix store optimise`. Store dedup is background maintenance —
+    # see launchd.daemons.nix-optimise below, which runs it weekly, off the path.
     # Catppuccin builds its own `whiskers` (a Rust binary, ~10 min from source)
     # which isn't on cache.nixos.org. It's a build-only tool with no runtime GC
     # root, so Determinate's disk-pressure GC evicts it between switches — pull
@@ -46,4 +50,29 @@
   # Fix the nixbld group ID due to changes in MacOS 15
   # https://github.com/LnL7/nix-darwin/issues/1346
   ids.gids.nixbld = 350;
+
+  # Weekly store optimise, OFF the interactive `hs` path. This restores the old
+  # `nix.optimise.automatic` behaviour (a weekly, off-path launchd job), which
+  # determinateNix.enable disables. Hard-linking duplicate store files is
+  # background maintenance — keeping it here means `hs` never pays for it (see
+  # the auto-optimise-store note above). Sundays 03:15; RunAtLoad off so it can
+  # never fire during a switch. Uses the stable profile symlink so it survives
+  # Determinate upgrades.
+  launchd.daemons.nix-optimise.serviceConfig = {
+    ProgramArguments = [
+      "/nix/var/nix/profiles/default/bin/nix"
+      "store"
+      "optimise"
+    ];
+    StartCalendarInterval = [
+      {
+        Weekday = 0;
+        Hour = 3;
+        Minute = 15;
+      }
+    ];
+    RunAtLoad = false;
+    StandardOutPath = "/var/log/nix-optimise.log";
+    StandardErrorPath = "/var/log/nix-optimise.log";
+  };
 }
