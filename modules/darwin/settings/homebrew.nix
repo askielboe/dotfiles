@@ -80,6 +80,7 @@ in
       "appcleaner"
       "arq"
       "bitwarden"
+      "brave-browser"
       "claude"
       "cyberduck"
       "dbeaver-community"
