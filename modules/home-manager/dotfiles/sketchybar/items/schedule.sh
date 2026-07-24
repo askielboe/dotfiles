@@ -5,8 +5,10 @@
 #   09:00 Standup › 30m › 10:00 Design Review › 1h › 16:30 1:1 Bob
 # with break durations between meetings, already-ended meetings
 # dropped, the current meeting highlighted, and overlapping meetings shown as an
-# interruption timeline (the interrupted one resumes as a fresh segment). See
-# plugins/schedule.sh for all the logic.
+# interruption timeline (the interrupted one resumes as a fresh segment). A live
+# countdown to the next meeting is always shown: to the current meeting's end
+# while you're in it, to the next meeting's start while you're between meetings.
+# See plugins/schedule.sh for all the logic.
 #
 # Since a single sketchybar label is one solid colour, the strip is a POOL of
 # items (schedule.0 … schedule.N) painted by one invisible controller item, so

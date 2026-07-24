@@ -5,9 +5,11 @@
 #
 # Each SEGMENT is "start-time + calendar title"; the gaps between meetings
 # appear as their own "30m" / "1h30m" break segments. Meetings that have already
-# ended are dropped, so the strip shows only the current and upcoming ones: the
-# segment covering *now* is highlighted with a live countdown, upcoming ones are
-# normal. Because a single sketchybar label is one solid colour, the strip is
+# ended are dropped, so the strip shows only the current and upcoming ones. A
+# live countdown to the next meeting is ALWAYS present: the segment covering
+# *now* is highlighted and counts down to its END ("09:00 Standup · 12m"); when
+# no meeting is on, the leading (next) segment counts down to its START instead
+# ("14:00 Standup · in 25m"). Because a single sketchybar label is one solid colour, the strip is
 # drawn as a POOL of items (schedule.0 … schedule.N, registered in
 # items/schedule.sh) painted by this one invisible controller — that's what lets
 # each segment carry its own colour.
@@ -227,6 +229,7 @@ SCHED_SUMS=() # one label per event (an event may span >1 segment)
 SCHED_SEGC=() # colour (0xAARRGGBB)
 SCHED_SEGL=() # label
 SCHED_SEGK=() # kind: event | break
+SCHED_FIRST_SEG=1 # 1 until the first segment is emitted (marks the leading meeting)
 
 # Append one segment for the sweep span [s_start, s_end). idx == -1 -> a break
 # (nothing ongoing); else event `idx`: GREEN with a countdown if the span covers
@@ -234,6 +237,10 @@ SCHED_SEGK=() # kind: event | break
 # sweep, so the `past`/dim branch is just a guard and normally never fires.)
 _sched_emit_span() {
   local idx="$1" s_start="$2" s_end="$3" now="$4" color state hhmm label
+  # Is this the strip's leading segment? Consume the flag up front (breaks never
+  # lead, but mark it seen regardless so only the true first event can be tagged).
+  local is_first="$SCHED_FIRST_SEG"
+  SCHED_FIRST_SEG=0
   if [ "$idx" -eq -1 ]; then
     SCHED_SEGC+=("$SUBTEXT0")
     SCHED_SEGL+=("$(fmt_dur $((s_end - s_start)))")
@@ -254,7 +261,19 @@ _sched_emit_span() {
   *) color="$TEXT" ;;
   esac
   label="$hhmm ${SCHED_SUMS[$idx]}"
-  [ "$state" = current ] && label="$label · $(fmt_dur $((s_end - now)))"
+  if [ "$state" = current ]; then
+    # Ongoing meeting: count down to its END.
+    label="$label · $(fmt_dur $((s_end - now)))"
+  elif [ "$state" = future ] && [ "$is_first" -eq 1 ]; then
+    # Idle before the next meeting: the leading segment IS that meeting, so tag
+    # it with a live countdown to its START. Together with the current-meeting
+    # branch above this guarantees the strip always shows a countdown to the next
+    # meeting — to the current one's end while you're in it, to the next one's
+    # start while you're between meetings. Only the leading segment is tagged;
+    # later meetings keep just their start clock time (their distance is
+    # derivable and a countdown on every segment would clutter the strip).
+    label="$label · in $(fmt_dur $((s_start - now)))"
+  fi
   SCHED_SEGC+=("$color")
   SCHED_SEGL+=("$label")
   SCHED_SEGK+=("event")
@@ -276,6 +295,7 @@ render_schedule() {
   SCHED_SEGC=()
   SCHED_SEGL=()
   SCHED_SEGK=()
+  SCHED_FIRST_SEG=1
 
   local line title dt times ntok shhmm ehhmm s e today first_title="" parsed=0
   today="$(/bin/date +%Y-%m-%d)"
