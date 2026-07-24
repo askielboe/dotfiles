@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 # Right: the (invisible) system-stats controller + its event. Sourced by
 # ../sketchybarrc. Draws nothing itself — it repaints the passive cpu (items/cpu.sh),
-# disk (items/disk.sh), net_up/net_down and netpeak (items/network.sh) items from one
+# disk (items/disk.sh), and net_up/net_down (items/network.sh) items from one
 # system_stats event via ../plugins/stats.sh. Source it after those items so they
 # exist when the first event fires.
 #
