@@ -79,6 +79,8 @@ in
       ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude-trusted' -- --dangerously-skip-permissions";
       wm = "wt merge";
       cm = "claude --dangerously-skip-permissions --continue 'Fix the merge conflicts. Do NOT merge or commit ONLY do rebase continue. Preserve any functionality added to main outside this branch.'";
+      t = "task";
+      tt = "taskwarrior-tui";
 
     };
   };
