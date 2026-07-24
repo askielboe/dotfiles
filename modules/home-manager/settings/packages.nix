@@ -138,6 +138,8 @@ in
     sqlite
     ssm-session-manager-plugin
     statix
+    taskwarrior3
+    taskwarrior-tui
     terraform
     tree
     unstable.devenv
