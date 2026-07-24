@@ -56,6 +56,138 @@ CAL_ENV="${XDG_STATE_HOME:-$HOME/.local/state}/sketchybar/calendars.env"
 # Number of display items registered in items/schedule.sh — KEEP IN SYNC.
 SCHED_POOL=14
 
+# --- responsive width fitting -------------------------------------------------
+# The strip is left-anchored and grows rightward; on a narrow display it would
+# otherwise run under the notch (or into the right-hand stats cluster / centre
+# focus HUD). compute_avail_px measures, from sketchybar's live per-display
+# bounding_rects, how many pixels the strip actually has, and render_schedule
+# then drops trailing segments into the existing "+N" slot so it always fits.
+#
+# Font metrics measured from the live bar (Hack Nerd Font: label Regular 13,
+# chevron Bold 16): ~7.85 px/char, ~7 px slot-0 padding, ~16 px chevron-slot
+# overhead. Rounded UP so estimates never under-shoot (better to keep the strip
+# a touch short than to overflow behind the notch).
+SCHED_CHAR_T=79    # px×10 per label char (7.9)
+SCHED_OH_FIRST=7   # slot 0 (no chevron) fixed padding
+SCHED_OH_CHEV=16   # chevron slot fixed overhead (paddings + glyph)
+SCHED_PLUSN_W=44   # px reserved for the trailing "+N" overflow slot
+
+# Half the bar's notch_width (KEEP IN SYNC with notch_width in ../sketchybarrc)
+# plus a little clearance. On the notched built-in display this keeps the strip
+# clear of the camera housing; on external displays it doubles as a centre
+# keep-out so the strip never collides with the centred pomodoro/micromanager/
+# gchat HUD. sketchybar doesn't report notch_width back, so it's mirrored here.
+SCHED_NOTCH_MARGIN=110
+SCHED_END_GAP=12          # breathing room before the computed limit
+SCHED_START_FALLBACK=104  # strip left edge to assume if schedule.0 isn't drawn yet
+
+# The strip is bounded on the right by whichever cluster is nearest.
+# compute_avail_px queries these by name (one blob each, for bash-3.2 simplicity):
+#   right cluster  — leftmost visible member is the obstacle: claude_usage is
+#                    leftmost, cpu/clock are always-on fallbacks;
+#   centre cluster — the focus HUD (pomodoro/micromanager) + gchat pills by the
+#                    notch.
+
+# Floored origin.x of item-JSON $1 on display key $2, or empty when the item is
+# not drawn there (hidden items park at x=-9999).
+_sched_origin_x() {
+  [ -n "$1" ] || return 0
+  printf '%s' "$1" | jq -r --arg d "$2" '
+    (.bounding_rects[$d].origin[0] // -9999) | floor
+    | if . > 0 then . else empty end' 2>/dev/null
+}
+
+# Smallest of the (possibly empty) integer args; empty if all are empty.
+_sched_min() {
+  local m="" v
+  for v in "$@"; do
+    [ -n "$v" ] || continue
+    { [ -z "$m" ] || [ "$v" -lt "$m" ]; } && m="$v"
+  done
+  printf '%s' "$m"
+}
+
+# Pixel budget available to the strip = min over active displays of
+#   (nearest right-obstacle x)  −  (strip start x)  −  gap
+# where the right-obstacle is the closest of {notch/centre keep-out, right stats
+# cluster, centre HUD}. Prints an integer; prints nothing (→ no width cap) if
+# sketchybar can't be queried, so the plugin degrades to pool-only truncation.
+compute_avail_px() {
+  local displays
+  displays="$(sketchybar --query displays 2>/dev/null)" || return 0
+  [ -n "$displays" ] || return 0
+
+  # Query each reference item once; extract per-display origins from the blobs.
+  local j_sched0 j_usage j_cpu j_clock j_pomo j_mm j_ga j_gb
+  j_sched0="$(sketchybar --query schedule.0 2>/dev/null)"
+  j_usage="$(sketchybar --query claude_usage 2>/dev/null)"
+  j_cpu="$(sketchybar --query cpu 2>/dev/null)"
+  j_clock="$(sketchybar --query clock 2>/dev/null)"
+  j_pomo="$(sketchybar --query pomodoro 2>/dev/null)"
+  j_mm="$(sketchybar --query micromanager 2>/dev/null)"
+  j_ga="$(sketchybar --query gchat.work-a 2>/dev/null)"
+  j_gb="$(sketchybar --query gchat.work-b 2>/dev/null)"
+
+  local best="" id dkey w center start rx cx limit budget
+  while IFS= read -r id; do
+    [ -n "$id" ] || continue
+    dkey="display-$id"
+    w="$(printf '%s' "$displays" | jq -r --argjson id "$id" \
+      '.[] | select(.["arrangement-id"] == $id) | .frame.w | floor')"
+    [ -n "$w" ] || continue
+    center=$((w / 2))
+
+    start="$(_sched_origin_x "$j_sched0" "$dkey")"
+    [ -n "$start" ] || start=$SCHED_START_FALLBACK
+    rx="$(_sched_min "$(_sched_origin_x "$j_usage" "$dkey")" \
+      "$(_sched_origin_x "$j_cpu" "$dkey")" "$(_sched_origin_x "$j_clock" "$dkey")")"
+    cx="$(_sched_min "$(_sched_origin_x "$j_pomo" "$dkey")" \
+      "$(_sched_origin_x "$j_mm" "$dkey")" "$(_sched_origin_x "$j_ga" "$dkey")" \
+      "$(_sched_origin_x "$j_gb" "$dkey")")"
+
+    limit=$((center - SCHED_NOTCH_MARGIN))
+    [ -n "$rx" ] && [ "$rx" -lt "$limit" ] && limit=$rx
+    [ -n "$cx" ] && [ "$cx" -lt "$limit" ] && limit=$cx
+
+    budget=$((limit - start - SCHED_END_GAP))
+    [ "$budget" -lt 0 ] && budget=0
+    { [ -z "$best" ] || [ "$budget" -lt "$best" ]; } && best=$budget
+  done <<EOF
+$(printf '%s' "$displays" | jq -r '.[] | .["arrangement-id"]')
+EOF
+
+  printf '%s' "$best"
+}
+
+# Estimated rendered width (px) of segment index $1 (reads SCHED_SEGL). Every
+# segment but index 0 carries a leading chevron.
+_sched_seg_px() {
+  local i="$1" len oh
+  len=${#SCHED_SEGL[$i]}
+  if [ "$i" -eq 0 ]; then oh=$SCHED_OH_FIRST; else oh=$SCHED_OH_CHEV; fi
+  printf '%s' "$((oh + (len * SCHED_CHAR_T + 9) / 10))"
+}
+
+# How many leading segments fit in $1 px, reserving room for a "+N" slot when it
+# must truncate. Always keeps at least 1. Reads SCHED_SEGL.
+_sched_fit_count() {
+  local avail="$1" total=${#SCHED_SEGL[@]} acc=0 i w keep=0
+  for ((i = 0; i < total; i++)); do
+    w="$(_sched_seg_px "$i")"
+    [ "$((acc + w))" -gt "$avail" ] && break
+    acc=$((acc + w))
+    keep=$((keep + 1))
+  done
+  if [ "$keep" -lt "$total" ]; then
+    while [ "$keep" -gt 1 ] && [ "$((acc + SCHED_PLUSN_W))" -gt "$avail" ]; do
+      keep=$((keep - 1))
+      acc=$((acc - $(_sched_seg_px "$keep")))
+    done
+  fi
+  [ "$keep" -lt 1 ] && keep=1
+  printf '%s' "$keep"
+}
+
 # When there are no current or upcoming meetings the strip celebrates instead of
 # going blank: SCHED_FREE_MSG when the day has no meetings at all, SCHED_DONE_MSG
 # once the day's meetings are all finished. Emoji render in colour in the label
@@ -128,12 +260,15 @@ _sched_emit_span() {
   SCHED_SEGK+=("event")
 }
 
-# render_schedule NOW  (reads icalBuddy "<title>@@<HH:MM - HH:MM>" lines on stdin)
+# render_schedule NOW [AVAIL_PX]  (reads icalBuddy "<title>@@<HH:MM - HH:MM>"
+# lines on stdin). AVAIL_PX (optional) is the pixel budget from compute_avail_px;
+# when >0 the strip is truncated to fit it, else it falls back to the pool cap
+# only (which also keeps this testable with fixtures — pass no AVAIL_PX).
 # Emits, in strip order:
 #   seg<TAB><chev 0|1><TAB><color><TAB><label>     one per visible segment
 #   ctrl<TAB><used_count><TAB><update_freq>
 render_schedule() {
-  local now="$1"
+  local now="$1" avail_px="${2:-}"
   SCHED_TITLES=()
   SCHED_STARTS=()
   SCHED_ENDS=()
@@ -238,18 +373,37 @@ render_schedule() {
   done
   ((prev != -2)) && _sched_emit_span "$prev" "$span_start" "${BOUNDS[$((nb - 1))]}" "$now"
 
-  # Cap to the pool; if it overflows, the last slot becomes a "+N" of the dropped
-  # event segments (breaks don't count).
-  local total=${#SCHED_SEGC[@]} k chev used dropped
-  if [ "$total" -gt "$SCHED_POOL" ]; then
-    used=$((SCHED_POOL - 1))
+  # Truncate to (a) the pixel budget of the narrowest active display and (b) the
+  # pool. Keep the leading segments that fit; collapse the rest into a "+N" slot
+  # counting the dropped EVENT segments (breaks don't count). "+0" is never shown
+  # — if only trailing breaks fall off, they're simply dropped.
+  local total=${#SCHED_SEGC[@]} k chev keep dropped
+  keep=$total
+  if [ -n "$avail_px" ] && [ "$avail_px" -gt 0 ] 2>/dev/null; then
+    keep="$(_sched_fit_count "$avail_px")"
+  fi
+  [ "$keep" -gt "$SCHED_POOL" ] && keep=$SCHED_POOL
+
+  if [ "$keep" -lt "$total" ]; then
+    # Truncated — reserve a slot for "+N" inside the pool, then collapse.
+    [ "$keep" -ge "$SCHED_POOL" ] && keep=$((SCHED_POOL - 1))
     dropped=0
-    for ((k = used; k < total; k++)); do
+    for ((k = keep; k < total; k++)); do
       [ "${SCHED_SEGK[$k]}" = event ] && dropped=$((dropped + 1))
     done
-    SCHED_SEGC[$used]="$OVERLAY0"
-    SCHED_SEGL[$used]="+$dropped"
-    total=$((used + 1))
+    if [ "$dropped" -gt 0 ]; then
+      SCHED_SEGC[$keep]="$OVERLAY0"
+      SCHED_SEGL[$keep]="+$dropped"
+      SCHED_SEGK[$keep]="more"
+      total=$((keep + 1))
+    else
+      total=$keep # only trailing breaks fell off — no "+N" needed
+    fi
+  else
+    # Everything fits — just don't dangle a trailing break segment.
+    while [ "$total" -gt 1 ] && [ "${SCHED_SEGK[$((total - 1))]}" = break ]; do
+      total=$((total - 1))
+    done
   fi
 
   for ((k = 0; k < total; k++)); do
@@ -321,8 +475,11 @@ main() {
     sketchybar "${args[@]}"
     exit 0
   fi
-  local now out
+  local now out avail
   now="$(/bin/date +%s)"
+  # Live pixel budget for the strip (min across active displays); empty on query
+  # failure, in which case render_schedule falls back to the pool cap only.
+  avail="$(compute_avail_px)"
   # Fetch the WHOLE day, not just -n upcoming: a currently-ongoing meeting
   # started in the past, so we must see past-starting events too — render_schedule
   # keeps them by endtime and drops only the already-ended ones. -li 20 catches
@@ -330,7 +487,7 @@ main() {
   # (icalBuddy returns them sorted by start, which render_schedule then sweeps).
   out="$("$ICALBUDDY" -ic "$SCHED_CALENDARS" -ea -nc -npn -nrd -b '' -ps '|@@|' \
     -iep 'title,datetime' -df '%Y-%m-%d' -tf '%H:%M' -li 20 eventsToday \
-    2>/dev/null | render_schedule "$now")"
+    2>/dev/null | render_schedule "$now" "$avail")"
   apply_schedule "$out"
 }
 
