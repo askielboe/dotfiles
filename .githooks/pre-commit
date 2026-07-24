@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Pre-commit secret scan. Blocks a commit that would introduce credentials into
+# git history (the one thing that's expensive to undo once pushed). This is a
+# backstop for secrets/private.nix's `.gitignore` — it also catches a stray
+# `git add -f secrets/private.nix` or a token hardcoded into any other file.
+#
+# Enable once with:  just install-hooks   (sets core.hooksPath to .githooks)
+#
+# Note: GitButler's `but commit` does not run git hooks by default, so this
+# guards raw `git commit`. Keep secrets in secrets/private.nix regardless.
+set -euo pipefail
+
+scan() { gitleaks git --staged --redact --no-banner --verbose; }
+
+if command -v gitleaks >/dev/null 2>&1; then
+  scan
+elif command -v nix-shell >/dev/null 2>&1; then
+  # gitleaks lands on PATH after the next `hs`; until then, fetch it on demand.
+  nix-shell -p gitleaks --run 'gitleaks git --staged --redact --no-banner --verbose'
+else
+  echo "pre-commit: gitleaks not found and nix-shell unavailable." >&2
+  echo "Install gitleaks (or run \`hs\`) to enable the secret scan." >&2
+  exit 1
+fi

@@ -8,6 +8,28 @@ but_skill_dir := "modules/home-manager/settings/claude-assets/skills/gitbutler"
 default:
     @just --list
 
+# Install the tracked secret-scanning pre-commit hook. Idempotent, GitButler-aware.
+install-hooks:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{justfile_directory()}}"
+    chmod +x .githooks/pre-commit
+    pc=".git/hooks/pre-commit"
+    if [ -f "$pc" ] && grep -q GITBUTLER_MANAGED_HOOK_V1 "$pc"; then
+        # GitButler owns .git/hooks/pre-commit and runs `pre-commit-user` first,
+        # aborting the commit if it exits non-zero. Chain under it — do NOT set
+        # core.hooksPath here, which would disable GitButler's workspace guard.
+        ln -sf ../../.githooks/pre-commit .git/hooks/pre-commit-user
+        echo "Installed as .git/hooks/pre-commit-user (chains under GitButler's hook)."
+    else
+        git config core.hooksPath .githooks
+        echo "core.hooksPath -> .githooks (pre-commit runs gitleaks on staged changes)."
+    fi
+
+# Scan the entire git history for committed secrets.
+scan-secrets:
+    nix-shell -p gitleaks --run 'gitleaks git --no-banner --redact --verbose'
+
 # Re-vendor the `but` skill to match the installed GitButler app, then commit it.
 update-but-skill:
     #!/usr/bin/env bash

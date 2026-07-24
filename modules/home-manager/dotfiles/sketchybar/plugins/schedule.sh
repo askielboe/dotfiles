@@ -42,8 +42,16 @@ ICALBUDDY="/opt/homebrew/bin/icalBuddy"
 # match — not a substring, so "Andreas" never catches "Andreas Studievejledning").
 # Their events are merged into ONE timeline: the strip makes no per-calendar
 # distinction, so overlaps across calendars interleave like same-calendar ones.
-# `icalBuddy calendars` lists the available names. Add more here, comma-joined.
-SCHED_CALENDARS='Andreas,askielboe@hccreators.com'
+# `icalBuddy calendars` lists the available names.
+#
+# The list contains a work email, so it's machine-specific and NOT stored in the
+# repo: home-manager writes it from secrets/private.nix (see darwin-specific.nix,
+# ~/.local/state/sketchybar/calendars.env). Edit that private value to add
+# calendars. The fallback keeps the strip from erroring on an unprovisioned box.
+CAL_ENV="${XDG_STATE_HOME:-$HOME/.local/state}/sketchybar/calendars.env"
+# shellcheck source=/dev/null
+[ -r "$CAL_ENV" ] && source "$CAL_ENV"
+: "${SCHED_CALENDARS:=Calendar}"
 
 # Number of display items registered in items/schedule.sh — KEEP IN SYNC.
 SCHED_POOL=14

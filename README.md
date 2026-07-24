@@ -64,3 +64,26 @@ sops secrets/restic.yaml
 ```
 
 Based on https://github.com/lanjoni/snowflake.
+
+## Secret scanning
+
+Nix eval-time secrets and machine-specific values (tokens, hostnames, a work
+email, etc.) live in `secrets/private.nix`, which is gitignored and never
+committed. As a backstop, a tracked pre-commit hook scans staged changes with
+[gitleaks](https://github.com/gitleaks/gitleaks) and blocks any commit that would
+introduce a credential (including an accidental `git add -f secrets/private.nix`).
+
+Enable it once per clone:
+
+```bash
+just install-hooks
+```
+
+It's GitButler-aware: under a GitButler workspace it installs as `pre-commit-user`
+so it chains beneath GitButler's own hook; otherwise it sets `core.hooksPath`.
+Note that GitButler's `but commit` does not run git hooks by default, so the hook
+primarily guards raw `git commit`. To audit the full history at any time:
+
+```bash
+just scan-secrets
+```

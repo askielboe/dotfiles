@@ -60,6 +60,12 @@ in
         # `launchctl kickstart -k gui/$UID/org.nixos.sketchybar` fixes it.
         onChange = "/run/current-system/sw/bin/sketchybar --reload || true";
       };
+      # Machine-specific calendar list for the sketchybar schedule strip
+      # (plugins/schedule.sh sources this at runtime). Kept out of the tracked
+      # repo because it contains a work email; provisioned from secrets/private.nix.
+      ".local/state/sketchybar/calendars.env".text = ''
+        SCHED_CALENDARS='${private.schedule.calendars}'
+      '';
       # openpomodoro-cli runs these on start / finish / cancel; both point at the
       # same script, which triggers the pomodoro_update event so the sketchybar
       # `pomodoro` center item repaints immediately. The `pomodoro` binary keeps
@@ -95,6 +101,7 @@ in
       nh # nix-helper: drives `hs` — nvd package diff, elevation only for activation
       unstable.colima # lima dependency is EOL in stable
       ripsecrets # Find secrets
+      gitleaks # Secret scanner — backs the .githooks/pre-commit hook
       transmission_4
       yt-dlp
     ];

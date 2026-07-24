@@ -26,6 +26,12 @@
     computerName = "your-hostname";
   };
 
+  schedule = {
+    # icalBuddy calendar names drawn in the sketchybar schedule strip (exact,
+    # comma-separated). `icalBuddy calendars` lists the available names.
+    calendars = "Personal,you@work.example.com";
+  };
+
   apiKeys = {
     circleci = "your-circleci-token";
     slackUser = "xoxp-your-slack-user-token";
