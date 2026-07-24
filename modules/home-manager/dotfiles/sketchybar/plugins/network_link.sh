@@ -25,12 +25,6 @@ for ifc in $(ifconfig -l); do
   [ -n "$mbit" ] && { eth_speed="$mbit"; break; }
 done
 
-# Wired-link token for the throughput peak reset below: interface:speed while a
-# cable is up, empty otherwise. Speed is part of the token so a renegotiated link
-# (a fresh cable/dock) counts as a new connection.
-wired_tok=""
-[ -n "$eth_speed" ] && wired_tok="${ifc}:${eth_speed}"
-
 if [ -n "$eth_speed" ]; then
   sketchybar --set eth drawing=on label=""
 else
@@ -48,22 +42,6 @@ wifi_if="$(networksetup -listallhardwareports 2>/dev/null | awk '/Wi-Fi/{getline
 
 wifi_up=0
 ifconfig "$wifi_if" 2>/dev/null | grep -q "status: active" && wifi_up=1
-
-# Throughput peak reset (net_peak, painted inline with the live rates by
-# stats.sh). The peak covers "since the network was connected last", so zero it
-# whenever the connection identity changes: a wired cable/dock plugged or
-# renegotiated, or Wi-Fi associating/dropping. The Wi-Fi part of the token is a
-# plain up/down flag, not any per-poll link rate — a drifting rate would reset
-# the peak constantly. Cheap ifconfig checks only; the ~6s system_profiler below
-# stays gated on wifi_up. State lives outside the read-only nix store, alongside
-# the other sketchybar runtime state.
-STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/sketchybar"
-mkdir -p "$STATE_DIR"
-net_tok="${wired_tok}|${wifi_up}"
-if [ "$net_tok" != "$(cat "$STATE_DIR/net_link" 2>/dev/null)" ]; then
-  printf '0 0\n' >"$STATE_DIR/net_peak"
-  printf '%s\n' "$net_tok" >"$STATE_DIR/net_link"
-fi
 
 if [ "$wifi_up" = 1 ]; then
   air="$(system_profiler SPAirPortDataType 2>/dev/null \
