@@ -1,12 +1,13 @@
 #!/bin/bash
 # Right-side "next meeting" item — a minimal MeetingBar that shows whichever
 # calendar boundary is nearest in time:
-#   • an UPCOMING event   -> "<start time> · <title>"   (e.g. "14:00 · Standup")
-#   • the CURRENT event   -> "<title> · <time left>"    (e.g. "Standup · 12m")
+#   • an UPCOMING event   -> "<start> <title> · in <countdown>"  ("14:00 Standup · in 12m")
+#   • the CURRENT event   -> "<title> · <time left>"             ("Standup · 12m")
 # whichever transition (next event's START or current event's END) comes first.
 # So while you're in a meeting it counts down to its end, but if the next meeting
 # is about to start it surfaces that instead — the item always answers "what's
-# the next change on my calendar?".
+# the next change on my calendar?". Either way a live countdown is always shown:
+# to the next meeting's start when upcoming, to the current one's end when in it.
 #
 # Overlaps: when several events are live/imminent we fetch a handful (-li 5,
 # icalBuddy sorts by start ascending so ongoing events lead) and pick the soonest
@@ -141,7 +142,12 @@ render_decision() {
     label="$btitle · $(fmt_remaining "$secs")"
   else
     secs=$((bstart - now))
-    label="$(/bin/date -j -f %s "$bstart" '+%H:%M') · $btitle"
+    # Upcoming: absolute start + a live countdown TO it ("14:00 Standup · in
+    # 12m"), so you always see both when it is and how far off it is. The "in"
+    # and the leading clock time keep it distinct from the ongoing format above
+    # (title-first, bare trailing duration). The freq ramp below keys off `secs`
+    # (== time-to-start here), so the countdown ticks at the right cadence.
+    label="$(/bin/date -j -f %s "$bstart" '+%H:%M') $btitle · in $(fmt_remaining "$secs")"
   fi
   # Flag a genuine double-booking (2+ events covering now) with the count of the
   # other concurrent events. ASCII "+N" renders in any font (Hack Nerd Font can

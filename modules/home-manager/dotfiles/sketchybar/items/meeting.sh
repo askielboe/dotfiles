@@ -2,9 +2,9 @@
 # Left: next_meeting. Sourced by ../sketchybarrc.
 #
 # Minimal MeetingBar showing the nearest calendar boundary via icalBuddy (see
-# plugins/meeting.sh): an upcoming event as "<start> · <title>" (e.g.
-# "14:00 · Standup"), or the current event counting down as "<title> · <time
-# left>" (e.g. "Standup · 12m") — whichever transition comes first. A "+N" suffix
+# plugins/meeting.sh): an upcoming event with a live countdown to its start
+# ("14:00 Standup · in 12m"), or the current event counting down to its end
+# ("Standup · 12m") — whichever transition comes first. A "+N" suffix
 # flags a double-booking. Sits just left of the clock. Hidden until the plugin
 # paints an event; needs Calendar access granted to the sketchybar agent on first
 # run (Privacy & Security ▸ Calendars). update_freq here is only the initial
