@@ -42,6 +42,7 @@ in
     ./settings/sqlit.nix
     ./settings/ssh.nix
     ./settings/syncthing.nix
+    ./settings/taskwarrior.nix
     ./settings/tmux.nix
     ./settings/whisper.nix
     ./settings/zed.nix
