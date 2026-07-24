@@ -78,3 +78,33 @@ update-but-skill:
     fi
 
     echo "Committed re-vendored but skill (${ver:-unknown}). Run \`hs\` to apply."
+
+# Tier-0 Linux guard: dry-run evaluate the standalone home-manager config for
+# Linux straight from macOS — no Linux box needed. Catches eval/overlay/broken-
+# platform breakage (e.g. an ungated macOS-only package) in seconds. Run before
+# pushing changes that could affect the shared modules.
+check-linux arch="aarch64-linux":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{justfile_directory()}}"
+    user="$(nix eval --impure --raw --expr '(import ./secrets/private.nix).user.username')"
+    target=".#homeConfigurations.${user}-{{arch}}.activationPackage"
+    echo "Dry-run evaluating ${target} ..."
+    nix build --dry-run --impure "$target"
+    echo "OK: ${target} evaluates cleanly."
+
+# Tier-2 Linux e2e: full install-Nix -> build -> activate -> smoke-test in a
+# throwaway Ubuntu container (native aarch64 on Apple Silicon). Needs Docker /
+# colima running. This is the real "does it deploy on Ubuntu" test.
+test-linux:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    docker run --rm -v "{{justfile_directory()}}:/work:ro" -w /work ubuntu:24.04 \
+        bash tests/linux-e2e.sh
+
+# Same e2e under x86_64 emulation (slower; validates the Intel target too).
+test-linux-x86:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    docker run --rm --platform linux/amd64 -v "{{justfile_directory()}}:/work:ro" -w /work ubuntu:24.04 \
+        bash tests/linux-e2e.sh

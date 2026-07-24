@@ -1,0 +1,34 @@
+name: linux-e2e
+
+# End-to-end check that the standalone home-manager (Linux) config still installs
+# on a real Ubuntu userland. macOS changes to the shared modules are the usual way
+# the Linux path silently breaks; this guards against that on every push/PR.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: linux-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    # Native arm64 (matches the arm64-everywhere target). If arm64 runners aren't
+    # available on this repo's plan, change this to `ubuntu-latest`: the flake also
+    # builds the -x86_64-linux output, and tests/linux-e2e.sh picks the arch from
+    # `uname -m`, so no other change is needed.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      # Self-contained: the script provisions a throwaway user, installs Nix,
+      # writes a placeholder secrets/private.nix from the example, then builds +
+      # activates + smoke-tests — the same path as `just test-linux` locally.
+      # (Speed-up for later: swap this for DeterminateSystems/nix-installer-action
+      # to get the FlakeHub build cache, and run the script as the runner user.)
+      - name: Build + activate + smoke-test the Linux home-manager config
+        run: sudo -E bash tests/linux-e2e.sh
