@@ -48,6 +48,11 @@
       hostname = "your-storagebox.de";
       user = "your-storagebox-user";
     };
+    storageboxAudiobooks = {
+      hostname = "your-storagebox.de";
+      port = 23;
+      user = "your-storagebox-sub-user";
+    };
     paperless = {
       hostname = "0.0.0.0";
       port = 22;
@@ -79,6 +84,16 @@
     k3s = {
       hostname = "0.0.0.0";
       user = "root";
+      identityFile = "~/.ssh/id_rsa-your-key";
+    };
+    oci1 = {
+      hostname = "0.0.0.0";
+      user = "ubuntu";
+      identityFile = "~/.ssh/id_rsa-your-key";
+    };
+    oci2 = {
+      hostname = "0.0.0.0";
+      user = "ubuntu";
       identityFile = "~/.ssh/id_rsa-your-key";
     };
   };

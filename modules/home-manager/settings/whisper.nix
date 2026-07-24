@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   whisperLargeV3TurboQ5Model = pkgs.fetchurl {
@@ -19,7 +19,10 @@ let
   };
 in
 {
-  home = {
+  # macOS-only dictation workflow: pulls several GB of whisper models into the
+  # store via home.file. Gated to Darwin so the lean Linux config (and its e2e)
+  # never fetch them.
+  home = lib.mkIf pkgs.stdenv.isDarwin {
     packages = with pkgs; [
       whisper-cpp
     ];

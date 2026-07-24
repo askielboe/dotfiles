@@ -56,101 +56,108 @@ let
 in
 
 {
-  home.packages = with pkgs; [
-    age
-    bitwarden-cli
-    btop
-    bun
-    bzip2
-    cargo
-    ccache
-    clickhouse
-    clippy
-    coreutils
-    curl
-    d2
-    dbt
-    deadnix
-    deploy-rs
-    devbox
-    difftastic
-    docker
-    docker-compose
-    duckdb
-    duf # Disk usage
-    dust # Disk usage by folder
-    exiftool
-    fd
-    ffmpeg
-    findutils
-    fswatch
-    gawk
-    gh
-    git
-    git-annex
-    git-filter-repo
-    gnugrep
-    gnumake
-    gnupg
-    gnused
-    gnutar
-    go
-    google-cloud-sdk
-    gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
-    hcloud
-    htop
-    httpie
-    hugo
-    imagemagick
-    jq
-    just
-    k9s
-    killall
-    kubectl
-    kubernetes-helm
-    magic-wormhole
-    mariadb
-    mcp-granola
-    mcp-things
-    mise
-    mr # myrepos: run sync/status/etc. across many repos at once
-    ngrok
-    nixfmt # Formatter for nix files
-    nixpkgs-review
-    npm-check-updates
-    openpomodoro-cli # `pomodoro start "task"`; drives the sketchybar center item
-    openssh
-    parallel
-    postgresql
-    qsv # CSV wrangler
-    rclone
-    repomix-skeleton
-    restic
-    resticprofile
-    ripgrep
-    rsync
-    rust-analyzer
-    rustc
-    rustfmt
-    sourcekit-lsp
-    specify-cli # GitHub Spec Kit: bootstrap projects for Spec-Driven Development
-    sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
-    sqlite
-    ssm-session-manager-plugin
-    statix
-    taskwarrior3
-    taskwarrior-tui
-    terraform
-    tree
-    unstable.devenv
-    unstable.repomix
-    uv
-    wget
-    which
-    worktrunk # `wt`: git worktree workflow tool
-    xcbeautify
-    xh # Rust re-write of httpie
-    yazi
-    zip
-  ];
+  home.packages =
+    with pkgs;
+    [
+      age
+      bitwarden-cli
+      btop
+      bun
+      bzip2
+      cargo
+      ccache
+      clickhouse
+      clippy
+      coreutils
+      curl
+      d2
+      dbt
+      deadnix
+      deploy-rs
+      devbox
+      difftastic
+      docker
+      docker-compose
+      duckdb
+      duf # Disk usage
+      dust # Disk usage by folder
+      exiftool
+      fd
+      ffmpeg
+      findutils
+      fswatch
+      gawk
+      gh
+      git
+      git-annex
+      git-filter-repo
+      gnugrep
+      gnumake
+      gnupg
+      gnused
+      gnutar
+      go
+      google-cloud-sdk
+      gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
+      hcloud
+      htop
+      httpie
+      hugo
+      imagemagick
+      jq
+      just
+      k9s
+      killall
+      kubectl
+      kubernetes-helm
+      magic-wormhole
+      mariadb
+      mise
+      mr # myrepos: run sync/status/etc. across many repos at once
+      ngrok
+      nixfmt # Formatter for nix files
+      nixpkgs-review
+      npm-check-updates
+      openssh
+      parallel
+      postgresql
+      qsv # CSV wrangler
+      rclone
+      repomix-skeleton
+      restic
+      resticprofile
+      ripgrep
+      rsync
+      rust-analyzer
+      rustc
+      rustfmt
+      specify-cli # GitHub Spec Kit: bootstrap projects for Spec-Driven Development
+      sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
+      sqlite
+      ssm-session-manager-plugin
+      statix
+      taskwarrior3
+      taskwarrior-tui
+      terraform
+      tree
+      unstable.devenv
+      unstable.repomix
+      uv
+      wget
+      which
+      worktrunk # `wt`: git worktree workflow tool
+      xh # Rust re-write of httpie
+      yazi
+      zip
+    ]
+    # macOS-only: Granola & Things are macOS apps; openpomodoro drives the macOS
+    # sketchybar; sourcekit-lsp/xcbeautify are the Swift/Xcode toolchain. Keeping
+    # them off Linux is both correct and part of keeping that config lean.
+    ++ lib.optionals stdenv.isDarwin [
+      mcp-granola
+      mcp-things
+      openpomodoro-cli
+      sourcekit-lsp
+      xcbeautify
+    ];
 }

@@ -44,7 +44,8 @@ in
           installRustc = false;
         };
         shopify_theme_ls.enable = true;
-        swift_mesonls.enable = true;
+        # Swift LSP toolchain lives on macOS only.
+        swift_mesonls.enable = pkgs.stdenv.isDarwin;
         tflint.enable = true;
         ts_ls.enable = true;
         yamlls = {

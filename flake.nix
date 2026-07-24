@@ -73,14 +73,30 @@
     }:
     let
       darwinSystem = "aarch64-darwin";
-      linuxSystem = "x86_64-linux";
+      # arm64 everywhere is the primary Linux target; x86_64 is kept so the
+      # occasional Intel box (and an emulated CI leg) stay buildable. Both are
+      # produced from one mkLinuxHome helper (below) to stay DRY.
+      linuxSystems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      defaultLinuxSystem = "aarch64-linux";
 
+      # secrets/private.nix is gitignored and lives OUTSIDE the flake source, so it
+      # is read by absolute path under `--impure`. Prefer $HOME (works for any user,
+      # e.g. a CI runner at /home/runner) and fall back to the two known machines.
+      # Under pure eval (the darwin `hs` path) getEnv returns "", so the $HOME branch
+      # is skipped and the original literal-path behaviour is preserved unchanged.
       privateFile =
         let
+          envHome = builtins.getEnv "HOME";
+          envPath = envHome + "/.config/nix/secrets/private.nix";
           darwinPath = /Users/askielboe/.config/nix/secrets/private.nix;
           linuxPath = /home/askielboe/.config/nix/secrets/private.nix;
         in
-        if builtins.pathExists darwinPath then
+        if envHome != "" && builtins.pathExists envPath then
+          envPath
+        else if builtins.pathExists darwinPath then
           darwinPath
         else if builtins.pathExists linuxPath then
           linuxPath
@@ -99,48 +115,77 @@
         nixvim.homeModules.nixvim
         catppuccin.homeModules.catppuccin
       ];
+
+      # Overlays shared by every platform. Applying them on Linux too is what makes
+      # the standalone home-manager build work: packages.overlays.default is the only
+      # source of mcp-granola/mcp-things/specify-cli, and the doCheck=false overrides
+      # below are needed there as well (resticprofile's systemd test is Linux-only-broken).
+      sharedOverlays = [
+        (final: prev: {
+          direnv = prev.direnv.overrideAttrs (old: {
+            doCheck = false;
+          }); # fish tests get killed in Nix sandbox on macOS
+          resticprofile = prev.resticprofile.overrideAttrs (old: {
+            doCheck = false;
+          }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
+          pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+            (pyfinal: pyprev: {
+              pylint = pyprev.pylint.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # parallel-execution test times out in the Nix sandbox
+              mcp = pyprev.mcp.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # server integration tests can't bind ports in the Nix sandbox
+              portalocker = pyprev.portalocker.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # multiprocess lock test times out in the Nix sandbox
+              pydantic-monty = pyprev.pydantic-monty.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # test_limits gets killed (resource/timeout) in the Nix sandbox
+              cfn-lint = pyprev.cfn-lint.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # quickstart-template integration tests assert stale exit codes
+              aiobotocore = pyprev.aiobotocore.overridePythonAttrs (old: {
+                doCheck = false;
+              }); # aiohttp test server can't bind in the Nix sandbox
+            })
+          ];
+        })
+        packages.overlays.default
+      ];
+
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = sharedOverlays;
+        };
+
+      # Standalone home-manager (Ubuntu/Linux), one config per supported arch.
+      mkLinuxHome =
+        system:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs system;
+          extraSpecialArgs = {
+            inherit
+              nixvim
+              nixpkgs-unstable
+              private
+              sqlit
+              ;
+          };
+          modules = homeManagerModules ++ [
+            ./modules/home-manager
+            ./modules/home-manager/linux-specific.nix
+          ];
+        };
     in
     {
       # Darwin configuration (macOS)
       darwinConfigurations.${user} = darwin.lib.darwinSystem {
         system = darwinSystem;
-        pkgs = import nixpkgs {
-          system = darwinSystem;
-          config.allowUnfree = true;
-          overlays = [
-            (final: prev: {
-              direnv = prev.direnv.overrideAttrs (old: {
-                doCheck = false;
-              }); # fish tests get killed in Nix sandbox on macOS
-              resticprofile = prev.resticprofile.overrideAttrs (old: {
-                doCheck = false;
-              }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
-              pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
-                (pyfinal: pyprev: {
-                  pylint = pyprev.pylint.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # parallel-execution test times out in the Nix sandbox
-                  mcp = pyprev.mcp.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # server integration tests can't bind ports in the Nix sandbox
-                  portalocker = pyprev.portalocker.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # multiprocess lock test times out in the Nix sandbox
-                  pydantic-monty = pyprev.pydantic-monty.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # test_limits gets killed (resource/timeout) in the Nix sandbox
-                  cfn-lint = pyprev.cfn-lint.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # quickstart-template integration tests assert stale exit codes
-                  aiobotocore = pyprev.aiobotocore.overridePythonAttrs (old: {
-                    doCheck = false;
-                  }); # aiohttp test server can't bind in the Nix sandbox
-                })
-              ];
-            })
-            packages.overlays.default
-          ];
-        };
+        pkgs = mkPkgs darwinSystem;
         specialArgs = { inherit private inputs; };
         modules = [
           ./modules/darwin
@@ -167,24 +212,18 @@
         ];
       };
 
-      # Home-manager standalone configuration for Ubuntu/Linux
-      homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = linuxSystem;
-          config.allowUnfree = true;
-        };
-        extraSpecialArgs = {
-          inherit
-            nixvim
-            nixpkgs-unstable
-            private
-            sqlit
-            ;
-        };
-        modules = homeManagerModules ++ [
-          ./modules/home-manager
-          ./modules/home-manager/linux-specific.nix
-        ];
-      };
+      # Home-manager standalone configurations for Ubuntu/Linux. The bare `${user}`
+      # name is the arm64 default (used by `hs` / `home-manager switch .#${user}`);
+      # arch-suffixed names (`${user}-aarch64-linux`, `${user}-x86_64-linux`) let the
+      # build script and CI target a specific arch.
+      homeConfigurations = {
+        ${user} = mkLinuxHome defaultLinuxSystem;
+      }
+      // builtins.listToAttrs (
+        map (system: {
+          name = "${user}-${system}";
+          value = mkLinuxHome system;
+        }) linuxSystems
+      );
     };
 }
