@@ -96,8 +96,10 @@ source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/stats_controller.sh"
 # shellcheck source=items/claude_usage.sh
 source "$ITEM_DIR/claude_usage.sh"
+# claude_rate (live output tokens/s graph) intentionally disabled — not looked at.
+# Re-enable by uncommenting; sits left of claude_usage in the Claude cluster.
 # shellcheck source=items/claude_rate.sh
-source "$ITEM_DIR/claude_rate.sh" # live output tokens/s, left of claude_usage
+# source "$ITEM_DIR/claude_rate.sh" # live output tokens/s, left of claude_usage
 
 # Left region (left → right):
 # shellcheck source=items/apple.sh
@@ -108,8 +110,10 @@ source "$ITEM_DIR/workspaces.sh" # aerospace spaces + window pool + controller
 source "$ITEM_DIR/aerospace_mode.sh" # red SERVICE pill while in aerospace service mode
 # shellcheck source=items/front_app.sh
 # source "$ITEM_DIR/front_app.sh" # focused application
+# productive (ActivityWatch "productive time today" + uncategorised companion)
+# intentionally disabled — not looked at. Re-enable by uncommenting.
 # shellcheck source=items/productive.sh
-source "$ITEM_DIR/productive.sh"
+# source "$ITEM_DIR/productive.sh"
 # Full-day schedule strip (experiment) — supersedes the single next_meeting item
 # below. Disable one and enable the other to switch back.
 # shellcheck source=items/schedule.sh
