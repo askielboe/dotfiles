@@ -1,50 +1,35 @@
 # shellcheck shell=bash
-# Left: AeroSpace workspaces + the controller that repaints them. Sourced by
-# ../sketchybarrc; $AEROSPACE, $PLUGIN_DIR and the colour vars come from there.
-# Runtime repaint logic lives in ../plugins/aerospace.sh.
+# Left: a SINGLE pill showing the focused AeroSpace workspace id (icon) plus the
+# focused app's glyph (label, sketchybar-app-font) — nothing else. This replaces
+# the former ~30-item per-workspace strip. Runtime repaint lives in
+# ../plugins/aerospace.sh; $AEROSPACE, $PLUGIN_DIR and the colour vars come from
+# ../sketchybarrc.
 
 # Fired by exec-on-workspace-change in aerospace.toml.
 sketchybar --add event aerospace_workspace_change
 
-# One item per workspace, hidden until the controller paints it. Each shows the
-# workspace id (icon) plus a glyph per app in that workspace (label, rendered in
-# sketchybar-app-font — the controller fills it in). The focused one gets a mauve
-# background pill; other occupied ones a subtle surface pill. The numbered home
-# row 1-9 always shows (a dim bare number, no pill/glyphs, when empty); letter
-# workspaces only show when they hold a window or are focused (there are ~30
-# persistent workspaces). label starts hidden so empty workspaces show only their
-# id until painted.
-# label.y_offset=-2: the id digit (Hack Nerd Font) and the app glyphs
-# (sketchybar-app-font) have different font metrics. sketchybar centres each
-# field on its own em box, but the app-font glyphs are top-heavy — their ink sits
-# in the upper part of the box — so at y_offset=0 their optical centre lands ~2.5px
-# ABOVE the digit's and the glyphs visibly float above the row. Aligning the
-# BASELINES (bottoms) doesn't fix this: the glyphs are taller, so equal bottoms
-# still leave their centre high. Instead nudge ONLY the label (glyphs) DOWN 2pt so
-# its optical centre meets the digit's, which already sits at the pill centre
-# (measured: digit centre y≈33.5, glyph centre 30 -> 34). Leave the icon at the
-# default y_offset=0.
-for ws in $("$AEROSPACE" list-workspaces --all); do
-  sketchybar --add item space."$ws" left \
-    --set space."$ws" \
-      drawing=off \
-      icon="$ws" \
-      icon.padding_left=8 \
-      icon.padding_right=4 \
-      label.font="sketchybar-app-font:Regular:15.0" \
-      label.drawing=off \
-      label.y_offset=-2 \
-      label.padding_left=2 \
-      label.padding_right=8 \
-      click_script="$AEROSPACE workspace $ws"
-done
-
-# A single hidden controller repaints all workspace items in one call;
-# per-item scripts would spawn ~30 processes per workspace switch.
-# space_windows_change catches windows being created, destroyed or moved between
-# workspaces (changing which ones are non-empty), which fires no aerospace event.
-sketchybar --add item space_controller left \
-  --set space_controller \
-    drawing=off \
+# The pill repaints on workspace switch (aerospace_workspace_change) AND on app
+# switch (front_app_switched, a sketchybar built-in) so the app glyph tracks the
+# frontmost app even when the workspace doesn't change.
+#
+# label.y_offset=-2: the id digit (Hack Nerd Font) and the app glyph
+# (sketchybar-app-font) have different font metrics — the app-font glyph is
+# top-heavy (its ink sits high in the em box), so at y_offset=0 it floats ~2px
+# above the digit. Nudge only the label (glyph) down 2pt so its optical centre
+# meets the digit's, which already sits at the pill centre.
+sketchybar --add item space left \
+  --set space \
+    icon.font="Hack Nerd Font:Bold:14.0" \
+    icon.color="$CRUST" \
+    icon.padding_left=8 \
+    icon.padding_right=4 \
+    label.font="sketchybar-app-font:Regular:15.0" \
+    label.color="$CRUST" \
+    label.y_offset=-2 \
+    label.padding_left=2 \
+    label.padding_right=8 \
+    background.drawing=on \
+    background.color="$MAUVE" \
+    background.corner_radius=6 \
     script="$PLUGIN_DIR/aerospace.sh" \
-  --subscribe space_controller aerospace_workspace_change space_windows_change
+  --subscribe space aerospace_workspace_change front_app_switched
