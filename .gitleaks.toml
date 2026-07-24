@@ -1,0 +1,21 @@
+# gitleaks config for this repo (used by .githooks/pre-commit and `just scan-secrets`).
+# Extends the upstream default ruleset; only adds allowlists for this codebase's
+# own idioms so scans don't false-positive on non-secrets.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Assignments from the gitignored private.* attrset are pointers, not secret literals"
+# A real secret would be a quoted literal (= \"sk-...\"); an attribute reference
+# (= private.foo.secretKey;) carries no secret material. Match on the whole line.
+regexTarget = "line"
+regexes = [
+  '''=\s*private\.[A-Za-z0-9_.]+\s*;''',
+]
+
+[[allowlists]]
+description = "Placeholder used by git-filter-repo when scrubbing history"
+regexTarget = "match"
+regexes = [
+  '''\*\*\*REMOVED-SECRET\*\*\*''',
+]
