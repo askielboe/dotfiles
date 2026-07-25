@@ -12,11 +12,15 @@ sketchybar --add event aerospace_workspace_change
 # switch (front_app_switched, a sketchybar built-in) so the app glyph tracks the
 # frontmost app even when the workspace doesn't change.
 #
-# label.y_offset=-2: the id digit (Hack Nerd Font) and the app glyph
-# (sketchybar-app-font) have different font metrics — the app-font glyph is
-# top-heavy (its ink sits high in the em box), so at y_offset=0 it floats ~2px
-# above the digit. Nudge only the label (glyph) down 2pt so its optical centre
-# meets the digit's, which already sits at the pill centre.
+# label.y_offset=2: the id digit (Hack Nerd Font) and the app glyph
+# (sketchybar-app-font) have different font metrics. The app-font glyph sits LOW
+# in its em box, so when the label is centred by its line metrics the glyph's
+# optical centre lands below the digit's (which is dead-centre in the pill).
+# Measured live (screencapture + bbox optical centre, digit as reference): at
+# y_offset=0 the glyph sits ~2.5px low and at the old -2 it sagged ~4.5px; +2
+# brings its centre to within 0.5px of the digit's. Positive y_offset = up (see
+# apple.sh). Value derived empirically by sweeping -2..4 — do not "correct" the
+# sign back to negative, that was the original bug.
 sketchybar --add item space left \
   --set space \
     icon.font="Hack Nerd Font:Bold:14.0" \
@@ -25,7 +29,7 @@ sketchybar --add item space left \
     icon.padding_right=4 \
     label.font="sketchybar-app-font:Regular:15.0" \
     label.color="$CRUST" \
-    label.y_offset=-2 \
+    label.y_offset=2 \
     label.padding_left=2 \
     label.padding_right=8 \
     background.drawing=on \

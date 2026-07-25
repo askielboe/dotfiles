@@ -26,19 +26,11 @@ sketchybar --add item micromanager q \
 
 # Glyph pool: the plugin fills the first N slots from the allowlist and hides
 # the rest, re-reading the whitelist each tick so edits show up live.
-#
-# icon.y_offset=2: sketchybar-app-font glyphs are top-heavy in their em box, so
-# when the font is vertically centred by its line metrics the ink lands low —
-# the same font-metric mismatch documented in workspaces.sh. Measured against
-# the anchor's "2" label (Hack Nerd Font, dead-centre in the pill), the glyph's
-# ink centre sat ~5 device px (≈2.5pt) below it; lift 2pt so the optical centres
-# meet (positive y_offset = up, per apple.sh).
 for i in 1 2 3 4 5 6; do
   sketchybar --add item "micromanager.app.$i" q \
     --set "micromanager.app.$i" \
       icon.font="sketchybar-app-font:Regular:14.0" \
       icon.color="$TEXT" \
-      icon.y_offset=2 \
       icon.padding_left=3 \
       icon.padding_right=3 \
       label.drawing=off \
