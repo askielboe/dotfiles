@@ -25,6 +25,7 @@ in
   # Import shared home-manager settings
   imports = [
     ./nixvim
+    ./settings/beets.nix
     ./settings/chromium.nix
     ./settings/claude.nix
     ./settings/clickhouse.nix
