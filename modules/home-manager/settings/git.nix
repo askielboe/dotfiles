@@ -56,6 +56,9 @@
     lazygit = {
       enable = true;
       settings = {
+        # Don't pause with "press enter to return to lazygit" after the
+        # editor (or any subprocess) exits.
+        promptToReturnFromSubprocess = false;
         gui = {
           showFileTree = true;
         };
