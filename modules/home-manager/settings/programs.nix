@@ -24,6 +24,13 @@ in
       enable = true;
       enableZshIntegration = true;
     };
+    atuin = {
+      enable = true;
+      enableZshIntegration = true;
+      # Bind Ctrl-R to atuin but leave the up-arrow to prezto's
+      # history-substring-search. Local-only db (no sync server configured).
+      flags = [ "--disable-up-arrow" ];
+    };
     bat = {
       enable = true;
     };
