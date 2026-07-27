@@ -46,6 +46,17 @@
     ];
   };
 
+  # Disable Determinate Nixd's free-space-triggered automatic GC. This disk
+  # lives at ~95% full, so the trigger is permanently armed: measured 2026-07-27,
+  # it fired a GC pass on essentially every daemon build request (26 passes in
+  # one afternoon), each deleting almost nothing but holding the store lock
+  # through a full "deleting unused links" scan of the 45G store — every
+  # `nix build` stalled ~5 min at 0% CPU in buildPathsWithResults, and `hs`
+  # ballooned to ~9 min. GC is background maintenance, not a per-build tax:
+  # the weekly launchd job below (nix-gc, Sundays 02:45, before nix-optimise
+  # at 03:15) restores the old nix-darwin `nix.gc.automatic` policy instead.
+  determinateNix.determinateNixd.garbageCollector.strategy = "disabled";
+
   # Fix the nixbld group ID due to changes in MacOS 15
   # https://github.com/LnL7/nix-darwin/issues/1346
   ids.gids.nixbld = 350;
@@ -73,5 +84,29 @@
     RunAtLoad = false;
     StandardOutPath = "/var/log/nix-optimise.log";
     StandardErrorPath = "/var/log/nix-optimise.log";
+  };
+
+  # Weekly GC, OFF the interactive `hs` path — replaces Determinate Nixd's
+  # disabled automatic GC (see determinateNixd.garbageCollector.strategy above)
+  # with the old nix-darwin `nix.gc.automatic` + `--delete-older-than 7d`
+  # policy. Sundays 02:45, deliberately BEFORE nix-optimise at 03:15: delete
+  # first, then hard-link what remains. RunAtLoad off so it can never fire
+  # during a switch.
+  launchd.daemons.nix-gc.serviceConfig = {
+    ProgramArguments = [
+      "/nix/var/nix/profiles/default/bin/nix-collect-garbage"
+      "--delete-older-than"
+      "7d"
+    ];
+    StartCalendarInterval = [
+      {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 45;
+      }
+    ];
+    RunAtLoad = false;
+    StandardOutPath = "/var/log/nix-gc.log";
+    StandardErrorPath = "/var/log/nix-gc.log";
   };
 }
