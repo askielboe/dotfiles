@@ -74,7 +74,6 @@ in
     casks = [
       "1password"
       "1password-cli"
-      "activitywatch@beta"
       "adguard"
       "aerial"
       "appcleaner"

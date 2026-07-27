@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ./settings/activitywatch.nix
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/firewall-prune.nix
