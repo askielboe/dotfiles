@@ -50,6 +50,14 @@ in
         # AeroSpace only re-reads its config on demand; no-op if it isn't running.
         onChange = "/opt/homebrew/bin/aerospace reload-config || true";
       };
+      # Back/forward through AeroSpace workspace *visit* history (nvim <C-o>/<C-i>
+      # style) — AeroSpace has no native command for this. aerospace.toml drives
+      # it: exec-on-workspace-change records visits, alt-shift-o = back,
+      # alt-shift-i = forward. Referenced from the toml by this absolute path.
+      ".config/aerospace/workspace-history.sh" = {
+        source = ./dotfiles/aerospace/workspace-history.sh;
+        executable = true;
+      };
       # The launchd agent (modules/darwin/settings/sketchybar.nix) reads the
       # standard ~/.config/sketchybar/sketchybarrc from here.
       ".config/sketchybar" = {

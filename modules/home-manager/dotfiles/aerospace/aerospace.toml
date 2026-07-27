@@ -56,8 +56,11 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config option is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
+# I and O are intentionally absent: they're retired as spaces (see the binding
+# section) so alt-i can stay a Danish symbol and alt-shift-o / alt-shift-i can
+# drive workspace history navigation instead.
 persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
-                         "C", "D", "E", "F", "G", "I", "M", "N", "O", "P", "Q",
+                         "C", "D", "E", "F", "G", "M", "N", "P", "Q",
                          "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 # A callback that runs every time binding mode changes
@@ -65,10 +68,12 @@ persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 on-mode-changed = []
 
-# Repaint sketchybar's workspace indicators on every workspace switch.
-# See modules/home-manager/dotfiles/sketchybar (plugins/aerospace.sh).
+# On every workspace switch: (1) repaint sketchybar's workspace indicator
+# (plugins/aerospace.sh), and (2) record the visit in the back/forward history
+# stack that alt-shift-o / alt-shift-i navigate (workspace-history.sh, linked to
+# ~/.config/aerospace/ by modules/home-manager/darwin-specific.nix).
 exec-on-workspace-change = ['/bin/bash', '-c',
-  '/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE"'
+  '/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE"; "$HOME/.config/aerospace/workspace-history.sh" record "$AEROSPACE_FOCUSED_WORKSPACE"'
 ]
 
 focus-follows-mouse.enabled = false
@@ -169,8 +174,10 @@ gaps.outer.right =      10
     alt-4 = 'workspace 4'
     alt-5 = 'workspace 5'
     alt-6 = 'workspace 6'
-    # Workspaces 7-9 and I removed: alt-7/8/9, alt-shift-7/8/9 and alt-i are the
-    # Danish symbol layer ([ ] \ { } |) and must reach the apps.
+    # Workspaces 7-9, I and O removed as spaces. alt-7/8/9, alt-shift-7/8/9 and
+    # alt-i are the Danish symbol layer ([ ] \ { } |) and must reach the apps.
+    # alt-shift-o / alt-shift-i are repurposed for workspace history navigation
+    # (see the workspace-back-and-forth section below).
     alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
     alt-b = 'workspace B'
     alt-c = 'workspace C'
@@ -180,7 +187,6 @@ gaps.outer.right =      10
     alt-g = 'workspace G'
     alt-m = 'workspace M'
     alt-n = 'workspace N'
-    alt-o = 'workspace O'
     alt-p = 'workspace P'
     alt-q = 'workspace Q'
     alt-r = 'workspace R'
@@ -209,7 +215,6 @@ gaps.outer.right =      10
     alt-shift-g = 'move-node-to-workspace G'
     alt-shift-m = 'move-node-to-workspace M'
     alt-shift-n = 'move-node-to-workspace N'
-    alt-shift-o = 'move-node-to-workspace O'
     alt-shift-p = 'move-node-to-workspace P'
     alt-shift-q = 'move-node-to-workspace Q'
     alt-shift-r = 'move-node-to-workspace R'
@@ -226,6 +231,14 @@ gaps.outer.right =      10
     alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+    # Back / forward through workspace *visit* history, like nvim's <C-o>/<C-i>
+    # jumplist (alt-shift-o = back/older, alt-shift-i = forward/newer). AeroSpace
+    # has no native history command, so an external stack script does the
+    # bookkeeping; exec-on-workspace-change (above) feeds it every visit. Script:
+    # ~/.config/aerospace/workspace-history.sh (see darwin-specific.nix).
+    alt-shift-o = 'exec-and-forget "$HOME/.config/aerospace/workspace-history.sh" back'
+    alt-shift-i = 'exec-and-forget "$HOME/.config/aerospace/workspace-history.sh" forward'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     # Also raise the SERVICE pill in sketchybar (items/aerospace_mode.sh) so it's
