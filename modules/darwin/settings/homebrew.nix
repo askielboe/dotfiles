@@ -105,6 +105,7 @@ in
       "soulver"
       "stats"
       "sunsama"
+      "swiftbar"
       "tigervnc"
       "todoist-app"
       "tor-browser"
