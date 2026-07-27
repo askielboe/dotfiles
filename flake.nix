@@ -7,6 +7,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # sops-nix decrypts secrets/secrets.yaml (age key in modules/sops/age, NOT
+    # in the store) at home-manager activation. Only the HM module is used —
+    # every secret consumer here is user-level, so one wiring covers darwin
+    # and the standalone Linux configs alike.
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -68,6 +75,7 @@
       nixvim,
       catppuccin,
       packages,
+      sops-nix,
       sqlit,
       ...
     }:
@@ -82,34 +90,15 @@
       ];
       defaultLinuxSystem = "aarch64-linux";
 
-      # secrets/private.nix is gitignored and lives OUTSIDE the flake source, so it
-      # is read by absolute path under `--impure`. Prefer $HOME (works for any user,
-      # e.g. a CI runner at /home/runner) and fall back to the two known machines.
-      # Under pure eval (the darwin `hs` path) getEnv returns "", so the $HOME branch
-      # is skipped and the original literal-path behaviour is preserved unchanged.
-      privateFile =
-        let
-          envHome = builtins.getEnv "HOME";
-          envPath = envHome + "/.config/nix/secrets/private.nix";
-          darwinPath = /Users/askielboe/.config/nix/secrets/private.nix;
-          linuxPath = /home/askielboe/.config/nix/secrets/private.nix;
-        in
-        if envHome != "" && builtins.pathExists envPath then
-          envPath
-        else if builtins.pathExists darwinPath then
-          darwinPath
-        else if builtins.pathExists linuxPath then
-          linuxPath
-        else
-          null;
-      private =
-        if privateFile != null then
-          import privateFile
-        else
-          throw "Missing secrets/private.nix - copy from secrets/private.example.nix and fill in your values";
+      # Non-sensitive eval-time settings, tracked in-tree — this is what keeps
+      # the flake pure (no --impure anywhere). Sensitive values live in
+      # secrets/secrets.yaml (sops-encrypted, also tracked) and are decrypted
+      # at activation by sops-nix, never at eval.
+      private = import ./secrets/settings.nix;
       user = private.user.username;
 
       homeManagerModules = [
+        sops-nix.homeManagerModules.sops
         nix-index-database.homeModules.nix-index
         { programs.nix-index-database.comma.enable = true; }
         nixvim.homeModules.nixvim

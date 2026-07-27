@@ -39,7 +39,7 @@ in
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix
-    ./settings/sqlit.nix
+    ./settings/sops.nix
     ./settings/ssh.nix
     ./settings/syncthing.nix
     ./settings/taskwarrior.nix
@@ -56,7 +56,8 @@ in
       DIRENV_LOG_FORMAT = "";
       EDITOR = "nvim";
       HOMEBREW_NO_ENV_HINTS = "1"; # silence brew's "hide these hints" nag block
-      OP_ACCOUNT = private.accounts.opAccount;
+      # OP_ACCOUNT is exported from the sops-decrypted secret in settings/shell.nix
+      # (a sessionVariable would bake the account id into the nix store).
       PAGER = "bat";
       VISUAL = "nvim";
       XDG_CONFIG_HOME = "$HOME/.config";

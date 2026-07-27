@@ -19,10 +19,11 @@ esac
 TARGET=".#homeConfigurations.${NAME}-${ARCH}.activationPackage"
 
 echo "Building home-manager configuration (${TARGET})..."
-# env -i for a clean, reproducible build env; HOME is preserved so the flake can
-# locate the gitignored secrets/private.nix under $HOME (see privateFile in flake.nix).
-env -i NIXPKGS_ALLOW_UNFREE=1 HOME="$HOME" USER="${USER:-$(id -un)}" PATH="$PATH" \
-  nix --extra-experimental-features "nix-command flakes" build "$TARGET" --impure
+# env -i for a clean, reproducible build env. Pure eval: secrets/settings.nix and
+# the sops-encrypted secrets/secrets.yaml are tracked in-tree, and allowUnfree is
+# set at every in-flake nixpkgs import.
+env -i HOME="$HOME" USER="${USER:-$(id -un)}" PATH="$PATH" \
+  nix --extra-experimental-features "nix-command flakes" build "$TARGET"
 
 echo "Switching to new home-manager configuration..."
 ./result/activate

@@ -111,12 +111,14 @@ in
   programs.zsh.initContent = ''
     hs() {
       # nh (nix-helper) builds as your user, prints an nvd package diff, and only
-      # elevates (sudo) for the activation step. --impure is required because
-      # secrets/private.nix is gitignored, i.e. outside the pure flake source;
-      # NIXPKGS_ALLOW_UNFREE lets unfree packages evaluate under --impure.
+      # elevates (sudo) for the activation step. Pure eval: settings.nix and the
+      # sops-encrypted secrets.yaml are tracked in-tree (allowUnfree is set at
+      # every in-flake nixpkgs import, so no NIXPKGS_ALLOW_UNFREE needed). Keep
+      # the bare-path flake ref (git auto-detect): a path: ref would copy
+      # gitignored files — including the age key — into the world-readable store.
       # Extra args pass through: `hs -u` also updates flake inputs, `hs --dry`
       # previews without activating, `hs -a` asks before activating.
-      NIXPKGS_ALLOW_UNFREE=1 nh darwin switch ~/.config/nix -H ${private.user.username} --impure "$@"
+      nh darwin switch ~/.config/nix -H ${private.user.username} "$@"
     }
 
     claude() {

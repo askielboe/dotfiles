@@ -132,6 +132,7 @@ in
       rust-analyzer
       rustc
       rustfmt
+      sops # edits secrets/secrets.yaml (age recipient in .sops.yaml)
       specify-cli # GitHub Spec Kit: bootstrap projects for Spec-Driven Development
       sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
       sqlite

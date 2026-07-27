@@ -29,12 +29,12 @@ flake.nix                          # Entry point: defines darwin + home-manager 
 │   ├── settings/                  # packages.nix, shell.nix, git.nix, claude.nix, etc.
 │   └── nixvim/                    # Neovim config (~60 files, plugins/ subdirectory)
 ├── packages/                      # Custom Nix packages (MCP servers) with own flake.nix
-└── secrets/                       # private.nix (gitignored), SOPS age keys
+└── secrets/                       # settings.nix (tracked, non-sensitive) + secrets.yaml (tracked, sops-encrypted)
 ```
 
 **Key patterns:**
 - `flake.nix` wires darwin and home-manager together. Darwin config imports `modules/darwin` and includes home-manager as a darwin module. Linux uses home-manager standalone.
-- Private/sensitive values live in `secrets/private.nix` (not committed). Copy from `secrets/private.example.nix`. It provides `user`, `accounts`, `machine`, `apiKeys`, and `ssh` attrsets passed as `specialArgs` to all modules via `private`.
+- Eval is fully PURE (no `--impure` anywhere). Non-sensitive eval-time values live in `secrets/settings.nix` (tracked plaintext), passed as `specialArgs` to all modules via `private`. Sensitive values live sops-encrypted in `secrets/secrets.yaml` (tracked; edit with `sops secrets/secrets.yaml`), decrypted at activation by sops-nix's home-manager module (declared in `modules/home-manager/settings/sops.nix`; age key at `modules/sops/age/keys.txt`, gitignored — never commit it, never reference it as a nix path literal).
 - Custom packages (in `packages/`) are exposed via an overlay applied to nixpkgs in flake.nix.
 - Homebrew casks/formulae are declared in `modules/darwin/settings/homebrew.nix` and managed by nix-darwin.
 

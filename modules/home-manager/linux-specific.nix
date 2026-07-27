@@ -50,7 +50,7 @@ in
         x86_64) arch=x86_64-linux ;;
         *) echo "hs: unsupported arch $(uname -m)" >&2; return 1 ;;
       esac
-      home-manager switch --impure --flake ~/.config/nix#"${username}-''${arch}"
+      home-manager switch --flake ~/.config/nix#"${username}-''${arch}"
       exec $SHELL
     }
   '';

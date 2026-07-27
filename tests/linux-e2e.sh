@@ -6,9 +6,9 @@
 # day-to-day macOS workflow never exercises.
 #
 # It is meant for a THROWAWAY environment (an Ubuntu container via `just
-# test-linux`, or a CI runner) — NOT your real machine: it writes a placeholder
-# secrets/private.nix from the committed example and, when run as root, creates a
-# throwaway build user.
+# test-linux`, or a CI runner) — NOT your real machine: it rewrites the tracked
+# secrets/settings.nix username in its staged copy and, when run as root,
+# creates a throwaway build user.
 #
 # Routing is by uid:
 #   * root      -> provision apt deps + a throwaway user, then re-exec as them.
@@ -70,11 +70,13 @@ if [[ "$REPO_ROOT" != "$DEST" ]]; then
 fi
 cd "$DEST"
 
-log "Writing placeholder secrets/private.nix from the example (username=$ME)"
-cp secrets/private.example.nix secrets/private.nix
+log "Pointing secrets/settings.nix at the container user (username=$ME)"
 # Line the fixture up with the runtime user so the flake output name
 # (${user}-${arch}), the Linux home dir (/home/${user}) and the OS user all match.
-sed -i -E "s/username = \"[^\"]*\"/username = \"$ME\"/" secrets/private.nix
+# settings.nix is TRACKED, so the dirty edit is still part of the pure flake
+# source. The container has no age key: eval stays green (sops validates file
+# structure only) and the sops units simply skip, which is what the smoke wants.
+sed -i -E "s/username = \"[^\"]*\"/username = \"$ME\"/" secrets/settings.nix
 
 if ! command -v nix >/dev/null 2>&1; then
   log "Installing Nix (Determinate nix-installer; --init none for a container)"

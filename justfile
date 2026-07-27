@@ -87,10 +87,10 @@ check-linux arch="aarch64-linux":
     #!/usr/bin/env bash
     set -euo pipefail
     cd "{{justfile_directory()}}"
-    user="$(nix eval --impure --raw --expr '(import ./secrets/private.nix).user.username')"
+    user="$(nix eval --raw --file ./secrets/settings.nix user.username)"
     target=".#homeConfigurations.${user}-{{arch}}.activationPackage"
     echo "Dry-run evaluating ${target} ..."
-    nix build --dry-run --impure "$target"
+    nix build --dry-run "$target"
     echo "OK: ${target} evaluates cleanly."
 
 # Tier-2 Linux e2e: full install-Nix -> build -> activate -> smoke-test in a

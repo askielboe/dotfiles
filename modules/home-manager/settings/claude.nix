@@ -2,7 +2,6 @@
   lib,
   pkgs,
   nixpkgs-unstable,
-  private,
   ...
 }:
 let

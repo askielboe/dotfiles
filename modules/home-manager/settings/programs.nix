@@ -41,20 +41,13 @@ in
         "default" = {
           inherit (aws.default) region;
         };
-        "${aws.motosumo.name}" = {
-          inherit (aws.motosumo) region;
+        "${aws.work.name}" = {
+          inherit (aws.work) region;
         };
       };
-      credentials = {
-        "default" = {
-          inherit (aws.default) region;
-          credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.default.opItem}/password'";
-        };
-        "${aws.motosumo.name}" = {
-          inherit (aws.motosumo) region;
-          credential_process = "/opt/homebrew/bin/op read 'op://Private/${aws.motosumo.opItem}/password'";
-        };
-      };
+      # No `credentials` attrset: ~/.aws/credentials is the sops-decrypted
+      # aws-credentials secret (see settings/sops.nix) so the 1Password item
+      # refs in credential_process stay out of the repo and the nix store.
     };
   };
 }
