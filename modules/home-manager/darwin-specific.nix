@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   nixpkgs-unstable,
   private,
@@ -58,47 +57,19 @@ in
         source = ./dotfiles/aerospace/workspace-history.sh;
         executable = true;
       };
-      # The launchd agent (modules/darwin/settings/sketchybar.nix) reads the
-      # standard ~/.config/sketchybar/sketchybarrc from here.
-      ".config/sketchybar" = {
-        source = ./dotfiles/sketchybar;
-        recursive = true;
-        # Reload on config edits (flicker-free). --reload CANNOT recover a daemon
-        # that came up config-less (e.g. first switch on a fresh machine, before
-        # these files link, or a KeepAlive restart racing a generation swap) — it
-        # re-execs the rc but can't rebuild a bar the daemon never loaded. That
-        # needs a full agent restart, which the `sketchybarHeal` activation hook
-        # below now does automatically when it detects an empty bar, so the old
-        # "one manual kickstart fixes it" caveat no longer applies.
-        onChange = "/run/current-system/sw/bin/sketchybar --reload || true";
-      };
-      # SwiftBar port of the sketchybar Google Chat unread item, for the NATIVE
-      # macOS menu bar. The plugin imports the sketchybar poller
-      # (~/.config/sketchybar/plugins/gchat.py) as a library — zero API/OAuth
-      # duplication. The ".1m." in the filename is SwiftBar's refresh cadence (1
-      # min). SwiftBar itself is app-owned: point its Plugin Folder at
-      # ~/.config/swiftbar/plugins once (SwiftBar prefs, or `defaults write
-      # com.ambar.SwiftBar PluginDirectory ~/.config/swiftbar/plugins`).
+      # Google Chat unread poller (neutral, UI-less library). home-manager links
+      # it to ~/.local/lib/gchat/gchat.py; the SwiftBar item below imports it from
+      # there. gchat-login (modules/darwin/settings/gchat.nix) writes the
+      # per-account OAuth state it reads under ~/.local/state/gchat/.
+      ".local/lib/gchat/gchat.py".source = ./dotfiles/gchat/gchat.py;
+      # Google Chat unread indicator for the NATIVE macOS menu bar. The plugin
+      # imports the neutral poller above (~/.local/lib/gchat/gchat.py) as a
+      # library — zero API/OAuth duplication. The ".1m." in the filename is
+      # SwiftBar's refresh cadence (1 min). SwiftBar itself is app-owned: point
+      # its Plugin Folder at ~/.config/swiftbar/plugins once (SwiftBar prefs, or
+      # `defaults write com.ambar.SwiftBar PluginDirectory ~/.config/swiftbar/plugins`).
       ".config/swiftbar/plugins/gchat.1m.py" = {
         source = ./dotfiles/swiftbar/gchat.1m.py;
-        executable = true;
-      };
-      # Machine-specific calendar list for the sketchybar schedule strip
-      # (plugins/schedule.sh sources this at runtime). Kept out of the tracked
-      # repo because it contains a work email; provisioned from secrets/private.nix.
-      ".local/state/sketchybar/calendars.env".text = ''
-        SCHED_CALENDARS='${private.schedule.calendars}'
-      '';
-      # openpomodoro-cli runs these on start / finish / cancel; both point at the
-      # same script, which triggers the pomodoro_update event so the sketchybar
-      # `pomodoro` center item repaints immediately. The `pomodoro` binary keeps
-      # its own state (current/history) alongside in ~/.pomodoro/.
-      ".pomodoro/hooks/start" = {
-        source = ./dotfiles/openpomodoro/hook;
-        executable = true;
-      };
-      ".pomodoro/hooks/stop" = {
-        source = ./dotfiles/openpomodoro/hook;
         executable = true;
       };
     };
@@ -111,8 +82,8 @@ in
       # Start/stop the on-demand local MLX server (launchd.agents.pi-mlx-server).
       mlx-up = "launchctl start org.nix-community.home.pi-mlx-server";
       mlx-down = "launchctl stop org.nix-community.home.pi-mlx-server";
-      # openpomodoro-cli (drives the sketchybar center item). zsh expands these
-      # as prefixes, so `poms "Write the report"` → `pomodoro start "Write ..."`.
+      # openpomodoro-cli. zsh expands these as prefixes, so
+      # `poms "Write the report"` → `pomodoro start "Write ..."`.
       pom = "pomodoro"; # base, for status/history/amend/repeat/clear
       poms = "pomodoro start"; # start a Pomodoro (pass the task description)
       pomf = "pomodoro finish"; # finish early, count it toward the daily goal
@@ -128,36 +99,6 @@ in
       transmission_4
       yt-dlp
     ];
-
-    # Self-heal sketchybar on every switch. Its launchd agent
-    # (modules/darwin/settings/sketchybar.nix) starts the daemon via RunAtLoad;
-    # if the sketchybarrc symlink isn't resolvable at that instant — fresh
-    # machine before these files link, or a KeepAlive restart racing a generation
-    # swap — the daemon caches an EMPTY config and can't rebuild it. The
-    # .config/sketchybar onChange reload above handles config edits but provably
-    # can't recover a config-less daemon; only a full agent restart does. Left
-    # alone it shows a blank grey band indefinitely (diagnosed 2026-07: the login
-    # daemon sat at 0 items for ~40h while the config on disk was correct — no
-    # switch in between touched the sketchybar dotfiles, so the onChange reload
-    # never fired, and reload couldn't have fixed it anyway). This runs
-    # unconditionally after linking to catch that persisted empty state. A healthy
-    # bar is left untouched; we only kickstart when it's genuinely empty or
-    # unresponsive. Right after an onChange reload the bar is briefly empty while
-    # it re-adds items, so a single 0 reading is transient — poll briefly and only
-    # restart if it never recovers.
-    activation.sketchybarHeal = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      sb=/run/current-system/sw/bin/sketchybar
-      healthy=0
-      for _ in 1 2 3 4 5 6 7 8 9 10; do
-        n="$("$sb" --query bar 2>/dev/null | ${pkgs.jq}/bin/jq -r '.items | length' 2>/dev/null || echo 0)"
-        if [ "''${n:-0}" -gt 0 ]; then healthy=1; break; fi
-        ${pkgs.coreutils}/bin/sleep 0.1
-      done
-      if [ "$healthy" -eq 0 ]; then
-        echo "sketchybar: bar has no items (config-less daemon) — restarting agent" >&2
-        /bin/launchctl kickstart -k "gui/$(/usr/bin/id -u)/org.nixos.sketchybar" || true
-      fi
-    '';
   };
 
   programs.ssh.settings = {

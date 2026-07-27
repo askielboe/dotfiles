@@ -44,10 +44,6 @@
       url = "github:herald-email/homebrew-herald";
       flake = false;
     };
-    homebrew-joncrangle = {
-      url = "github:joncrangle/homebrew-tap";
-      flake = false;
-    };
     homebrew-nikitabobko = {
       url = "github:nikitabobko/homebrew-tap";
       flake = false;

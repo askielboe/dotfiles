@@ -269,22 +269,6 @@
         "type": "github"
       }
     },
-    "homebrew-joncrangle": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783397115,
-        "narHash": "sha256-EoN4s8QArFIj99h79eyOe1jJiUAtsHDwu2C5URDnGiY=",
-        "owner": "joncrangle",
-        "repo": "homebrew-tap",
-        "rev": "ee7f92711ccf7fd8a7c4d0d4d9b8191a06c2f643",
-        "type": "github"
-      },
-      "original": {
-        "owner": "joncrangle",
-        "repo": "homebrew-tap",
-        "type": "github"
-      }
-    },
     "homebrew-nikitabobko": {
       "flake": false,
       "locked": {
@@ -560,7 +544,6 @@
         "home-manager": "home-manager",
         "homebrew-claude-history": "homebrew-claude-history",
         "homebrew-herald": "homebrew-herald",
-        "homebrew-joncrangle": "homebrew-joncrangle",
         "homebrew-nikitabobko": "homebrew-nikitabobko",
         "nix-homebrew": "nix-homebrew",
         "nix-index-database": "nix-index-database",

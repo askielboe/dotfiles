@@ -151,9 +151,9 @@ in
       yazi
       zip
     ]
-    # macOS-only: Granola & Things are macOS apps; openpomodoro drives the macOS
-    # sketchybar; sourcekit-lsp/xcbeautify are the Swift/Xcode toolchain. Keeping
-    # them off Linux is both correct and part of keeping that config lean.
+    # macOS-only: Granola & Things are macOS apps; openpomodoro-cli is the
+    # Pomodoro timer (pom* aliases); sourcekit-lsp/xcbeautify are the Swift/Xcode
+    # toolchain. Keeping them off Linux is both correct and keeps that config lean.
     ++ lib.optionals stdenv.isDarwin [
       mcp-granola
       mcp-things

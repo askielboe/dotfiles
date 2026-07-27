@@ -12,7 +12,6 @@ let
   # (owner/homebrew-<name>). Both resolve to the same tap directory.
   taps = [
     "herald-email/herald"
-    "joncrangle/tap" # for sketchybar-system-stats
     "nikitabobko/tap" # aerospace
     "raine/claude-history"
   ];
@@ -24,11 +23,7 @@ let
   brews = [
     "herald-email/herald/herald"
     "herdr"
-    # Next-meeting glyph in sketchybar (plugins/meeting.sh) reads EventKit via icalBuddy.
-    "ical-buddy"
     "mas"
-    # Push-based sketchybar event provider (system_stats event); started by sketchybarrc.
-    "joncrangle/tap/sketchybar-system-stats"
     "raine/claude-history/claude-history"
   ];
 

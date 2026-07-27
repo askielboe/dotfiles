@@ -4,16 +4,16 @@
 Run `gchat-login <label>` once per account (e.g. `gchat-login work-a`,
 `gchat-login work-b`). It runs Google's loopback-redirect OAuth flow in your
 browser with PKCE, then writes the resulting refresh token to
-~/.local/state/gchat/<label>.json — the mutable state file the sketchybar gchat
-plugin reads and refreshes in place. That token rotates, so it lives outside the
-read-only nix store and is never committed.
+~/.local/state/gchat/<label>.json — the mutable state file the gchat poller
+(dotfiles/gchat/gchat.py) reads and refreshes in place. That token rotates, so it
+lives outside the read-only nix store and is never committed.
 
 The Desktop-app OAuth client id/secret come from your Google Cloud project (see
-the setup steps in modules/darwin/settings/sketchybar.nix). Provide them via the
+the setup steps in modules/darwin/settings/gchat.nix). Provide them via the
 GCHAT_CLIENT_ID / GCHAT_CLIENT_SECRET environment variables, or paste them when
 prompted. The requested scopes are read-only: chat.spaces.readonly,
 chat.messages.readonly, chat.users.readstate.readonly, plus openid + email so we
-can record which account this is — the gchat item opens each chip's account with
+can record which account this is — the menu-bar item opens each account with
 `?authuser=<email>` and needs to know the address (stored as `email` in the JSON).
 """
 
@@ -208,7 +208,7 @@ def main():
             "the default Chat account. Add \"email\": \"you@domain\" to the JSON to "
             "route clicks to this account."
         )
-    print("The sketchybar gchat item will pick it up on its next refresh.")
+    print("The Google Chat menu-bar item will pick it up on its next refresh.")
 
 
 if __name__ == "__main__":

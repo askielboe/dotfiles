@@ -68,12 +68,11 @@ persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 on-mode-changed = []
 
-# On every workspace switch: (1) repaint sketchybar's workspace indicator
-# (plugins/aerospace.sh), and (2) record the visit in the back/forward history
-# stack that alt-shift-o / alt-shift-i navigate (workspace-history.sh, linked to
+# On every workspace switch, record the visit in the back/forward history stack
+# that alt-shift-o / alt-shift-i navigate (workspace-history.sh, linked to
 # ~/.config/aerospace/ by modules/home-manager/darwin-specific.nix).
 exec-on-workspace-change = ['/bin/bash', '-c',
-  '/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$AEROSPACE_FOCUSED_WORKSPACE"; "$HOME/.config/aerospace/workspace-history.sh" record "$AEROSPACE_FOCUSED_WORKSPACE"'
+  '"$HOME/.config/aerospace/workspace-history.sh" record "$AEROSPACE_FOCUSED_WORKSPACE"'
 ]
 
 focus-follows-mouse.enabled = false
@@ -94,24 +93,10 @@ gaps.inner.horizontal = 8
 gaps.inner.vertical =   8
 gaps.outer.left =       10
 gaps.outer.bottom =     10
-# sketchybar (height 34) owns the top edge, but the gap needed to clear it
-# differs per display, so this is per-monitor:
-#   • Built-in notched MacBook: macOS reserves the ~37pt notch/menu-bar safe
-#     area for window placement even with the menu bar auto-hidden
-#     (_HIHideMenuBar), and AeroSpace measures gaps.outer.top from *below* that
-#     reserve — not from y=0. The reserve already pushes windows past the 34pt
-#     bar, so we only add the ~8pt visible gap. (34+8 here double-counts it.)
-#   • External displays (e.g. the Dell U4025QW): no notch, and with the menu
-#     bar auto-hidden the visibleFrame top is y=0 with zero reserve (measured),
-#     so AeroSpace tiles from the very top and windows slide under the 34pt bar.
-#     They need the full bar height + visible gap = 34+8 = 42.
-# Monitor patterns are case-insensitive regex substrings; "built-in" matches
-# "Built-in Retina Display". The trailing 42 is the default for every other
-# (external, reserve-less) display.
-gaps.outer.top = [
-  { monitor."built-in" = 8 },
-  42,
-]
+# The native macOS menu bar is visible, so macOS's visibleFrame already excludes
+# it (and the notch reserve) on every display and AeroSpace tiles below it. We
+# only add the ~8pt visible gap on top, same idea as the other edges.
+gaps.outer.top =        8
 gaps.outer.right =      10
 
 # 'main' binding mode declaration
@@ -241,26 +226,21 @@ gaps.outer.right =      10
     alt-shift-i = 'exec-and-forget "$HOME/.config/aerospace/workspace-history.sh" forward'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-    # Also raise the SERVICE pill in sketchybar (items/aerospace_mode.sh) so it's
-    # obvious we've left main mode; the service bindings below lower it again.
-    alt-shift-semicolon = ['mode service', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=on']
+    alt-shift-semicolon = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
-    # Every binding here returns to main, so each also lowers the SERVICE pill
-    # (items/aerospace_mode.sh) via the trailing exec-and-forget. This lives on
-    # the bindings rather than on-mode-changed because that callback isn't told
-    # the target mode. If you add a service binding, carry the same hide command.
-    esc = ['reload-config', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
-    r = ['flatten-workspace-tree', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off'] # reset layout
-    f = ['layout floating tiling', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off'] # Toggle between floating and tiling layout
-    backspace = ['close-all-windows-but-current', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    # Every binding here returns to main mode.
+    esc = ['reload-config', 'mode main']
+    r = ['flatten-workspace-tree', 'mode main'] # reset layout
+    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    backspace = ['close-all-windows-but-current', 'mode main']
 
     # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
     #s = ['layout sticky tiling', 'mode main']
 
-    alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
-    alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
-    alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
-    alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget /run/current-system/sw/bin/sketchybar --set aerospace_mode drawing=off']
+    alt-shift-h = ['join-with left', 'mode main']
+    alt-shift-j = ['join-with down', 'mode main']
+    alt-shift-k = ['join-with up', 'mode main']
+    alt-shift-l = ['join-with right', 'mode main']

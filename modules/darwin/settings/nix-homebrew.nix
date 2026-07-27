@@ -10,7 +10,7 @@
 # pin core/cask: nix-homebrew ships a lagging brew (6.0.9), but cask HEAD adopts
 # new cask-DSL as soon as it lands on brew master, so a pinned cask races ahead of
 # the brew and breaks `brew bundle` (e.g. proxyman's delete_keychain_certificate).
-# The four third-party taps ARE pinned (small, low-churn, the real supply-chain
+# The three third-party taps ARE pinned (small, low-churn, the real supply-chain
 # surface). Their KEYS use Homebrew's on-disk repo form (owner/homebrew-<name>);
 # the short-form Brewfile refs in settings/homebrew.nix resolve to the same dirs.
 { inputs, private, ... }:
@@ -25,7 +25,6 @@
     mutableTaps = true;
     taps = {
       "herald-email/homebrew-herald" = inputs.homebrew-herald;
-      "joncrangle/homebrew-tap" = inputs.homebrew-joncrangle;
       "nikitabobko/homebrew-tap" = inputs.homebrew-nikitabobko;
       "raine/homebrew-claude-history" = inputs.homebrew-claude-history;
     };

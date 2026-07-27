@@ -7,36 +7,34 @@
 # <swiftbar.hideAbout>true</swiftbar.hideAbout>
 # <swiftbar.hideRunInTerminal>true</swiftbar.hideRunInTerminal>
 # <swiftbar.hideLastUpdated>true</swiftbar.hideLastUpdated>
-"""SwiftBar (or xbar) port of the sketchybar Google Chat unread indicator.
+"""SwiftBar (or xbar) Google Chat unread indicator for the native macOS menu bar.
 
 The heavy lifting — OAuth token rotation, spaces.list -> spaceReadState ->
-messages.list unread detection, the per-space thread pool — already lives in the
-sketchybar plugin. Rather than duplicate ~150 lines of API/OAuth code, we IMPORT
-that poller and reuse its pure functions (`account_labels`, `access_token`,
-`account_unread`, `CHAT_URL`). Importing it is side-effect-free: its `main()` is
-guarded by `if __name__ == "__main__"`, and its module-level constants only read
-env vars with fallbacks.
+messages.list unread detection, the per-space thread pool — lives in a neutral,
+UI-less poller library. Rather than duplicate ~150 lines of API/OAuth code, we
+IMPORT it and reuse its pure functions (`account_labels`, `access_token`,
+`account_unread`, `CHAT_URL`). Importing it is side-effect-free: it has no
+`main()` and its module-level constants only read env vars with fallbacks.
 
-  Coupling note: this plugin therefore DEPENDS on
-  ~/.config/sketchybar/plugins/gchat.py existing. If sketchybar is ever dropped,
-  extract that file's API/OAuth core to a neutral shared module (e.g.
-  ~/.local/lib/gchat/) and import from there instead.
+  Coupling note: this plugin DEPENDS on ~/.local/lib/gchat/gchat.py existing.
+  home-manager symlinks it there from modules/home-manager/dotfiles/gchat/gchat.py
+  (see darwin-specific.nix). It used to live as a sketchybar plugin; it was
+  extracted to this neutral module when sketchybar was removed (2026-07).
 
-Menu-bar rendering differs from sketchybar because the native bar has no rounded
-"pill" backgrounds and can't colour individual words within one title line:
+Menu-bar rendering has no rounded "pill" backgrounds and can't colour individual
+words within one title line, so:
 
   * The icon is an SF Symbol (always renders natively — a Nerd Font glyph like
     󰭹 would be tofu in the system-font menu bar). Unread flips it to a badged,
     filled bubble; all-read is the quiet outline bubble.
-  * The title shows the per-account counts space-joined ("2 0"), mirroring
-    sketchybar, coloured as a whole line by the worst state (red error > peach
-    unread > dim read).
-  * Per-account detail + clickable `authuser` routing move into the dropdown,
-    one row per account — actually richer than the flat sketchybar row.
+  * The title shows the per-account counts space-joined ("2 0"), coloured as a
+    whole line by the worst state (red error > peach unread > dim read).
+  * Per-account detail + clickable `authuser` routing live in the dropdown, one
+    row per account.
 
 Colours are Catppuccin as "light,dark" hex pairs so the item reads on either
 menu-bar appearance. Refresh cadence is encoded in the filename (gchat.1m.py =
-every minute), matching the sketchybar update_freq=60.
+every minute).
 """
 
 import os
@@ -44,8 +42,8 @@ import sys
 import urllib.error
 import urllib.parse
 
-# Reuse the sketchybar poller as a library (see module docstring).
-POLLER_DIR = os.path.expanduser("~/.config/sketchybar/plugins")
+# Reuse the neutral gchat poller as a library (see module docstring).
+POLLER_DIR = os.path.expanduser("~/.local/lib/gchat")
 sys.path.insert(0, POLLER_DIR)
 try:
     import gchat as poller

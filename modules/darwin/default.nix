@@ -4,6 +4,7 @@
     ./settings/autostart.nix
     ./settings/environment.nix
     ./settings/firewall-prune.nix
+    ./settings/gchat.nix
     ./settings/homebrew.nix
     ./settings/jankyborders.nix
     ./settings/networking.nix
@@ -12,7 +13,6 @@
     ./settings/power.nix
     ./settings/resticprofile.nix
     ./settings/security.nix
-    ./settings/sketchybar.nix
     ./settings/spotlight.nix
     ./settings/system.nix
     ./settings/tailscale.nix
