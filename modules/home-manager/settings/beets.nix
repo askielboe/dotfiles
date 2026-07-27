@@ -17,6 +17,11 @@ in
     enable = true;
     settings = {
       plugins = [
+        # In beets 2.x, MusicBrainz matching became an opt-in plugin. Without it
+        # there is NO metadata backend: chroma fingerprints fine but has nothing
+        # to resolve AcoustID hits against, so every import reports
+        # "No matching release found". chroma is inert unless musicbrainz is on.
+        "musicbrainz"
         "chroma"
         "dynamicrange"
       ];
