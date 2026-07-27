@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
-  programs.nixvim.extraPlugins = with pkgs.vimPlugins; [
+  extraPlugins = with pkgs.vimPlugins; [
     blink-ripgrep-nvim
   ];
 
-  programs.nixvim.plugins = {
+  plugins = {
     blink-cmp-git.enable = true;
     blink-ripgrep.enable = true;
     blink-cmp = {

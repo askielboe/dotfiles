@@ -1,12 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
-  programs.nixvim.plugins.mini.modules.starter = {
+  plugins.mini.modules.starter = {
     content_hooks = {
       "__unkeyed-1.adding_bullet" = {
         __raw = "require('mini.starter').gen_hook.adding_bullet()";

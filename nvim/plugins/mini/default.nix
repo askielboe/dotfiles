@@ -1,18 +1,11 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
   imports = [
     ./ai.nix
     ./starter.nix
     ./surround.nix
   ];
 
-  programs.nixvim.plugins.mini = {
+  plugins.mini = {
     enable = true;
     mockDevIcons = true;
     modules = {

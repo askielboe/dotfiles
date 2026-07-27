@@ -1,5 +1,5 @@
 {
-  programs.nixvim.filetype = {
+  filetype = {
     extension = {
       cls = "apex";
       d2 = "d2";

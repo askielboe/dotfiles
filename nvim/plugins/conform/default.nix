@@ -1,5 +1,5 @@
 {
-  programs.nixvim.plugins.conform-nvim = {
+  plugins.conform-nvim = {
     enable = true;
     settings = {
       default_format_opts = {

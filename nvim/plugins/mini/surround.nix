@@ -1,12 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
-  programs.nixvim.plugins.mini.modules.surround = {
+  plugins.mini.modules.surround = {
     mappings = {
       add = "gsa";
       delete = "gsd";

@@ -1,23 +1,20 @@
-{ pkgs, ... }:
 # Code folding
 {
-  programs.nixvim = {
-    plugins = {
-      nvim-ufo = {
-        enable = true;
-        settings = {
-          providerSelector = ''
-            function(bufnr, filetype, buftype)
-              return { 'lsp', 'indent' }
-            end
-          '';
-        };
+  plugins = {
+    nvim-ufo = {
+      enable = true;
+      settings = {
+        providerSelector = ''
+          function(bufnr, filetype, buftype)
+            return { 'lsp', 'indent' }
+          end
+        '';
       };
     };
-    opts = {
-      foldlevel = 99;
-      foldlevelstart = 99;
-      foldenable = true;
-    };
+  };
+  opts = {
+    foldlevel = 99;
+    foldlevelstart = 99;
+    foldenable = true;
   };
 }

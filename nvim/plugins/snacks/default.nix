@@ -1,5 +1,5 @@
 {
-  programs.nixvim.plugins.snacks = {
+  plugins.snacks = {
     enable = true;
     settings = {
       picker = {
@@ -8,7 +8,7 @@
       };
     };
   };
-  programs.nixvim.keymaps = [
+  keymaps = [
     {
       mode = "n";
       key = "<leader>e";

@@ -1,12 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
-  programs.nixvim.plugins.mini.modules.ai = {
+  plugins.mini.modules.ai = {
     n_lines = 500;
     custom_textobjects = {
       __raw = ''

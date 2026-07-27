@@ -4,7 +4,7 @@ let
   apex-jorje-lsp = import ./apex-jorje.nix { inherit pkgs; };
 in
 {
-  programs.nixvim.plugins = {
+  plugins = {
     lsp = {
       enable = true;
       inlayHints = true;
