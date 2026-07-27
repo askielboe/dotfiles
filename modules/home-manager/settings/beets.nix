@@ -32,6 +32,16 @@ in
         auto = true; # compute during import
         command = lib.getExe pkgs.dr14_tmeter; # store path, no PATH dependency
       };
+      # Bias candidate ranking toward plain CD releases. Chroma's AcoustID hits
+      # otherwise surface DVD-Audio / SACD 5.1-mix editions that match a stereo
+      # CD rip poorly (every track title differs by "(5.1 mix)"). This is an
+      # ordered preference fed to match's add_priority: CD scores 0 on the
+      # `media` field, everything else (DVD-Audio, SACD, Vinyl, Digital Media)
+      # takes the full media penalty — a tiebreaker, not a hard filter, so
+      # non-CD still matches when nothing better exists. If you start importing
+      # digital-only releases, extend the list, e.g. [ "CD" "Digital Media" ],
+      # so those aren't pushed to the floor too.
+      match.preferred.media = [ "CD" ];
     };
   };
 }
