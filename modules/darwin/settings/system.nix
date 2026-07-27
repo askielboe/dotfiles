@@ -24,6 +24,11 @@ _: {
         NSAutomaticPeriodSubstitutionEnabled = false;
         "com.apple.sound.beep.volume" = 0.0;
         "com.apple.sound.beep.feedback" = 0;
+        # Keep the native menu bar visible. Must be an explicit false: the
+        # sketchybar era wrote true here, and nix-darwin never deletes keys it
+        # stops managing, so an unmanaged (absent) key leaves whatever the
+        # login session last saw. AeroSpace gaps assume a visible bar.
+        _HIHideMenuBar = false;
       };
 
       # Keep macOS's own window management out of AeroSpace's way.
