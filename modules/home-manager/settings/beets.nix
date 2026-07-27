@@ -12,11 +12,28 @@ in
     enable = true;
     settings = {
       directory = "~/annex/beets/music";
+      format_album = "$tech $albumartist – $album ($year)";
       plugins = [
         "musicbrainz"
         "chroma"
         "dynamicrange"
+        "inline"
       ];
+      # Fixed-width tech prefix for format_album, e.g. "16/44.1   DR9 (8–10)".
+      # Computed from the album's tracks by the inline plugin; distinct values
+      # are joined with "/" (a mixed album becomes "16/24/44.1/96"), the DR
+      # min–max range collapses when all tracks match, and albums without
+      # dynamicrange data yet show "DR?".
+      album_fields.tech = ''
+        srs = sorted({i.samplerate for i in items if i.samplerate})
+        bds = sorted({i.bitdepth for i in items if i.bitdepth})
+        q = "/".join([*(str(b) for b in bds), *(f"{s / 1000:g}" for s in srs)]) or "?"
+        try:
+            dr = f"DR{dr_avg}" + (f" ({dr_min}–{dr_max})" if dr_min != dr_max else "")
+        except NameError:
+            dr = "DR?"
+        return f"{q:<9} {dr:<12}"
+      '';
       pluginpath = [ "${beets-dynamicrange}/beetsplug" ];
       dynamicrange = {
         auto = true; # compute during import
