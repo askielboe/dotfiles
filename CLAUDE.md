@@ -10,7 +10,8 @@ A Nix flake managing system and user configuration for macOS (nix-darwin + home-
 
 - **Build & apply (macOS):** `hs` (alias for `darwin-rebuild switch --flake ~/.config/nix`)
 - **Build & apply (Linux):** `./build-and-switch-linux.sh`
-- **Update flake inputs:** `nix flake update` (or alias `hu`)
+- **Update flake inputs:** `nix flake update` (or alias `hu`, which also bumps `nvim/flake.lock`)
+- **Rebuild the standalone neovim:** `just build-nvim` (hs runs this automatically); `just update-nvim` bumps its own lock
 - **Check flake validity:** `nix flake check`
 - **Format nix files:** `nixfmt <file>`
 - **Lint nix files:** `statix check .` and `deadnix .`
@@ -26,8 +27,10 @@ flake.nix                          # Entry point: defines darwin + home-manager 
 ├── modules/home-manager/          # User environment (cross-platform)
 │   ├── darwin-specific.nix        # macOS-only: home dir, SSH agent, hs alias
 │   ├── linux-specific.nix         # Linux-only adaptations
-│   ├── settings/                  # packages.nix, shell.nix, git.nix, claude.nix, etc.
-│   └── nixvim/                    # Neovim config (~60 files, plugins/ subdirectory)
+│   └── settings/                  # packages.nix, shell.nix, git.nix, claude.nix, etc.
+├── nvim/                          # Neovim config: standalone nixvim child flake (own flake.lock);
+│                                  # prebuilt by the hs pre-step into .gc-roots/, consumed as a
+│                                  # store path by settings/nvim.nix (in-eval fallback if absent)
 ├── packages/                      # Custom Nix packages (MCP servers) with own flake.nix
 └── secrets/                       # settings.nix (tracked, non-sensitive) + secrets.yaml (tracked, sops-encrypted)
 ```

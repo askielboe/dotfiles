@@ -108,3 +108,30 @@ test-linux-x86:
     set -euo pipefail
     docker run --rm --platform linux/amd64 -v "{{justfile_directory()}}:/work:ro" -w /work ubuntu:24.04 \
         bash tests/linux-e2e.sh
+
+# Build the standalone nixvim child flake (nvim/) and refresh its gc-rooted
+# out-link + content-hash stamp. hs runs this automatically; use directly to
+# iterate on the nvim config without a full switch.
+build-nvim:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{justfile_directory()}}"
+    case "$(uname -sm)" in
+      "Darwin arm64") sys="aarch64-darwin" ;;
+      "Linux aarch64") sys="aarch64-linux" ;;
+      "Linux x86_64") sys="x86_64-linux" ;;
+      *) echo "unsupported platform: $(uname -sm)" >&2; exit 1 ;;
+    esac
+    mkdir -p .gc-roots
+    nix build "path:$PWD/nvim" --out-link ".gc-roots/nvim-$sys"
+    nix hash path "$PWD/nvim" > ".gc-roots/nvim-$sys.hash"
+    echo "OK: .gc-roots/nvim-$sys -> $(readlink ".gc-roots/nvim-$sys")"
+
+# Update the nvim child flake's own lock (nixvim + nixpkgs), then rebuild it.
+# The hu alias runs the lock update too; this recipe is the standalone form.
+update-nvim:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{justfile_directory()}}"
+    nix flake update --flake "path:$PWD/nvim"
+    just build-nvim

@@ -134,3 +134,19 @@ Notes:
 Revert the commit that applies the diff, reinstall upstream Nix
 (<https://nixos.org/download/>), re-bootstrap nix-darwin. The `/nix/store`
 survives; you lose parallel eval and go back to ~30 s.
+
+## Outcome (measured 2026-07-27, after migrating)
+
+**Parallel eval did NOT deliver the hoped-for speedup for `hs`.** Measured on
+the live config: warm eval to `system.drvPath` is ~25 s at BOTH
+`eval-cores = 1` and `eval-cores = 10`. `NIX_SHOW_STATS` shows why:
+`nrThunksAwaited` = 1,240 out of 32,114,459 thunks (0.004%) — the
+darwin+home-manager+nixvim module fixpoint is one long sequential dependency
+chain with almost no independent work to fan out. The evaluator itself is fine
+(`nix search nixpkgs` drops 25 s → 10 s across cores on this machine; package
+sets ARE parallel-friendly); module-system evaluation just isn't.
+
+The fix that actually worked is orthogonal: the nixvim config (~11.5 s of that
+eval) was lifted into the standalone `nvim/` child flake, prebuilt by the `hs`
+pre-step and consumed as a store path (see `modules/home-manager/settings/nvim.nix`),
+so its eval cost is paid only when the nvim config changes.

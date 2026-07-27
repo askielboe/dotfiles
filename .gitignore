@@ -1,6 +1,8 @@
 .DS_Store
 .aider*
 result
+# gc-rooted out-links for the prebuilt nvim/ child flake (hs pre-step)
+.gc-roots/
 age/
 secrets/private.nix
 # Nix eval cache written into cwd by root-run activation under lazy-trees

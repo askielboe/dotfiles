@@ -110,6 +110,21 @@ in
 
   programs.zsh.initContent = ''
     hs() {
+      # Pre-step: (re)build the standalone nixvim child flake (nvim/) so the
+      # main eval consumes a prebuilt store path (settings/nvim.nix) instead of
+      # re-running nixvim's ~11s module eval. The content-hash guard makes the
+      # no-op case cost milliseconds and self-heals a GC'd root ([ -e ] follows
+      # the symlink, so a dangling out-link triggers a rebuild). MUST build the
+      # path: ref (not ./nvim) so only nvim/ contents key the child's eval
+      # cache, and MUST stay pure (no --impure) so that cache can hit at all.
+      local nvroot="$HOME/.config/nix/.gc-roots/nvim-aarch64-darwin"
+      local nvhash
+      nvhash=$(nix hash path "$HOME/.config/nix/nvim") || return
+      if [ ! -e "$nvroot" ] || [ "$(cat "$nvroot.hash" 2>/dev/null)" != "$nvhash" ]; then
+        mkdir -p "$HOME/.config/nix/.gc-roots"
+        nix build "path:$HOME/.config/nix/nvim" --out-link "$nvroot" || return
+        print -r -- "$nvhash" > "$nvroot.hash"
+      fi
       # nh (nix-helper) builds as your user, prints an nvd package diff, and only
       # elevates (sudo) for the activation step. Pure eval: settings.nix and the
       # sops-encrypted secrets.yaml are tracked in-tree (allowUnfree is set at

@@ -18,6 +18,15 @@ esac
 # The flake produces an arch-suffixed config for every supported Linux arch.
 TARGET=".#homeConfigurations.${NAME}-${ARCH}.activationPackage"
 
+# Prebuild the standalone nixvim child flake into a gc-rooted out-link so the
+# main eval consumes a store path (settings/nvim.nix) instead of re-running
+# nixvim's ~11s module eval. Pure build (no --impure) so its eval cache can hit;
+# path: ref so only nvim/ contents key that cache.
+echo "Prebuilding standalone nixvim (${ARCH})..."
+mkdir -p "$HOME/.config/nix/.gc-roots"
+nix --extra-experimental-features "nix-command flakes" build \
+  "path:$PWD/nvim" --out-link "$HOME/.config/nix/.gc-roots/nvim-${ARCH}"
+
 echo "Building home-manager configuration (${TARGET})..."
 # env -i for a clean, reproducible build env. Pure eval: secrets/settings.nix and
 # the sops-encrypted secrets/secrets.yaml are tracked in-tree, and allowUnfree is
