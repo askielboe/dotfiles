@@ -78,9 +78,9 @@ in
       difftastic
       docker
       docker-compose
+      dua # Parallel disk usage TUI (dua i = interactive)
       duckdb
       duf # Disk usage
-      dust # Disk usage by folder
       exiftool
       fd
       ffmpeg
