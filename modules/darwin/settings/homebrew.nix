@@ -12,6 +12,7 @@ let
   # (owner/homebrew-<name>). Both resolve to the same tap directory.
   taps = [
     "herald-email/herald"
+    "macos-fuse-t/cask" # fuse-t (kext-less FUSE, used by rclone mount)
     "nikitabobko/tap" # aerospace
     "raine/claude-history"
   ];
@@ -86,6 +87,7 @@ in
       "handbrake-app"
       "insta360-link-controller"
       "linear"
+      "macos-fuse-t/cask/fuse-t"
       "meetingbar"
       "microsoft-teams"
       "mimestream"
