@@ -20,6 +20,9 @@
     darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # The PRIMARY nixvim pin lives in nvim/flake.lock (standalone child flake,
+    # prebuilt by the hs pre-step). This input only powers the in-eval fallback
+    # in modules/home-manager/settings/nvim.nix for when no gc-root exists.
     nixvim.url = "github:nix-community/nixvim/nixos-26.05";
     # nixvim uses it's own nixpkgs, see https://nix-community.github.io/nixvim/#recent-breaking-changes
 
@@ -101,11 +104,13 @@
       private = import ./secrets/settings.nix;
       user = private.user.username;
 
+      # nixvim is deliberately NOT wired in here anymore: neovim comes prebuilt
+      # from the nvim/ child flake via settings/nvim.nix (store-path reference),
+      # keeping its ~11s module eval out of this fixpoint.
       homeManagerModules = [
         sops-nix.homeManagerModules.sops
         nix-index-database.homeModules.nix-index
         { programs.nix-index-database.comma.enable = true; }
-        nixvim.homeModules.nixvim
         catppuccin.homeModules.catppuccin
       ];
 

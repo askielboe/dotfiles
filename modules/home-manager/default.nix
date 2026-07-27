@@ -24,16 +24,17 @@ in
 {
   # Import shared home-manager settings
   imports = [
-    ./nixvim
     ./settings/beets.nix
     ./settings/chromium.nix
     ./settings/claude.nix
     ./settings/clickhouse.nix
+    ./settings/editorconfig.nix
     ./settings/factory.nix
     ./settings/file.nix
     ./settings/git-annex.nix
     ./settings/git.nix
     ./settings/nodejs.nix
+    ./settings/nvim.nix
     ./settings/packages.nix
     ./settings/pi.nix
     ./settings/programs.nix
@@ -74,7 +75,9 @@ in
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       aider = "op run --no-masking aider";
       he = "cd ~/.config/nix/ && nvim && cd -";
-      hu = "cd ~/.config/nix/ && nix flake update && cd -";
+      # Also bump the nvim/ child flake's own lock (see settings/nvim.nix) so
+      # the standalone neovim tracks channel updates alongside everything else.
+      hu = "cd ~/.config/nix/ && nix flake update && nix flake update --flake \"path:$HOME/.config/nix/nvim\" && cd -";
       c = "claude";
       ch = "claude-history";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
