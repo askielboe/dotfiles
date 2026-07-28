@@ -145,7 +145,7 @@ in
 
     settings = {
       model = "opus";
-      effortLevel = "xhigh";
+      effortLevel = "high";
       alwaysThinkingEnabled = true;
       skipDangerousModePermissionPrompt = true;
       tui = "fullscreen";
