@@ -19,7 +19,6 @@ in
     noice.enable = true; # Notifications
     oil.enable = true;
     quicker.enable = true; # Quick select
-    supermaven.enable = true;
     trouble.enable = true; # Diagnostics
     which-key.enable = true; # Keymaps pop-over
   };
