@@ -31,7 +31,6 @@ in
     ./settings/editorconfig.nix
     ./settings/factory.nix
     ./settings/file.nix
-    ./settings/git-annex.nix
     ./settings/git.nix
     ./settings/nodejs.nix
     ./settings/nvim.nix
