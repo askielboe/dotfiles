@@ -40,7 +40,6 @@ in
     ./settings/shell.nix
     ./settings/sops.nix
     ./settings/ssh.nix
-    ./settings/syncthing.nix
     ./settings/taskwarrior.nix
     ./settings/tmux.nix
     ./settings/whisper.nix

@@ -7,8 +7,8 @@
   # version bump moves a binary to a brand-new /nix/store/<hash>/... path, and
   # `nix.gc` (weekly, see ../default.nix) deletes the old one. The firewall never
   # cleans up after itself, so its exception list fills with dead /nix paths while
-  # the live daemons (syncthing, colima/lima) — which are ad-hoc-signed and open
-  # listening sockets constantly — get re-assessed from scratch on every launch.
+  # the live daemons (colima/lima) — which are ad-hoc-signed and open listening
+  # sockets constantly — get re-assessed from scratch on every launch.
   # Net effect: socketfilterfw burns CPU walking a half-dead list and re-verifying
   # binaries whose verdict it can never cache across the path churn.
   #
