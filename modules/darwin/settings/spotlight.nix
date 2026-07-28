@@ -19,7 +19,7 @@
   #
   # postActivation runs as root at the end of `darwin-rebuild switch` (`hs`).
   # mkAfter so this concatenates with the postActivation.text in power.nix /
-  # pi-mlx-python.nix (the option is types.lines).
+  # firewall-prune.nix (the option is types.lines).
   system.activationScripts.postActivation.text = lib.mkAfter ''
     echo "spotlight: ensuring boot-volume indexing stays ON (Mail search needs it)" >&2
     /usr/bin/mdutil -i on / || true

@@ -34,7 +34,6 @@ in
     ./settings/nodejs.nix
     ./settings/nvim.nix
     ./settings/packages.nix
-    ./settings/pi.nix
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix

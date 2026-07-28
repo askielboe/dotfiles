@@ -19,8 +19,8 @@
   # volume) are deliberately left alone; prune those by hand if they accumulate.
   #
   # postActivation runs as root at the end of `hs`. mkAfter so this concatenates
-  # with the postActivation.text in spotlight.nix / power.nix / pi-mlx-python.nix
-  # (the option is types.lines).
+  # with the postActivation.text in spotlight.nix / power.nix (the option is
+  # types.lines).
   system.activationScripts.postActivation.text = lib.mkAfter ''
     echo "firewall: pruning dead /nix exceptions from the application firewall" >&2
     fw=/usr/libexec/ApplicationFirewall/socketfilterfw
