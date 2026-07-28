@@ -161,5 +161,10 @@ in
       openpomodoro-cli
       sourcekit-lsp
       xcbeautify
+    ]
+    # Linux-only: dwarfs isn't packaged for darwin in nixpkgs — macOS gets the
+    # (mount-less) tools from Homebrew instead (darwin/settings/homebrew.nix).
+    ++ lib.optionals stdenv.isLinux [
+      dwarfs # DwarFS: fast high-compression read-only FUSE filesystem
     ];
 }

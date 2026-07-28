@@ -23,6 +23,11 @@ let
   # can match these against `brew outdated` output. These are stopgaps we'd rather
   # get from nixpkgs (or drop) eventually.
   brews = [
+    # nixpkgs' dwarfs is Linux-only, hence the brew fallback here (Linux gets it
+    # from nixpkgs in home-manager packages.nix). Note: homebrew-core builds with
+    # -DWITH_FUSE_DRIVER=OFF, so this ships mkdwarfs/dwarfsck/dwarfsextract but
+    # no `dwarfs` mount command (homebrew-core forbids macFUSE/FUSE-T deps).
+    "dwarfs"
     "herald-email/herald/herald"
     "herdr"
     "mas"
