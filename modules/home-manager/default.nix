@@ -42,7 +42,6 @@ in
     ./settings/ssh.nix
     ./settings/taskwarrior.nix
     ./settings/tmux.nix
-    ./settings/whisper.nix
     ./settings/zed.nix
   ];
 
