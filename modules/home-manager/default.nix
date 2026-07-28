@@ -29,7 +29,6 @@ in
     ./settings/claude.nix
     ./settings/clickhouse.nix
     ./settings/editorconfig.nix
-    ./settings/factory.nix
     ./settings/file.nix
     ./settings/git.nix
     ./settings/nodejs.nix
