@@ -31,14 +31,6 @@
 
     catppuccin.url = "github:catppuccin/nix/release-26.05";
 
-    packages.url = "path:./packages";
-    packages.inputs.nixpkgs.follows = "nixpkgs";
-
-    # sqlit: terminal UI for SQL databases. Its flake exposes lib.makeSqlit;
-    # clickhouse-connect is added via an override in packages.nix.
-    sqlit.url = "github:Maxteabag/sqlit";
-    sqlit.inputs.nixpkgs.follows = "nixpkgs";
-
     # nix-homebrew: manage the Homebrew installation itself and pin the third-party
     # taps to flake.lock. Inputs must be declared here (flake rule); the module config
     # that consumes them lives in modules/darwin/settings/nix-homebrew.nix, reached via
@@ -81,9 +73,7 @@
       nix-index-database,
       nixvim,
       catppuccin,
-      packages,
       sops-nix,
-      sqlit,
       ...
     }:
     let
@@ -115,9 +105,8 @@
       ];
 
       # Overlays shared by every platform. Applying them on Linux too is what makes
-      # the standalone home-manager build work: packages.overlays.default is the only
-      # source of mcp-granola/mcp-things/specify-cli, and the doCheck=false overrides
-      # below are needed there as well (resticprofile's systemd test is Linux-only-broken).
+      # the standalone home-manager build work: the doCheck=false overrides below are
+      # needed there as well (resticprofile's systemd test is Linux-only-broken).
       sharedOverlays = [
         (final: prev: {
           direnv = prev.direnv.overrideAttrs (old: {
@@ -149,7 +138,6 @@
             })
           ];
         })
-        packages.overlays.default
       ];
 
       mkPkgs =
@@ -170,7 +158,6 @@
               nixvim
               nixpkgs-unstable
               private
-              sqlit
               ;
           };
           modules = homeManagerModules ++ [
@@ -198,7 +185,6 @@
                   nixvim
                   nixpkgs-unstable
                   private
-                  sqlit
                   ;
               };
               users.${user}.imports = homeManagerModules ++ [

@@ -8,7 +8,7 @@ the flake evaluates fully pure (no `--impure` anywhere):
 - `secrets/settings.nix` — non-sensitive eval-time values (user identity, AWS
   regions). Committed in plaintext; edit directly.
 - `secrets/secrets.yaml` — everything sensitive (ssh host blocks, 1Password
-  account/item refs, ClickHouse endpoint, sqlit connections). Committed
+  account/item refs, ClickHouse endpoint). Committed
   [sops](https://github.com/getsops/sops)-encrypted; decrypted at activation
   by [sops-nix](https://github.com/Mic92/sops-nix). Edit with:
 

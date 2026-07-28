@@ -1,7 +1,6 @@
 {
   pkgs,
   nixpkgs-unstable,
-  sqlit,
   ...
 }:
 
@@ -10,29 +9,6 @@ let
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
-
-  # sqlit TUI with the ClickHouse driver. Upstream's makeSqlit only covers
-  # extras packaged in nixpkgs (clickhouse-connect is excluded there), so we
-  # append it to the dependencies ourselves.
-  #
-  # The patch fixes an upstream bug (as of a77d420): the TUI's
-  # ConnectionManager.populate_credentials only reads the OS keyring and
-  # never runs a connection's password_command, so it connects with an
-  # empty password. The CLI path (sqlit query) handles it correctly; the
-  # patch copies that logic over.
-  sqlit-clickhouse =
-    (sqlit.lib.${pkgs.stdenv.hostPlatform.system}.makeSqlit {
-      extras = [
-        "ssh"
-        "postgres"
-        "mysql"
-        "duckdb"
-      ];
-    }).overridePythonAttrs
-      (old: {
-        dependencies = old.dependencies ++ [ pkgs.python3.pkgs.clickhouse-connect ];
-        patches = (old.patches or [ ]) ++ [ ./sqlit-password-command.patch ];
-      });
 
   # GYB stores client_secrets.json and OAuth tokens in its config folder,
   # which defaults to the directory of the gyb script itself — the read-only
@@ -133,8 +109,6 @@ in
       rustc
       rustfmt
       sops # edits secrets/secrets.yaml (age recipient in .sops.yaml)
-      specify-cli # GitHub Spec Kit: bootstrap projects for Spec-Driven Development
-      sqlit-clickhouse # TUI for SQL databases, with ClickHouse driver
       sqlite
       ssm-session-manager-plugin
       statix
@@ -156,8 +130,6 @@ in
     # Pomodoro timer (pom* aliases); sourcekit-lsp/xcbeautify are the Swift/Xcode
     # toolchain. Keeping them off Linux is both correct and keeps that config lean.
     ++ lib.optionals stdenv.isDarwin [
-      mcp-granola
-      mcp-things
       openpomodoro-cli
       sourcekit-lsp
       xcbeautify
