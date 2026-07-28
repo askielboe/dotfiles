@@ -23,6 +23,15 @@ in
         command = lib.getExe pkgs.dr14_tmeter;
       };
       match.preferred.media = [ "CD" ];
+      # Keep duplicate albums (same albumartist + album, e.g. a remaster next
+      # to the original) side by side instead of prompting at import.
+      import.duplicate_action = "keep";
+      # Directory suffix for such duplicates — first listed field that differs
+      # across all versions wins, and a version with an empty value gets no
+      # suffix: hand-set "version" flex field (beet modify -a <query>
+      # version='2020 remaster 24bit'), else the MB disambiguation comment
+      # ("remaster", "deluxe edition"), else year.
+      aunique.disambiguators = "version albumdisambig year label";
     };
   };
 }
