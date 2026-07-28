@@ -5,20 +5,6 @@
   ...
 }:
 let
-  # Wrapper that pre-trusts the current directory so Claude never shows the trust dialog
-  claude-wrapper = pkgs.writeShellScript "claude-trust-dir" ''
-    CLAUDE_JSON="$HOME/.claude/.claude.json"
-    DIR="$(${pkgs.git}/bin/git rev-parse --show-toplevel 2>/dev/null || pwd)"
-    if [ -f "$CLAUDE_JSON" ]; then
-      tmp=$(mktemp)
-      ${pkgs.jq}/bin/jq --arg dir "$DIR" '
-        .projects[$dir] = (.projects[$dir] // {}) |
-        .projects[$dir].hasTrustDialogAccepted = true |
-        .projects[$dir].hasClaudeMdExternalIncludesApproved = true |
-        .projects[$dir].hasClaudeMdExternalIncludesWarningShown = true
-      ' "$CLAUDE_JSON" > "$tmp" && mv "$tmp" "$CLAUDE_JSON"
-    fi
-  '';
   unstable = import nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
@@ -131,11 +117,6 @@ in
       # Extra args pass through: `hs -u` also updates flake inputs, `hs --dry`
       # previews without activating, `hs -a` asks before activating.
       nh darwin switch ~/.config/nix -H ${private.user.username} "$@"
-    }
-
-    claude() {
-      ${claude-wrapper}
-      command claude "$@"
     }
   '';
 
