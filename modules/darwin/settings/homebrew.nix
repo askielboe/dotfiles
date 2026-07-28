@@ -94,7 +94,6 @@ in
       "hamed-elfayome/claude-usage/claude-usage-tracker"
       "handbrake-app"
       "hiddenbar"
-      "insta360-link-controller"
       "linear"
       "macos-fuse-t/cask/fuse-t"
       "meetingbar"
