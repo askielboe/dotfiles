@@ -1,26 +1,8 @@
 {
-  pkgs,
   config,
   private,
   ...
 }:
-let
-  # Wrapper that pre-seeds workspace trust in ~/.claude/.claude.json before launching claude
-  # Claude resolves the git root of cwd for the trust check, so we do the same
-  claude-trusted = pkgs.writeShellScriptBin "claude-trusted" ''
-    CLAUDE_JSON="$HOME/.claude/.claude.json"
-    if [ -f "$CLAUDE_JSON" ]; then
-      DIR="$(${pkgs.git}/bin/git rev-parse --show-toplevel 2>/dev/null || pwd)"
-      ${pkgs.lib.getExe pkgs.jq} --arg dir "$DIR" '
-        .projects[$dir] //= {} |
-        .projects[$dir].hasTrustDialogAccepted = true |
-        .projects[$dir].hasClaudeMdExternalIncludesApproved = true |
-        .projects[$dir].hasClaudeMdExternalIncludesWarningShown = true
-      ' "$CLAUDE_JSON" > "$CLAUDE_JSON.tmp" && mv "$CLAUDE_JSON.tmp" "$CLAUDE_JSON"
-    fi
-    exec claude "$@"
-  '';
-in
 {
   # Import shared home-manager settings
   imports = [
@@ -61,8 +43,6 @@ in
       YARN_CACHE_FOLDER = "$HOME/.cache/yarn-global";
     };
 
-    packages = [ claude-trusted ];
-
     shellAliases = {
       ef = "e $(fzf)";
       cf = "cd $(fzf)";
@@ -76,7 +56,7 @@ in
       c = "claude";
       ch = "claude-history";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
-      ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude-trusted' -- --dangerously-skip-permissions";
+      ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude' -- --dangerously-skip-permissions";
       wm = "wt merge";
       cm = "claude --dangerously-skip-permissions --continue 'Fix the merge conflicts. Do NOT merge or commit ONLY do rebase continue. Preserve any functionality added to main outside this branch.'";
       t = "task";
