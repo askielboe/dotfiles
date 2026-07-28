@@ -24,6 +24,7 @@
     autoMigrate = true;
     mutableTaps = true;
     taps = {
+      "hamed-elfayome/homebrew-claude-usage" = inputs.homebrew-claude-usage;
       "herald-email/homebrew-herald" = inputs.homebrew-herald;
       "macos-fuse-t/homebrew-cask" = inputs.homebrew-fuse-t;
       "nikitabobko/homebrew-tap" = inputs.homebrew-nikitabobko;

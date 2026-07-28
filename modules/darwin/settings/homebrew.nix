@@ -11,6 +11,7 @@ let
   # here they use Homebrew's short form (owner/<name>); there the on-disk repo form
   # (owner/homebrew-<name>). Both resolve to the same tap directory.
   taps = [
+    "hamed-elfayome/claude-usage" # claude-usage-tracker
     "herald-email/herald"
     "macos-fuse-t/cask" # fuse-t (kext-less FUSE, used by rclone mount)
     "nikitabobko/tap" # aerospace
@@ -77,6 +78,7 @@ in
       "bitwarden"
       "brave-browser"
       "claude"
+      "claude-status-bar"
       "cyberduck"
       "dbeaver-community"
       "devonthink"
@@ -84,6 +86,7 @@ in
       "ghostty"
       "gitbutler"
       "granola"
+      "hamed-elfayome/claude-usage/claude-usage-tracker"
       "handbrake-app"
       "insta360-link-controller"
       "linear"

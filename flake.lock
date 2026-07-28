@@ -253,6 +253,22 @@
         "type": "github"
       }
     },
+    "homebrew-claude-usage": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783818395,
+        "narHash": "sha256-1GC8CvmizxE/VwwD+iOQGUoQE8EFG4rXqxPr+yUmvaY=",
+        "owner": "hamed-elfayome",
+        "repo": "homebrew-claude-usage",
+        "rev": "7558d2f6f460f54cfa85f55d04de6cb1d92e336b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hamed-elfayome",
+        "repo": "homebrew-claude-usage",
+        "type": "github"
+      }
+    },
     "homebrew-fuse-t": {
       "flake": false,
       "locked": {
@@ -559,6 +575,7 @@
         "determinate": "determinate",
         "home-manager": "home-manager",
         "homebrew-claude-history": "homebrew-claude-history",
+        "homebrew-claude-usage": "homebrew-claude-usage",
         "homebrew-fuse-t": "homebrew-fuse-t",
         "homebrew-herald": "homebrew-herald",
         "homebrew-nikitabobko": "homebrew-nikitabobko",

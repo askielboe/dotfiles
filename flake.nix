@@ -59,6 +59,10 @@
       url = "github:raine/homebrew-claude-history";
       flake = false;
     };
+    homebrew-claude-usage = {
+      url = "github:hamed-elfayome/homebrew-claude-usage";
+      flake = false;
+    };
     homebrew-fuse-t = {
       url = "github:macos-fuse-t/homebrew-cask";
       flake = false;
