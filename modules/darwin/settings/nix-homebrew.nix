@@ -22,6 +22,16 @@
 # deleting an entry here (and its flake input), also run:
 #   sudo rm -rf /opt/homebrew/Library/Taps/<owner>/homebrew-<name>
 # Hit 2026-08-07 by three stale taps at once: hamed-elfayome, herald-email, joncrangle.
+#
+# Removing the tap directory is only half of it: any formula still INSTALLED from
+# that tap is now unresolvable, and `brew bundle --force-cleanup` errors out rather
+# than uninstalling it — "No available formula with the name <owner>/<tap>/<name>.
+# This command requires the tap <owner>/<tap>." — which again fails the switch. So
+# uninstall the tap's packages BEFORE (or right after) dropping it:
+#   brew uninstall --force <name>
+# `brew leaves` is the check: every entry must be a formula the Brewfile declares.
+# Hit 2026-08-07 by herald (herald-email) and sketchybar-system-stats (joncrangle),
+# left behind when those taps went away.
 { inputs, private, ... }:
 {
   imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
