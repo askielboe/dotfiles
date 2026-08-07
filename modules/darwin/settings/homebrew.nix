@@ -11,8 +11,6 @@ let
   # here they use Homebrew's short form (owner/<name>); there the on-disk repo form
   # (owner/homebrew-<name>). Both resolve to the same tap directory.
   taps = [
-    "hamed-elfayome/claude-usage" # claude-usage-tracker
-    "herald-email/herald"
     "macos-fuse-t/cask" # fuse-t (kext-less FUSE, used by rclone mount)
     "nikitabobko/tap" # aerospace
     "raine/claude-history"
@@ -28,7 +26,6 @@ let
     # -DWITH_FUSE_DRIVER=OFF, so this ships mkdwarfs/dwarfsck/dwarfsextract but
     # no `dwarfs` mount command (homebrew-core forbids macFUSE/FUSE-T deps).
     "dwarfs"
-    "herald-email/herald/herald"
     "herdr"
     "mas"
     "raine/claude-history/claude-history"
@@ -91,7 +88,6 @@ in
       "ghostty"
       "gitbutler"
       "granola"
-      "hamed-elfayome/claude-usage/claude-usage-tracker"
       "handbrake-app"
       "hiddenbar"
       "linear"

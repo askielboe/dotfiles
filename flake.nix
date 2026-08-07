@@ -42,20 +42,13 @@
     # Third-party taps (small, low-churn). `flake = false` raw checkouts, symlinked into
     # the Homebrew prefix; they move only on `nix flake update` (`hu`). Keep in sync with
     # the short-form `taps` list in modules/darwin/settings/homebrew.nix (Brewfile + trust).
-    homebrew-herald = {
-      url = "github:herald-email/homebrew-herald";
-      flake = false;
-    };
     homebrew-nikitabobko = {
+      # aerospace
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
     homebrew-claude-history = {
       url = "github:raine/homebrew-claude-history";
-      flake = false;
-    };
-    homebrew-claude-usage = {
-      url = "github:hamed-elfayome/homebrew-claude-usage";
       flake = false;
     };
     homebrew-fuse-t = {
