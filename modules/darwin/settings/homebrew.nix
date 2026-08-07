@@ -131,6 +131,7 @@ in
       TestFlight = 899247664;
       "In Your Face" = 1476964367;
       "Things 3" = 904280696;
+      "Tock Timer" = 6757497053;
       Xcode = 497799835;
     };
   };
