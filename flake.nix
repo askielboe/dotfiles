@@ -4,7 +4,14 @@
   inputs = {
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    # nixpkgs-26.05-darwin, NOT nixos-26.05: the nixos-* branches advance when the
+    # NixOS (Linux) tests pass, without waiting for the darwin builders, so on a Mac
+    # they routinely point at revs whose aarch64-darwin binaries were never built —
+    # deno, rust-analyzer and yt-dlp were all compiling locally for exactly that
+    # reason (404 on darwin, 200 on x86_64-linux). The nixpkgs-*-darwin branch only
+    # advances once darwin is built. Both platforms stay cached at these revs, so
+    # the standalone Linux configs below are unaffected. Cost: some version lag.
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # sops-nix decrypts secrets/secrets.yaml (age key in modules/sops/age, NOT
