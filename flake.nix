@@ -98,13 +98,17 @@
       ];
 
       # Overlays shared by every platform. Applying them on Linux too is what makes
-      # the standalone home-manager build work: the doCheck=false overrides below are
+      # the standalone home-manager build work: the doCheck=false override below is
       # needed there as well (resticprofile's systemd test is Linux-only-broken).
+      #
+      # Only override packages that are NOT in cache.nixos.org (check with
+      # `curl -o /dev/null -w '%{http_code}' https://cache.nixos.org/<hash>.narinfo`).
+      # An overrideAttrs rewrites the derivation hash, so it forces a local rebuild of
+      # the package AND everything downstream of it — a doCheck=false on cached direnv
+      # used to cost a full 40-minute mise build, since direnv is one of mise's
+      # check inputs. If a package is cached, its tests never run here anyway.
       sharedOverlays = [
         (final: prev: {
-          direnv = prev.direnv.overrideAttrs (old: {
-            doCheck = false;
-          }); # fish tests get killed in Nix sandbox on macOS
           resticprofile = prev.resticprofile.overrideAttrs (old: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
