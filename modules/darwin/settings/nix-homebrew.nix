@@ -13,6 +13,15 @@
 # The three third-party taps ARE pinned (small, low-churn, the real supply-chain
 # surface). Their KEYS use Homebrew's on-disk repo form (owner/homebrew-<name>);
 # the short-form Brewfile refs in settings/homebrew.nix resolve to the same dirs.
+#
+# REMOVING a tap here needs a manual follow-up. nix-homebrew places taps as
+# root-owned read-only trees, and with mutableTaps = true it does NOT delete one
+# you drop from this attrset — the directory stays behind, unmanaged. The next
+# activation's `brew bundle --cleanup` then tries to untap it as the user and dies
+# with "Permission denied @ apply2files", failing the whole switch. So after
+# deleting an entry here (and its flake input), also run:
+#   sudo rm -rf /opt/homebrew/Library/Taps/<owner>/homebrew-<name>
+# Hit 2026-08-07 by three stale taps at once: hamed-elfayome, herald-email, joncrangle.
 { inputs, private, ... }:
 {
   imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
