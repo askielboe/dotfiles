@@ -136,6 +136,14 @@ in
     config = {
       ProgramArguments = [
         "${pkgs.uv}/bin/uvx" # uv ships uvx; fetches+caches mcp-proxy from PyPI on first run
+        # mcp-proxy 0.12.0 (latest) requires `mcp>=1.17.0` with no upper bound, but
+        # SDK 2.0.0 dropped `mcp.server.lowlevel.server.request_ctx`, which
+        # proxy_server.py imports at module load. Unpinned, uvx resolves 2.x and the
+        # agent crash-loops on ImportError (silently: the gateway then reports Bear as
+        # "no tools available" rather than broken). Drop the pin once mcp-proxy > 0.12.0
+        # supports SDK 2.x.
+        "--with"
+        "mcp<2"
         "mcp-proxy"
         "--host"
         "127.0.0.1"
