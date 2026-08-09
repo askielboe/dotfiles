@@ -94,6 +94,7 @@ in
       nixfmt # Formatter for nix files
       nixpkgs-review
       npm-check-updates
+      numbat # Soulver for the terminal
       openssh
       parallel
       postgresql
@@ -112,8 +113,8 @@ in
       sqlite
       ssm-session-manager-plugin
       statix
-      taskwarrior3
       taskwarrior-tui
+      taskwarrior3
       terraform
       tree
       unstable.devenv
