@@ -56,15 +56,19 @@ update-but-skill:
         # Commit ONLY the skill files, matched by path from `but status` so adds,
         # modifications, and deletions are all covered, onto their own branch —
         # every other uncommitted change stays assigned exactly as it was.
-        # `--create` reuses the branch if it already exists, so re-runs are idempotent.
-        ids="$(but status --format json \
+        # `-b` creates the branch or reuses it if it already exists, so re-runs are
+        # idempotent. Changes are passed as positional CLI IDs.
+        ids=()
+        while IFS= read -r id; do
+            [ -n "$id" ] && ids+=("$id")
+        done < <(but status --json \
             | jq -r --arg dir "$skill/" \
-                '[.uncommittedChanges[] | select(.filePath | startswith($dir)) | .cliId] | join(",")')"
-        if [ -z "$ids" ]; then
+                '.uncommittedChanges[] | select(.filePath | startswith($dir)) | .cliId')
+        if [ ${#ids[@]} -eq 0 ]; then
             echo "but skill already up to date — nothing to commit."
             exit 0
         fi
-        but commit --create revendor-but-skill --changes "$ids" -m "$msg"
+        but commit -b revendor-but-skill -m "$msg" "${ids[@]}"
     else
         # Plain Git (e.g. after `but teardown`): stage adds/mods/deletions within the
         # skill dir, then a partial (`--only`) commit that leaves every other index
