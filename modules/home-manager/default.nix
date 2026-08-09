@@ -61,7 +61,7 @@
       cm = "claude --dangerously-skip-permissions --continue 'Fix the merge conflicts. Do NOT merge or commit ONLY do rebase continue. Preserve any functionality added to main outside this branch.'";
       t = "task";
       tt = "taskwarrior-tui";
-
+      arqc = "/Applications/Arq.app/Contents/Resources/arqc";
     };
   };
 
