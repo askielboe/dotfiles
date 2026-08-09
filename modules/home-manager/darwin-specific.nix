@@ -106,7 +106,10 @@ in
       if [ ! -e "$nvroot" ] || [ "$(cat "$nvroot.hash" 2>/dev/null)" != "$nvhash" ]; then
         mkdir -p "$HOME/.config/nix/.gc-roots"
         nix build "path:$HOME/.config/nix/nvim" --out-link "$nvroot" || return
-        print -r -- "$nvhash" > "$nvroot.hash"
+        # `>|` not `>`: this runs under the user's interactive zsh, which has
+        # noclobber set — a plain `>` onto the existing hash file fails, leaving
+        # it stale so the line-106 guard never matches and every hs rebuilds.
+        print -r -- "$nvhash" >| "$nvroot.hash"
       fi
       # nh (nix-helper) builds as your user, prints an nvd package diff, and only
       # elevates (sudo) for the activation step. Pure eval: settings.nix and the
