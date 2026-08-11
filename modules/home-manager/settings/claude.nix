@@ -20,7 +20,23 @@ let
     MODEL=$(${pkgs.jq}/bin/jq -r '.model.display_name // .model.id // "?"' <<<"$input")
     EFFORT=$(${pkgs.jq}/bin/jq -r '.effort.level // "?"' <<<"$input")
     SESSION=$(${pkgs.jq}/bin/jq -r '.session_id // "?"' <<<"$input")
+
+    # Chat title, on a second line. A name set via /rename arrives in the payload as
+    # session_name; the auto-generated title does NOT — it is only written to the
+    # transcript as `{"type":"ai-title","aiTitle":…}` records, re-emitted whenever the
+    # title is refreshed, so the LAST one wins. tac + `grep -m1` reads from the end and
+    # exits on the first hit (SIGPIPE stops tac), which keeps this off the critical
+    # path even on multi-MB transcripts.
+    TITLE=$(${pkgs.jq}/bin/jq -r '.session_name // empty' <<<"$input")
+    TRANSCRIPT=$(${pkgs.jq}/bin/jq -r '.transcript_path // empty' <<<"$input")
+    if [ -z "$TITLE" ] && [ -r "$TRANSCRIPT" ]; then
+      TITLE=$(${pkgs.coreutils}/bin/tac "$TRANSCRIPT" \
+        | ${pkgs.gnugrep}/bin/grep -m1 '"type":"ai-title"' \
+        | ${pkgs.jq}/bin/jq -r '.aiTitle // empty')
+    fi
+
     echo "$DIR  ·  $MODEL ($EFFORT)  ·  $SESSION"
+    echo "''${TITLE:-(untitled)}"
   '';
 
   lspServers = {
