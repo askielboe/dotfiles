@@ -10,11 +10,17 @@ let
     config.allowUnfree = true;
   };
 
+  # statusLine stdin schema (claude-code 2.1.x): `.effort.level` is only present when
+  # the current model supports reasoning effort, and `.session_id` is the chat UUID
+  # (same id as the transcript filename) — handy for `claude --resume <uuid>` and for
+  # pointing tooling at ~/.claude/projects/*/<uuid>.jsonl.
   statuslineScript = pkgs.writeShellScript "claude-statusline" ''
     input=$(cat)
     DIR=$(${pkgs.jq}/bin/jq -r '.workspace.project_dir' <<<"$input")
     MODEL=$(${pkgs.jq}/bin/jq -r '.model.display_name // .model.id // "?"' <<<"$input")
-    echo "$DIR  ·  $MODEL"
+    EFFORT=$(${pkgs.jq}/bin/jq -r '.effort.level // "?"' <<<"$input")
+    SESSION=$(${pkgs.jq}/bin/jq -r '.session_id // "?"' <<<"$input")
+    echo "$DIR  ·  $MODEL ($EFFORT)  ·  $SESSION"
   '';
 
   lspServers = {
