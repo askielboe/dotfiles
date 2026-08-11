@@ -101,6 +101,7 @@ in
       "nvidia-geforce-now"
       "postico"
       "proxyman"
+      "qobuz"
       "signal"
       "slack"
       "sony-ps-remote-play"
