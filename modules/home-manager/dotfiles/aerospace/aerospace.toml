@@ -212,6 +212,16 @@ gaps.outer.right =      10
     alt-shift-y = 'move-node-to-workspace Y'
     alt-shift-z = 'move-node-to-workspace Z'
 
+    # Step one workspace down/up the ordered list (1..6, A..Z as declared in
+    # persistent-workspaces). --wrap-around makes the ends meet, so prev from 1
+    # lands on Z.
+    # ctrl-alt-h/l, one modifier up from the alt-h/alt-l window focus above:
+    # same left/right hjkl direction, one level out (window -> workspace).
+    # Plain alt-arrow is word-jump in every text field and alt-shift-arrow is
+    # word-select, so the arrow keys have to stay with the apps.
+    ctrl-alt-h = 'workspace --wrap-around prev'
+    ctrl-alt-l = 'workspace --wrap-around next'
+
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
