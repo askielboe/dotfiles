@@ -98,6 +98,10 @@ in
       "mimestream"
       "mixxx"
       "nikitabobko/tap/aerospace"
+      # Kills Music.app the instant anything launches it (media key, Bluetooth
+      # reconnect, music:/itms: link). Kept running by the launchd agent in
+      # settings/autostart.nix.
+      "notunes"
       "nvidia-geforce-now"
       "postico"
       "proxyman"
