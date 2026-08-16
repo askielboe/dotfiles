@@ -9,6 +9,7 @@
     ./settings/beets.nix
     ./settings/chromium.nix
     ./settings/claude.nix
+    ./settings/codex.nix
     ./settings/clickhouse.nix
     ./settings/editorconfig.nix
     ./settings/file.nix
