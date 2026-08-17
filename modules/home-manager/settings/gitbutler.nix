@@ -4,12 +4,6 @@
   ...
 }:
 let
-  # The app binary dispatches CLI behavior from argv[0], while its installer only
-  # creates an imperative symlink outside Nix.
-  butCli = pkgs.writeShellScriptBin "but" ''
-    exec -a but /Applications/GitButler.app/Contents/MacOS/gitbutler-tauri "$@"
-  '';
-
   # GitButler detects the installed skill by this directory name, not its frontmatter.
   butSkillDir = ./agent-assets/skills/gitbutler;
   butSkillVersion =
@@ -61,10 +55,6 @@ in
     hooks.PreToolUse = [ butHook ];
   };
 
-  home.packages = lib.optionals pkgs.stdenv.isDarwin [ butCli ];
-
-  # The CLI binary launches the GUI in activation contexts, so compare the plist
-  # version without executing it.
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       plist=/Applications/GitButler.app/Contents/Info.plist
