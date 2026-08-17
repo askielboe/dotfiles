@@ -13,6 +13,7 @@ in
   programs.codex = {
     enable = true;
     package = unstable.codex;
+    settings.tui.status_line = [ "thread-id" ];
     context = ''
       ## Code hygiene
 
