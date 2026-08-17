@@ -14,6 +14,7 @@
     ./settings/editorconfig.nix
     ./settings/file.nix
     ./settings/git.nix
+    ./settings/gitbutler.nix
     ./settings/nodejs.nix
     ./settings/nvim.nix
     ./settings/packages.nix

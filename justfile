@@ -1,8 +1,8 @@
 # Task runner for the nix config repo. Run `just` to list recipes.
 
 # Path to the vendored GitButler `but` skill, relative to the repo root. Kept in
-# sync with `butSkillDir` in modules/home-manager/settings/claude.nix.
-but_skill_dir := "modules/home-manager/settings/claude-assets/skills/gitbutler"
+# sync with `butSkillDir` in modules/home-manager/settings/gitbutler.nix.
+but_skill_dir := "modules/home-manager/settings/agent-assets/skills/gitbutler"
 
 # List available recipes.
 default:
@@ -45,7 +45,7 @@ update-but-skill:
     but skill install --path "$PWD/$skill"
 
     ver="$(rg -m1 '^version:[[:space:]]*' "$skill/SKILL.md" | sed 's/^version:[[:space:]]*//')"
-    msg="claude: re-vendor but skill to ${ver:-installed app version}"
+    msg="gitbutler: re-vendor but skill to ${ver:-installed app version}"
 
     # A raw `git commit` is blocked on the gitbutler/workspace branch by GitButler's
     # managed pre-commit guard, so this must commit via `but` when GitButler owns the
