@@ -81,6 +81,10 @@ focus-follows-mouse.enabled = false
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 key-mapping.preset = 'qwerty'
 
+on-window-detected = [
+  { if = 'test %{app-name} = eqgame.exe', run = 'fullscreen on --no-outer-gaps' },
+]
+
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
