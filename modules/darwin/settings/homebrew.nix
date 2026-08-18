@@ -79,6 +79,7 @@ in
       "arq"
       "bitwarden"
       "brave-browser"
+      "chatgpt"
       "claude"
       "claude-status-bar"
       "codexbar"

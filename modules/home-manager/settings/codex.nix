@@ -1,18 +1,10 @@
 {
   lib,
   pkgs,
-  nixpkgs-unstable,
   ...
 }:
-let
-  unstable = import nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config.allowUnfree = true;
-  };
-in
 {
   home = {
-    packages = [ unstable.codex ];
     file.".codex/AGENTS.md".text = ''
       ## Code hygiene
 

@@ -21,6 +21,16 @@ let
     exec ${pkgs.gyb}/bin/gyb --config-folder "$cfg" "$@"
   '';
 
+  # Sharing the app's client keeps MCP OAuth state compatible after app updates.
+  codex-app-cli = pkgs.writeShellScriptBin "codex" ''
+    appCodex=/Applications/ChatGPT.app/Contents/Resources/codex
+    if [ ! -x "$appCodex" ]; then
+      echo "Codex is unavailable because the ChatGPT app is not installed." >&2
+      exit 1
+    fi
+    exec "$appCodex" "$@"
+  '';
+
   repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
     set -euo pipefail
     target="''${1:-.}"
@@ -130,6 +140,7 @@ in
     # Pomodoro timer (pom* aliases); sourcekit-lsp/xcbeautify are the Swift/Xcode
     # toolchain. Keeping them off Linux is both correct and keeps that config lean.
     ++ lib.optionals stdenv.isDarwin [
+      codex-app-cli
       openpomodoro-cli
       sourcekit-lsp
       xcbeautify
@@ -137,6 +148,7 @@ in
     # Linux-only: dwarfs isn't packaged for darwin in nixpkgs — macOS gets the
     # (mount-less) tools from Homebrew instead (darwin/settings/homebrew.nix).
     ++ lib.optionals stdenv.isLinux [
+      unstable.codex
       dwarfs # DwarFS: fast high-compression read-only FUSE filesystem
     ];
 }
