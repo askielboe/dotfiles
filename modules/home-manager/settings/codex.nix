@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   nixpkgs-unstable,
   ...
@@ -25,7 +26,35 @@ in
 
       ## Autonomy
 
-      - When a request includes implementation, edit in-scope files without asking for confirmation.
+      - When a request includes implementation, run in-scope commands and edit in-scope files without asking for confirmation.
+    '';
+
+    # The desktop app mutates this file, so keep its state and enforce only these defaults.
+    activation.codexFullAccess = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      cfg="$HOME/.codex/config.toml"
+      ${pkgs.coreutils}/bin/mkdir -p "$(${pkgs.coreutils}/bin/dirname "$cfg")"
+      tmp="$(${pkgs.coreutils}/bin/mktemp "$cfg.XXXXXX")"
+
+      if [ -f "$cfg" ]; then
+        input="$cfg"
+      else
+        input=/dev/null
+      fi
+
+      if ${pkgs.yq-go}/bin/yq -p toml -o toml '
+        .approval_policy = "never" |
+        .sandbox_mode = "danger-full-access" |
+        .notice.hide_full_access_warning = true |
+        .apps._default.default_tools_approval_mode = "approve" |
+        .apps._default.destructive_enabled = true |
+        .apps._default.open_world_enabled = true
+      ' "$input" > "$tmp"; then
+        ${pkgs.coreutils}/bin/chmod 600 "$tmp"
+        ${pkgs.coreutils}/bin/mv -f "$tmp" "$cfg"
+      else
+        ${pkgs.coreutils}/bin/rm -f "$tmp"
+        echo "⚠️  Codex config isn't valid TOML; left it untouched." >&2
+      fi
     '';
   };
 }
