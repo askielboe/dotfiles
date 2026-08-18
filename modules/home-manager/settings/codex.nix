@@ -10,11 +10,9 @@ let
   };
 in
 {
-  programs.codex = {
-    enable = true;
-    package = unstable.codex;
-    settings.tui.status_line = [ "thread-id" ];
-    context = ''
+  home = {
+    packages = [ unstable.codex ];
+    file.".codex/AGENTS.md".text = ''
       ## Code hygiene
 
       - Comments explain why, never what.
@@ -24,6 +22,10 @@ in
       - Prefer deletion and consolidation over addition.
       - When modifying code, remove code and comments made obsolete by the change.
       - Do not preserve obsolete compatibility paths unless required.
+
+      ## Autonomy
+
+      - When a request includes implementation, edit in-scope files without asking for confirmation.
     '';
   };
 }
