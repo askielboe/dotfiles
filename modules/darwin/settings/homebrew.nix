@@ -127,6 +127,7 @@ in
       "Microsoft Excel" = 462058435;
       "Microsoft PowerPoint" = 462062816;
       "Microsoft Word" = 462054704;
+      "Noir – Dark Mode for Safari" = 1592917505;
       Numbers = 361304891;
       Pages = 361309726;
       Portal = 1436994560;
