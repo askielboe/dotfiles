@@ -56,11 +56,11 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config option is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-# I and O are intentionally absent: they're retired as spaces (see the binding
-# section) so alt-i can stay a Danish symbol and alt-shift-o / alt-shift-i can
-# drive workspace history navigation instead.
+# C, I and O are intentionally absent: they're retired as spaces (see the
+# binding section). This leaves alt-c available to applications, alt-i for a
+# Danish symbol, and alt-shift-o / alt-shift-i for workspace history navigation.
 persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
-                         "C", "D", "E", "F", "G", "M", "N", "P", "Q",
+                         "D", "E", "F", "G", "M", "N", "P", "Q",
                          "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 # A callback that runs every time binding mode changes
@@ -163,13 +163,12 @@ gaps.outer.right =      10
     alt-4 = 'workspace 4'
     alt-5 = 'workspace 5'
     alt-6 = 'workspace 6'
-    # Workspaces 7-9, I and O removed as spaces. alt-7/8/9, alt-shift-7/8/9 and
-    # alt-i are the Danish symbol layer ([ ] \ { } |) and must reach the apps.
+    # Workspaces 7-9, C, I and O removed as spaces. alt-7/8/9,
+    # alt-shift-7/8/9, alt-c and alt-i must reach the apps.
     # alt-shift-o / alt-shift-i are repurposed for workspace history navigation
     # (see the workspace-back-and-forth section below).
     alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
     alt-b = 'workspace B'
-    alt-c = 'workspace C'
     alt-d = 'workspace D'
     alt-e = 'workspace E'
     alt-f = 'workspace F'
@@ -197,7 +196,6 @@ gaps.outer.right =      10
     alt-shift-6 = 'move-node-to-workspace 6'
     alt-shift-a = 'move-node-to-workspace A'
     alt-shift-b = 'move-node-to-workspace B'
-    alt-shift-c = 'move-node-to-workspace C'
     alt-shift-d = 'move-node-to-workspace D'
     alt-shift-e = 'move-node-to-workspace E'
     alt-shift-f = 'move-node-to-workspace F'
