@@ -77,7 +77,6 @@ in
       "aerial"
       "appcleaner"
       "arq"
-      "bitwarden"
       "brave-browser"
       "chatgpt"
       "claude"
@@ -121,6 +120,7 @@ in
     masApps = {
       "1Password for Safari" = 1569813296;
       Bear = 1091189122;
+      Bitwarden = 1352778147;
       DaisyDisk = 411643860;
       Keynote = 361285480;
       LookAway = 6747192301;
