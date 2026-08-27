@@ -473,6 +473,10 @@
         "catppuccin": "catppuccin",
         "darwin": "darwin",
         "determinate": "determinate",
+        "determinate-nix": [
+          "determinate",
+          "nix"
+        ],
         "home-manager": "home-manager",
         "homebrew-claude-history": "homebrew-claude-history",
         "homebrew-fuse-t": "homebrew-fuse-t",

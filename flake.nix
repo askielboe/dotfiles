@@ -3,6 +3,7 @@
 
   inputs = {
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    determinate-nix.follows = "determinate/nix";
 
     # nixpkgs-26.05-darwin, NOT nixos-26.05: the nixos-* branches advance when the
     # NixOS (Linux) tests pass, without waiting for the darwin builders, so on a Mac
@@ -70,6 +71,7 @@
       nixpkgs-unstable,
       home-manager,
       darwin,
+      determinate-nix,
       nix-index-database,
       nixvim,
       catppuccin,
@@ -116,6 +118,11 @@
       # check inputs. If a package is cached, its tests never run here anyway.
       sharedOverlays = [
         (final: prev: {
+          # Comma otherwise embeds upstream Nix, which warns about Determinate's
+          # eval-cores and lazy-trees settings when it reads /etc/nix/nix.conf.
+          comma = prev.comma.override {
+            nix = determinate-nix.packages.${final.stdenv.hostPlatform.system}.default;
+          };
           resticprofile = prev.resticprofile.overrideAttrs (old: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
