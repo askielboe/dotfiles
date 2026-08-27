@@ -30,6 +30,12 @@
       "clickhouse-host" = { };
       "clickhouse-user" = { };
       "clickhouse-op-item" = { };
+      "perkeep-auth" = { };
+      "perkeep-identity-secring" = {
+        sopsFile = ../../../secrets/perkeep-identity-secring.gpg;
+        format = "binary";
+        path = "${config.xdg.configHome}/perkeep/identity-secring.gpg";
+      };
     };
   };
 }

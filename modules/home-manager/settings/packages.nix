@@ -97,6 +97,7 @@ in
       numbat # Soulver for the terminal
       openssh
       parallel
+      perkeep
       postgresql
       qsv # CSV wrangler
       radicle-node # `rad`: peer-to-peer, sovereign code collaboration (node + CLI)

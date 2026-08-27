@@ -1,7 +1,7 @@
 keys:
   - &askielboe age1uh5m84ztpajryls3yd7r7rvs5rjn2ylnwktdvrm9lkpndf2ck9zs44rhhp
 creation_rules:
-  - path_regex: secrets/secrets\.yaml$
+  - path_regex: secrets/(secrets\.yaml|perkeep-identity-secring\.gpg)$
     key_groups:
       - age:
           - *askielboe
