@@ -10,6 +10,37 @@ let
     config.allowUnfree = true;
   };
 
+  savvy = pkgs.stdenvNoCC.mkDerivation rec {
+    pname = "savvy";
+    version = "0.1.0";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/jamalavedra/savvy/releases/download/v${version}/Savvy_${version}_aarch64.dmg";
+      hash = "sha256-y9ZQGsXQKZyea5MRcD9fzSDyUi7UNlULF1O3gbr1MM0=";
+    };
+
+    nativeBuildInputs = [ pkgs.undmg ];
+    sourceRoot = ".";
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/Applications"
+      cp -R Savvy.app "$out/Applications/"
+      runHook postInstall
+    '';
+
+    # Nix fixups would invalidate the upstream app signature.
+    dontFixup = true;
+
+    meta = {
+      description = "Local-first macOS meeting assistant";
+      homepage = "https://github.com/jamalavedra/savvy";
+      license = pkgs.lib.licenses.mit;
+      platforms = [ "aarch64-darwin" ];
+      sourceProvenance = [ pkgs.lib.sourceTypes.binaryNativeCode ];
+    };
+  };
+
   # GYB stores client_secrets.json and OAuth tokens in its config folder,
   # which defaults to the directory of the gyb script itself — the read-only
   # nix store. Wrap it to use a writable config folder instead. An explicit
@@ -134,6 +165,7 @@ in
       openpomodoro-cli
       sourcekit-lsp
       xcbeautify
+      savvy
     ]
     # Linux-only: dwarfs isn't packaged for darwin in nixpkgs — macOS gets the
     # (mount-less) tools from Homebrew instead (darwin/settings/homebrew.nix).
