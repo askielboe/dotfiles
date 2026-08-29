@@ -48,13 +48,6 @@ in
     skills.gitbutler = butSkillDir;
   };
 
-  programs.codex.skills.gitbutler = butSkillDir;
-
-  home.file.".codex/hooks.json".text = builtins.toJSON {
-    description = "Protect GitButler-managed repositories from raw git writes.";
-    hooks.PreToolUse = [ butHook ];
-  };
-
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       plist=/Applications/GitButler.app/Contents/Info.plist
