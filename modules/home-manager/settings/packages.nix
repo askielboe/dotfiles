@@ -86,7 +86,6 @@ in
       gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
       hcloud
       htop
-      httpie
       hugo
       imagemagick
       jq
