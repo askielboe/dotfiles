@@ -32,7 +32,7 @@ let
   ];
 
   # Leaf names (tap prefix stripped) — `brew outdated` prints short names, so match on these.
-  brewLeaves = map (b: lib.last (lib.splitString "/" b)) brews;
+  brewLeaves = map builtins.baseNameOf brews;
 
   # The activation-time "outdated formula" warning lives in a sibling shell script so it
   # gets editor tooling (highlighting/shellcheck) instead of a nix heredoc. nix passes it
