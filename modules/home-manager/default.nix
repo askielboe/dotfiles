@@ -7,7 +7,6 @@
   # Import shared home-manager settings
   imports = [
     ./settings/beets.nix
-    ./settings/chromium.nix
     ./settings/claude.nix
     ./settings/codex.nix
     ./settings/clickhouse.nix
