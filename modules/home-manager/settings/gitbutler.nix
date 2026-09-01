@@ -1,19 +1,8 @@
 {
-  lib,
   pkgs,
   ...
 }:
 let
-  # GitButler detects the installed skill by this directory name, not its frontmatter.
-  butSkillDir = ./agent-assets/skills/gitbutler;
-  butSkillVersion =
-    let
-      versionLine = lib.findFirst (lib.hasPrefix "version:") "version: unknown" (
-        lib.splitString "\n" (builtins.readFile (butSkillDir + "/SKILL.md"))
-      );
-    in
-    lib.removePrefix "version: " versionLine;
-
   butGitGuard = pkgs.writeShellScript "but-git-guard" ''
     input=$(cat)
     cmd=$(${pkgs.jq}/bin/jq -r '.tool_input.command // ""' <<<"$input")
@@ -43,24 +32,5 @@ let
   };
 in
 {
-  programs.claude-code = {
-    settings.hooks.PreToolUse = [ butHook ];
-    skills.gitbutler = butSkillDir;
-  };
-
-  home.activation = lib.mkIf pkgs.stdenv.isDarwin {
-    checkButSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      plist=/Applications/GitButler.app/Contents/Info.plist
-      if [ -f "$plist" ]; then
-        cliVersion="$(/usr/bin/defaults read /Applications/GitButler.app/Contents/Info CFBundleShortVersionString 2>/dev/null)"
-        if [ -n "$cliVersion" ] && [ "$cliVersion" != "${butSkillVersion}" ]; then
-          echo "" >&2
-          echo "⚠️  GitButler 'but' skill is stale: vendored ${butSkillVersion}, app $cliVersion." >&2
-          echo "    Fix:  cd $HOME/.config/nix && just update-but-skill" >&2
-          echo "    then run hs again to apply." >&2
-          echo "" >&2
-        fi
-      fi
-    '';
-  };
+  programs.claude-code.settings.hooks.PreToolUse = [ butHook ];
 }
