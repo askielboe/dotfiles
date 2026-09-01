@@ -120,7 +120,6 @@ in
       unstable.repomix
       uv
       wget
-      which
       worktrunk # `wt`: git worktree workflow tool
       xh # Rust re-write of httpie
       yazi
