@@ -151,6 +151,8 @@ _: {
             "Mailbox Search" = "@$f";
           };
         };
+        # Apple stores the system-wide AutoFill switch in Safari's preference domain.
+        "com.apple.Safari".AutoFillPasswords = false;
       };
     };
   };
