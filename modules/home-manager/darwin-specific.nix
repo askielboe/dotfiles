@@ -43,21 +43,6 @@ in
         source = ./dotfiles/aerospace/workspace-history.sh;
         executable = true;
       };
-      # Google Chat unread poller (neutral, UI-less library). home-manager links
-      # it to ~/.local/lib/gchat/gchat.py; the SwiftBar item below imports it from
-      # there. gchat-login (modules/darwin/settings/gchat.nix) writes the
-      # per-account OAuth state it reads under ~/.local/state/gchat/.
-      ".local/lib/gchat/gchat.py".source = ./dotfiles/gchat/gchat.py;
-      # Google Chat unread indicator for the NATIVE macOS menu bar. The plugin
-      # imports the neutral poller above (~/.local/lib/gchat/gchat.py) as a
-      # library — zero API/OAuth duplication. The ".1m." in the filename is
-      # SwiftBar's refresh cadence (1 min). SwiftBar itself is app-owned: point
-      # its Plugin Folder at ~/.config/swiftbar/plugins once (SwiftBar prefs, or
-      # `defaults write com.ambar.SwiftBar PluginDirectory ~/.config/swiftbar/plugins`).
-      ".config/swiftbar/plugins/gchat.1m.py" = {
-        source = ./dotfiles/swiftbar/gchat.1m.py;
-        executable = true;
-      };
     };
 
     shellAliases = {

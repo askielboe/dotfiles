@@ -107,7 +107,6 @@ in
       "stats"
       "steam"
       "sunsama"
-      "swiftbar"
       "tigervnc"
       "todoist"
       "tor-browser"
