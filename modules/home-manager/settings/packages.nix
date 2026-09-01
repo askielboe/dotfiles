@@ -64,7 +64,6 @@ in
       fswatch
       gawk
       gh
-      git
       git-annex
       git-filter-repo
       gnugrep
