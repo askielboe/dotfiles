@@ -15,7 +15,7 @@
 
     # Close Snacks.picker prompt in insert mode by clicking escape
     {
-      event = [ "FileType" ];
+      event = "FileType";
       pattern = "snacks_picker_input";
       command = "inoremap <buffer><silent> <ESC> <ESC>:close!<CR>";
     }
