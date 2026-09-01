@@ -8,7 +8,6 @@
       key = "-";
       action = "/";
       options = {
-        noremap = true;
         silent = true;
       };
     }
@@ -19,7 +18,6 @@
       key = "<leader>sib";
       action = "Vi[:sort<CR>";
       options = {
-        noremap = true;
         silent = true;
       };
     }
@@ -30,7 +28,6 @@
       key = "<C-S-k>";
       action = "<CMD>lua vim.diagnostic.open_float()<CR>";
       options = {
-        noremap = true;
         silent = true;
       };
     }
@@ -137,7 +134,6 @@
       key = "<S-M-k>";
       action = "<CMD>cprev<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Previous Quickfix";
       };
@@ -149,7 +145,6 @@
       key = "<S-M-j>";
       action = "<CMD>cnext<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Next Quickfix";
       };
@@ -161,7 +156,6 @@
       key = "<C-y>";
       action = "<CMD>t.<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Duplicate line";
       };
@@ -173,7 +167,6 @@
       key = "<C-s>";
       action = "<CMD>wa<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Write all buffers";
       };
@@ -185,7 +178,6 @@
       key = "<C-q>";
       action = "<CMD>wqa<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Write all and quit";
       };
@@ -197,7 +189,6 @@
       key = "<C-q>";
       action = "<Esc><CMD>wqa<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Write all and quit";
       };
@@ -209,7 +200,6 @@
       key = "<C-y>";
       action = "y'>p";
       options = {
-        noremap = true;
         silent = true;
         desc = "Duplicate visual selection";
       };
@@ -221,7 +211,6 @@
       key = "<c-x>";
       action = "dd";
       options = {
-        noremap = true;
         silent = true;
       };
     }
@@ -235,7 +224,6 @@
       key = "<c-M-j>";
       action = ":m .+1<CR>==";
       options = {
-        noremap = true;
         silent = true;
         desc = "Move line down";
       };
@@ -247,7 +235,6 @@
       key = "<c-M-k>";
       action = ":m .-2<CR>==";
       options = {
-        noremap = true;
         silent = true;
         desc = "Move line up";
       };
@@ -259,7 +246,6 @@
       key = "<leader>rw";
       action = ":%s/<C-r><C-w>//gc<Left><Left><Left>";
       options = {
-        noremap = true;
         desc = "Replace word under cursor in file";
       };
     }
@@ -270,7 +256,6 @@
       key = "<leader>sr";
       action = "<CMD>GrugFar<CR>";
       options = {
-        noremap = true;
         silent = true;
       };
     }
@@ -281,7 +266,6 @@
       key = "<leader>xx";
       action = "<CMD>Trouble diagnostics toggle<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Toggle diagnostics";
       };
@@ -293,7 +277,6 @@
       key = "<leader>v";
       action = "<CMD>lua require('mini.visits').select_path()<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Select visited path";
       };
@@ -308,7 +291,6 @@
       key = "<c-a>";
       action = "<CMD>MCstart<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Multicursors: Select word under cursor";
       };
@@ -318,7 +300,6 @@
       key = "<c-M-a>";
       action = "<CMD>MCpattern<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Multicursors: Select pattern";
       };
@@ -330,7 +311,6 @@
       key = "<leader>o";
       action = "<CMD>Oil<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Oil: Open parent directory";
       };
@@ -342,7 +322,6 @@
       key = "<D-S-o>";
       action = "<CMD>bprevious<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Previous buffer";
       };
@@ -352,7 +331,6 @@
       key = "<D-S-i>";
       action = "<CMD>bnext<CR>";
       options = {
-        noremap = true;
         silent = true;
         desc = "Next buffer";
       };
