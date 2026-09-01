@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, ... }:
 {
   # Taskwarrior 3 config, managed declaratively. Home Manager writes these keys to
   # a Nix-store fragment (~/.config/task/home-manager-taskrc) and prepends an
@@ -31,15 +31,4 @@
     };
   };
 
-  # Taskwarrior 3 prefers ~/.taskrc over the XDG path this module manages, so an
-  # existing ~/.taskrc would shadow everything above. After the module has created
-  # ~/.config/task/taskrc (with its `include`), move the legacy file aside so
-  # Taskwarrior falls through to the managed XDG config. Non-destructive (renames,
-  # doesn't delete) and idempotent — its contents (data.location, the UDAs,
-  # sync.server.url) are all captured in `config` above.
-  home.activation.migrateLegacyTaskrc = lib.hm.dag.entryAfter [ "regenDotTaskRc" ] ''
-    if [[ -e "$HOME/.taskrc" && -e "${config.xdg.configHome}/task/taskrc" ]]; then
-      run mv -f "$HOME/.taskrc" "$HOME/.taskrc.pre-home-manager"
-    fi
-  '';
 }

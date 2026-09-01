@@ -4,8 +4,7 @@
 # live in flake.nix (the only place flake inputs can be declared) and reach this
 # module via specialArgs (`inputs`).
 #
-# autoMigrate takes over the existing /opt/homebrew install in place. mutableTaps
-# = true leaves homebrew-core/homebrew-cask on Homebrew's JSON API, which serves
+# mutableTaps = true leaves homebrew-core/homebrew-cask on Homebrew's JSON API, which serves
 # formula/cask definitions matched to the installed brew. We deliberately do NOT
 # pin core/cask: nix-homebrew ships a lagging brew (6.0.9), but cask HEAD adopts
 # new cask-DSL as soon as it lands on brew master, so a pinned cask races ahead of
@@ -40,7 +39,6 @@
     enable = true;
     enableRosetta = false;
     user = private.user.username;
-    autoMigrate = true;
     mutableTaps = true;
     taps = {
       "macos-fuse-t/homebrew-cask" = inputs.homebrew-fuse-t;
