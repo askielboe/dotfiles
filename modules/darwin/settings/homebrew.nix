@@ -113,6 +113,7 @@ in
       "tor-browser"
       "vlc"
       "zed"
+      "zotero"
     ];
 
     masApps = {
