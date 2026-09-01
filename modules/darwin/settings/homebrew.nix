@@ -81,6 +81,7 @@ in
       "brave-browser"
       "claude"
       "claude-status-bar"
+      "codexbar"
       "cyberduck"
       "dbeaver-community"
       "devonthink"
