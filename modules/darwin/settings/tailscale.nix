@@ -24,6 +24,7 @@ let
     for _ in $(seq 1 60); do
       state=$("$ts" status --json 2>/dev/null | "$jq" -r '.BackendState' 2>/dev/null || true)
       if [ "$state" = "Running" ]; then
+        "$ts" set --accept-routes=true
         exec "$ts" serve --bg --tcp 9099 tcp://127.0.0.1:9099
       fi
       sleep 2
