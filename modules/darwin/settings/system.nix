@@ -77,12 +77,11 @@ _: {
           { app = "/Applications/Linear.app"; }
           { app = "/System/Applications/Mail.app"; }
           { app = "/Applications/Mimestream.app"; }
-          { app = "/Applications/Shortwave.app"; }
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
           { app = "/System/Cryptexes/App/System/Applications/Safari.app"; }
-          { app = "/Applications/Claude.app"; }
+          { app = "/Applications/ChatGPT.app"; }
           { app = "/Applications/Zed.app"; }
           { app = "/Applications/Bear.app"; }
           { app = "/Applications/DEVONthink.app"; }
