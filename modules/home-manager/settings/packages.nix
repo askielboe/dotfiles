@@ -125,6 +125,7 @@ in
       worktrunk # `wt`: git worktree workflow tool
       xh # Rust re-write of httpie
       yazi
+      yq
       zip
     ]
     # macOS-only: Granola & Things are macOS apps; openpomodoro-cli is the
