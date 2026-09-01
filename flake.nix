@@ -116,7 +116,7 @@
       # check inputs. If a package is cached, its tests never run here anyway.
       sharedOverlays = [
         (final: prev: {
-          resticprofile = prev.resticprofile.overrideAttrs (old: {
+          resticprofile = prev.resticprofile.overrideAttrs (_: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
         })
