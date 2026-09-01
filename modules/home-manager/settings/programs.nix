@@ -1,4 +1,4 @@
-{ pkgs, private, ... }:
+{ private, ... }:
 let
   aws = private.accounts.awsProfiles;
 in
@@ -16,7 +16,6 @@ in
     };
     direnv = {
       enable = true;
-      package = pkgs.direnv;
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
