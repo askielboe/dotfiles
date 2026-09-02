@@ -31,6 +31,24 @@ let
     exec "$appCodex" "$@"
   '';
 
+  # nixpkgs's Darwin build still enables X11, omits IOKit linkage, and mishandles its generated app bundle.
+  recoll =
+    if pkgs.stdenv.isDarwin then
+      pkgs.recoll.overrideAttrs (old: {
+        mesonFlags = old.mesonFlags ++ [ "-Dx11mon=false" ];
+        env = old.env // {
+          NIX_LDFLAGS = "-framework IOKit";
+        };
+        postInstall = pkgs.lib.replaceString "$out/bin/recoll.app" "qtgui/recoll.app" old.postInstall + ''
+          rm $out/bin/recoll
+        '';
+        postFixup = old.postFixup + ''
+          install_name_tool -add_rpath $out/lib $out/Applications/recoll.app/Contents/MacOS/.recoll-wrapped
+        '';
+      })
+    else
+      pkgs.recoll;
+
   repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
     set -euo pipefail
     target="''${1:-.}"
@@ -109,6 +127,7 @@ in
       qsv # CSV wrangler
       radicle-node # `rad`: peer-to-peer, sovereign code collaboration (node + CLI)
       rclone
+      recoll
       repomix-skeleton
       restic
       resticprofile
