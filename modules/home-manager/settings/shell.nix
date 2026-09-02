@@ -26,6 +26,9 @@
 
         # devenv automatic shell activation (cd into a trusted dir → env activates)
         command -v devenv >/dev/null 2>&1 && eval "$(devenv hook zsh)"
+
+        # clap currently escapes leading tildes, breaking continued path completion.
+        eval "$(JUST_COMPLETE=zsh just | sed 's/_describe -V.*/& -Q/')"
       '';
       prezto = {
         enable = true;
