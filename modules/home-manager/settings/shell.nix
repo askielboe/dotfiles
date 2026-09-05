@@ -8,7 +8,7 @@
       envExtra = ''
         # Ensure nix-darwin system paths are always available (fixes devshell PATH restrictions)
         typeset -U path
-        path=(/etc/profiles/per-user/$USER/bin /run/current-system/sw/bin /opt/homebrew/bin /opt/homebrew/sbin $path)
+        path=("$HOME/.local/bin" /etc/profiles/per-user/$USER/bin /run/current-system/sw/bin /opt/homebrew/bin /opt/homebrew/sbin $path)
 
         # OP_ACCOUNT from the sops-decrypted secret rather than a nix-store-baked
         # sessionVariable; unreadable file (pre-first-decryption) just skips it.

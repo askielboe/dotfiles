@@ -26,6 +26,7 @@ let
     # -DWITH_FUSE_DRIVER=OFF, so this ships mkdwarfs/dwarfsck/dwarfsextract but
     # no `dwarfs` mount command (homebrew-core forbids macFUSE/FUSE-T deps).
     "dwarfs"
+    "espeak-ng"
     "herdr"
     "mas"
     "raine/claude-history/claude-history"
