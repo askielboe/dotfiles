@@ -84,13 +84,6 @@
 
   # Catppuccin theming, enabled globally. We WANT it on for every program that
   # supports it (Zed, bat, btop, …) — do NOT disable it per-program as a styling
-  # preference. Per-program disables below are bug workarounds only.
+  # preference.
   catppuccin.enable = true;
-
-  # SOLE exception, and ONLY because of a home-manager bug — not a preference:
-  # catppuccin's gemini-cli module still targets the old `programs.gemini-cli` option,
-  # which home-manager renamed to `programs.antigravity-cli`. Left enabled it
-  # errors/no-ops against the stale name, so we turn it off here. Keep catppuccin
-  # enabled for everything else.
-  catppuccin.gemini-cli.enable = false;
 }
