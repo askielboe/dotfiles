@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   nixpkgs-unstable,
   private,
@@ -109,6 +110,15 @@ in
 {
   home = {
     inherit (private.user) homeDirectory;
+
+    # Keep Google's hourly updater from contacting Google while its apps are closed.
+    activation.disableGoogleUpdater = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      googleUpdaterService="gui/$(/usr/bin/id -u)/com.google.GoogleUpdater.wake"
+      run /bin/launchctl disable "$googleUpdaterService"
+      if /bin/launchctl print "$googleUpdaterService" >/dev/null 2>&1; then
+        run /bin/launchctl bootout "$googleUpdaterService"
+      fi
+    '';
 
     file = {
       ".config/ghostty/config" = {
