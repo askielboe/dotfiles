@@ -31,6 +31,23 @@ let
     exec "$appCodex" "$@"
   '';
 
+  enzyme = pkgs.stdenvNoCC.mkDerivation {
+    pname = "enzyme";
+    version = "0.9.2";
+    src = pkgs.fetchurl {
+      url = "https://github.com/byenzyme/enzyme/releases/download/v0.9.2/enzyme-macos-arm64.tar.gz";
+      hash = "sha256-4jMDGWvZgXE+Ngf/VkGXgYuoTfeLfF4FxpzVcWsXwb0=";
+    };
+    sourceRoot = ".";
+    dontConfigure = true;
+    dontBuild = true;
+    dontFixup = true;
+    installPhase = ''
+      install -Dm755 enzyme "$out/bin/enzyme"
+    '';
+    meta.platforms = [ "aarch64-darwin" ];
+  };
+
   # nixpkgs's Darwin build still enables X11, omits IOKit linkage, and mishandles its generated app bundle.
   recoll =
     if pkgs.stdenv.isDarwin then
@@ -160,6 +177,7 @@ in
     # toolchain. Keeping them off Linux is both correct and keeps that config lean.
     ++ lib.optionals stdenv.isDarwin [
       codex-app-cli
+      enzyme
       openpomodoro-cli
       sourcekit-lsp
       xcbeautify

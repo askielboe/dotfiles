@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -41,6 +42,7 @@
         input=/dev/null
       fi
 
+      # TOML root values must precede tables or they become part of the last table.
       if ${pkgs.yq-go}/bin/yq -p toml -o toml '
         .approval_policy = "never" |
         .sandbox_mode = "danger-full-access" |
@@ -48,6 +50,11 @@
         .apps._default.default_tools_approval_mode = "approve" |
         .apps._default.destructive_enabled = true |
         .apps._default.open_world_enabled = true
+        ${lib.optionalString pkgs.stdenv.isDarwin ''
+          | .mcp_servers.enzyme.command = "${config.home.profileDirectory}/bin/enzyme"
+          | .mcp_servers.enzyme.args = ["mcp"]
+        ''}
+        | to_entries | sort_by(.value | kind == "map") | from_entries
       ' "$input" > "$tmp"; then
         ${pkgs.coreutils}/bin/chmod 600 "$tmp"
         ${pkgs.coreutils}/bin/mv -f "$tmp" "$cfg"
