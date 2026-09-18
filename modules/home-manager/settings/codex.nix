@@ -16,6 +16,14 @@
       - When modifying code, remove code and comments made obsolete by the change.
       - Do not preserve obsolete compatibility paths unless required.
 
+      ## Primary information sources
+
+      - Bear notes and Granola are my primary sources of personal and work context. Proactively search them when a request involves my projects, people, meetings, decisions, plans, preferences, or previous work, even when I do not name either app.
+      - Use Bear for written notes and reference material, and Granola for meeting notes, discussions, decisions, and action items. Search both when the topic could span them, before asking me for context or relying on memory alone.
+      - Start with focused searches and read the relevant results. Cite the notes or meetings used, including dates when useful; verify time-sensitive claims against current authoritative sources.
+      - If a connector is not listed, discover its tools or use an existing configured connection. If access fails, say which source could not be checked; do not treat unavailable access as no results.
+      - Skip these searches for self-contained requests that do not need personal context, such as translations, simple rewrites, general facts, or code changes fully specified by the repository and prompt.
+
       ## Autonomy
 
       - When a request includes implementation, run in-scope commands and edit in-scope files without asking for confirmation.
