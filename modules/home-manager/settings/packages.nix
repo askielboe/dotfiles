@@ -147,6 +147,7 @@ in
       unstable.devenv
       unstable.repomix
       uv
+      watch
       wget
       worktrunk # `wt`: git worktree workflow tool
       xh # Rust re-write of httpie
