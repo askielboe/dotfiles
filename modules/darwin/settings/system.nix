@@ -80,6 +80,7 @@ _: {
           { app = "/System/Applications/Messages.app"; }
           { app = "/Applications/Signal.app"; }
           { app = "/Applications/Slack.app"; }
+          { app = "/Users/askielboe/Applications/Chrome Apps.localized/Google Chat.app"; }
           { app = "/System/Cryptexes/App/System/Applications/Safari.app"; }
           { app = "/Applications/ChatGPT.app"; }
           { app = "/Applications/Zed.app"; }
