@@ -88,6 +88,7 @@ in
       "firefox"
       "ghostty"
       "gitbutler"
+      "google-chrome"
       "granola"
       "handbrake-app"
       "hiddenbar"
