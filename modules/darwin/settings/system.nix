@@ -1,4 +1,5 @@
-_: {
+{ lib, ... }:
+{
   system = {
     primaryUser = "askielboe";
 
@@ -124,6 +125,27 @@ _: {
 
       menuExtraClock.ShowDate = 1;
 
+      # Force-install policies require managed preferences, not recommended user defaults.
+      CustomSystemPreferences.${lib.escapeShellArg "/Library/Managed Preferences/com.google.Chrome"} = {
+        WebAppInstallForceList = [
+          {
+            url = "https://chat.google.com/";
+            fallback_app_name = "Google Chat";
+            default_launch_container = "window";
+          }
+          {
+            url = "https://drive.google.com/";
+            fallback_app_name = "Google Drive";
+            default_launch_container = "window";
+          }
+          {
+            url = "https://meet.google.com/landing";
+            fallback_app_name = "Google Meet";
+            default_launch_container = "window";
+          }
+        ];
+      };
+
       CustomUserPreferences = {
         "com.apple.symbolichotkeys" = {
           AppleSymbolicHotKeys = {
@@ -157,6 +179,10 @@ _: {
       };
     };
   };
+
+  system.activationScripts.defaults.text = lib.mkBefore ''
+    /bin/mkdir -p '/Library/Managed Preferences'
+  '';
 
   # Don't change
   system.stateVersion = 4;
