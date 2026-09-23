@@ -111,6 +111,23 @@ in
   home = {
     inherit (private.user) homeDirectory;
 
+    # Stable Lume 0.5.3 always exposes VNC; this upstream release can disable it.
+    activation.installLume = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      let
+        version = "nightly-lume-v0.5.4-nightly.20260923.35819836616";
+        installer = pkgs.fetchurl {
+          url = "https://raw.githubusercontent.com/trycua/cua/lume-v0.5.3/libs/lume/scripts/install.sh";
+          hash = "sha256-bDUysKvey61R6yZbpm0KFm/L1vpyISHmBhayOcGYbYo=";
+        };
+      in
+      ''
+        if [ "$(${private.user.homeDirectory}/.local/bin/lume --version 2>/dev/null || true)" != "${lib.removePrefix "nightly-lume-v" version}" ]; then
+          run /usr/bin/env LUME_VERSION=${version} LUME_TELEMETRY_ENABLED=false \
+            /bin/bash ${installer} --no-background-service
+        fi
+      ''
+    );
+
     # Keep Google's hourly updater from contacting Google while its apps are closed.
     activation.disableGoogleUpdater = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       googleUpdaterService="gui/$(/usr/bin/id -u)/com.google.GoogleUpdater.wake"
@@ -224,6 +241,24 @@ in
   # which makes this device reachable at <device>:9099 on the tailnet — the
   # endpoint the cluster's Tailscale egress targets. Only `sudo tailscale up`
   # (login) is manual, and only once.
+  launchd.agents.openclaw-pipeline = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.python3}/bin/python3"
+        "${private.user.homeDirectory}/work/openclaw-lume/pipeline.py"
+        "tick-all"
+      ];
+      RunAtLoad = true;
+      StartInterval = 30;
+      ProcessType = "Background";
+      Umask = 63;
+      StandardOutPath = "${private.user.homeDirectory}/Library/Logs/openclaw-pipeline.log";
+      StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/openclaw-pipeline.log";
+      EnvironmentVariables.PATH = "${private.user.homeDirectory}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+    };
+  };
+
   launchd.agents.bear-mcp-bridge = {
     enable = true;
     config = {

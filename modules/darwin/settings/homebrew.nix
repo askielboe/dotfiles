@@ -30,6 +30,7 @@ let
     "herdr"
     "mas"
     "raine/claude-history/claude-history"
+    "todoist-cli"
   ];
 
   # Leaf names (tap prefix stripped) — `brew outdated` prints short names, so match on these.
