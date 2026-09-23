@@ -251,7 +251,8 @@ in
       ];
       RunAtLoad = true;
       StartInterval = 30;
-      ProcessType = "Background";
+      # Background I/O throttling can exceed Lume's two-second process probe.
+      ProcessType = "Standard";
       Umask = 63;
       StandardOutPath = "${private.user.homeDirectory}/Library/Logs/openclaw-pipeline.log";
       StandardErrorPath = "${private.user.homeDirectory}/Library/Logs/openclaw-pipeline.log";
