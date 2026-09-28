@@ -23,9 +23,9 @@ let
 
   # Sharing the app's client keeps MCP OAuth state compatible after app updates.
   codex-app-cli = pkgs.writeShellScriptBin "codex" ''
-    appCodex=/Applications/ChatGPT.app/Contents/Resources/codex
+    appCodex=/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex
     if [ ! -x "$appCodex" ]; then
-      echo "Codex is unavailable because the ChatGPT app is not installed." >&2
+      echo "Codex CLI is missing or not executable at $appCodex" >&2
       exit 1
     fi
     exec "$appCodex" "$@"
