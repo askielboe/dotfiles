@@ -7,6 +7,13 @@
 {
   home = {
     file.".codex/AGENTS.md".text = ''
+      ## HARD CONSTRAINT: Email requires prior draft review
+
+      - NEVER send, reply to, forward, or schedule an email until I have reviewed the exact draft and explicitly approved sending it afterward.
+      - First show the recipients (including CC/BCC), subject, complete body, and any attachments. Wait for my explicit approval of that draft before sending. If any of these change, obtain approval again.
+      - Requests such as "reply to the email thread", "send an email", "continue", or general permission to act authorize preparation only when I have not yet reviewed the exact draft. Silence is never approval.
+      - This is mandatory globally, across all projects, tasks, agents, automations, accounts, plugins, connectors, APIs, command-line tools, and browser/native-app actions. Never bypass it by changing the sending method or delegating. Routine confirmations have no exception.
+
       ## Code hygiene
 
       - Comments explain why, never what.
@@ -24,6 +31,10 @@
       - Start with focused searches and read the relevant results. Cite the notes or meetings used, including dates when useful; verify time-sensitive claims against current authoritative sources.
       - If a connector is not listed, discover its tools or use an existing configured connection. If access fails, say which source could not be checked; do not treat unavailable access as no results.
       - Skip these searches for self-contained requests that do not need personal context, such as translations, simple rewrites, general facts, or code changes fully specified by the repository and prompt.
+
+      ## Browser use
+
+      - Use Google Chrome through the browser extension for browser tasks. Give parallel tasks separate tabs. Do not use Safari or desktop mouse-and-keyboard control for browsing. If extension-based control is unavailable, ask before switching methods.
 
       ## Autonomy
 
