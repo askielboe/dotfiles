@@ -242,7 +242,7 @@ in
   # endpoint the cluster's Tailscale egress targets. Only `sudo tailscale up`
   # (login) is manual, and only once.
   launchd.agents.openclaw-pipeline = {
-    enable = true;
+    enable = false;
     config = {
       ProgramArguments = [
         "${pkgs.python3}/bin/python3"
