@@ -161,6 +161,17 @@
                 type = "standard";
               };
             };
+            "65" = {
+              enabled = false;
+              value = {
+                parameters = [
+                  32
+                  49
+                  1572864
+                ];
+                type = "standard";
+              };
+            };
           };
         };
         "com.1password.1password" = {
