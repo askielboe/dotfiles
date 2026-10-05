@@ -57,7 +57,14 @@ let
       echo "Codex CLI is missing or not executable at $appCodex" >&2
       exit 1
     fi
-    exec "$appCodex" "$@"
+    # The GUI uses the shared default; terminal sessions use the CLI profile.
+    defaultProfile=(--profile cli)
+    for arg in "$@"; do
+      case "$arg" in
+        -p|--profile|-p?*|--profile=*) defaultProfile=(); break ;;
+      esac
+    done
+    exec "$appCodex" "''${defaultProfile[@]}" "$@"
   '';
 
   hax = pkgs.stdenv.mkDerivation (finalAttrs: {

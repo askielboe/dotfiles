@@ -61,6 +61,10 @@
 
       # TOML root values must precede tables or they become part of the last table.
       if ${pkgs.yq-go}/bin/yq -p toml -o toml '
+        .model = "gpt-6.1-sol" |
+        .model_reasoning_effort = "medium" |
+        .profiles.cli.model = "gpt-6-astra" |
+        .profiles.cli.model_reasoning_effort = "medium" |
         .approval_policy = "never" |
         .sandbox_mode = "danger-full-access" |
         .notice.hide_full_access_warning = true |
