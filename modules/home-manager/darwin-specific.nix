@@ -108,6 +108,7 @@ let
   '';
 in
 {
+  imports = [ ./settings/codex-todoist.nix ];
   home = {
     inherit (private.user) homeDirectory;
 

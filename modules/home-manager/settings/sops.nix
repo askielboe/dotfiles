@@ -18,6 +18,7 @@
     age.keyFile = "${config.home.homeDirectory}/.config/nix/modules/sops/age/keys.txt";
 
     secrets = {
+      "codex-todoist-collector-token" = { };
       # ssh_config fragment with the private Host blocks; pulled in via
       # `Include config.d/private` from programs.ssh (settings/ssh.nix).
       "ssh-config".path = "${config.home.homeDirectory}/.ssh/config.d/private";
