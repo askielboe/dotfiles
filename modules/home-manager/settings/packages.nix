@@ -142,7 +142,6 @@ in
       parallel
       postgresql
       qsv # CSV wrangler
-      radicle-node # `rad`: peer-to-peer, sovereign code collaboration (node + CLI)
       rclone
       recoll
       repomix-skeleton
