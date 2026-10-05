@@ -58,6 +58,7 @@
         .approval_policy = "never" |
         .sandbox_mode = "danger-full-access" |
         .notice.hide_full_access_warning = true |
+        .tui.show_tooltips = false |
         .apps._default.default_tools_approval_mode = "approve" |
         .apps._default.destructive_enabled = true |
         .apps._default.open_world_enabled = true
