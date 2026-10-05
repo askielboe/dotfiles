@@ -75,6 +75,13 @@
         ${lib.optionalString pkgs.stdenv.isDarwin ''
           | .mcp_servers.enzyme.command = "${config.home.profileDirectory}/bin/enzyme"
           | .mcp_servers.enzyme.args = ["mcp"]
+          | .plugins."bear-notes@personal".enabled = false
+          | .mcp_servers.bear = {
+              "command": "/Applications/Bear.app/Contents/MacOS/bearcli",
+              "args": ["mcp-server"],
+              "required": true,
+              "startup_timeout_sec": 30
+            }
         ''}
         | to_entries | sort_by(.value | kind == "map") | from_entries
       ' "$input" > "$tmp"; then
