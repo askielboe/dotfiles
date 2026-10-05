@@ -13,6 +13,10 @@
     # the standalone Linux configs below are unaffected. Cost: some version lag.
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    pi = {
+      url = "github:earendil-works/pi/v1.0.3";
+      flake = false;
+    };
 
     # sops-nix decrypts secrets/secrets.yaml (age key in modules/sops/age, NOT
     # in the store) at home-manager activation. Only the HM module is used —
@@ -116,6 +120,7 @@
       # check inputs. If a package is cached, its tests never run here anyway.
       sharedOverlays = [
         (final: prev: {
+          pi = final.callPackage (inputs.pi + "/nix/package.nix") { source = inputs.pi; };
           resticprofile = prev.resticprofile.overrideAttrs (_: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string

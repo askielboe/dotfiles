@@ -17,6 +17,7 @@
     ./settings/nodejs.nix
     ./settings/nvim.nix
     ./settings/packages.nix
+    ./settings/pi.nix
     ./settings/programs.nix
     ./settings/python.nix
     ./settings/shell.nix
@@ -54,7 +55,7 @@
       # Also bump the nvim/ child flake's own lock (see settings/nvim.nix) so
       # the standalone neovim tracks channel updates alongside everything else.
       hu = "cd ~/.config/nix/ && nix flake update && nix flake update --flake \"path:$HOME/.config/nix/nvim\" && cd -";
-      c = "codex";
+      c = "pi";
       ch = "claude-history";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
       ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude' -- --dangerously-skip-permissions";

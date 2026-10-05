@@ -464,6 +464,23 @@
         "type": "github"
       }
     },
+    "pi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791188470,
+        "narHash": "sha256-2SfC8zEf6emG1sDG1J7hjjSBt+3hFIz1/TcwBLa/hRU=",
+        "owner": "earendil-works",
+        "repo": "pi",
+        "rev": "d78dc83d633229d12f8b79631384c4c2717c399f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "earendil-works",
+        "ref": "v1.0.3",
+        "repo": "pi",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
@@ -478,6 +495,7 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",
+        "pi": "pi",
         "sops-nix": "sops-nix"
       }
     },
