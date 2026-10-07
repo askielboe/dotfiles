@@ -31,6 +31,23 @@ let
     exec "$appCodex" "$@"
   '';
 
+  cass = pkgs.stdenvNoCC.mkDerivation {
+    pname = "cass";
+    version = "0.10.0";
+    src = pkgs.fetchurl {
+      url = "https://github.com/Dicklesworthstone/coding_agent_session_search/releases/download/v0.10.0/cass-darwin-arm64.tar.gz";
+      hash = "sha256:1d922fd59b252bc3b4af63dbce5e4007c2f505ba1d6a8cec0a7280b169200580";
+    };
+    sourceRoot = ".";
+    dontConfigure = true;
+    dontBuild = true;
+    dontFixup = true;
+    installPhase = ''
+      install -Dm755 cass "$out/bin/cass"
+    '';
+    meta.platforms = [ "aarch64-darwin" ];
+  };
+
   enzyme = pkgs.stdenvNoCC.mkDerivation {
     pname = "enzyme";
     version = "0.9.2";
@@ -175,6 +192,7 @@ in
     # Pomodoro timer (pom* aliases); sourcekit-lsp/xcbeautify are the Swift/Xcode
     # toolchain. Keeping them off Linux is both correct and keeps that config lean.
     ++ lib.optionals stdenv.isDarwin [
+      cass
       codex-app-cli
       enzyme
       openpomodoro-cli
