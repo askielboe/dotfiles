@@ -1,14 +1,9 @@
+{ ... }:
 {
-  pkgs,
-  ...
-}:
-{
-  home = {
-    packages = [ pkgs.pi ];
+  programs.pi.coding-agent.enable = true;
 
-    file = {
-      ".pi/agent/extensions/codex-metadata.ts".source = ./pi/codex-metadata.ts;
-      ".pi/agent/lib/codex-mcp-proxy.mjs".source = ./pi/codex-mcp-proxy.mjs;
-    };
+  home.file = {
+    ".pi/agent/extensions/codex-metadata.ts".source = ./pi/codex-metadata.ts;
+    ".pi/agent/lib/codex-mcp-proxy.mjs".source = ./pi/codex-mcp-proxy.mjs;
   };
 }
