@@ -17,6 +17,7 @@
     ./settings/hax.nix
     ./settings/nodejs.nix
     ./settings/nvim.nix
+    ./settings/openwiki-google.nix
     ./settings/packages.nix
     ./settings/pi.nix
     ./settings/programs.nix
