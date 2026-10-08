@@ -188,7 +188,7 @@ in
       ripsecrets # Find secrets
       gitleaks # Secret scanner — backs the .githooks/pre-commit hook
       transmission_4
-      yt-dlp
+      unstable.yt-dlp
     ];
   };
 
