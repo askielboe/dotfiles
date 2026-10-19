@@ -10,6 +10,34 @@ let
     config.allowUnfree = true;
   };
 
+  gws-account =
+    account:
+    pkgs.writeShellScriptBin "gws-${account}" ''
+      set -euo pipefail
+      umask 077
+
+      # Inherited auth overrides would silently bypass the account's credential store.
+      unset GOOGLE_WORKSPACE_CLI_TOKEN GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE
+      unset GOOGLE_WORKSPACE_CLI_CLIENT_ID GOOGLE_WORKSPACE_CLI_CLIENT_SECRET
+      unset GOOGLE_APPLICATION_CREDENTIALS GOOGLE_WORKSPACE_PROJECT_ID
+      export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="''${XDG_CONFIG_HOME:-$HOME/.config}/gws/${account}"
+      mkdir -p "$GOOGLE_WORKSPACE_CLI_CONFIG_DIR"
+      chmod 700 "$GOOGLE_WORKSPACE_CLI_CONFIG_DIR"
+
+      # gws otherwise falls back to shared gcloud ADC when this account has no credentials.
+      case "''${1:-}" in
+        auth|schema|--help|-h|--version|-V|"") ;;
+        *)
+          if [ ! -f "$GOOGLE_WORKSPACE_CLI_CONFIG_DIR/credentials.enc" ] &&
+             [ ! -f "$GOOGLE_WORKSPACE_CLI_CONFIG_DIR/credentials.json" ]; then
+            echo "${account} is not authenticated. Run gws-${account} auth login first." >&2
+            exit 1
+          fi
+          ;;
+      esac
+      exec ${pkgs.gws}/bin/gws "$@"
+    '';
+
   # GYB stores client_secrets.json and OAuth tokens in its config folder,
   # which defaults to the directory of the gyb script itself — the read-only
   # nix store. Wrap it to use a writable config folder instead. An explicit
@@ -168,6 +196,71 @@ let
 in
 
 {
+  xdg.configFile."hax/skills/google-workspace/SKILL.md".text = ''
+    ---
+    name: google-workspace
+    description: Google Workspace tasks for mo2tion and hccreators through the authenticated gws CLI, including Chat, Gmail, Drive, and Calendar.
+    ---
+
+    # Workspace access
+
+    Google Workspace access uses account-specific commands:
+
+    | Account | Command |
+    | --- | --- |
+    | andreas@mo2tion.com | `gws-mo2tion` |
+    | askielboe@hccreators.com | `gws-hccreators` |
+
+    The account follows the user's request or verified resource ownership. Ambiguous account selection requires clarification.
+    Requests spanning both accounts use separate commands.
+    The named wrappers select credentials; bare `gws` and the active `gcloud` account are not substitutes.
+
+    ## Discovery and reads
+
+    Method help comes from `<account-cli> <service> <resource> --help`.
+    Method schemas come from `<account-cli> schema <service.resource.method>`.
+    Commands use `--params` for path and query parameters, and `--json` for request bodies.
+    Responses are JSON. Read calls use bounded page sizes and field selection where supported.
+    Subsequent pages use the response's `nextPageToken` as the next request's `pageToken`.
+    Resource names come from API responses, not guessed identifiers.
+
+    ```sh
+    gws-mo2tion chat spaces list --params '{"pageSize":10}'
+    gws-hccreators chat spaces list --params '{"pageSize":10}'
+    gws-mo2tion schema chat.spaces.messages.list
+    gws-hccreators gmail users getProfile --params '{"userId":"me"}'
+    ```
+
+    Authorized services include Chat, Gmail, Drive, Calendar, Docs, Sheets, and Slides.
+    Mutations remain limited to the user's requested scope. Authentication alone does not authorize external actions.
+
+    ## Email approval
+
+    Sending, replying, forwarding, and scheduling email require review of the exact draft before explicit approval to send.
+    The review includes To, CC, BCC, subject, complete body, attachments, and any scheduled delivery time.
+    Changes to those details require renewed approval.
+    General permission, silence, and requests to continue do not replace approval of the reviewed draft.
+    This requirement applies across commands, tools, APIs, and delegated work.
+
+    ## Authentication
+
+    Each wrapper uses a separate directory under `~/.config/gws/`, named `mo2tion` or `hccreators`.
+    Credentials are encrypted; their encryption key resides in the operating system's keyring.
+    Refresh tokens renew access tokens automatically. Routine service calls do not require another login.
+    Internal OAuth apps avoid the seven-day refresh-token expiry associated with External Testing apps.
+    Revocation and Workspace security policies can still require reauthorization.
+
+    ```sh
+    gws-mo2tion auth status
+    gws-hccreators auth status
+    ```
+
+    Authentication failures are reported for the affected account. Another account is not a fallback.
+    Credential exports, tokens, and client secrets remain outside model output, repository files, and logs.
+    Reauthorization and credential changes require an explicit setup request.
+    Nix owns persistent configuration at `~/.config/nix`; the user applies changes with `hs`.
+  '';
+
   home.packages =
     with pkgs;
     [
@@ -209,6 +302,9 @@ in
       gnutar
       go
       google-cloud-sdk
+      gws
+      (gws-account "mo2tion")
+      (gws-account "hccreators")
       gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
       hax
       hax-search
