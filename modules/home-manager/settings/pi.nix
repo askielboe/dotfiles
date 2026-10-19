@@ -181,6 +181,15 @@ in
         args = [ "mcp" ];
         timeout = 120;
       };
+      computer-history = {
+        command = "${pkgs.nodejs_26}/bin/node";
+        args = [
+          "${agentDir}/lib/computer-history-mcp.mjs"
+          "${appResources}/codex-cli/CodexCLI.app/Contents/MacOS/codex"
+        ];
+        cwd = codexDir;
+        timeout = 120;
+      };
       node_repl = {
         command = "${nodeDir}/bin/node";
         args = [
@@ -282,6 +291,7 @@ in
       ".pi/agent/extensions/codex-metadata.ts".source = ./pi/codex-metadata.ts;
       ".pi/agent/extensions/openwiki-refresh".source = refreshPackage;
       ".pi/agent/lib/codex-mcp-proxy.mjs".source = ./pi/codex-mcp-proxy.mjs;
+      ".pi/agent/lib/computer-history-mcp.mjs".source = ./pi/computer-history-mcp.mjs;
     };
   };
 }
