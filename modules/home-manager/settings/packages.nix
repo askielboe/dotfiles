@@ -196,6 +196,15 @@ let
 in
 
 {
+  xdg.configFile."mcporter/mcporter.json".text = builtins.toJSON {
+    imports = [ ];
+    mcpServers.tana = {
+      description = "Tana workspace";
+      baseUrl = "https://home.tana.inc/mcp";
+      auth = "oauth";
+    };
+  };
+
   xdg.configFile."hax/skills/google-workspace/SKILL.md".text = ''
     ---
     name: google-workspace
@@ -320,6 +329,7 @@ in
       kubernetes-helm
       magic-wormhole
       mariadb
+      mcporter
       mise
       mr # myrepos: run sync/status/etc. across many repos at once
       ngrok
