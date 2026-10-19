@@ -1,5 +1,6 @@
 .DS_Store
 .aider*
+.pi/messenger/
 result
 # gc-rooted out-links for the prebuilt nvim/ child flake (hs pre-step)
 .gc-roots/
