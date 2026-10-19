@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:255493b21e45e908c4ad8457b85657b30b422ca108e924cc47683223e0b5bd44",
+  "claims": [
+    {
+      "id": "claim_75a9ccb7b3ab4b329fefc1bfd7db89f8",
+      "statement": "This flake manages Apple Silicon macOS through nix-darwin with embedded Home Manager and standalone ARM and x86_64 Linux Home Manager outputs.",
+      "evidence": [
+        {
+          "resource": "repo://flake.nix#L82-L201",
+          "version": "repo-lines-v1:sha256:214c4a2174258eaab14ac0a0ae7efcad87b17d5850a533fbcb7deb2bfbaeb35a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzZTBjYWE1NTNhNDQ5ZWQzNDQyM2EwY2VlZmMwOWQxZTBmNGJmYmU1OGI0MWNlYjg4ODQxYzRiMjljZTc5ZGU3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMzZiMGViY2UzZmU3NDRhMjg3OGUyODg3NDEzOTA0ZGUwYmU4MjgxYTg2MzJiODg1ZDA0ODU3NGI1NTUxZWRkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_40c117dddcfb4e52863eac8eecfb50cf",
+      "statement": "Repository agent instructions reserve Home Manager switching for the user and prohibit Terraform commands; non-activating Linux validation uses a dry-run activation-package build.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L41-L45",
+          "version": "repo-lines-v1:sha256:b7348e5e4a99d8df0db80e95f193f669e3f392e6587846fbcd431e7c09adfcc1:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2QxZDZmZGU5ZGI1NGYyZGU4YWExYTcwMDgwZDM2ODMzYjhkOTI2MGUwMGZhNzUxMDI1MDI0M2MyOWQyMmZkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWVlZTAyYzc2M2Y0MGRiYjdjN2ZmNzBiNTFiMTY4NzgxZTJlZDg5ZGFlMTU2NDI1ODNlMTMxOTljNTFjZTM3ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzM1YjY1ZWZhM2I0N2FkOGI1ZDM2N2YyMDc4ZWI0ZGM5YjM0ZDY1NmYxMDUyZmYzYzBlMjBkYjJhMDFkNDY0MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWIxYmM1YmM0YTIzN2Y1NzhlNmFmNGE0MTVkMDY0N2Y5OTEwYjAzYjM2NGUxZTI3YzFmMWRiYWE3NDNkMDNiYSJ9"
+        },
+        {
+          "resource": "repo://justfile#L28-L39",
+          "version": "repo-lines-v1:sha256:233923c8c7cb2c4c4ccc36dc46fcb8719c2017d82cd4b3333f879c6e4a167473:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYTBlOWI3ZWFlMmMyYWJhYzNmZjAyMDU3ZTQ1MzM4ZTUzYTVkZTQ2ZWJjMzkwYTQ4ZmEwNmE4OGEzNDA5MzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1NjFkMmJiY2Y5OTczYTM2ZjQxYzVkYmE5ZTFmODlhMmFiMTA3YmNmNGNjNzliZWNiODlmMmJmZTUzOWRjMDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVlNmQyYjU1YmY3ODA2Njk1NjdiMTE3YzI0Zjk3MzFhMDZhY2NhNjE5YWNiYjVhMGY3NTliYmZkMjY1OTI0MzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5df7bb44f8844f218d54cf885cc8f5db",
+      "statement": "The macOS hs function prebuilds Neovim and delegates deployment to nh; Linux hs selects an architecture-specific Home Manager output.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L202-L233",
+          "version": "repo-lines-v1:sha256:f081fadbdbd16d99c6bc77d7f4213f735848dfab8c4c016335c09b20ca8d26af:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5MWYxMGRlMWI0YjFhYjg2MTc0YjdkNGE2YjliOWU2YmI3OWEwODk2MGFiNDhhZDlhNmY4MmU2NmJhMGFhYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2MzJlNTQyMTg4N2ZmMmQ1ZTQ2ODQ5NDQxYjliNTc0NTUwOTk2OGEyMDMyZjI0MjFlNjZmNmZlNDc3YjgyMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjYzhiMGQxMzY1MDM4ZmI1NDZjOGI3OGUwMjc1NzdhMmUwNWU0ZjQ4MDVlNmJiMzliYzg5M2Y2ZGE4NTZlNWQifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/linux-specific.nix#L41-L58",
+          "version": "repo-lines-v1:sha256:c7a48db092e784dab9770265dd65a185720420861e2ab5c8b20b7c5c604bfd3a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5OWJmN2NlMWJlMjdjYzI4MmRmZjk5ZmIzMmUzNjdiZDk1NDdiNmMzZWM2NmY5NDBmN2IzOGY3ZjM2N2I4Y2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhMjhlODZmNDc0OGI4M2YzMjM0NjRjNDM3ZmJjOWYxZjg3YjFhZGI2M2U2OTljOTVkOGQyNjU5ZjhkYjExNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

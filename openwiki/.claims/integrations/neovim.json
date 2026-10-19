@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:4ebf5415c4fd226efe8fe98d4e38342e58c60f6cc4d707933fe46e5cdf62a855",
+  "claims": [
+    {
+      "id": "claim_d0375fc8927c4590990d651390efad30",
+      "statement": "The standalone editor flake builds one shared module for three supported systems using its own nixpkgs and nixvim inputs.",
+      "evidence": [
+        {
+          "resource": "repo://nvim/default.nix",
+          "version": "repo-file-v1:sha256:3f7b21faa60350ae298948aef39cda2f3ead3ba577308d54833170724aeec54d"
+        },
+        {
+          "resource": "repo://nvim/flake.nix",
+          "version": "repo-file-v1:sha256:c7c69a2280c7e3de0ba57f1ddb0dcdc5af96199f78cc8c052022ab06290c770c"
+        }
+      ]
+    },
+    {
+      "id": "claim_4316688a20024cb3af7223f769478c6b",
+      "statement": "The macOS hs function rebuilds the child editor when its root is missing or its source hash changes, and returns on prebuild failure before system activation.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L213-L240",
+          "version": "repo-lines-v1:sha256:7a2499daecfa81fec7db3dd8572bc68ac78a82aa6ea36fc4e18fb8706076bbf6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5M2NjYjdiNmJkN2VkNmQ4Y2VkOWMxNmJhZGJjZWNiOGQ3NmY2MTc4ZTYzOWFhZDg4NDFhNTg4YjZjNDAzYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMTNjODRhNGI1ODZkNjRkMmJmZGVhNGVjYTA2ODk3NjgyYWY2ZWYyODk4OGZjMzA4OGFiNWRhNDc3ZjE2MWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2Y2MwMGE1YTExM2Q3MGZhNmRiMmE4YjZiMDM5MDIwMTIzMGMwOGUwMGY4NTg3ZWQ2NTY1ZDBmNTYxN2QzNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZGEzYjNjODYxN2NhMTRjYjhhMWRiOGQ4NmM0NDk5YWRmYzI0ZWI0ZmUyYzg4YWE4MjIwZDJjYjVlYzkxMDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_990b5c4b5ebc465cbbbde2e4f39daebd",
+      "statement": "The parent editor module checks bin/nvim through candidate roots, selects builtins.storePath for a usable root, and otherwise evaluates the editor module through the parent nixvim input.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/nvim.nix",
+          "version": "repo-file-v1:sha256:57e9a55c72fb767b6d51a7f336ae76e428350ed10a3dc937a38d12900e75f2f0"
+        }
+      ]
+    },
+    {
+      "id": "claim_98e0355ea44f4c6598b3f109dae69dd2",
+      "statement": "Deployment entrypoints omit --impure despite comments in the editor module describing impure evaluation; editor prebuilding alone does not establish parent root selection.",
+      "evidence": [
+        {
+          "resource": "repo://build-and-switch-linux.sh",
+          "version": "repo-file-v1:sha256:654ebbd047a03a9ba2b1e2d16ad7d86f97317bdd65fcea8bff41782875b1f92b"
+        },
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L213-L240",
+          "version": "repo-lines-v1:sha256:7a2499daecfa81fec7db3dd8572bc68ac78a82aa6ea36fc4e18fb8706076bbf6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5M2NjYjdiNmJkN2VkNmQ4Y2VkOWMxNmJhZGJjZWNiOGQ3NmY2MTc4ZTYzOWFhZDg4NDFhNTg4YjZjNDAzYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMTNjODRhNGI1ODZkNjRkMmJmZGVhNGVjYTA2ODk3NjgyYWY2ZWYyODk4OGZjMzA4OGFiNWRhNDc3ZjE2MWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2Y2MwMGE1YTExM2Q3MGZhNmRiMmE4YjZiMDM5MDIwMTIzMGMwOGUwMGY4NTg3ZWQ2NTY1ZDBmNTYxN2QzNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZGEzYjNjODYxN2NhMTRjYjhhMWRiOGQ4NmM0NDk5YWRmYzI0ZWI0ZmUyYzg4YWE4MjIwZDJjYjVlYzkxMDAifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/settings/nvim.nix",
+          "version": "repo-file-v1:sha256:57e9a55c72fb767b6d51a7f336ae76e428350ed10a3dc937a38d12900e75f2f0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

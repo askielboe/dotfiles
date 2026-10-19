@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d46ab3b5ef93004d6e2fd881dd7a304825892faa600ba0f677be37b253732093",
+  "claims": [
+    {
+      "id": "claim_ba135f817fd94cb080923b079992b442",
+      "statement": "The deployed macOS hs function performs a hash-guarded editor prebuild and then delegates system switching to nh, while the standalone Darwin script hardcodes a user and deletes shell configuration files.",
+      "evidence": [
+        {
+          "resource": "repo://build-and-switch-darwin.sh",
+          "version": "repo-file-v1:sha256:1ee185e6e54884c508d8f987d426ca980fc7d1f33ccad1dc0252c7ccc04e69c5"
+        },
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L202-L233",
+          "version": "repo-lines-v1:sha256:f081fadbdbd16d99c6bc77d7f4213f735848dfab8c4c016335c09b20ca8d26af:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5MWYxMGRlMWI0YjFhYjg2MTc0YjdkNGE2YjliOWU2YmI3OWEwODk2MGFiNDhhZDlhNmY4MmU2NmJhMGFhYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg2MzJlNTQyMTg4N2ZmMmQ1ZTQ2ODQ5NDQxYjliNTc0NTUwOTk2OGEyMDMyZjI0MjFlNjZmNmZlNDc3YjgyMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjYzhiMGQxMzY1MDM4ZmI1NDZjOGI3OGUwMjc1NzdhMmUwNWU0ZjQ4MDVlNmJiMzliYzg5M2Y2ZGE4NTZlNWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bdfd69526d2c4594990faf89cb4b80ec",
+      "statement": "Linux hs switches an architecture-suffixed Home Manager output without an editor prebuild; the standalone Linux script prebuilds the editor, builds in a restricted environment, and runs result/activate.",
+      "evidence": [
+        {
+          "resource": "repo://build-and-switch-linux.sh",
+          "version": "repo-file-v1:sha256:654ebbd047a03a9ba2b1e2d16ad7d86f97317bdd65fcea8bff41782875b1f92b"
+        },
+        {
+          "resource": "repo://modules/home-manager/linux-specific.nix",
+          "version": "repo-file-v1:sha256:af488899d2c28d83f14f2ff1c07e4443274e9dd244ab045fde27b7368891e67e"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ecfc3823ac84d39857a3003396fffe1",
+      "statement": "Linux login-shell activation avoids unattended password prompts by preferring passwordless sudo, permitting interactive chsh only with a terminal, and otherwise skipping the shell change.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/linux-specific.nix#L17-L47",
+          "version": "repo-lines-v1:sha256:a7145b10e3b3d3b496099560b72fc51a1526a4044aeb4b17efcd113da4ac1dda:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjYjAwNmZkMmU4OGZjNjJhN2M0NTRkZWI1ODkxNTg5ODE1ODdiYWYzMTVmNjQ5OTkzYjZhM2M1MmQ2ZWU1MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlYWUxNjc4YTc1ZTgxMzJkZjE0ODY1MjNjZTE4ZjgxMTIxYmY0MDVjZmYwOTk3NzFmMjQxNGQ2NGZmMGY4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxY2M0YjI0ODVlNzZhOGYyYzRiZTdhMzgxYzQ2NGM5MWE5ODUwYzYxYjI3ZTM5YmYyMjQwNGFkMmE5YmY0OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU4YzkwNTlhZDVlMzMyMjljZmQzZGRiMTZiZDgyYTFiOWFhMmYxN2NkNTIwMjBiNjRmZTcwMGMzM2MyNDM3MzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_46a597151fe34d61858a9ca507836ed4",
+      "statement": "Darwin disables Determinate disk-pressure collection and schedules Sunday collection at 02:45 with a seven-day threshold followed by optimization at 03:15, both without RunAtLoad.",
+      "evidence": [
+        {
+          "resource": "repo://modules/darwin/default.nix#L56-L110",
+          "version": "repo-lines-v1:sha256:2a00502adc1f2d3cc9ff0e102577b27b82a906a8e8c476b2f7f58c166a6dc20e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYWM5Mjk2NDE0NjQ2N2IyYTdhODMzN2FjOGQyNjg0MzdhNDFmYWM5YjU4ZjU3YzM3YmY1YThiNjg4M2JmOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYzBmZjQzZTE1Y2Y4MGMwZTFjNDZlNzFhOTUwZGNmZWUwMGMyMWFiYTg1MWY2M2UzMDA3MmI5ZTA5N2RjMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

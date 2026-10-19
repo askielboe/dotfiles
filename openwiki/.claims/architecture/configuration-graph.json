@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3061acb30e009c7d42b759211625e595b1a066cbc72310886f584afc3aa1b41c",
+  "claims": [
+    {
+      "id": "claim_4d7960c110bf4ebcb21324b556f3d339",
+      "statement": "The flake embeds Home Manager in an aarch64-darwin system and exposes standalone Home Manager outputs for ARM and x86_64 Linux, with ARM as the unsuffixed default.",
+      "evidence": [
+        {
+          "resource": "repo://flake.nix#L82-L201",
+          "version": "repo-lines-v1:sha256:214c4a2174258eaab14ac0a0ae7efcad87b17d5850a533fbcb7deb2bfbaeb35a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzZTBjYWE1NTNhNDQ5ZWQzNDQyM2EwY2VlZmMwOWQxZTBmNGJmYmU1OGI0MWNlYjg4ODQxYzRiMjljZTc5ZGU3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMzZiMGViY2UzZmU3NDRhMjg3OGUyODg3NDEzOTA0ZGUwYmU4MjgxYTg2MzJiODg1ZDA0ODU3NGI1NTUxZWRkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_b4b21257727548608752c95a69041593",
+      "statement": "Shared package construction enables unfree packages and applies a resticprofile doCheck=false override on all supported platforms.",
+      "evidence": [
+        {
+          "resource": "repo://flake.nix#L116-L139",
+          "version": "repo-lines-v1:sha256:bea0ebe37b259e151ac00d3a6ad34320b766933122096f1733568dc863190088:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MDk4OTcxYTIxNWM4MzZhMjllMzM2NGJjMGNiMDVmOTRiNjJiMGViNGFjNDg1N2VhYzYyMjZlMjJmMDU0YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3ZWE4YmMxNGI3OWEzZmU0MTcxNmJjNDMzMTM2ZTQ0MTJiNmQ1YTkyNzJiYTA3ODBkZGQyZjdiZGE3N2Q2MGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1ZmZkNDJiYTJiMjYzMDJmYzFhOTJjZjc1ZDMzNTk5YmM3YTNmYTQxMjEwNzI3NTBlNmE1OTVmZGM2MTkzNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZmQ3MGQyMTYzMWFhZDYxMWY5ZGJhOTgyYTExN2Q5M2ZjMjFjYzViODc4ZTY2N2NmODc0MDUxMGRjZjE3OGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6bbe2e54548b4322bf86889367b8d574",
+      "statement": "macOS application declarations and generated tap trust are owned by the Homebrew module, while nix-homebrew owns three pinned third-party taps and allows mutable taps.",
+      "evidence": [
+        {
+          "resource": "repo://modules/darwin/settings/homebrew.nix",
+          "version": "repo-file-v1:sha256:e6b25841a3bfd4f4bf687cd6639bcee2a0b97b3fecefae1e8de8d2e07ff29fd6"
+        },
+        {
+          "resource": "repo://modules/darwin/settings/nix-homebrew.nix",
+          "version": "repo-file-v1:sha256:3432baf148263609069f8312d1db2fe4ad8149f390904003e5ea645fca901e87"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ee8ce4bc08f4ae799182930c9bcc3d6",
+      "statement": "The shared package module separates Darwin-only and Linux-only packages and selectively uses nixpkgs-unstable.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/packages.nix",
+          "version": "repo-file-v1:sha256:c65bc213749d09390660e48d543fc4942f50ba5856ee1b0d50f5575d54836c6f"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b07d90817331b336cdd84b6ca8eca3937a83881f3842a03be5d974cd0e8ef32d",
+  "claims": [
+    {
+      "id": "claim_95fbdb1e3bf842d18a3a606bc45b3316",
+      "statement": "The justfile provides architecture-selectable Linux dry-run evaluation and full Ubuntu container activation tests, including an x86_64 emulation variant.",
+      "evidence": [
+        {
+          "resource": "repo://justfile#L28-L59",
+          "version": "repo-lines-v1:sha256:ff639dfa8d8a40f9e70d1ef2328c4d59089ad98d5b608de659676c87c3eeca0a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5MjJjYjBiYTVhZTZlZDhjMzA5NDA5OTU4NDNhYTYxN2ZjMGRhZGU0ZTMzNzNjOWVkYTJmMjdjODFmMGM4MTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1NjFkMmJiY2Y5OTczYTM2ZjQxYzVkYmE5ZTFmODlhMmFiMTA3YmNmNGNjNzliZWNiODlmMmJmZTUzOWRjMDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0ODYyOGYwNmIwY2ZjY2Y1NGU1YmNlZjg4ZWM3YWFmZTBmZTVkODYzYmE0ZTExZjgyMmZhYTk0YWFmYjdhMDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ccb98bd4d8e34131ae01542c28c2cd88",
+      "statement": "The Linux end-to-end script stages a disposable user configuration, aligns tracked settings with that user, ensures Nix daemon connectivity, activates the Linux target, and smoke-tests shell and editor binaries.",
+      "evidence": [
+        {
+          "resource": "repo://tests/linux-e2e.sh",
+          "version": "repo-file-v1:sha256:0ec31701026dea741c510fed3fbc2d2dd41a678918f58ec62c01f10d02996fcd"
+        }
+      ]
+    },
+    {
+      "id": "claim_34b36934c28a4b0a824d51a47f749ee7",
+      "statement": "Linux CI invokes the end-to-end script on an ARM Ubuntu runner for main pushes, pull requests, and manual dispatch with a 60-minute timeout and per-reference cancellation.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/linux-e2e.yml",
+          "version": "repo-file-v1:sha256:864a7582e5cbfd0808ae7d777db69e8f8b0d4774ea4bb9926a7de088892d8766"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7f8e38b9e5d44e1877f944b4acd63ee",
+      "statement": "Focused Pi tests cover metadata argument shapes and consent correlation against a synthetic MCP backend, including session changes, changed warnings, declines, and unrelated forms.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-mcp-proxy.test.mjs",
+          "version": "repo-file-v1:sha256:a608d1ec5cd5c70be6790acfe65335c269691df0e628b170fd6b3770d039dc8c"
+        },
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-metadata.test.mjs",
+          "version": "repo-file-v1:sha256:19609cd6f4ad62f0fca03f547278ec16af614c4f5d49838f7197298eba3470d6"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

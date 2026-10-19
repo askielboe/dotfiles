@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ac40b30e4700cb776fbaff63c1e21ec5e338d9f5a24a0134d03b0e0dbcd27e27",
+  "claims": [
+    {
+      "id": "claim_5d6e2892b4ff42eab3f9d35f604ab7bc",
+      "statement": "A Darwin user LaunchAgent uses uvx mcp-proxy with mcp<2 to expose Bear's stdio MCP backend at loopback port 9099, with KeepAlive and a soft file limit of 8192.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L262-L307",
+          "version": "repo-lines-v1:sha256:d9f696736b022512eb5b6c5a32d807f2a1b7102def40a0d5c4e91f09b0a594b4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyYTJjYjI1YTEyMmI0NDIyMWE2MjM0ZWM2NjBhN2I1ZmI3ZjliZGU3YjNiOWUyYjNjNTU5YTBkOTZmYWM3MzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4NTMyZWJlYmExOTdjODU2ZDI5YjkwOWY3MDljZjhmOWU2YTM5OTA0MzhhNjBmNTFmM2QxZWZmZmY4NzBjNDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmOGViNTdmNzNjY2U4MjVkMmM3MDMwMGViM2Y4Njk5ZWVhZDczM2ViZjA0MTZhMDQwMjdlM2ZlYzllNDBkYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmZDU1N2RhZDkxZmYyMzQwMmZhYTYzOTAwMzMzODNjY2Q3ZWQ1ZDQ1YjVmY2VhZjQzM2ZkNGFiOTdkNTQ2YWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d734f898a99446d92a87729ab6a6de4",
+      "statement": "The Bear watchdog requires a positive MCP tool count, retries once after 15 seconds, closes sessions best-effort, and kickstarts the bridge on continued failure.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L14-L107",
+          "version": "repo-lines-v1:sha256:0bedb228e396b60fc903d9ddcb7fddc66625a94012b4f101c9ddd909f727ebd4:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMTFlY2JlMzg5MWI3ZWU4NzQ3ODAxMzJmZTU1OWYzMjYyNGMxNzZkOTljOTAzYzAzZjM0ZDRhMmNhODI3MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkMGQ2MGMwOGVjY2ZiMTM0YjJhZDQ4NmMyNzk2ZGM3MzI0Njg5ZjY2Njk2NDI2NWI2NzIyODFiY2NjYzMxMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1NmVkYWJmMjc4ZGIwZWJlMmRlMTZlNDcwOGNmZDA5ODdlOTk4NmYxZmI3ZGQ5ODE1M2Y5MTQxZGViNjY3OWQifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/darwin-specific.nix#L317-L332",
+          "version": "repo-lines-v1:sha256:09bb501ac2f40959f9c702b8eb95709c93de047149fc357cc86a3815c06c0816:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyY2VkMmE5MzhlYzdmNTkxMzNiZmI0ZDdlNjU2ZDAzNGY2NjlhOGNhOWRhY2FjZDc2OTlhNjU3NjQyNjU0ZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0YzYyZjI3OTI3NjQ3MjZjODI5MmM4YzExOGVkOThlYjgxY2U2NDA0YTUxZmJmMjkzODliNGQyMTk2ZmNkNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfbcfa9d6e7843c1918f1ace4a8c546e",
+      "statement": "The root Tailscale forwarding job waits for Running state, enables route acceptance, and forwards tailnet TCP 9099 to the loopback bridge, retrying unsuccessful exits.",
+      "evidence": [
+        {
+          "resource": "repo://modules/darwin/settings/tailscale.nix",
+          "version": "repo-file-v1:sha256:aef2e41a1b7036dd93177b626521787da78aebbdc8fe624b95b48bc1db316abf"
+        }
+      ]
+    },
+    {
+      "id": "claim_865bbb55a0974bc7bc140cb80b4fa8dd",
+      "statement": "Pi starts Bear directly over stdio independently of the HTTP bridge.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi.nix#L141-L151",
+          "version": "repo-lines-v1:sha256:42c13dfa4cf8c6c3d3edee4c1379d691dee31515c4fd4cc4a05eb7d849f92727:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGUwMGM5NDQxMzAyMzJlMGM0ZGIwNzU0M2NhYTJjODgyOGQzNzdlZWYzYWFkMzVkNTM4ZTVkY2JmMDVmNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMzNkYzczMWU3ZDA3YjFmMGMwNWNmZWJkN2UxOTIyMDIzZTYwNzdiYzBhZTdiYTMwMTQ4ZjUwODMzYTI1YTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNGVjMzg1OGI4MzMxNjNhY2YyNGFhMTJmN2NjN2U1NmE1YmU2MmY0ZDQ2Y2U5ODZjYmFkYzY4ZWQ3ZDMxMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViMjAzMzM3NTVlNDYxYjZjNzRkNWVkYTZmOGE5ZjQ1MjQ3Yzc2NDIzNTRmMDAwM2MyMTRiNmY3MDU1NTZjNDcifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}

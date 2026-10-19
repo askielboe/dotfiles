@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:7f7ebf34d811ddaf46b81f4cb4dabee0197db1baec7d0fb35ba578f995f22242",
+  "claims": [
+    {
+      "id": "claim_468d20ad5695468a93689d6f9a55ad6a",
+      "statement": "Pi settings, package declarations, agent instructions, and local Codex transport deployment are managed by Home Manager, while adapter configuration is merged into a writable runtime JSON file after writeBoundary.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi.nix#L116-L265",
+          "version": "repo-lines-v1:sha256:3732c9f9e7ef7759ffb3785f85fe628fb709c15af6b56ca5c7b896c834f14469:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiYTQ3OWJjNzE1MzVhYTc2ZjBiYjgxN2Q0NzUwYmNkMmI5NWVjOTJhNTAwM2YwYTZhYzJmNDFhYzJlMWFjYTE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4MDY0ODc0OWIxNTg5ZTNkNmI0ZTExOTY2OWNhMjY4NGIyZjQ4ZWEyODc4YzM0NTQ5OGQ5OTIxODFjODJlZjhlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_460634c4e4bb4343a133bc8ae00841e2",
+      "statement": "Adapter activation preserves unrelated JSON state, installs a successful merge with mode 600, and leaves invalid input untouched while failing the step.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi.nix#L188-L208",
+          "version": "repo-lines-v1:sha256:6ec319cdbaf00b0503ec5c627ad6c5dff4adc192038f2d415a94960fd0409783:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmYjQyNmNmNzhkYTdkZjJiYWM2ZTJiYzQwNmU4MWNjYWQ5NzQ1M2JjZDQzMjdkNDI1MDliODE4ZDU4N2NjNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5OWJmN2NlMWJlMjdjYzI4MmRmZjk5ZmIzMmUzNjdiZDk1NDdiNmMzZWM2NmY5NDBmN2IzOGY3ZjM2N2I4Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlMjVmZjkxZjlmN2I2M2FjZWExOWQ1MGI1MWM2YzI1MmQ3MWM1ZGEyODc4YTM3YWIzYzNhZDMwODI1MmI5N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmNTBlNzBhZjVhNjhiYWQ0ZDYyYjdlMTgwMTczZjEzMzM1MzAyN2MwMmU5MDFiNGJmMTg5ZTE2MTAwZmNkNjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3e690aca85a48bbb583ad654f9abde4",
+      "statement": "Google MCP OAuth configuration reads its client secret at runtime from the agent credentials directory; Codex execution integrations are Darwin-gated and depend on ChatGPT app resources.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi.nix#L141-L184",
+          "version": "repo-lines-v1:sha256:4469215095176eb1efb94ef4dcbe1e5a45760768f4a370b19728802f8ff716fd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGUwMGM5NDQxMzAyMzJlMGM0ZGIwNzU0M2NhYTJjODgyOGQzNzdlZWYzYWFkMzVkNTM4ZTVkY2JmMDVmNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkOWUxMjU0NjQyNTU3NmQzZGVhZThjOWI5ZGJmMTI4ZDVkNmRkYWY1ZDdmZTg1NzkzNDkyN2RlZmZhM2I5ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNGVjMzg1OGI4MzMxNjNhY2YyNGFhMTJmN2NjN2U1NmE1YmU2MmY0ZDQ2Y2U5ODZjYmFkYzY4ZWQ3ZDMxMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlMjVmZjkxZjlmN2I2M2FjZWExOWQ1MGI1MWM2YzI1MmQ3MWM1ZGEyODc4YTM3YWIzYzNhZDMwODI1MmI5N2IifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/settings/pi.nix#L7-L114",
+          "version": "repo-lines-v1:sha256:c7c62d8d2add69c588e0f7d2a32f08d6c91d82e59eeb565e356f43247f5c0f9b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2NWRiM2U0YjE5Zjc1ZGJkMDUzODExM2ZiZTAxN2UwZjYxNmE0MWEzNGFkMzQ5MDM0MjhjYjYyZDk0Nzc4Yjk4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzN2UxOGNmMWY0MjJkYjhjZjdhZjY3ODc3OTkwZGJmNjI2MWJmM2U2M2U4YTAwNmIyMWU0MWM3NTliMzA5NGM1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4NDAxMzljZTM4NjNiNzU2NDlkYmI1YzY1NDQyOWI1ZWM5YTNkNTkzODhkMmYwYjMxOWE0MDUyOGE4MWQ4ZjFiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0OWI5NDNlNzc1ODBlMTM2YmJiY2NhOWJhNWJiMjRmY2Y2ZTc0MTEwODVmN2M2ZTU2ZTk2ODZlOWMwNWMxOTZiIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_253efef5cda54913b40a88f8628447dc",
+      "statement": "The local metadata extension encodes session and call metadata in matching tool code; the proxy removes the prefix and transfers it to transport metadata before child execution.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-mcp-proxy.mjs#L90-L107",
+          "version": "repo-lines-v1:sha256:572994cb895b56d7af9e41dae11a86c55ce6688d17d96a68d3a388d9187ba973:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2NTEzNGVlMThkM2ExMzQzOGQ5OTlmNTJkNGI2NzgxMjQ4YTgwMTY3ZDliODQyNWM1ZWM1NzdkYzZjZTM4MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwOTAyNWEwZWI1Y2E2ZmE1ZjEzYmFkN2MwM2EzM2FiNTYwOTgyMzQ0MzJjNGQ3ZDk4NmUxYmMxYjk5MjhjMzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUxNjdlYWNkZTUxNWU1Nzc2MjMwMzFkMTVkYWViYmI2OWFlMjE4ZTg4MjIyODIwODljOTlmYTEyZGM5ODJkZGEifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-metadata.ts",
+          "version": "repo-file-v1:sha256:388cd8bf78205dd4971577bc9f44dcbf039f335b7bfb11a237a645de0f1dfb07"
+        }
+      ]
+    },
+    {
+      "id": "claim_8560a477220c4d6e88d47909b31e1e7b",
+      "statement": "Consent reuse is limited to correlated Computer Use application forms with a matching session and warning scope; session changes clear consent and unrelated forms pass through.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-mcp-proxy.mjs#L108-L133",
+          "version": "repo-lines-v1:sha256:a1f3efe716ba3e2feafb3a5e9a229ed75c3b91b8ad5f1d310a89e8e18f495764:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmZGYyMjY0ZTQxOTM0ZWZhYWY2MzdmNTcyYzY2OGYwOWMzZWNkYjI2MWNjMDNhYzZlNjE4MzI1ODY3OGE5MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmMDNlZDVjYzhmNzk4ZGU4YWNiYThlYWUxOTc1N2UwNGZjYjE3M2U0ZmQzZGVmMzcxNmQwZDhmMzJmMmE4ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJmZjkxM2Y1MDc1OWFmMzg2MjA1Nzg1OGZiOTk2YTVjMzg5ODExZDdiODc3ZGZhMTBjYzY3NzZiYzkzY2VjM2QifQ"
+        },
+        {
+          "resource": "repo://modules/home-manager/settings/pi/codex-mcp-proxy.mjs#L15-L81",
+          "version": "repo-lines-v1:sha256:88b39de95f6c98b02a4885dcdc35a897372b4534c8d388424efc37873bb4791a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyM2YyZjNlZWEwNDhkNzc3ZTQ5MThlNzNlOTQ5YjM2MDQ1ZjdhMDBkMDEzMmVhYjRlMzE2MDc1ZTZiY2I5YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZWEwZjRmOWEwNDJhZmE0ZmYyYjkyMGUzZDY3NTVlZTFmYzRmYjA0NzAwNmZmNDNiMGU0OGJjMTI4MGM3NTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3Y2M3OTRkMmQ2YzIxOWU4MDliMGEwYmVkZjFjODczNDZiZTAzOTE2NjEwN2ZiNmJjMThkN2NkMDZhNzZlMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlODA3YjA4YWNiYjc3MjY1Y2FlNWJmYWI1Yzk1MzY1MTlkMDc5NmQ1MGM0MjBiYzJhZmFiNjExZGI0OWM1NTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1dda4d4ad4844d708aec2e116256a478",
+      "statement": "The OpenWiki CLI wrapper invokes Pi's runtime-installed package and fails explicitly when that package is absent.",
+      "evidence": [
+        {
+          "resource": "repo://modules/home-manager/settings/packages.nix#L94-L102",
+          "version": "repo-lines-v1:sha256:4ebcbc6175195c4450b022647c63bf6d46aaaee54664d80c7e0b92c23b06c589:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc3ZTdhZTA1NWU0ZWU5NWExMjRiZDg2ZWQ5OGY1ZWEwNzYxMzM2NmNjNjhlNThkOWEwYTdmYzdmZDA0M2JiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWRmMjQzZTdlNDlhMzRiMWI2NDliMDFjMTgzNTJjZGQ4Y2U3YzI3Mzg2ZDRmMTc0NDlmYzA2YzkyMGFlODZhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjQxYTJmOGM0ZDIzMDNjMTY3MzAxNWI3MjRjNTUyMWFmNmFkMmRmMGVjYjBhYzIzNmJjNjk1NmU4Njc2YjgzNyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.7.1",
+    "at": "2026-10-07T18:36:55.541Z"
+  }
+}
