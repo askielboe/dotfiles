@@ -14,9 +14,11 @@ def text_nodes(element):
 
 def archive_text(data):
     with zipfile.ZipFile(io.BytesIO(data)) as archive:
-        if sum(item.file_size for item in archive.infolist()) > 256 * 1024 * 1024:
-            raise ValueError("Expanded office archive exceeds extraction memory budget")
         names = archive.namelist()
+        streamed_workbook = "xl/workbook.xml" in names
+        if sum(item.file_size for item in archive.infolist()
+               if not (streamed_workbook and re.match(r"xl/worksheets/[^/]+\.xml$", item.filename))) > 256 * 1024 * 1024:
+            raise ValueError("Expanded office archive exceeds extraction memory budget")
         if "word/document.xml" in names:
             paths = ["word/document.xml"] + sorted(name for name in names if re.match(r"word/(header|footer|footnotes|endnotes).*\.xml$", name))
             for path in paths:
@@ -27,7 +29,13 @@ def archive_text(data):
         elif "xl/workbook.xml" in names:
             shared = []
             if "xl/sharedStrings.xml" in names:
-                shared = [text_nodes(item) for item in ET.fromstring(archive.read("xl/sharedStrings.xml"))]
+                with archive.open("xl/sharedStrings.xml") as source:
+                    context = ET.iterparse(source, events=("start", "end"))
+                    _, root = next(context)
+                    for event, item in context:
+                        if event == "end" and item.tag.rsplit("}", 1)[-1] == "si":
+                            shared.append(text_nodes(item))
+                            root.clear()
             workbook = ET.fromstring(archive.read("xl/workbook.xml"))
             relations = ET.fromstring(archive.read("xl/_rels/workbook.xml.rels"))
             targets = {item.attrib["Id"]: item.attrib["Target"] for item in relations}
@@ -41,21 +49,30 @@ def archive_text(data):
                 if not path.startswith("xl/worksheets/"):
                     raise ValueError("Unsupported workbook sheet target")
                 yield "# Sheet: " + sheet.attrib["name"]
-                root = ET.fromstring(archive.read(path))
-                for cell in root.iter():
-                    if cell.tag.rsplit("}", 1)[-1] != "c":
-                        continue
-                    values = {child.tag.rsplit("}", 1)[-1]: child for child in cell}
-                    value = values.get("v")
-                    content = value.text or "" if value is not None else ""
-                    if cell.attrib.get("t") == "s":
-                        content = shared[int(content)]
-                    elif cell.attrib.get("t") == "inlineStr":
-                        content = text_nodes(cell)
-                    formula = values.get("f")
-                    if formula is not None:
-                        content = "=" + (formula.text or "") + " [cached: " + content + "]"
-                    yield cell.attrib.get("r", "") + "\t" + content
+                with archive.open(path) as source:
+                    rows = None
+                    for event, cell in ET.iterparse(source, events=("start", "end")):
+                        kind = cell.tag.rsplit("}", 1)[-1]
+                        if event == "start":
+                            if kind == "sheetData":
+                                rows = cell
+                            continue
+                        if kind == "row" and rows is not None:
+                            rows.clear()
+                        if kind != "c":
+                            continue
+                        values = {child.tag.rsplit("}", 1)[-1]: child for child in cell}
+                        value = values.get("v")
+                        content = value.text or "" if value is not None else ""
+                        if cell.attrib.get("t") == "s":
+                            content = shared[int(content)]
+                        elif cell.attrib.get("t") == "inlineStr":
+                            content = text_nodes(cell)
+                        formula = values.get("f")
+                        if formula is not None:
+                            content = "=" + (formula.text or "") + " [cached: " + content + "]"
+                        yield cell.attrib.get("r", "") + "\t" + content
+                        cell.clear()
         elif any(name.startswith("ppt/slides/slide") for name in names):
             paths = sorted((name for name in names if re.match(r"ppt/slides/slide\d+\.xml$", name)), key=lambda name: int(name.rsplit("slide", 1)[1].split(".")[0]))
             for path in paths:

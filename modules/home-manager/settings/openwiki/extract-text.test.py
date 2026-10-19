@@ -3,6 +3,7 @@ import io
 import pathlib
 import unittest
 import zipfile
+from unittest.mock import patch
 
 from defusedxml.common import EntitiesForbidden
 
@@ -42,6 +43,32 @@ class TextExtractionTests(unittest.TestCase):
         text = extractor.extract(data, "office")
         for value in ["# Sheet: First", "# Sheet: Second", "Shared value", "=1+2 [cached: 3]", "Inline value"]:
             self.assertIn(value, text)
+
+    def test_spreadsheet_rows_stream_without_the_archive_expansion_limit(self):
+        rows = "".join(f'<row><c r="A{row}"><v>{row}</v></c></row>' for row in range(1, 10001))
+        data = archive({
+            "xl/workbook.xml": '<workbook xmlns:r="urn:relations"><sheets><sheet name="All rows" r:id="r1"/></sheets></workbook>',
+            "xl/_rels/workbook.xml.rels": '<Relationships><Relationship Id="r1" Target="worksheets/sheet1.xml"/></Relationships>',
+            "xl/worksheets/sheet1.xml": f'<worksheet><sheetData>{rows}</sheetData></worksheet>',
+        })
+        info = zipfile.ZipInfo("xl/worksheets/sheet1.xml")
+        info.file_size = 300 * 1024 * 1024
+        with patch.object(zipfile.ZipFile, "infolist", return_value=[info]):
+            lines = extractor.extract(data, "office").splitlines()
+        self.assertEqual(len(lines), 10001)
+        self.assertEqual(lines[1], "A1\t1")
+        self.assertEqual(lines[-1], "A10000\t10000")
+
+    def test_spreadsheet_shared_strings_keep_the_expansion_limit(self):
+        data = archive({
+            "xl/workbook.xml": '<workbook/>',
+            "xl/sharedStrings.xml": '<sst><si><t>Value</t></si></sst>',
+        })
+        info = zipfile.ZipInfo("xl/sharedStrings.xml")
+        info.file_size = 300 * 1024 * 1024
+        with patch.object(zipfile.ZipFile, "infolist", return_value=[info]):
+            with self.assertRaisesRegex(ValueError, "extraction memory budget"):
+                extractor.extract(data, "office")
 
     def test_slide_notes_follow_relationships_not_slide_numbers(self):
         data = archive({
