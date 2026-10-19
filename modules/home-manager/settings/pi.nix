@@ -130,6 +130,12 @@ let
   personalSync = pkgs.writeShellScriptBin "openwiki-sync" ''
     exec ${pkgs.nodejs_26}/bin/node ${refreshPackage}/openwiki-sync.mjs --due "$@"
   '';
+  ossKit = pkgs.fetchFromGitHub {
+    owner = "svyatov";
+    repo = "oss-kit";
+    rev = "84b1458e10980e6ba9c7b4f4e3e097abd7b39890";
+    hash = "sha256-iw02Am+OljQddZbx/xEZF/RF8DBtRX1P/adIk45hOOI=";
+  };
 in
 {
   programs.pi.coding-agent = {
@@ -288,6 +294,63 @@ in
     };
     file = {
       ".pi/agent/lib/gmail-api.mjs".source = ./pi/gmail-api.ts;
+      ".pi/agent/AGENTS.md".force = true;
+      ".pi/agent/AGENTS.md".text = ''
+        ## HARD CONSTRAINT: Email requires prior draft review
+
+        - NEVER send, reply to, forward, or schedule an email until I have reviewed the exact draft and explicitly approved sending it afterward.
+        - First show the recipients (including CC/BCC), subject, complete body, and any attachments. Wait for my explicit approval of that draft before sending. If any of these change, obtain approval again.
+        - Requests such as "reply to the email thread", "send an email", "continue", or general permission to act authorize preparation only when I have not yet reviewed the exact draft. Silence is never approval.
+        - This is mandatory globally, across all projects, tasks, agents, automations, accounts, plugins, connectors, APIs, command-line tools, and browser/native-app actions. Never bypass it by changing the sending method or delegating. Routine confirmations have no exception.
+
+        ## Club account deactivation
+
+        - Only accounts belonging exclusively to a verified closed club are eligible for deactivation.
+        - Personal, franchisee, and shared accounts are excluded from club-closure deactivation, including sign-in blocking and session revocation.
+        - Account identity, exclusive club ownership, and closure status require authoritative verification before any access change.
+
+        ## Code hygiene
+
+        - Permanent documentation uses declarative statements, not imperative instructions. Temporal transition phrases such as "from now on", "going forward", and "henceforth" are excluded; documentation states the enduring rule or current state.
+        - Documentation work uses the `oss-writing` skill, including its documentation reference and completion gate. The declarative-only rule takes precedence over imperative examples in the skill.
+        - Completion requires a clean prose checker run and a full editorial pass on the final revision. The editorial pass covers declarative wording and temporal phrases that the checker does not detect.
+        - Comments explain why, never what.
+        - Do not create documentation unless explicitly requested.
+        - Do not duplicate information across code, comments, and documentation.
+        - Before adding an abstraction or helper, search for an existing one.
+        - Prefer deletion and consolidation over addition.
+        - When modifying code, remove code and comments made obsolete by the change.
+        - Do not preserve obsolete compatibility paths unless required.
+
+        ## Primary information sources
+
+        - Bear notes and Granola are my primary sources of personal and work context. Proactively search them when a request involves my projects, people, meetings, decisions, plans, preferences, or previous work, even when I do not name either app.
+        - Use Bear for written notes and reference material, and Granola for meeting notes, discussions, decisions, and action items. Search both when the topic could span them, before asking me for context or relying on memory alone.
+        - Start with focused searches and read the relevant results. Cite the notes or meetings used, including dates when useful; verify time-sensitive claims against current authoritative sources.
+        - If a connector is not listed, discover its tools or use an existing configured connection. If access fails, say which source could not be checked; do not treat unavailable access as no results.
+        - Skip these searches for self-contained requests that do not need personal context, such as translations, simple rewrites, general facts, or code changes fully specified by the repository and prompt.
+
+        ## Environment management
+
+        - Manage installed CLI tools through my Nix configuration at `~/.config/nix`, not ad hoc Homebrew, npm-global, or installer-script installations. Follow that repository's instructions; I apply changes with `hs`.
+
+        ## Configuration ownership
+
+        - Nix at `~/.config/nix` is the source of truth for all configuration, including Pi plugins, package lists, settings, preferences, MCP configuration, extension deployment, and agent instructions. Make persistent configuration changes in Nix; do not install plugins or create local configuration workarounds as the final setup.
+        - Local configuration files are runtime outputs, not an alternative source of truth. Keep credentials, OAuth tokens, session history, caches, and other mutable runtime state outside the Nix store.
+        - Follow the Nix repository instructions. I apply changes with `hs`; do not run switch commands yourself.
+
+        ## Browser use
+
+        - Use Google Chrome through the browser extension for browser tasks. Give parallel tasks separate tabs. Do not use Safari or desktop mouse-and-keyboard control for browsing. If extension-based control is unavailable, ask before switching methods.
+        - When Chrome's extension connection fails, check whether Chrome is running. If not, proactively ask for explicit permission to launch it; a request to fix the connection is not launch permission.
+        - After approval, use the browser plugin's documented launcher, wait two seconds, and retry the extension connection. If Chrome is already running or the retry fails, follow the plugin's documented extension and native-host diagnostics and report the specific problem.
+
+        ## Autonomy
+
+        - When a request includes implementation, run in-scope commands and edit in-scope files without asking for confirmation.
+      '';
+      ".pi/agent/skills/oss-writing".source = "${ossKit}/skills/oss-writing";
       ".pi/agent/extensions/codex-metadata.ts".source = ./pi/codex-metadata.ts;
       ".pi/agent/extensions/openwiki-refresh".source = refreshPackage;
       ".pi/agent/lib/codex-mcp-proxy.mjs".source = ./pi/codex-mcp-proxy.mjs;

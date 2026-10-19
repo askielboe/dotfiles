@@ -14,6 +14,12 @@
       - Requests such as "reply to the email thread", "send an email", "continue", or general permission to act authorize preparation only when I have not yet reviewed the exact draft. Silence is never approval.
       - This is mandatory globally, across all projects, tasks, agents, automations, accounts, plugins, connectors, APIs, command-line tools, and browser/native-app actions. Never bypass it by changing the sending method or delegating. Routine confirmations have no exception.
 
+      ## Club account deactivation
+
+      - Only accounts belonging exclusively to a verified closed club are eligible for deactivation.
+      - Personal, franchisee, and shared accounts are excluded from club-closure deactivation, including sign-in blocking and session revocation.
+      - Account identity, exclusive club ownership, and closure status require authoritative verification before any access change.
+
       ## Code hygiene
 
       - Comments explain why, never what.
