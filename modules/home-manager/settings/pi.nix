@@ -100,6 +100,13 @@ let
     }) googleAccounts;
   };
   adapterPatch = pkgs.writeText "pi-mcp-adapter.json" (builtins.toJSON adapterConfig);
+  slackSource = {
+    id = "slack-motosumo";
+    connectorId = "slack";
+    name = "Motosumo Slack";
+    ingestionGoal = "Motosumo Slack is a read-only user-token source for the personal wiki. Bot identities, bot tokens, channel joining, posting, and all write operations are excluded. Coverage is bounded by the connector configuration; incomplete history remains explicit.";
+  };
+  slackSourcePatch = pkgs.writeText "openwiki-slack-source.json" (builtins.toJSON slackSource);
   refreshState = "${config.home.homeDirectory}/.local/state/openwiki-refresh";
   refreshConfig = pkgs.writeText "openwiki-refresh-config.json" (
     builtins.toJSON {
@@ -138,6 +145,8 @@ let
   };
 in
 {
+  programs.openwikiGoogle.accounts.hccreators.email = "askielboe@hccreators.com";
+
   programs.pi.coding-agent = {
     enable = true;
     settings = {
@@ -291,9 +300,73 @@ in
         fi
       '';
 
+      openWikiSlackSource = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        cfg="$HOME/.openwiki/onboarding.json"
+        env="$HOME/.openwiki/.env"
+        if [ -f "$cfg" ] && [ -f "$env" ] && ${pkgs.gnugrep}/bin/grep -q '^OPENWIKI_SLACK_USER_TOKEN=.' "$env"; then
+          tmp="$(mktemp "$cfg.XXXXXX")"
+          if ${pkgs.jq}/bin/jq --slurpfile patch ${slackSourcePatch} '
+            .sourceInstances = (
+              (.sourceInstances // []) as $sources
+              | ($patch[0] + {connectedAt: (now | todateiso8601)}) as $source
+              | if any($sources[]; .id == $source.id) then
+                  $sources | map(if .id == $source.id then . + $patch[0] + {connectedAt: (.connectedAt // $source.connectedAt)} else . end)
+                else $sources + [$source] end
+            )
+          ' "$cfg" > "$tmp"; then
+            chmod 600 "$tmp"
+            mv -f "$tmp" "$cfg"
+          else
+            rm -f "$tmp"
+            echo "OpenWiki source registration failed; onboarding was left untouched." >&2
+            exit 1
+          fi
+        fi
+      '';
+
     };
     file = {
       ".pi/agent/lib/gmail-api.mjs".source = ./pi/gmail-api.ts;
+      ".openwiki/accounts/hccreators/collection-policy.json".text = builtins.toJSON {
+        ignoreTooLarge = true;
+      };
+      ".openwiki/connectors/google/config.json".text = builtins.toJSON {
+        enabled = true;
+        provider = "gmail";
+        format = "full";
+        includeSpamTrash = false;
+        labelIds = [ ];
+        maxMessages = 100;
+        pageSize = 100;
+        query = "newer_than:1d";
+        metadataHeaders = [
+          "From"
+          "To"
+          "Cc"
+          "Bcc"
+          "Subject"
+          "Date"
+          "Message-ID"
+        ];
+      };
+      ".openwiki/connectors/slack/config.json".text = builtins.toJSON {
+        enabled = true;
+        assistantSearchQueries = [ ];
+        conversationScanLimit = 500;
+        conversationTypes = [
+          "public_channel"
+          "private_channel"
+          "im"
+          "mpim"
+        ];
+        maxConversations = 50;
+        messagesPerConversation = 50;
+        myMessagesSearchLimit = 20;
+        streams = [
+          "my_messages_search"
+          "recent_messages"
+        ];
+      };
       ".pi/agent/AGENTS.md".force = true;
       ".pi/agent/AGENTS.md".text = ''
         ## HARD CONSTRAINT: Email requires prior draft review
