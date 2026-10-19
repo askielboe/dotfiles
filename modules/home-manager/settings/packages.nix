@@ -147,6 +147,16 @@ let
     else
       pkgs.recoll;
 
+  # Pi owns the package installation so the terminal and agent use the same version.
+  openwiki = pkgs.writeShellScriptBin "openwiki" ''
+    cli="$HOME/.pi/agent/npm/node_modules/openwiki/dist/cli/cli.js"
+    if [ ! -f "$cli" ]; then
+      echo "OpenWiki is not installed yet. Start Pi after applying the Nix configuration." >&2
+      exit 1
+    fi
+    exec ${pkgs.nodejs_26}/bin/node "$cli" "$@"
+  '';
+
   repomix-skeleton = pkgs.writeShellScriptBin "repomix-skeleton" ''
     set -euo pipefail
     target="''${1:-.}"
@@ -222,6 +232,7 @@ in
       npm-check-updates
       numbat # Soulver for the terminal
       openssh
+      openwiki
       parallel
       postgresql
       qsv # CSV wrangler
