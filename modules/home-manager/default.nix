@@ -51,6 +51,8 @@
       lg = "lazygit";
       rp = "resticprofile --config ~/.config/restic/profiles.yaml";
       aider = "op run --no-masking aider";
+      h = "hax";
+      hh = "hax-search";
       he = "cd ~/.config/nix/ && nvim && cd -";
       # Also bump the nvim/ child flake's own lock (see settings/nvim.nix) so
       # the standalone neovim tracks channel updates alongside everything else.

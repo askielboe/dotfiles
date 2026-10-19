@@ -31,6 +31,70 @@ let
     exec "$appCodex" "$@"
   '';
 
+  hax = pkgs.stdenv.mkDerivation (finalAttrs: {
+    pname = "hax";
+    version = "0.6.1";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/OleksandrChekhovskyi/hax/releases/download/v${finalAttrs.version}/hax-${finalAttrs.version}.tar.xz";
+      hash = "sha256-tGwTGHdw36tXfO47CnfQx9YigMcVw7g5YCyoihrjeho=";
+    };
+
+    nativeBuildInputs = with pkgs; [
+      meson
+      ninja
+      pkg-config
+    ];
+    buildInputs = with pkgs; [
+      curl
+      jansson
+    ];
+    doCheck = true;
+    # Terminal integration tests need tmux; Darwin's sandbox does not preserve setuid bits.
+    postPatch = ''
+      substituteInPlace tests/meson.build \
+        --replace-fail "'repl_complete'," "" \
+        --replace-fail "'repl_interrupt'," "" \
+        --replace-fail "'repl_smoke'," ""
+    ''
+    + pkgs.lib.optionalString pkgs.stdenv.isDarwin ''
+      substituteInPlace tests/meson.build --replace-fail "'tools/test_write.c'," ""
+    '';
+
+    meta = {
+      description = "Lightweight terminal coding agent";
+      homepage = "https://usehax.dev/";
+      license = pkgs.lib.licenses.mit;
+      mainProgram = "hax";
+      platforms = pkgs.lib.platforms.unix;
+    };
+  });
+
+  hax-search = pkgs.writeShellScriptBin "hax-search" ''
+    set -euo pipefail
+    sessions="''${XDG_STATE_HOME:-$HOME/.local/state}/hax/sessions"
+    if [ ! -d "$sessions" ]; then
+      echo "No saved hax sessions in $sessions" >&2
+      exit 1
+    fi
+
+    selected=$(
+      ${pkgs.ripgrep}/bin/rg -il --glob '*.jsonl' -- "''${*:-.}" "$sessions" |
+        ${pkgs.fzf}/bin/fzf --layout=default --no-multi \
+          --prompt='hax session> ' \
+          --preview "${pkgs.jq}/bin/jq -r 'select(.kind == \"user\" or .kind == \"assistant\") | \"\\n── \\(.kind) ──\\n\\(.text)\"' {}" \
+          --preview-window=up,70%,wrap
+    ) || exit 0
+    [ -n "$selected" ] || exit 0
+
+    # hax resolves session IDs relative to the original working directory.
+    IFS= read -r metadata < "$selected"
+    cwd=$(printf '%s\n' "$metadata" | ${pkgs.jq}/bin/jq -er '.cwd')
+    id=$(printf '%s\n' "$metadata" | ${pkgs.jq}/bin/jq -er '.id')
+    cd -- "$cwd"
+    exec ${hax}/bin/hax --resume="$id"
+  '';
+
   cass = pkgs.stdenvNoCC.mkDerivation {
     pname = "cass";
     version = "0.10.0";
@@ -136,6 +200,8 @@ in
       go
       google-cloud-sdk
       gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
+      hax
+      hax-search
       hcloud
       htop
       hugo
