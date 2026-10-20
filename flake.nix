@@ -4,6 +4,29 @@
   inputs = {
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
 
+    basic-memory-skills = {
+      url = "github:basicmachines-co/basic-memory";
+      flake = false;
+    };
+
+    pyproject-nix = {
+      url = "github:pyproject-nix/pyproject.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    uv2nix = {
+      url = "github:pyproject-nix/uv2nix";
+      inputs.pyproject-nix.follows = "pyproject-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pyproject-build-systems = {
+      url = "github:pyproject-nix/build-system-pkgs";
+      inputs = {
+        pyproject-nix.follows = "pyproject-nix";
+        uv2nix.follows = "uv2nix";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     # nixpkgs-26.05-darwin, NOT nixos-26.05: the nixos-* branches advance when the
     # NixOS (Linux) tests pass, without waiting for the darwin builders, so on a Mac
     # they routinely point at revs whose aarch64-darwin binaries were never built —
@@ -73,6 +96,7 @@
     inputs@{
       nixpkgs,
       nixpkgs-unstable,
+      basic-memory-skills,
       home-manager,
       darwin,
       nix-index-database,
@@ -121,7 +145,10 @@
       # used to cost a full 40-minute mise build, since direnv is one of mise's
       # check inputs. If a package is cached, its tests never run here anyway.
       sharedOverlays = [
-        (_final: prev: {
+        (final: prev: {
+          basic-memory = final.callPackage ./packages/basic-memory {
+            inherit (inputs) pyproject-nix uv2nix pyproject-build-systems;
+          };
           resticprofile = prev.resticprofile.overrideAttrs (_: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string
@@ -145,6 +172,7 @@
             inherit
               nixvim
               nixpkgs-unstable
+              basic-memory-skills
               private
               ;
           };
@@ -172,6 +200,7 @@
                 inherit
                   nixvim
                   nixpkgs-unstable
+                  basic-memory-skills
                   private
                   ;
               };

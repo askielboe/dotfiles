@@ -1,6 +1,7 @@
 {
   pkgs,
   nixpkgs-unstable,
+  basic-memory-skills,
   ...
 }:
 
@@ -196,84 +197,105 @@ let
 in
 
 {
-  xdg.configFile."mcporter/mcporter.json".text = builtins.toJSON {
-    imports = [ ];
-    mcpServers.tana = {
-      description = "Tana workspace";
-      baseUrl = "https://home.tana.inc/mcp";
-      auth = "oauth";
+  xdg.configFile = {
+    "mcporter/mcporter.json".text = builtins.toJSON {
+      imports = [ ];
+      mcpServers.tana = {
+        description = "Tana workspace";
+        baseUrl = "https://home.tana.inc/mcp";
+        auth = "oauth";
+      };
     };
+
+    "hax/AGENTS.md".text = ''
+      # Basic Memory
+
+      Use the Basic Memory skills through the `bm` CLI, not unavailable MCP tools.
+      Inspect `bm tool --help` and `bm tool <command> --help` for supported arguments.
+      MCP tool names map to hyphenated CLI commands: `search_notes` → `bm tool search-notes`,
+      `read_note` → `bm tool read-note`, `write_note` → `bm tool write-note`,
+      `edit_note` → `bm tool edit-note`, `build_context` → `bm tool build-context`,
+      and `recent_activity` → `bm tool recent-activity`.
+      Discover projects with `bm project list --json`; use an explicit `--project` for note operations.
+      CLI retrieval output defaults to JSON when piped. Follow the skills' approval requirements.
+    '';
+
+    "hax/skills/memory-notes".source = "${basic-memory-skills}/skills/memory-notes";
+    "hax/skills/memory-capture".source = "${basic-memory-skills}/skills/memory-capture";
+    "hax/skills/memory-continue".source = "${basic-memory-skills}/skills/memory-continue";
+    "hax/skills/memory-onboarding".source = "${basic-memory-skills}/skills/memory-onboarding";
+
+    "hax/skills/google-workspace/SKILL.md".text = ''
+      ---
+      name: google-workspace
+      description: Google Workspace tasks for mo2tion and hccreators through the authenticated gws CLI, including Chat, Gmail, Drive, and Calendar.
+      ---
+
+      # Workspace access
+
+      Google Workspace access uses account-specific commands:
+
+      | Account | Command |
+      | --- | --- |
+      | andreas@mo2tion.com | `gws-mo2tion` |
+      | askielboe@hccreators.com | `gws-hccreators` |
+
+      The account follows the user's request or verified resource ownership. Ambiguous account selection requires clarification.
+      Requests spanning both accounts use separate commands.
+      The named wrappers select credentials; bare `gws` and the active `gcloud` account are not substitutes.
+
+      ## Discovery and reads
+
+      Method help comes from `<account-cli> <service> <resource> --help`.
+      Method schemas come from `<account-cli> schema <service.resource.method>`.
+      Commands use `--params` for path and query parameters, and `--json` for request bodies.
+      Responses are JSON. Read calls use bounded page sizes and field selection where supported.
+      Subsequent pages use the response's `nextPageToken` as the next request's `pageToken`.
+      Resource names come from API responses, not guessed identifiers.
+
+      ```sh
+      gws-mo2tion chat spaces list --params '{"pageSize":10}'
+      gws-hccreators chat spaces list --params '{"pageSize":10}'
+      gws-mo2tion schema chat.spaces.messages.list
+      gws-hccreators gmail users getProfile --params '{"userId":"me"}'
+      ```
+
+      Authorized services include Chat, Gmail, Drive, Calendar, Docs, Sheets, and Slides.
+      Mutations remain limited to the user's requested scope. Authentication alone does not authorize external actions.
+
+      ## Email approval
+
+      Sending, replying, forwarding, and scheduling email require review of the exact draft before explicit approval to send.
+      The review includes To, CC, BCC, subject, complete body, attachments, and any scheduled delivery time.
+      Changes to those details require renewed approval.
+      General permission, silence, and requests to continue do not replace approval of the reviewed draft.
+      This requirement applies across commands, tools, APIs, and delegated work.
+
+      ## Authentication
+
+      Each wrapper uses a separate directory under `~/.config/gws/`, named `mo2tion` or `hccreators`.
+      Credentials are encrypted; their encryption key resides in the operating system's keyring.
+      Refresh tokens renew access tokens automatically. Routine service calls do not require another login.
+      Internal OAuth apps avoid the seven-day refresh-token expiry associated with External Testing apps.
+      Revocation and Workspace security policies can still require reauthorization.
+
+      ```sh
+      gws-mo2tion auth status
+      gws-hccreators auth status
+      ```
+
+      Authentication failures are reported for the affected account. Another account is not a fallback.
+      Credential exports, tokens, and client secrets remain outside model output, repository files, and logs.
+      Reauthorization and credential changes require an explicit setup request.
+      Nix owns persistent configuration at `~/.config/nix`; the user applies changes with `hs`.
+    '';
   };
-
-  xdg.configFile."hax/skills/google-workspace/SKILL.md".text = ''
-    ---
-    name: google-workspace
-    description: Google Workspace tasks for mo2tion and hccreators through the authenticated gws CLI, including Chat, Gmail, Drive, and Calendar.
-    ---
-
-    # Workspace access
-
-    Google Workspace access uses account-specific commands:
-
-    | Account | Command |
-    | --- | --- |
-    | andreas@mo2tion.com | `gws-mo2tion` |
-    | askielboe@hccreators.com | `gws-hccreators` |
-
-    The account follows the user's request or verified resource ownership. Ambiguous account selection requires clarification.
-    Requests spanning both accounts use separate commands.
-    The named wrappers select credentials; bare `gws` and the active `gcloud` account are not substitutes.
-
-    ## Discovery and reads
-
-    Method help comes from `<account-cli> <service> <resource> --help`.
-    Method schemas come from `<account-cli> schema <service.resource.method>`.
-    Commands use `--params` for path and query parameters, and `--json` for request bodies.
-    Responses are JSON. Read calls use bounded page sizes and field selection where supported.
-    Subsequent pages use the response's `nextPageToken` as the next request's `pageToken`.
-    Resource names come from API responses, not guessed identifiers.
-
-    ```sh
-    gws-mo2tion chat spaces list --params '{"pageSize":10}'
-    gws-hccreators chat spaces list --params '{"pageSize":10}'
-    gws-mo2tion schema chat.spaces.messages.list
-    gws-hccreators gmail users getProfile --params '{"userId":"me"}'
-    ```
-
-    Authorized services include Chat, Gmail, Drive, Calendar, Docs, Sheets, and Slides.
-    Mutations remain limited to the user's requested scope. Authentication alone does not authorize external actions.
-
-    ## Email approval
-
-    Sending, replying, forwarding, and scheduling email require review of the exact draft before explicit approval to send.
-    The review includes To, CC, BCC, subject, complete body, attachments, and any scheduled delivery time.
-    Changes to those details require renewed approval.
-    General permission, silence, and requests to continue do not replace approval of the reviewed draft.
-    This requirement applies across commands, tools, APIs, and delegated work.
-
-    ## Authentication
-
-    Each wrapper uses a separate directory under `~/.config/gws/`, named `mo2tion` or `hccreators`.
-    Credentials are encrypted; their encryption key resides in the operating system's keyring.
-    Refresh tokens renew access tokens automatically. Routine service calls do not require another login.
-    Internal OAuth apps avoid the seven-day refresh-token expiry associated with External Testing apps.
-    Revocation and Workspace security policies can still require reauthorization.
-
-    ```sh
-    gws-mo2tion auth status
-    gws-hccreators auth status
-    ```
-
-    Authentication failures are reported for the affected account. Another account is not a fallback.
-    Credential exports, tokens, and client secrets remain outside model output, repository files, and logs.
-    Reauthorization and credential changes require an explicit setup request.
-    Nix owns persistent configuration at `~/.config/nix`; the user applies changes with `hs`.
-  '';
 
   home.packages =
     with pkgs;
     [
       age
+      basic-memory
       bitwarden-cli
       btop
       bun
