@@ -16,7 +16,6 @@
         };
         lua_ls.enable = true;
         nginx_language_server.enable = true;
-        phpactor.enable = true;
         ty = {
           enable = true;
           settings = {
