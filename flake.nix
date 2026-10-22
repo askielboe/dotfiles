@@ -9,6 +9,11 @@
       flake = false;
     };
 
+    onepassword-skills = {
+      url = "github:1Password/1password-claude-plugin";
+      flake = false;
+    };
+
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -97,6 +102,7 @@
       nixpkgs,
       nixpkgs-unstable,
       basic-memory-skills,
+      onepassword-skills,
       home-manager,
       darwin,
       nix-index-database,
@@ -174,6 +180,7 @@
               nixvim
               nixpkgs-unstable
               basic-memory-skills
+              onepassword-skills
               private
               ;
           };
@@ -202,6 +209,7 @@
                   nixvim
                   nixpkgs-unstable
                   basic-memory-skills
+                  onepassword-skills
                   private
                   ;
               };

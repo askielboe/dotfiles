@@ -2,6 +2,7 @@
   config,
   pkgs,
   basic-memory-skills,
+  onepassword-skills,
   ...
 }:
 
@@ -64,6 +65,8 @@ in
         ) (builtins.readDir "${basic-memory-skills}/skills")
       )
     // {
+      "hax/skills/1password-environments".source = "${onepassword-skills}/skills/1password-environments";
+
       "hax/skills/prepare-management-slides".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/ChatGPT/IT Support/skills/prepare-management-slides";
 
@@ -73,6 +76,21 @@ in
         Never create GitHub pull requests (including draft PRs) or issues without the
         user's explicit approval and consent for that specific action. Do not infer
         consent from a request to implement, fix, review, or investigate something.
+
+        # 1Password
+
+        Prefer the `op` CLI for general vault and item operations. When a command needs
+        credentials, prefer `op run` to pass secrets directly to the process rather than
+        reading their values into agent output. Use MCP only for Developer Environment
+        management and local `.env` mounts, not general vault access (see below).
+
+        For Andreas's credentials, use the personal account `ZY7EGTK4OJEE3CZZCW3TZJY2R4`
+        (`andreas@skielboe.com`) and default to its `Private` vault
+        (`ieirj3rae64dpn7orhfnqd5fve`). Always pass `--account` explicitly to `op`;
+        two accounts share this email. Do not use account `K2J7NAQ3FRFP7JZHADR3MP2EJI`
+        (Mundu) or other work accounts/vaults unless Andreas explicitly requests them.
+        If CLI access is not authorized, run `op signin --account ZY7EGTK4OJEE3CZZCW3TZJY2R4`
+        before asking Andreas to sign in manually. Never print passwords, tokens, or TOTP codes.
 
         # Email sender
 
@@ -90,6 +108,20 @@ in
         and `recent_activity` → `bm tool recent-activity`.
         Discover projects with `bm project list --json`; use an explicit `--project` for note operations.
         CLI retrieval output defaults to JSON when piped. Follow the skills' approval requirements.
+
+        # 1Password Environments
+
+        Read the official `1password-environments` skill before Environment operations.
+        In hax, use `mcporter list 1password --schema` and `mcporter call 1password.<tool>`
+        instead of the skill's Claude-specific MCP tool names. The skill and server are
+        configured by Nix; installing the Claude plugin is not required for hax.
+        The 1Password desktop app must have **Integrate with MCP clients** enabled under
+        **Settings > Developer**, with `1password-mcp` on PATH. Never expose secret values.
+
+        # Granola
+
+        For Granola meeting notes and transcripts, use the official MCP server through
+        `mcporter`. Discover tools and arguments with `mcporter list granola --schema`.
 
         # Browser (Stagehand)
 

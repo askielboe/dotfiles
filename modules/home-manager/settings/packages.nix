@@ -142,13 +142,23 @@ in
   xdg.configFile = {
     "mcporter/mcporter.json".text = builtins.toJSON {
       imports = [ ];
-      mcpServers.tana = {
-        description = "Tana workspace";
-        baseUrl = "https://home.tana.inc/mcp";
-        auth = "oauth";
+      mcpServers = {
+        "1password" = {
+          description = "1Password Developer Environments";
+          command = "1password-mcp";
+        };
+        tana = {
+          description = "Tana workspace";
+          baseUrl = "https://home.tana.inc/mcp";
+          auth = "oauth";
+        };
+        granola = {
+          description = "Granola meeting notes";
+          baseUrl = "https://mcp.granola.ai/mcp";
+          auth = "oauth";
+        };
       };
     };
-
   };
 
   home.packages =
