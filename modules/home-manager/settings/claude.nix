@@ -124,9 +124,7 @@ in
       };
     };
 
-    # No local stdio MCP servers in the CLI: dba/bilbasen are served remotely by
-    # the k3s gateway (registered at claude.ai), not duplicated into local config.
-    mcpServers = { };
+    # dba/bilbasen are served by the claude.ai gateway connector.
 
     skills.refactor = ./claude-assets/skills/refactor;
 
