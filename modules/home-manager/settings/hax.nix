@@ -96,7 +96,9 @@ in
 
         Always draft and send Andreas's email from `askielboe@hccreators.com` using
         `gws-hccreators`, even when related documents or correspondence are in mo2tion.
-        Sending still requires explicit approval of the exact draft.
+        When Andreas asks to "draft" an email, always create it in the Gmail Drafts folder
+        of `askielboe@hccreators.com` using `gws-hccreators`; showing draft text in chat alone
+        is not sufficient. Sending still requires explicit approval of the exact draft.
 
         # Basic Memory
 
