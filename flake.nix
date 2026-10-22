@@ -149,6 +149,7 @@
           basic-memory = final.callPackage ./packages/basic-memory {
             inherit (inputs) pyproject-nix uv2nix pyproject-build-systems;
           };
+          rea = final.callPackage ./packages/rea { };
           resticprofile = prev.resticprofile.overrideAttrs (_: {
             doCheck = false;
           }); # systemd subpkg is linux-only + a duration test asserts a stale Go stdlib error string

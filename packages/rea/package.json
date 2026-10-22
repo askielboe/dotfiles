@@ -1,0 +1,8 @@
+{
+  "name": "rea-nix",
+  "version": "6.7.0",
+  "private": true,
+  "dependencies": {
+    "rea-agents": "6.7.0"
+  }
+}

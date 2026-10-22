@@ -365,6 +365,7 @@ in
       postgresql
       qsv # CSV wrangler
       rclone
+      rea
       recoll
       repomix-skeleton
       restic
