@@ -172,6 +172,7 @@ in
       bzip2
       cargo
       ccache
+      clang-tools
       clickhouse
       clippy
       coreutils
