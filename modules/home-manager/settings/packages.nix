@@ -66,6 +66,10 @@ let
     exec "$appCodex" "''${defaultProfile[@]}" "$@"
   '';
 
+  rex-app-cli = pkgs.writeShellScriptBin "rex" ''
+    exec "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" "$@"
+  '';
+
   cass = pkgs.stdenvNoCC.mkDerivation {
     pname = "cass";
     version = "0.10.0";
@@ -272,6 +276,7 @@ in
       codex-app-cli
       enzyme
       openpomodoro-cli
+      rex-app-cli
       sourcekit-lsp
       xcbeautify
     ]
