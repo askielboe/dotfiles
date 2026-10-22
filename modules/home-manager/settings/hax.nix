@@ -68,6 +68,12 @@ in
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Documents/ChatGPT/IT Support/skills/prepare-management-slides";
 
       "hax/AGENTS.md".text = ''
+        # GitHub consent
+
+        Never create GitHub pull requests (including draft PRs) or issues without the
+        user's explicit approval and consent for that specific action. Do not infer
+        consent from a request to implement, fix, review, or investigate something.
+
         # Email sender
 
         Always draft and send Andreas's email from `askielboe@hccreators.com` using
