@@ -1,0 +1,152 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Trengo read-only assistant",
+    "description": "Find contacts, list tickets and read conversations. No write operations. Ticket listing supports filters, not full-text search.",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://app.trengo.com/api/v2" }],
+  "security": [{ "bearerAuth": [] }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer" }
+    },
+    "schemas": {
+      "PaginatedResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "type": "object", "additionalProperties": true }
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "next": { "type": ["string", "null"] },
+              "prev": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          },
+          "meta": {
+            "type": "object",
+            "properties": { "current_page": { "type": "integer" } },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "parameters": {
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number, starting at 1.",
+        "schema": { "type": "integer", "minimum": 1, "default": 1 }
+      }
+    },
+    "responses": {
+      "Page": {
+        "description": "One page of results. Inspect pagination before claiming completeness.",
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedResult" } }
+        }
+      },
+      "Unauthorized": { "description": "Invalid or expired token. Ask the user to update Action authentication." },
+      "Forbidden": { "description": "Token lacks access. Do not retry with different identities." },
+      "RateLimited": { "description": "Rate limit reached. Respect Retry-After; do not retry in a loop." }
+    }
+  },
+  "paths": {
+    "/contacts": {
+      "get": {
+        "operationId": "searchContacts",
+        "summary": "Find contacts by name, email or phone",
+        "description": "Search for a specific contact before filtering tickets by contact_id. Omit term only when explicitly asked to list contacts.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          { "$ref": "#/components/parameters/Page" },
+          {
+            "name": "term",
+            "in": "query",
+            "description": "Search term matching contact email, phone number or name.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/Page" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/tickets": {
+      "get": {
+        "operationId": "listTickets",
+        "summary": "List tickets using status, contact and date filters",
+        "description": "Lists authorized tickets, newest activity first by default. There is no documented full-text search parameter. Use contact search then contact_id for customer-specific requests.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          { "$ref": "#/components/parameters/Page" },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["OPEN", "ASSIGNED", "CLOSED", "INVALID"] }
+          },
+          {
+            "name": "contact_id",
+            "in": "query",
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          {
+            "name": "last_message_type",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["INBOUND", "OUTBOUND"] }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort by last message time: -date is newest first; date is oldest first.",
+            "schema": { "type": "string", "enum": ["-date", "date"], "default": "-date" }
+          },
+          {
+            "name": "updated_at_gt",
+            "in": "query",
+            "description": "Return tickets updated after this ISO 8601 timestamp. This filters update time, not creation time.",
+            "schema": { "type": "string", "format": "date-time" }
+          }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/Page" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/tickets/{ticket_id}/messages": {
+      "get": {
+        "operationId": "listTicketMessages",
+        "summary": "Read a page of messages in a ticket",
+        "description": "Read conversation messages, including internal notes when returned. Email text may be stripped. Do not assume message ordering; use timestamps and pagination.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "ticket_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "minimum": 1 }
+          },
+          { "$ref": "#/components/parameters/Page" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/Page" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "description": "Ticket not found or not accessible." },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    }
+  }
+}
