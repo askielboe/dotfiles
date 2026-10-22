@@ -1,7 +1,6 @@
 {
   pkgs,
   nixpkgs-unstable,
-  basic-memory-skills,
   ...
 }:
 
@@ -65,70 +64,6 @@ let
       esac
     done
     exec "$appCodex" "''${defaultProfile[@]}" "$@"
-  '';
-
-  hax = pkgs.stdenv.mkDerivation (finalAttrs: {
-    pname = "hax";
-    version = "0.6.1";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/OleksandrChekhovskyi/hax/releases/download/v${finalAttrs.version}/hax-${finalAttrs.version}.tar.xz";
-      hash = "sha256-tGwTGHdw36tXfO47CnfQx9YigMcVw7g5YCyoihrjeho=";
-    };
-
-    nativeBuildInputs = with pkgs; [
-      meson
-      ninja
-      pkg-config
-    ];
-    buildInputs = with pkgs; [
-      curl
-      jansson
-    ];
-    doCheck = true;
-    # Terminal integration tests need tmux; Darwin's sandbox does not preserve setuid bits.
-    postPatch = ''
-      substituteInPlace tests/meson.build \
-        --replace-fail "'repl_complete'," "" \
-        --replace-fail "'repl_interrupt'," "" \
-        --replace-fail "'repl_smoke'," ""
-    ''
-    + pkgs.lib.optionalString pkgs.stdenv.isDarwin ''
-      substituteInPlace tests/meson.build --replace-fail "'tools/test_write.c'," ""
-    '';
-
-    meta = {
-      description = "Lightweight terminal coding agent";
-      homepage = "https://usehax.dev/";
-      license = pkgs.lib.licenses.mit;
-      mainProgram = "hax";
-      platforms = pkgs.lib.platforms.unix;
-    };
-  });
-
-  hax-search = pkgs.writeShellScriptBin "hax-search" ''
-    set -euo pipefail
-    sessions="''${XDG_STATE_HOME:-$HOME/.local/state}/hax/sessions"
-    if [ ! -d "$sessions" ]; then
-      echo "No saved hax sessions in $sessions" >&2
-      exit 1
-    fi
-
-    selected=$(
-      ${pkgs.ripgrep}/bin/rg -il --glob '*.jsonl' -- "''${*:-.}" "$sessions" |
-        ${pkgs.fzf}/bin/fzf --layout=default --no-multi \
-          --prompt='hax session> ' \
-          --preview "${pkgs.jq}/bin/jq -r 'select(.kind == \"user\" or .kind == \"assistant\") | \"\\n── \\(.kind) ──\\n\\(.text)\"' {}" \
-          --preview-window=up,70%,wrap
-    ) || exit 0
-    [ -n "$selected" ] || exit 0
-
-    # hax resolves session IDs relative to the original working directory.
-    IFS= read -r metadata < "$selected"
-    cwd=$(printf '%s\n' "$metadata" | ${pkgs.jq}/bin/jq -er '.cwd')
-    id=$(printf '%s\n' "$metadata" | ${pkgs.jq}/bin/jq -er '.id')
-    cd -- "$cwd"
-    exec ${hax}/bin/hax --resume="$id"
   '';
 
   cass = pkgs.stdenvNoCC.mkDerivation {
@@ -214,88 +149,6 @@ in
       };
     };
 
-    "hax/AGENTS.md".text = ''
-      # Basic Memory
-
-      Use the Basic Memory skills through the `bm` CLI, not unavailable MCP tools.
-      Inspect `bm tool --help` and `bm tool <command> --help` for supported arguments.
-      MCP tool names map to hyphenated CLI commands: `search_notes` → `bm tool search-notes`,
-      `read_note` → `bm tool read-note`, `write_note` → `bm tool write-note`,
-      `edit_note` → `bm tool edit-note`, `build_context` → `bm tool build-context`,
-      and `recent_activity` → `bm tool recent-activity`.
-      Discover projects with `bm project list --json`; use an explicit `--project` for note operations.
-      CLI retrieval output defaults to JSON when piped. Follow the skills' approval requirements.
-    '';
-
-    "hax/skills/memory-notes".source = "${basic-memory-skills}/skills/memory-notes";
-    "hax/skills/memory-capture".source = "${basic-memory-skills}/skills/memory-capture";
-    "hax/skills/memory-continue".source = "${basic-memory-skills}/skills/memory-continue";
-    "hax/skills/memory-onboarding".source = "${basic-memory-skills}/skills/memory-onboarding";
-
-    "hax/skills/google-workspace/SKILL.md".text = ''
-      ---
-      name: google-workspace
-      description: Google Workspace tasks for mo2tion and hccreators through the authenticated gws CLI, including Chat, Gmail, Drive, and Calendar.
-      ---
-
-      # Workspace access
-
-      Google Workspace access uses account-specific commands:
-
-      | Account | Command |
-      | --- | --- |
-      | andreas@mo2tion.com | `gws-mo2tion` |
-      | askielboe@hccreators.com | `gws-hccreators` |
-
-      The account follows the user's request or verified resource ownership. Ambiguous account selection requires clarification.
-      Requests spanning both accounts use separate commands.
-      The named wrappers select credentials; bare `gws` and the active `gcloud` account are not substitutes.
-
-      ## Discovery and reads
-
-      Method help comes from `<account-cli> <service> <resource> --help`.
-      Method schemas come from `<account-cli> schema <service.resource.method>`.
-      Commands use `--params` for path and query parameters, and `--json` for request bodies.
-      Responses are JSON. Read calls use bounded page sizes and field selection where supported.
-      Subsequent pages use the response's `nextPageToken` as the next request's `pageToken`.
-      Resource names come from API responses, not guessed identifiers.
-
-      ```sh
-      gws-mo2tion chat spaces list --params '{"pageSize":10}'
-      gws-hccreators chat spaces list --params '{"pageSize":10}'
-      gws-mo2tion schema chat.spaces.messages.list
-      gws-hccreators gmail users getProfile --params '{"userId":"me"}'
-      ```
-
-      Authorized services include Chat, Gmail, Drive, Calendar, Docs, Sheets, and Slides.
-      Mutations remain limited to the user's requested scope. Authentication alone does not authorize external actions.
-
-      ## Email approval
-
-      Sending, replying, forwarding, and scheduling email require review of the exact draft before explicit approval to send.
-      The review includes To, CC, BCC, subject, complete body, attachments, and any scheduled delivery time.
-      Changes to those details require renewed approval.
-      General permission, silence, and requests to continue do not replace approval of the reviewed draft.
-      This requirement applies across commands, tools, APIs, and delegated work.
-
-      ## Authentication
-
-      Each wrapper uses a separate directory under `~/.config/gws/`, named `mo2tion` or `hccreators`.
-      Credentials are encrypted; their encryption key resides in the operating system's keyring.
-      Refresh tokens renew access tokens automatically. Routine service calls do not require another login.
-      Internal OAuth apps avoid the seven-day refresh-token expiry associated with External Testing apps.
-      Revocation and Workspace security policies can still require reauthorization.
-
-      ```sh
-      gws-mo2tion auth status
-      gws-hccreators auth status
-      ```
-
-      Authentication failures are reported for the affected account. Another account is not a fallback.
-      Credential exports, tokens, and client secrets remain outside model output, repository files, and logs.
-      Reauthorization and credential changes require an explicit setup request.
-      Nix owns persistent configuration at `~/.config/nix`; the user applies changes with `hs`.
-    '';
   };
 
   home.packages =
@@ -344,8 +197,6 @@ in
       (gws-account "mo2tion")
       (gws-account "hccreators")
       gyb-wrapped # Gmail backup; wrapped so config lives in ~/.config/gyb
-      hax
-      hax-search
       hcloud
       htop
       hugo
