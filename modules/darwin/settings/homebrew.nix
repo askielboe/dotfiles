@@ -27,7 +27,6 @@ let
     # no `dwarfs` mount command (homebrew-core forbids macFUSE/FUSE-T deps).
     "dwarfs"
     "espeak-ng"
-    "herdr"
     "mas"
     "raine/claude-history/claude-history"
     "todoist-cli"
