@@ -458,7 +458,7 @@ export async function collectSource(client, service, account, directory, extract
             await atomicJson(docPath, { source: space.spaceUri ?? `https://chat.google.com/room/${name.split('/')[1]}`,
               sourceId: message.name, space, message, author: author ?? { id: message.sender?.name, unresolved: true }, status: 'collected' });
             state.items[message.name] = { status: 'collected', path: docPath, space: name, thread: message.thread?.name,
-              createTime: message.createTime, userId: message.sender?.name, authorResolved: Boolean(author) }; 
+              createTime: message.createTime, userId: message.sender?.name, authorResolved: Boolean(author) };
           }
         }, save);
       }
