@@ -59,7 +59,7 @@
       # the standalone neovim tracks channel updates alongside everything else.
       hu = "cd ~/.config/nix/ && nix flake update && nix flake update --flake \"path:$HOME/.config/nix/nvim\" && cd -";
       c = "pi";
-      ch = "claude-history";
+      ch = "\"${config.home.homeDirectory}/work/claude-history/target/debug/claude-history\"";
       cs = "claude-squad --program 'claude --dangerously-skip-permissions'";
       ws = "wt switch --create $(openssl rand -hex 4) --execute 'claude' -- --dangerously-skip-permissions";
       wm = "wt merge";
