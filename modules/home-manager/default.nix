@@ -24,6 +24,7 @@
     ./settings/shell.nix
     ./settings/sops.nix
     ./settings/ssh.nix
+    ./settings/stagehand.nix
     ./settings/taskwarrior.nix
     ./settings/tmux.nix
     ./settings/zed.nix

@@ -62,6 +62,30 @@ nix --extra-experimental-features "nix-command flakes" build '.#homeConfiguratio
 ./result/activate
 ```
 
+## Agent browser (Stagehand)
+
+Nix installs Browserbase's Stagehand-backed `browse` CLI and its matching skill
+for hax, Claude Code, Codex, and Pi. Apply with `hs`, then start a new agent session.
+TinyFish's MCP connections, skills, and managed secret have been removed.
+
+Local browsing needs Chrome installed, but no API key. Hax defaults to headless;
+use `--headed` only when explicitly requested:
+
+```bash
+browse open https://example.com --local --headless -s demo
+browse snapshot -s demo
+browse stop -s demo
+```
+
+Use a separate named session per task. Local sessions are isolated; do not assume
+logins survive `browse stop`. Attaching to personal Chrome with `--auto-connect`
+requires explicit permission. Cloud sessions, fetch, and search require
+`BROWSERBASE_API_KEY` in the calling environment; no Browserbase key is provisioned
+by this configuration. CLI telemetry and update checks are disabled; project
+`.env` files are not auto-loaded unless `BROWSE_LOAD_DOTENV=1` is set. Update
+`modules/home-manager/settings/stagehand/package.json` and its `package-lock.json`
+together with the derivation's version to upgrade; Nix owns installation.
+
 ## Secret scanning
 
 Sensitive values (hostnames, 1Password refs, etc.) only ever land in the repo
