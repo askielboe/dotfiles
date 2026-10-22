@@ -221,6 +221,7 @@ in
       magic-wormhole
       mariadb
       mcporter
+      meson
       mise
       mr # myrepos: run sync/status/etc. across many repos at once
       ngrok
