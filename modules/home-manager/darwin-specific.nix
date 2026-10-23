@@ -134,6 +134,16 @@ in
           done
         '';
       };
+      ".config/rex/init.lua" = {
+        source = ./dotfiles/rex/init.lua;
+        # Adopt the existing hand-managed shortcuts, preserved in this source.
+        force = true;
+        onChange = ''
+          if [ -x "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" ]; then
+            "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" --autostart=false config reload || true
+          fi
+        '';
+      };
       ".aerospace.toml" = {
         source = ./dotfiles/aerospace/aerospace.toml;
         # Adopt the pre-existing hand-managed file: overwrite it with the

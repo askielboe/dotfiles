@@ -12,6 +12,9 @@ font-size = 15
 # Keybinds
 # https://ghostty.org/docs/config/keybind
 
+# Hax distinguishes newline (LF) from submit (CR).
+keybind = shift+enter=text:\n
+
 # Option as alt
 macos-option-as-alt = true
 keybind = alt+8=text:[
